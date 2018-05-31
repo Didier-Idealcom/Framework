@@ -8,4 +8,6 @@
     </div>
 </div>
 <!--End::Main Portlet-->
+
+<div id="grapesjs_container"></div>
 @endsection

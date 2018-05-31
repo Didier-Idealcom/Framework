@@ -6,9 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "dimsav/laravel-translatable": "^8.0",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "nwidart/laravel-modules": "^2.6",
+        "shipu/themevel": "^1.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
@@ -24,7 +27,8 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Modules\\": "Modules/"
         }
     },
     "autoload-dev": {
