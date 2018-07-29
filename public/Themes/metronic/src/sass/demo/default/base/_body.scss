@@ -19,11 +19,6 @@
 	.m-content--skin-light2 & {
 		background-color: array-get($m-config-base, body, content, bg-color, light2);
 	} 
-
-	//== Fix fluid flex box item hor overflow issue
-	.m-wrapper {
-		overflow: hidden;
-	}
 }
 
 body {

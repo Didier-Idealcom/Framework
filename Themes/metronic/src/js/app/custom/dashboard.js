@@ -242,6 +242,9 @@ var Dashboard = function() {
         });
 
         // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+        return;
+        
+        /*
         chart.on('created', function() {
             if (window.__anim21278907124) {
                 clearTimeout(window.__anim21278907124);
@@ -249,6 +252,7 @@ var Dashboard = function() {
             }
             window.__anim21278907124 = setTimeout(chart.update.bind(chart), 15000);
         });
+        */
     }
 
     //== Sales Stats.
@@ -1315,6 +1319,7 @@ var Dashboard = function() {
         }
 
         picker.daterangepicker({
+            direction: mUtil.isRTL(),
             startDate: start,
             endDate: end,
             opens: 'left',
@@ -1497,6 +1502,7 @@ var Dashboard = function() {
         var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
 
         $('#m_calendar').fullCalendar({
+            isRTL: mUtil.isRTL(),
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -1651,12 +1657,14 @@ var Dashboard = function() {
         });
 
         $owl2.owlCarousel({   
+            rtl: mUtil.isRTL(),
             items: 1,            
             animateIn: 'fadeIn(100)',            
             loop: true,                                              
         });
  
         $owl1.owlCarousel({
+            rtl: mUtil.isRTL(),
             center: true,
             loop: true,
             items: 2,             

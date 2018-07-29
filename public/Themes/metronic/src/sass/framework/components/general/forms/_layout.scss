@@ -243,6 +243,16 @@
             margin-top: 0.2rem;
             font-size: get-font-size(regular, '-');
         }
+
+        //== Filter
+        .m-form__filtration {
+            margin: 0 0 30px 0;
+        }
+
+        //== Group actions
+        .m-form__group-action {
+            margin: 0 0 30px 0;
+        }
     }
 }
 

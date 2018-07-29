@@ -46,7 +46,7 @@
 				> span {
 					width: array-get($item, link, bullet, dot, size);
 					height: array-get($item, link, bullet, dot, size);
-					@include border-radius(100%);
+					border-radius: 100%;
 				}
 			}
 
@@ -72,7 +72,7 @@
 
 			&:before {		
 				display: inline-block;
-				@include transition(array-get($item, link, arrow, transition)); 
+				transition: array-get($item, link, arrow, transition); 
 			}
 		}
 
@@ -90,7 +90,7 @@
 			// menu item link's arrow part
 			.m-menu__ver-arrow {
 				&:before {							
-					@include transition(array-get($item, link, arrow, transition)); 
+					transition: array-get($item, link, arrow, transition); 
 				}
 			}
 		}
@@ -139,7 +139,7 @@
 
 	// item link open state
 	&.m-menu__item--open {
-		@include transition( background-color 0.3s );
+		transition: background-color 0.3s;
 		@include attr(background-color, array-get($item, self, bg-color, open));
 
 		> .m-menu__heading,
@@ -180,7 +180,7 @@
 
 	// item link open state
 	&.m-menu__item--expanded {
-		@include transition( background-color 0.3s );
+		transition: background-color 0.3s;
 		@include attr(background-color, array-get($item, self, bg-color, expanded));
 
 		> .m-menu__heading,
@@ -221,7 +221,7 @@
 
 	// item link active state
 	&.m-menu__item--active {
-		@include transition( background-color 0.3s );
+		transition: background-color 0.3s;
 		@include attr(background-color, array-get($item, self, bg-color, active));
 
 		> .m-menu__heading,
@@ -262,7 +262,7 @@
 
 	// item link hover state
 	&:not(.m-menu__item--parent):not(.m-menu__item--open):not(.m-menu__item--expanded):not(.m-menu__item--active):hover {
-		@include transition( background-color 0.3s );
+		transition: background-color 0.3s;
 		@include attr(background-color, array-get($item, self, bg-color, hover));
 
 		> .m-menu__heading,
@@ -566,8 +566,7 @@
 						// menu item link's arrow part
 						> .m-menu__ver-arrow {
 							&:before {  
-								-webkit-transform: translate3d(0,0,0); 
-								@include transform(rotateZ(90deg));
+								transform: rotateZ(90deg)#{'/*rtl:ignore*/'};
 							}
 						}
 					}
@@ -907,7 +906,7 @@
 							padding: array-get($layout, dropdown, item, submenu, self, padding); 
 
 							@include rounded {
-								@include border-radius( array-get($layout, dropdown, item, submenu, self, border-radius) );
+								border-radius: array-get($layout, dropdown, item, submenu, self, border-radius);
 							}
 
 							// menu item

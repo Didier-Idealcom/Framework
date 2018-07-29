@@ -10,7 +10,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Menu\\Providers\\MenuServiceProvider"
+                "Modules\\Menu\\Providers\\MenuServiceProvider",
+                "Modules\\Menu\\Providers\\RouteServiceProvider"
             ],
             "aliases": {
                 

@@ -59,11 +59,11 @@
             }
 
             .fa.fa-chevron-left:before {
-                content: "\f111";
+                content: "\f111"#{'/*rtl:"\f112"*/'};
             }
 
             .fa.fa-chevron-right:before {
-                content: "\f112";
+                content: "\f112"#{'/*rtl:"\f111"*/'};
             }
 
             th {

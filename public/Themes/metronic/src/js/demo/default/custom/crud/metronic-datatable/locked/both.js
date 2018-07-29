@@ -25,7 +25,7 @@ var DefaultDatatableDemo = function () {
 				class: '',
 				scroll: true,
 				height: 550,
-				footer: true
+				footer: true,
 			},
 
 			sortable: true,
@@ -36,11 +36,6 @@ var DefaultDatatableDemo = function () {
 
 			search: {
 				input: $('#generalSearch')
-			},
-
-			rows: {
-				// auto hide columns, if rows overflow
-				autoHide: true,
 			},
 
 			columns: [{

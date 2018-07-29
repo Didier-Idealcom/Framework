@@ -14,15 +14,15 @@ var WizardDemo = function () {
         });
 
         //== Validation before going to next page
-        wizard.on('beforeNext', function(wizard) {
+        wizard.on('beforeNext', function(wizardObj) {
             if (validator.form() !== true) {
-                wizard.stop();  // don't go to the next step
+                wizardObj.stop();  // don't go to the next step
             }
         })
 
         //== Change event
         wizard.on('change', function(wizard) {
-            mApp.scrollTop();
+            mUtil.scrollTop();            
         });
     }
 
@@ -147,7 +147,7 @@ var WizardDemo = function () {
             
             //== Display error  
             invalidHandler: function(event, validator) {     
-                mApp.scrollTop();
+                mUtil.scrollTop();
 
                 swal({
                     "title": "", 

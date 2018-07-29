@@ -273,14 +273,15 @@
 						top: array-get($layout, smooth, offset, dropdown);
 
 						> .m-menu__subnav {
-							margin-left: array-get($m-smooth-arrows, size, default, right, offset);
+							margin-left: array-get($m-smooth-arrows, size, default, right, offset)#{'/*rtl:ignore*/'};
 						}
 
 						> .m-menu__arrow {
 							@include m--build-smooth-arrow-horizontal(right, default);
-							left: 1px;
+
+							left: 1px#{'/*rtl:ignore*/'};
 							position: absolute;
-							margin-left: 0;
+							margin-left: 0#{'/*rtl:ignore*/'};
 							margin-top: array-get($layout, smooth, offset, arrow);
 						}
 					}
@@ -289,16 +290,16 @@
 						top: array-get($layout, smooth, offset, dropdown);
 
 						> .m-menu__subnav {
-							margin-right: array-get($m-smooth-arrows, size, default, right, offset);
+							margin-right: array-get($m-smooth-arrows, size, default, right, offset)#{'/*rtl:ignore*/'};
 						}
 
 						> .m-menu__arrow {
 							@include m--build-smooth-arrow-horizontal(left, default);
-							right: 0;
-							left: auto;
+							right: 0#{'/*rtl:ignore*/'};
+							left: auto#{'/*rtl:ignore*/'};
 							position: absolute;
-							margin-left: 0;
-							margin-right: 0;
+							margin-left: 0#{'/*rtl:ignore*/'};
+							margin-right: 0#{'/*rtl:ignore*/'};
 							margin-top: array-get($layout, smooth, offset, arrow);
 						}
 					}
@@ -330,15 +331,15 @@
 						top: array-get($layout, classic, offset, dropdown);
 
 						> .m-menu__subnav {
-							margin-left: array-get($layout, classic, size) - 1px;
+							margin-left: array-get($layout, classic, size) - 1px#{'/*rtl:ignore*/'};
 						}
 
 						> .m-menu__arrow {
 							@include m--build-classic-arrow(right, array-get($layout, size));
-							left: 0;
+							left: 0#{'/*rtl:ignore*/'};
 							position: absolute;
 							margin-top: array-get($layout, classic, offset, arrow) ;
-							margin-left: 0;
+							margin-left: 0#{'/*rtl:ignore*/'};
 						}
 					}
 
@@ -346,17 +347,17 @@
 						top: array-get($layout, classic, offset, dropdown);
 
 						> .m-menu__subnav {
-							margin-right: array-get($layout, classic, size) - 1px;
+							margin-right: array-get($layout, classic, size) - 1px#{'/*rtl:ignore*/'};
 						}
 
 						> .m-menu__arrow {
 							@include m--build-classic-arrow(left, array-get($layout, size));
-							right: 0;
-							left: auto;
+							right: 0#{'/*rtl:ignore*/'};
+							left: auto#{'/*rtl:ignore*/'};
 							position: absolute;
 							margin-top: array-get($layout, classic, offset, arrow);
-							margin-left: 0;
-							margin-right: 0;
+							margin-left: 0#{'/*rtl:ignore*/'};
+							margin-right: 0#{'/*rtl:ignore*/'};
 						}
 					}
 				}
@@ -529,7 +530,7 @@
 						margin: 0;
 
 						@include rounded {
-							@include border-radius( array-get($config, build, layout, item, submenu, self, border-radius) );
+							border-radius: array-get($config, build, layout, item, submenu, self, border-radius);
 						}
 					}
 
@@ -834,7 +835,7 @@
 						padding: array-get($config, build, layout, item, submenu, self, padding, megamenu);	
 
 						@at-root.m--style-rounded  & {
-							@include border-radius(array-get($config, build, layout, item, submenu, self, border-radius));
+							border-radius: array-get($config, build, layout, item, submenu, self, border-radius);
 						}
 
 						> .m-menu__item {
@@ -899,21 +900,21 @@
 				&.m-menu__item--hover {
 					.m-menu__submenu {
 						display: block;
-						@include animation('#{array-get($config, base, class)}-submenu-fade-in .3s ease 1, #{array-get($config, base, class)}-submenu-move-up .3s ease-out 1');
+						animation: #{array-get($config, base, class)}-submenu-fade-in .3s ease 1, #{array-get($config, base, class)}-submenu-move-up .3s ease-out 1;
 						
 						// ie8-11 versions hack
                     	@include hack-ie8-11 {
-                        	@include animation(none);
+                        	animation: none;
                     	}
 
 						> .m-menu__subnav > .m-menu__item.m-menu__item--hover {
 							> .m-menu__submenu {
 								display: block;
-								@include animation('#{array-get($config, base, class)}-submenu-fade-in .3s ease 1, #{array-get($config, base, class)}-submenu-move-up .3s ease-out 1');
+								animation: #{array-get($config, base, class)}-submenu-fade-in .3s ease 1, #{array-get($config, base, class)}-submenu-move-up .3s ease-out 1;
 							
 								// ie8-11 versions hack
                     			@include hack-ie8-11 {
-                        			@include animation(none);
+                        			animation: none;
                     			}
 							}
 						}
@@ -958,7 +959,7 @@
 				.m-menu__submenu {
 					> .m-menu__subnav {
 						background-color: array-get($config, item, submenu, self, bg-color);
-						@include shadow(array-get($config, item, submenu, self, box-shadow));
+						box-shadow: array-get($config, item, submenu, self, box-shadow);
 
 						// submenu item
 						> .m-menu__item {

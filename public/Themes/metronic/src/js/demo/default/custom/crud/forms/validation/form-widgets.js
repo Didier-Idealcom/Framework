@@ -124,7 +124,7 @@ var FormWidgets = function () {
             invalidHandler: function(event, validator) {             
                 var alert = $('#m_form_1_msg');
                 alert.removeClass('m--hide').show();
-                mApp.scrollTo(alert, -200);
+                mUtil.scrollTo('m_form_1_msg', -200);
             },
 
             submitHandler: function (form) {

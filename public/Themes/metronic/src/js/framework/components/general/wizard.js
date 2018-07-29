@@ -66,7 +66,7 @@ var mWizard = function(elementId, options) {
             //== Variables
             the.events = [];
             the.currentStep = 1;
-            the.stop = false;
+            the.stopped = false;
             the.totalSteps = the.steps.length;
 
             //== Init current step
@@ -136,7 +136,7 @@ var mWizard = function(elementId, options) {
          */
         goTo: function(number) {
             //== Skip if this step is already shown
-            if (number === the.currentStep) {
+            if (number === the.currentStep || number > the.totalSteps || number < 0) {
                 return;
             }
 
@@ -157,21 +157,24 @@ var mWizard = function(elementId, options) {
             }
             
             //== Skip if stopped
-            if (the.stop === true) {
-                the.stop = false;
+            if (the.stopped === true) {
+                the.stopped = false;
                 return;
             }
 
             //== Continue if no exit
             if (callback !== false) {
-                //== Set current step
+                //== Before change
+                Plugin.eventTrigger('beforeChange');
+
+                //== Set current step 
                 the.currentStep = number;
 
                 //== Update UI
                 Plugin.updateUI();
 
                 //== Trigger change event
-                Plugin.eventTrigger('change')
+                Plugin.eventTrigger('change');
             }
 
             //== After next and prev events
@@ -233,14 +236,14 @@ var mWizard = function(elementId, options) {
          * Cancel
          */
         stop: function() {
-            the.stop = true;
+            the.stopped = true;
         },
 
         /**
          * Resume
          */
         start: function() {
-            the.stop = false;
+            the.stopped = false;
         },
 
         /**

@@ -22,6 +22,9 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!--begin::Web font -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
     <script>
@@ -46,7 +49,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- end::Head -->
 
 <!-- begin::Body -->
-<body class="m-page--fluid m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-aside--offcanvas-default m-footer--push">
+<body class="m-page--fluid m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-aside--offcanvas-default m-footer--fixed m-footer--push">
+    @include('layouts.dashboard')
+
     @yield('content')
 
     <!--begin::Base Scripts -->

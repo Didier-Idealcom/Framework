@@ -15,17 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function() {
-	Route::get('/', 'Admin\DashboardController@index')->name('admin.dashboard');
-	Route::resource('actualites', 'Admin\ActualiteController');
-	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
-});
+Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::prefix('admin')->group(function() {
+	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
+});
 
-$menuitems = [];
+/*$menuitems = [];
 $menuitems[] = (object)array('id' => 1, 'gabarit' => 'actualite-index', 'permalink' => 'permalink1');
 $menuitems[] = (object)array('id' => 2, 'gabarit' => 'product-index', 'permalink' => 'permalink2');
 $menuitems[] = (object)array('id' => 3, 'gabarit' => 'product-index', 'permalink' => 'permalink2/categorie');
@@ -38,7 +36,7 @@ if (!empty($menuitems)) {
 		$method = $gabarit_array[1];
 		Route::get($menuitem->permalink, $controller . 'Controller@' . $method)->name('menuitem' . $menuitem->id);
 	}
-}
+}*/
 
 //Route::get('{menuitem}/{actualite}', 'ActualiteController@show');
 //Route::get('{menuitem}/{product}', 'ProductController@show');

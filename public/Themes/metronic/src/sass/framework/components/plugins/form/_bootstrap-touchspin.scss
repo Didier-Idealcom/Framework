@@ -29,11 +29,13 @@
 
    		.input-group-btn-vertical {
             width: auto;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
 
             .btn {
                 padding: 0.13rem 0.3rem; 
                 line-height: 1;
+                flex-grow:1;
 
                 @include not-rounded {
                     @include border-radius(0 !important);

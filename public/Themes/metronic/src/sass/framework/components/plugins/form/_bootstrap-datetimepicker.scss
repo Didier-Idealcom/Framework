@@ -9,6 +9,7 @@
     .datetimepicker  {
     	width: 265px;
     	padding: 10px;
+        left: auto;
 
         @include not-rounded {
             @include border-radius(0 !important);

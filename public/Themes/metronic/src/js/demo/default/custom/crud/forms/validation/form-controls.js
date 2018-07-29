@@ -58,7 +58,7 @@ var FormControls = function () {
             invalidHandler: function(event, validator) {     
                 var alert = $('#m_form_1_msg');
                 alert.removeClass('m--hide').show();
-                mApp.scrollTo(alert, -200);
+                mUtil.scrollTop();
             },
 
             submitHandler: function (form) {
@@ -119,14 +119,16 @@ var FormControls = function () {
             
             //display error alert on form submit  
             invalidHandler: function(event, validator) {     
-                mApp.scrollTo("#m_form_2");
+                mUtil.scrollTo("m_form_2", -200);
 
+                /*
                 swal({
                     "title": "", 
                     "text": "There are some errors in your submission. Please correct them.", 
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary m-btn m-btn--wide"
                 });
+                */
             },
 
             submitHandler: function (form) {
@@ -185,14 +187,19 @@ var FormControls = function () {
             
             //display error alert on form submit  
             invalidHandler: function(event, validator) {
-                mApp.scrollTo("#m_form_3"); 
+                mUtil.scrollTo("m_form_3", -200); 
 
                 swal({
                     "title": "", 
                     "text": "There are some errors in your submission. Please correct them.", 
                     "type": "error",
-                    "confirmButtonClass": "btn btn-secondary m-btn m-btn--wide"
+                    "confirmButtonClass": "btn btn-secondary m-btn m-btn--wide",
+                    "onClose": function(e) {
+                        console.log('on close event fired!');
+                    }
                 });
+
+                event.preventDefault();
             },
 
             submitHandler: function (form) {

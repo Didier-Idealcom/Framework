@@ -68,7 +68,7 @@ var SnippetLogin = function() {
     }
 
     var handleSignInFormSubmit = function() {
-        /*$('#m_login_signin_submit').click(function(e) {
+        $('#m_login_signin_submit').click(function(e) {
             e.preventDefault();
             var btn = $(this);
             var form = $(this).closest('form');
@@ -101,7 +101,7 @@ var SnippetLogin = function() {
                     }, 2000);
                 }
             });
-        });*/
+        });
     }
 
     var handleSignUpFormSubmit = function() {
@@ -161,7 +161,7 @@ var SnippetLogin = function() {
     }
 
     var handleForgetPasswordFormSubmit = function() {
-        /*$('#m_login_forget_password_submit').click(function(e) {
+        $('#m_login_forget_password_submit').click(function(e) {
             e.preventDefault();
 
             var btn = $(this);
@@ -184,10 +184,10 @@ var SnippetLogin = function() {
 
             form.ajaxSubmit({
                 url: '',
-                success: function(response, status, xhr, $form) {
+                success: function(response, status, xhr, $form) { 
                 	// similate 2s delay
                 	setTimeout(function() {
-                		btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false); // remove
+                		btn.removeClass('m-loader m-loader--right m-loader--light').attr('disabled', false); // remove 
 	                    form.clearForm(); // clear form
 	                    form.validate().resetForm(); // reset validation states
 
@@ -201,7 +201,7 @@ var SnippetLogin = function() {
                 	}, 2000);
                 }
             });
-        });*/
+        });
     }
 
     //== Public Functions
