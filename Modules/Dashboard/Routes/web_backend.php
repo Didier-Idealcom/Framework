@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/', 'DashboardController@index')->name('admin.dashboard');
+Route::get('/', 'DashboardController@index')->name('dashboard');

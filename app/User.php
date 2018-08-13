@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Core\Presenters\ResourceUrlPresenter;
 
 class User extends Authenticatable
 {
@@ -26,6 +27,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $appends = [
+        'url', 'url_backend', 'url_api'
+    ];
+
+    public function getUrlAttribute()
+    {
+        return new ResourceUrlPresenter($this);
+    }
+
+    public function getUrlBackendAttribute()
+    {
+        return new ResourceUrlPresenter($this, 'backend');
+    }
+
+    public function getUrlApiAttribute()
+    {
+        return new ResourceUrlPresenter($this, 'api');
+    }
 
     /**
      * Return if user is admin

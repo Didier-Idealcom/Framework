@@ -87,6 +87,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
         if ($backend && file_exists($backend)) {
             $router->group([
                 'namespace' => 'Admin',
+                'as' => config('framework.core.config.prefix-backend') . '.',
                 'prefix' => config('framework.core.config.prefix-backend'),
                 'middleware' => config('framework.core.config.middleware.backend', []),
             ], function (Router $router) use ($backend) {
@@ -105,6 +106,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
         if ($api && file_exists($api)) {
             $router->group([
                 'namespace' => 'Api',
+                'as' => config('framework.core.config.prefix-api') . '.',
                 'prefix' => config('framework.core.config.prefix-api'),
                 'middleware' => config('framework.core.config.middleware.api', []),
             ], function (Router $router) use ($api) {

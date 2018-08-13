@@ -1,0 +1,26 @@
+{
+    "name": "idealframework/page",
+    "description": "",
+    "authors": [
+        {
+            "name": "Didier Largeron",
+            "email": "d.largeron@ideal-com.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Page\\Providers\\PageServiceProvider",
+                "Modules\\Page\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Page\\": ""
+        }
+    }
+}

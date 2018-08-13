@@ -1,0 +1,15 @@
+{
+    "name": "Language",
+    "alias": "language",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Language\\Providers\\LanguageServiceProvider",
+        "Modules\\Language\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

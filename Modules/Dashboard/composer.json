@@ -1,10 +1,10 @@
 {
-    "name": "nwidart/dashboard",
+    "name": "idealframework/dashboard",
     "description": "",
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Didier Largeron",
+            "email": "d.largeron@ideal-com.com"
         }
     ],
     "extra": {

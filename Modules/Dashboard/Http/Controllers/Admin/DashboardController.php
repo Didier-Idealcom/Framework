@@ -9,6 +9,14 @@ use Illuminate\Routing\Controller;
 class DashboardController extends Controller
 {
     /**
+     * DashboardController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
+    /**
      * Display a listing of the resource.
      * @return Response
      */

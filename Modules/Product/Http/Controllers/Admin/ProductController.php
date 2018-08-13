@@ -9,6 +9,14 @@ use Illuminate\Routing\Controller;
 class ProductController extends Controller
 {
     /**
+     * ProductController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
+    /**
      * Display a listing of the resource.
      * @return Response
      */

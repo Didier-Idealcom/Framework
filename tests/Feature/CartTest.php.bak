@@ -462,7 +462,7 @@ class CartTest extends TestCase
         $cart = $this->getCart();
         $cart->add(new BuyableProduct);
         $this->assertItemsInCart(1, $cart);
-        $cart->destroy();
+        $cart->delete();
         $this->assertItemsInCart(0, $cart);
     }
 
@@ -810,7 +810,7 @@ class CartTest extends TestCase
         $cart = $this->getCart();
         $cart->add(new BuyableProduct);
         $cart->store($identifier = 123);
-        $cart->destroy();
+        $cart->delete();
         $this->assertItemsInCart(0, $cart);
         $cart->restore($identifier);
         $this->assertItemsInCart(1, $cart);

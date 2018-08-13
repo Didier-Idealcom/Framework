@@ -2,20 +2,20 @@
 
 namespace Modules\User\Forms;
 
-use Kris\LaravelFormBuilder\Form;
+use Modules\Core\Forms\CoreForm;
 
-class UserForm extends Form
+class UserForm extends CoreForm
 {
     public function buildForm()
     {
         // Form options
         if ($this->getModel() && $this->getModel()->id) {
-            $url = route('users.update', $this->getModel()->id);
+            $url = route('admin.users.update', $this->getModel()->id);
             $method = 'PUT';
 
             $this->getModel()->password = '';
         } else {
-            $url = route('users.store');
+            $url = route('admin.users.store');
             $method = 'POST';
         }
         $this->formOptions = [
@@ -41,9 +41,6 @@ class UserForm extends Form
                     'label' => 'Confirmation mot de passe',
                     'rules' => !$this->getModel() ? 'required|same:password' : 'same:password'
                 ]
-            ])
-            ->add('submit', 'submit', [
-                'label' => 'Enregistrer'
             ]);
     }
 }

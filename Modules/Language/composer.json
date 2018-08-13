@@ -1,0 +1,26 @@
+{
+    "name": "idealframework/language",
+    "description": "",
+    "authors": [
+        {
+            "name": "Didier Largeron",
+            "email": "d.largeron@ideal-com.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Language\\Providers\\LanguageServiceProvider",
+                "Modules\\Language\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Language\\": ""
+        }
+    }
+}

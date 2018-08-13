@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('login', 'LoginController@showLoginForm')->name('admin.login');
-Route::post('login', 'LoginController@login');
-Route::post('logout', 'LoginController@logout')->name('admin.logout');
+Route::get('login', 'LoginController@showLoginForm')->name('login');
+Route::post('login', 'LoginController@login')->name('login-post');
+Route::post('logout', 'LoginController@logout')->name('logout');
 Route::resource('users', 'UserController');
-Route::post('users/datatable', 'UserController@datatable')->name('admin.users_datatable');
+Route::post('users/datatable', 'UserController@datatable')->name('users_datatable');

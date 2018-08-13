@@ -2,14 +2,14 @@
 
 namespace Modules\User\Http\Controllers\Admin;
 
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Yajra\Datatables\Datatables;
+use Modules\User\Entities\User;
 use Modules\User\Forms\UserForm;
 use Modules\User\Repositories\UserRepository;
-use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
@@ -21,16 +21,19 @@ class UserController extends Controller
     /**
      * @var UserRepository
      */
-    protected $userRepository;
+    protected $repository;
 
     /**
      * UserController constructor.
+     * @param User $user
      * @param FormBuilder $formBuilder
      */
-    public function __construct(FormBuilder $formBuilder, UserRepository $userRepository)
+    public function __construct(User $user, FormBuilder $formBuilder)
     {
+        $this->middleware('auth:admin');
+
         $this->formBuilder = $formBuilder;
-        $this->userRepository = $userRepository;
+        $this->repository = new UserRepository($user);
     }
 
     /**
@@ -52,7 +55,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepository->load(10);
+        $users = $this->repository->load(10);
         return view('user::admin.index', compact('users'));
     }
 
@@ -75,8 +78,8 @@ class UserController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $user = $this->userRepository->store($request->all());
-        return redirect()->route('users.index');
+        $user = $this->repository->create($request->all());
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -86,7 +89,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = $this->userRepository->find($id);
+        $user = $this->repository->find($id);
         return view('user::admin.show', compact('user'));
     }
 
@@ -112,8 +115,8 @@ class UserController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         //$user->save();
-        $user = $this->userRepository->update($id, $request->all());
-        return redirect()->route('users.index');
+        $user = $this->repository->update($id, $request->all());
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -122,7 +125,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->userRepository->destroy($id);
+        $this->repository->delete($id);
         return redirect()->back();
     }
 
@@ -135,10 +138,10 @@ class UserController extends Controller
         return Datatables::of(User::all())
             ->addColumn('actions', function($user) {
                 return '
-                    <a href="' . route('users.edit', $user->id) . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <a href="' . $user->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
                         <i class="la la-edit"></i>
                     </a>
-                    <form action="' . route('users.destroy', $user->id) . '" method="POST" class="form-delete d-inline-block">
+                    <form action="' . $user->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
                         <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="la la-trash"></i></button>

@@ -366,7 +366,7 @@ class Cart extends Model
      *
      * @return void
      */
-    public function destroy()
+    public function delete()
     {
         $this->session->remove($this->instance . '.items');
         $this->session->remove($this->instance . '.billing');

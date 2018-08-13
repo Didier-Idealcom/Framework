@@ -39,6 +39,12 @@ return [
             'prefix' => '',
         ],
 
+        'sqlite_dusk' => [
+            'driver' => 'sqlite',
+            'database' => env('DB_DATABASE', database_path('dusk.sqlite')),
+            'prefix' => '',
+        ],
+
         'sqlite_testing' => [
             'driver' => 'sqlite',
             'database' => ':memory:',
