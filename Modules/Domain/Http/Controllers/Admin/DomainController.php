@@ -5,6 +5,7 @@ namespace Modules\Domain\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Domain\Entities\Domain;
@@ -114,8 +115,8 @@ class DomainController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        //$domain->save();
         $domain = $this->repository->update($id, $request->all());
+        Session::flash('success', 'Le domaine a été enregistré avec succès');
         return redirect()->route('admin.domains.index');
     }
 
@@ -136,6 +137,9 @@ class DomainController extends Controller
     public function datatable()
     {
         return Datatables::of(Domain::all())
+            ->editColumn('active', function($domain) {
+                return $domain->active == 'Y' ? '<a href="#" class="btn m-btn btn-success m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-on"></i> &nbsp; Actif</a>' : '<a href="#" class="btn m-btn btn-danger m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-off"></i> &nbsp; Inactif</a>';
+            })
             ->addColumn('actions', function($domain) {
                 return '
                     <a href="' . $domain->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">

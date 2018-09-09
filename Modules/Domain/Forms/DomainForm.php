@@ -27,11 +27,7 @@ class DomainForm extends CoreForm
                 'rules' => 'required'
             ])
             ->add('name', 'text', [
-                'label' => 'Nom',
-                'rules' => 'required'
-            ])
-            ->add('extension', 'text', [
-                'label' => 'Extension',
+                'label' => 'Nom de domaine',
                 'rules' => 'required'
             ])
             ->add('folder', 'text', [

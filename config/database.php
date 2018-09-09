@@ -39,13 +39,13 @@ return [
             'prefix' => '',
         ],
 
-        'sqlite_dusk' => [
+        'sqlite_test' => [
             'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', database_path('dusk.sqlite')),
+            'database' => env('DB_DATABASE', database_path('test.sqlite')),
             'prefix' => '',
         ],
 
-        'sqlite_testing' => [
+        'sqlite_memory' => [
             'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',

@@ -1,5 +1,0 @@
-<!-- begin::Page loader -->
-<div class="m-page-loader">
-    <div class="m-spinner m-spinner--brand"></div>
-</div>
-<!-- end::Page Loader -->

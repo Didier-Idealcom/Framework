@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title_page', 'Gestion des pages')
+@section('title_page', 'Gestion des rôles')
 
 @section('breadcrumb')
     <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
@@ -12,13 +12,13 @@
         <li class="m-nav__separator">-</li>
         <li class="m-nav__item">
             <a href="javascript:;" class="m-nav__link">
-                <span class="m-nav__link-text">Contenus</span>
+                <span class="m-nav__link-text">Utilisateurs</span>
             </a>
         </li>
         <li class="m-nav__separator">-</li>
         <li class="m-nav__item">
-            <a href="{{ route('admin.pages.index') }}" class="m-nav__link">
-                <span class="m-nav__link-text">Pages</span>
+            <a href="{{ route('admin.roles.index') }}" class="m-nav__link">
+                <span class="m-nav__link-text">Rôles</span>
             </a>
         </li>
     </ul>
@@ -27,7 +27,7 @@
 @section('content_page')
     <div class="alert alert-brand alert-dismissible fade show" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        <strong>INFO</strong> : This view is loaded from module: {!! config('framework.page.config.name') !!}
+        <strong>INFO</strong> : This view is loaded from module: {!! config('framework.user.config.name') !!}
     </div>
 
     <!-- begin: Portlet -->
@@ -38,13 +38,13 @@
                     <span class="m-portlet__head-icon">
                         <i class="flaticon-signs-1"></i>
                     </span>
-                    <h3 class="m-portlet__head-text">Liste des pages</h3>
+                    <h3 class="m-portlet__head-text">Liste des rôles</h3>
                 </div>
             </div>
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
-                        <a href="{{ route('admin.pages.create') }}" class="m-portlet__nav-link btn btn-success m-btn m-btn--pill">
+                        <a href="{{ route('admin.roles.create') }}" class="m-portlet__nav-link btn btn-success m-btn m-btn--pill">
                             <i class="la la-plus"></i> Ajouter
                         </a>
                     </li>
@@ -86,7 +86,7 @@
             @include('partials.flash')
 
             <!--begin: Datatable -->
-            <div class="m_datatable" id="pages_datatable"></div>
+            <div class="m_datatable" id="roles_datatable"></div>
             <!--end: Datatable -->
         </div>
     </div>
@@ -96,13 +96,13 @@
 @push('scripts')
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            var datatable = $('#pages_datatable').mDatatable({
+            var datatable = $('#roles_datatable').mDatatable({
                 // datasource definition
                 data: {
                     type: 'remote',
                     source: {
                         read: {
-                            url: '{!! route('admin.pages_datatable') !!}',
+                            url: '{!! route('admin.roles_datatable') !!}',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
@@ -161,11 +161,11 @@
                     width: 50,
                     textAlign: 'center'
                 }, {
-                    field: 'active',
-                    title: 'Statut'
+                    field: 'name',
+                    title: 'Nom'
                 }, {
-                    field: 'title',
-                    title: 'Titre'
+                    field: 'guard_name',
+                    title: 'Guard'
                 }, {
                     field: 'actions',
                     title: 'Actions',

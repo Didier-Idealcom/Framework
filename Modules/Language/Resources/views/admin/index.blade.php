@@ -44,7 +44,7 @@
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
-                        <a href="{{ route('admin.languages.create') }}" class="m-portlet__nav-link btn btn-success m-btn m-btn--pill m-btn--air">
+                        <a href="{{ route('admin.languages.create') }}" class="m-portlet__nav-link btn btn-success m-btn m-btn--pill">
                             <i class="la la-plus"></i> Ajouter
                         </a>
                     </li>
@@ -83,6 +83,8 @@
             </div>
         </div>
         <div class="m-portlet__body">
+            @include('partials.flash')
+
             <!--begin: Datatable -->
             <div class="m_datatable" id="languages_datatable"></div>
             <!--end: Datatable -->
@@ -158,6 +160,9 @@
                     title: 'ID',
                     width: 50,
                     textAlign: 'center'
+                }, {
+                    field: 'active',
+                    title: 'Statut'
                 }, {
                     field: 'alpha2',
                     title: 'Alpha 2'

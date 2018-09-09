@@ -5,11 +5,12 @@ namespace Modules\User\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\User\Entities\User;
 use Modules\User\Forms\UserForm;
-use Modules\User\Repositories\UserRepository;
+use Modules\Core\Repositories\CoreRepository;
 
 class UserController extends Controller
 {
@@ -19,7 +20,7 @@ class UserController extends Controller
     private $formBuilder;
 
     /**
-     * @var UserRepository
+     * @var CoreRepository
      */
     protected $repository;
 
@@ -33,7 +34,7 @@ class UserController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new UserRepository($user);
+        $this->repository = new CoreRepository($user);
     }
 
     /**
@@ -56,7 +57,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->repository->load(10);
-        return view('user::admin.index', compact('users'));
+        return view('user::admin.user_index', compact('users'));
     }
 
     /**
@@ -66,7 +67,7 @@ class UserController extends Controller
     public function create()
     {
         $form = $this->getForm();
-        return view('user::admin.form', compact('form'));
+        return view('user::admin.user_form', compact('form'));
     }
 
     /**
@@ -90,7 +91,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->repository->find($id);
-        return view('user::admin.show', compact('user'));
+        return view('user::admin.user_show', compact('user'));
     }
 
     /**
@@ -101,7 +102,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $form = $this->getForm($user);
-        return view('user::admin.form', compact('form'));
+        return view('user::admin.user_form', compact('form'));
     }
 
     /**
@@ -114,8 +115,8 @@ class UserController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        //$user->save();
         $user = $this->repository->update($id, $request->all());
+        Session::flash('success', 'L\'utilisateur a été enregistré avec succès');
         return redirect()->route('admin.users.index');
     }
 
@@ -136,6 +137,9 @@ class UserController extends Controller
     public function datatable()
     {
         return Datatables::of(User::all())
+            ->editColumn('active', function($user) {
+                return $user->active == 'Y' ? '<a href="#" class="btn m-btn btn-success m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-on"></i> &nbsp; Actif</a>' : '<a href="#" class="btn m-btn btn-danger m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-off"></i> &nbsp; Inactif</a>';
+            })
             ->addColumn('actions', function($user) {
                 return '
                     <a href="' . $user->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">

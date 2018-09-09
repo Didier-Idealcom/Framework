@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title_page', 'Gestion des domaines')
+@section('title_page', 'Gestion des rôles')
 
 @section('breadcrumb')
     <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
@@ -12,13 +12,13 @@
         <li class="m-nav__separator">-</li>
         <li class="m-nav__item">
             <a href="javascript:;" class="m-nav__link">
-                <span class="m-nav__link-text">Configuration</span>
+                <span class="m-nav__link-text">Utilisateurs</span>
             </a>
         </li>
         <li class="m-nav__separator">-</li>
         <li class="m-nav__item">
-            <a href="{{ route('admin.domains.index') }}" class="m-nav__link">
-                <span class="m-nav__link-text">Domaines</span>
+            <a href="{{ route('admin.roles.index') }}" class="m-nav__link">
+                <span class="m-nav__link-text">Rôles</span>
             </a>
         </li>
     </ul>
@@ -35,11 +35,11 @@
                         <span class="m-portlet__head-icon">
                             <i class="flaticon-edit"></i>
                         </span>
-                        <h3 class="m-portlet__head-text">Création d'un nouveau domaine</h3>
+                        <h3 class="m-portlet__head-text">Création d'un nouveau rôle</h3>
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
-                    <a href="{{ route('admin.domains.index') }}" class="btn btn-secondary m-btn m-btn--icon m-btn--wide m-btn--md m--margin-right-10">
+                    <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary m-btn m-btn--icon m-btn--wide m-btn--md m--margin-right-10">
                         <span>
                             <i class="la la-arrow-left"></i>
                             <span>Back</span>

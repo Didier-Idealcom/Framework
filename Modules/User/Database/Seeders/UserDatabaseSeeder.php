@@ -2,9 +2,9 @@
 
 namespace Modules\User\Database\Seeders;
 
-use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\User;
 
 class UserDatabaseSeeder extends Seeder
 {

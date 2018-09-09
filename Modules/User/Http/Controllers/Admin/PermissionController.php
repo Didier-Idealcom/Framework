@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Language\Http\Controllers\Admin;
+namespace Modules\User\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -8,11 +8,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
-use Modules\Language\Entities\Language;
-use Modules\Language\Forms\LanguageForm;
-use Modules\Language\Repositories\LanguageRepository;
+use Modules\User\Entities\Permission;
+use Modules\User\Forms\PermissionForm;
+use Modules\Core\Repositories\CoreRepository;
 
-class LanguageController extends Controller
+class PermissionController extends Controller
 {
     /**
      * @var FormBuilder
@@ -20,33 +20,33 @@ class LanguageController extends Controller
     private $formBuilder;
 
     /**
-     * @var LanguageRepository
+     * @var CoreRepository
      */
     protected $repository;
 
     /**
-     * LanguageController constructor.
-     * @param Language $language
+     * PermissionController constructor.
+     * @param Permission $permission
      * @param FormBuilder $formBuilder
      */
-    public function __construct(Language $language, FormBuilder $formBuilder)
+    public function __construct(Permission $permission, FormBuilder $formBuilder)
     {
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new LanguageRepository($language);
+        $this->repository = new CoreRepository($permission);
     }
 
     /**
      * Return the formBuilder
-     * @param Language|null $language
+     * @param Permission|null $permission
      * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(?Language $language = null)
+    private function getForm(?Permission $permission = null)
     {
-        $language = $language ?: new Language();
-        return $this->formBuilder->create(LanguageForm::class, [
-            'model' => $language
+        $permission = $permission ?: new Permission();
+        return $this->formBuilder->create(PermissionForm::class, [
+            'model' => $permission
         ]);
     }
 
@@ -56,8 +56,8 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = $this->repository->load(10);
-        return view('language::admin.index', compact('languages'));
+        $permissions = $this->repository->load(10);
+        return view('user::admin.permission_index', compact('permissions'));
     }
 
     /**
@@ -67,7 +67,7 @@ class LanguageController extends Controller
     public function create()
     {
         $form = $this->getForm();
-        return view('language::admin.form', compact('form'));
+        return view('user::admin.permission_form', compact('form'));
     }
 
     /**
@@ -79,8 +79,8 @@ class LanguageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $language = $this->repository->create($request->all());
-        return redirect()->route('admin.languages.index');
+        $permission = $this->repository->create($request->all());
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -90,19 +90,19 @@ class LanguageController extends Controller
      */
     public function show($id)
     {
-        $language = $this->repository->find($id);
-        return view('language::admin.show', compact('language'));
+        $permission = $this->repository->find($id);
+        return view('user::admin.permission_show', compact('permission'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Language $language
+     * @param Permission $permission
      * @return Response
      */
-    public function edit(Language $language)
+    public function edit(Permission $permission)
     {
-        $form = $this->getForm($language);
-        return view('language::admin.form', compact('form'));
+        $form = $this->getForm($permission);
+        return view('user::admin.permission_form', compact('form'));
     }
 
     /**
@@ -115,9 +115,9 @@ class LanguageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $language = $this->repository->update($id, $request->all());
-        Session::flash('success', 'La langue a été enregistrée avec succès');
-        return redirect()->route('admin.languages.index');
+        $permission = $this->repository->update($id, $request->all());
+        Session::flash('success', 'La permission a été enregistrée avec succès');
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -136,23 +136,20 @@ class LanguageController extends Controller
      */
     public function datatable()
     {
-        return Datatables::of(Language::all())
-            ->editColumn('active', function($language) {
-                return $language->active == 'Y' ? '<a href="#" class="btn m-btn btn-success m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-on"></i> &nbsp; Actif</a>' : '<a href="#" class="btn m-btn btn-danger m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-off"></i> &nbsp; Inactif</a>';
-            })
-            ->addColumn('actions', function($language) {
+        return Datatables::of(Permission::all())
+            ->addColumn('actions', function($permission) {
                 return '
-                    <a href="' . $language->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <a href="' . $permission->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
                         <i class="la la-edit"></i>
                     </a>
-                    <form action="' . $language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                    <form action="' . $permission->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
                         <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="la la-trash"></i></button>
                     </form>
                 ';
             })
-            ->escapeColumns(['alpha2', 'name'])
+            ->escapeColumns(['name', 'guard_name'])
             ->make(true);
     }
 }

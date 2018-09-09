@@ -12,7 +12,7 @@ trait CanPublishConfiguration
     public function publishConfig($module, $filename)
     {
         if (app()->environment() === 'testing') {
-            return;
+            //return;
         }
 
         $this->mergeConfigFrom($this->getModuleConfigFilePath($module, $filename), strtolower("framework.$module.$filename"));

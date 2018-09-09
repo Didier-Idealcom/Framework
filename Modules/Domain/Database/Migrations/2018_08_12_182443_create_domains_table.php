@@ -18,14 +18,13 @@ class CreateDomainsTable extends Migration
             $table->enum('active', ['Y', 'N'])->default('N');
             $table->string('title');
             $table->string('name');
-            $table->string('extension');
-            $table->string('folder');
-            $table->string('analytics');
-            $table->string('search_console');
-            $table->string('google_maps');
-            $table->datetime('maintenance_start');
-            $table->datetime('maintenance_end');
-            $table->string('maintenance_message');
+            $table->string('folder')->nullable();
+            $table->string('analytics')->nullable();
+            $table->string('search_console')->nullable();
+            $table->string('google_maps')->nullable();
+            $table->datetime('maintenance_start')->nullable();
+            $table->datetime('maintenance_end')->nullable();
+            $table->string('maintenance_message')->nullable();
 
             $table->timestamps();
         });

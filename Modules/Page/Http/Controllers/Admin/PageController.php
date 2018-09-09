@@ -6,6 +6,7 @@ use \App;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Page\Entities\Page;
@@ -115,8 +116,8 @@ class PageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        //$page->save();
         $page = $this->repository->update($id, $request->all());
+        Session::flash('success', 'La page a été enregistrée avec succès');
         return redirect()->route('admin.pages.index');
     }
 
@@ -137,6 +138,9 @@ class PageController extends Controller
     public function datatable()
     {
         return Datatables::of(Page::all())
+            ->editColumn('active', function($page) {
+                return $page->active == 'Y' ? '<a href="#" class="btn m-btn btn-success m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-on"></i> &nbsp; Actif</a>' : '<a href="#" class="btn m-btn btn-danger m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-off"></i> &nbsp; Inactif</a>';
+            })
             ->addColumn('actions', function($page) {
                 return '
                     <a href="' . $page->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">

@@ -36,13 +36,17 @@ class CoreRepository implements RepositoryInterface
 
     public function create(array $inputs)
     {
-        $inputs = $this->formatInputTranslations($inputs);
+        if (!empty($this->model->translatedAttributes)) {
+            $inputs = $this->formatInputTranslations($inputs);
+        }
         return $this->model->create($inputs);
     }
 
     public function update($id, array $inputs)
     {
-        $inputs = $this->formatInputTranslations($inputs);
+        if (!empty($this->model->translatedAttributes)) {
+            $inputs = $this->formatInputTranslations($inputs);
+        }
         $this->find($id)->update($inputs);
     }
 

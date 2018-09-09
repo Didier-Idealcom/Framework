@@ -13,13 +13,14 @@
         "laravel/tinker": "~1.0",
         "nwidart/laravel-modules": "^2.6",
         "shipu/themevel": "^1.6",
+        "spatie/laravel-permission": "^2.18",
         "yajra/laravel-datatables-oracle": "^8.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
+        "codeception/codeception": "^2.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
-        "laravel/dusk": "^3.0",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~6.0"
     },
