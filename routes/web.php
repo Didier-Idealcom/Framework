@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::prefix('admin')->group(function() {
 	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');

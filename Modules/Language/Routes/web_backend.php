@@ -11,5 +11,5 @@
 |
 */
 
-Route::resource('languages', 'LanguageController');
 Route::post('languages/datatable', 'LanguageController@datatable')->name('languages_datatable');
+Route::resource('languages', 'LanguageController');

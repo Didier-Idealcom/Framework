@@ -7,9 +7,12 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Maatwebsite\Excel\Excel;
 use Yajra\Datatables\Datatables;
 use Modules\User\Entities\User;
+use Modules\User\Entities\Role;
 use Modules\User\Forms\UserForm;
+use Modules\User\Exports\UserExport;
 use Modules\Core\Repositories\CoreRepository;
 
 class UserController extends Controller
@@ -56,8 +59,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->repository->load(10);
-        return view('user::admin.user_index', compact('users'));
+        return view('user::admin.user_index');
     }
 
     /**
@@ -80,6 +82,7 @@ class UserController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $user = $this->repository->create($request->all());
+        Session::flash('success', 'L\'utilisateur a été créé avec succès');
         return redirect()->route('admin.users.index');
     }
 
@@ -102,6 +105,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $form = $this->getForm($user);
+        $form->getField('role')->setValue($user->roles->pluck('id')->values());
         return view('user::admin.user_form', compact('form'));
     }
 
@@ -115,8 +119,17 @@ class UserController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $user = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($id, $request->all());
+
+        $user = $this->repository->find($id);
+        $user->syncRoles($request->has('role') ? Role::whereIn('id', $request->get('role'))->get() : []);
+
         Session::flash('success', 'L\'utilisateur a été enregistré avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.users.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.users.index');
     }
 
@@ -126,7 +139,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->delete($id);
+        $deleted = $this->repository->delete($id);
         return redirect()->back();
     }
 
@@ -154,5 +167,18 @@ class UserController extends Controller
             })
             ->escapeColumns(['name', 'email'])
             ->make(true);
+    }
+
+    public function export(Excel $excel, UserExport $export)
+    {
+        /*$users = User::all(); // All users
+        $csvExporter = new \Laracsv\Export();
+        $csv = $csvExporter->build($users, ['email', 'name'])->getCsv();
+        return response((string)$csv, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Transfer-Encoding' => 'binary',
+            'Content-Disposition' => 'attachment; filename="users.csv"'
+        ]);*/
+        return $excel->download($export, 'users.csv');
     }
 }

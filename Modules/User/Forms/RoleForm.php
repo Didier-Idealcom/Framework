@@ -31,6 +31,13 @@ class RoleForm extends CoreForm
             ->add('guard_name', 'text', [
                 'label' => 'Nom du guard',
                 'rules' => 'required'
+            ])
+            ->add('permission', 'entity', [
+                'label' => 'Permissions',
+                'label_show' => false,
+                'rules' => '',
+                'multiple' => true,
+                'class' => 'Modules\User\Entities\Permission'
             ]);
     }
 }

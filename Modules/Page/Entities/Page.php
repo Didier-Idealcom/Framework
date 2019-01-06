@@ -4,11 +4,11 @@ namespace Modules\Page\Entities;
 
 use \Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Core\Presenters\ResourceUrlPresenter;
+use Modules\Core\Traits\HasUrlPresenter;
 
 class Page extends Model
 {
-    use Translatable;
+    use Translatable, HasUrlPresenter;
 
     /**
      * The attributes that are mass assignable.
@@ -30,20 +30,4 @@ class Page extends Model
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
-
-
-    public function getUrlAttribute()
-    {
-        return new ResourceUrlPresenter($this);
-    }
-
-    public function getUrlBackendAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'backend');
-    }
-
-    public function getUrlApiAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'api');
-    }
 }

@@ -55,6 +55,7 @@ License: You must have a valid license purchased only from themeforest(the above
     @yield('content')
 
     <!--begin::Base Scripts -->
+    <script src="//cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>
     <script src="{{ themes('vendors/base/vendors.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ themes('demo/default/base/scripts.bundle.js') }}" type="text/javascript"></script>
     <!--end::Base Scripts -->

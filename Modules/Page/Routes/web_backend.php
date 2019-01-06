@@ -11,5 +11,5 @@
 |
 */
 
-Route::resource('pages', 'PageController');
 Route::post('pages/datatable', 'PageController@datatable')->name('pages_datatable');
+Route::resource('pages', 'PageController');

@@ -3,13 +3,14 @@
 namespace Modules\User\Entities;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use Modules\Core\Presenters\ResourceUrlPresenter;
+use Modules\Core\Traits\HasUrlPresenter;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasRoles, Notifiable;
+    use HasRoles, HasUrlPresenter, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -31,21 +32,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
-
-    public function getUrlAttribute()
-    {
-        return new ResourceUrlPresenter($this);
-    }
-
-    public function getUrlBackendAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'backend');
-    }
-
-    public function getUrlApiAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'api');
-    }
 
     public function setPasswordAttribute($value)
     {

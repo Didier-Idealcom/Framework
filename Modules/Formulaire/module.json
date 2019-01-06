@@ -1,0 +1,15 @@
+{
+    "name": "Formulaire",
+    "alias": "formulaire",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Formulaire\\Providers\\FormulaireServiceProvider",
+        "Modules\\Formulaire\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

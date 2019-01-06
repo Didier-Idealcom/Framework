@@ -35,7 +35,11 @@
                         <span class="m-portlet__head-icon">
                             <i class="flaticon-edit"></i>
                         </span>
+                        <?php if (isset($user)): ?>
+                        <h3 class="m-portlet__head-text">Edition de l'utilisateur : <?php echo $user->email; ?></h3>
+                        <?php else: ?>
                         <h3 class="m-portlet__head-text">Création d'un nouvel utilisateur</h3>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
@@ -47,7 +51,7 @@
                     </a>
 
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-brand m-btn m-btn--icon m-btn--wide m-btn--md">
+                        <button type="submit" name="save" class="btn btn-brand m-btn m-btn--icon m-btn--wide m-btn--md">
                             <span>
                                 <i class="la la-check"></i>
                                 <span>Save</span>
@@ -55,9 +59,9 @@
                         </button>
                         <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split m-btn m-btn--md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
-                            <a class="dropdown-item" href="#"><i class="la la-plus"></i> Save &amp; New</a>
-                            <a class="dropdown-item" href="#"><i class="la la-copy"></i> Save &amp; Duplicate</a>
-                            <button type="submit" class="btn dropdown-item"><i class="la la-undo"></i> Save &amp; Close</button>
+                            <button type="submit" name="save" value="save_new" class="btn dropdown-item"><i class="la la-plus"></i> Save &amp; New</button>
+                            <button type="submit" name="save" value="save_stay" class="btn dropdown-item"><i class="la la-save"></i> Save &amp; Stay</button>
+                            <button type="submit" name="save" class="btn dropdown-item"><i class="la la-undo"></i> Save &amp; Close</button>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#"><i class="la la-close"></i> Cancel</a>
                         </div>
@@ -66,6 +70,8 @@
             </div>
         </div>
         <div class="m-portlet__body">
+            @include('partials.flash')
+
             <!-- begin: Form -->
             {{-- form($form) --}}
             {!! form_rest($form) !!}

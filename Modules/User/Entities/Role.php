@@ -3,10 +3,12 @@
 namespace Modules\User\Entities;
 
 use Spatie\Permission\Models\Role as BaseRole;
-use Modules\Core\Presenters\ResourceUrlPresenter;
+use Modules\Core\Traits\HasUrlPresenter;
 
 class Role extends BaseRole
 {
+    use HasUrlPresenter;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,19 +22,4 @@ class Role extends BaseRole
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
-
-    public function getUrlAttribute()
-    {
-        return new ResourceUrlPresenter($this);
-    }
-
-    public function getUrlBackendAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'backend');
-    }
-
-    public function getUrlApiAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'api');
-    }
 }

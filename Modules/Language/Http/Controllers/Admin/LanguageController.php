@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Language\Entities\Language;
 use Modules\Language\Forms\LanguageForm;
-use Modules\Language\Repositories\LanguageRepository;
+use Modules\Core\Repositories\CoreRepository;
 
 class LanguageController extends Controller
 {
@@ -20,7 +20,7 @@ class LanguageController extends Controller
     private $formBuilder;
 
     /**
-     * @var LanguageRepository
+     * @var CoreRepository
      */
     protected $repository;
 
@@ -34,7 +34,7 @@ class LanguageController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new LanguageRepository($language);
+        $this->repository = new CoreRepository($language);
     }
 
     /**
@@ -56,8 +56,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = $this->repository->load(10);
-        return view('language::admin.index', compact('languages'));
+        return view('language::admin.index');
     }
 
     /**
@@ -80,6 +79,7 @@ class LanguageController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $language = $this->repository->create($request->all());
+        Session::flash('success', 'La langue a été créée avec succès');
         return redirect()->route('admin.languages.index');
     }
 
@@ -115,8 +115,14 @@ class LanguageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $language = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($id, $request->all());
+
         Session::flash('success', 'La langue a été enregistrée avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.languages.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.languages.index');
     }
 
@@ -126,7 +132,7 @@ class LanguageController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->delete($id);
+        $deleted = $this->repository->delete($id);
         return redirect()->back();
     }
 

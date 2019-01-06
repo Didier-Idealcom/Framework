@@ -1,0 +1,26 @@
+{
+    "name": "idealframework/formulaire",
+    "description": "",
+    "authors": [
+        {
+            "name": "Didier Largeron",
+            "email": "d.largeron@ideal-com.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Formulaire\\Providers\\FormulaireServiceProvider",
+                "Modules\\Formulaire\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Formulaire\\": ""
+        }
+    }
+}

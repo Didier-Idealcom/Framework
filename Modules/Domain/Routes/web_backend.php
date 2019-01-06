@@ -11,5 +11,5 @@
 |
 */
 
-Route::resource('domains', 'DomainController');
 Route::post('domains/datatable', 'DomainController@datatable')->name('domains_datatable');
+Route::resource('domains', 'DomainController');

@@ -15,11 +15,12 @@ Route::get('login', 'LoginController@showLoginForm')->name('login');
 Route::post('login', 'LoginController@login')->name('login-post');
 Route::post('logout', 'LoginController@logout')->name('logout');
 
-Route::resource('users', 'UserController');
 Route::post('users/datatable', 'UserController@datatable')->name('users_datatable');
+Route::get('users/export', 'UserController@export')->name('users_export');
+Route::resource('users', 'UserController');
 
-Route::resource('roles', 'RoleController');
 Route::post('roles/datatable', 'RoleController@datatable')->name('roles_datatable');
+Route::resource('roles', 'RoleController');
 
-Route::resource('permissions', 'PermissionController');
 Route::post('permissions/datatable', 'PermissionController@datatable')->name('permissions_datatable');
+Route::resource('permissions', 'PermissionController');

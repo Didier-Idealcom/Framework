@@ -3,10 +3,12 @@
 namespace Modules\Language\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Core\Presenters\ResourceUrlPresenter;
+use Modules\Core\Traits\HasUrlPresenter;
 
 class Language extends Model
 {
+    use HasUrlPresenter;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,19 +29,4 @@ class Language extends Model
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
-
-    public function getUrlAttribute()
-    {
-        return new ResourceUrlPresenter($this);
-    }
-
-    public function getUrlBackendAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'backend');
-    }
-
-    public function getUrlApiAttribute()
-    {
-        return new ResourceUrlPresenter($this, 'api');
-    }
 }

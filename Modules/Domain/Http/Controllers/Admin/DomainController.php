@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Domain\Entities\Domain;
 use Modules\Domain\Forms\DomainForm;
-use Modules\Domain\Repositories\DomainRepository;
+use Modules\Core\Repositories\CoreRepository;
 
 class DomainController extends Controller
 {
@@ -20,7 +20,7 @@ class DomainController extends Controller
     private $formBuilder;
 
     /**
-     * @var DomainRepository
+     * @var CoreRepository
      */
     protected $repository;
 
@@ -34,7 +34,7 @@ class DomainController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new DomainRepository($domain);
+        $this->repository = new CoreRepository($domain);
     }
 
     /**
@@ -56,8 +56,7 @@ class DomainController extends Controller
      */
     public function index()
     {
-        $domains = $this->repository->load(10);
-        return view('domain::admin.index', compact('domains'));
+        return view('domain::admin.index');
     }
 
     /**
@@ -80,6 +79,7 @@ class DomainController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $domain = $this->repository->create($request->all());
+        Session::flash('success', 'Le domaine a été créé avec succès');
         return redirect()->route('admin.domains.index');
     }
 
@@ -115,8 +115,14 @@ class DomainController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $domain = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($id, $request->all());
+
         Session::flash('success', 'Le domaine a été enregistré avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.domains.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.domains.index');
     }
 
@@ -126,7 +132,7 @@ class DomainController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->delete($id);
+        $deleted = $this->repository->delete($id);
         return redirect()->back();
     }
 

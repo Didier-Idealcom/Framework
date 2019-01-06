@@ -57,8 +57,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = $this->repository->load(10);
-        return view('page::admin.index', compact('pages'));
+        return view('page::admin.index');
     }
 
     /**
@@ -81,6 +80,7 @@ class PageController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $page = $this->repository->create($request->all());
+        Session::flash('success', 'La page a été créée avec succès');
         return redirect()->route('admin.pages.index');
     }
 
@@ -116,8 +116,14 @@ class PageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $page = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($id, $request->all());
+
         Session::flash('success', 'La page a été enregistrée avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.pages.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.pages.index');
     }
 
@@ -127,7 +133,7 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
+        $deleted = $this->repository->delete($id);
         return redirect()->back();
     }
 

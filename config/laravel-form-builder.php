@@ -45,6 +45,6 @@ return [
     'default_namespace' => '',
 
     'custom_fields' => [
-//        'datetime' => App\Forms\Fields\Datetime::class
+        'grapesjs' => Modules\Core\Forms\Fields\GrapesjsType::class
     ]
 ];

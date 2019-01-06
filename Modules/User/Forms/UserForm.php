@@ -13,7 +13,7 @@ class UserForm extends CoreForm
             $url = route('admin.users.update', $this->getModel()->id);
             $method = 'PUT';
 
-            $this->getModel()->password = '';
+            unset($this->getModel()->password);
         } else {
             $url = route('admin.users.store');
             $method = 'POST';
@@ -24,6 +24,12 @@ class UserForm extends CoreForm
         ];
 
         $this
+            ->add('role', 'entity', [
+                'label' => 'Rôle',
+                'rules' => 'required',
+                'multiple' => true,
+                'class' => 'Modules\User\Entities\Role'
+            ])
             ->add('name', 'text', [
                 'label' => 'Nom',
                 'rules' => 'required'

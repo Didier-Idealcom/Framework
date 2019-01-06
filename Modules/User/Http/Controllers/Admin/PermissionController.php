@@ -56,8 +56,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = $this->repository->load(10);
-        return view('user::admin.permission_index', compact('permissions'));
+        return view('user::admin.permission_index');
     }
 
     /**
@@ -80,6 +79,7 @@ class PermissionController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $permission = $this->repository->create($request->all());
+        Session::flash('success', 'La permission a été créée avec succès');
         return redirect()->route('admin.permissions.index');
     }
 
@@ -115,8 +115,13 @@ class PermissionController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $permission = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($id, $request->all());
         Session::flash('success', 'La permission a été enregistrée avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.permissions.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.permissions.index');
     }
 
@@ -126,7 +131,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->delete($id);
+        $deleted = $this->repository->delete($id);
         return redirect()->back();
     }
 

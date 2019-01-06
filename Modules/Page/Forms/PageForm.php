@@ -17,6 +17,8 @@ class PageForm extends CoreForm
             $method = 'POST';
         }
         $this->formOptions = [
+            'class' => 'm-form',
+            'id' => 'm_form',
             'method' => $method,
             'url' => $url
         ];
@@ -27,7 +29,7 @@ class PageForm extends CoreForm
                 'rules' => 'required',
                 'translatable' => true
             ])
-            ->add('content', 'textarea', [
+            ->add('content', 'grapesjs', [
                 'label' => 'Contenu',
                 'rules' => 'required',
                 'translatable' => true

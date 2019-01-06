@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\User\Entities\Role;
+use Modules\User\Entities\Permission;
 use Modules\User\Forms\RoleForm;
 use Modules\Core\Repositories\CoreRepository;
 
@@ -56,8 +57,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = $this->repository->load(10);
-        return view('user::admin.role_index', compact('roles'));
+        return view('user::admin.role_index');
     }
 
     /**
@@ -80,6 +80,7 @@ class RoleController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $role = $this->repository->create($request->all());
+        Session::flash('success', 'Le rôle a été créé avec succès');
         return redirect()->route('admin.roles.index');
     }
 
@@ -102,6 +103,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $form = $this->getForm($role);
+        $form->getField('permission')->setValue($role->permissions->pluck('id')->values());
         return view('user::admin.role_form', compact('form'));
     }
 
@@ -115,8 +117,17 @@ class RoleController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $role = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($id, $request->all());
+
+        $role = $this->repository->find($id);
+        $role->syncPermissions($request->has('permission') ? Permission::whereIn('id', $request->get('permission'))->get() : []);
+
         Session::flash('success', 'Le rôle a été enregistré avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.roles.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.roles.index');
     }
 
@@ -126,7 +137,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->delete($id);
+        $deleted = $this->repository->delete($id);
         return redirect()->back();
     }
 

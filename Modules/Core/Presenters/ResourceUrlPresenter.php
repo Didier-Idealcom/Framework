@@ -12,7 +12,7 @@ class ResourceUrlPresenter
     {
         $this->model_id = $model->id;
         $this->env = $env;
-        $this->resource_name = strtolower((new \ReflectionClass($model))->getShortName()) . 's';
+        $this->resource_name = !empty($model->getTable()) ? $model->getTable() : strtolower((new \ReflectionClass($model))->getShortName()) . 's';
     }
 
     public function __get($key)
