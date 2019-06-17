@@ -13,6 +13,8 @@
 
 Route::post('formulaires/datatable', 'FormulaireController@datatable')->name('formulaires_datatable');
 Route::post('formulaires/{formulaire}/formulaires_fields/datatable', 'FormulaireFieldController@datatable')->name('formulaires_fields_datatable');
+Route::get('formulaires/{id}/active', 'FormulaireController@active')->name('formulaires_active');
+Route::get('formulaires_fields/{id}/active', 'FormulaireFieldController@active')->name('formulaires_fields_active');
 Route::resource('formulaires', 'FormulaireController');
 Route::resource('formulaires_fields', 'FormulaireFieldController')->except(['index', 'create'])->parameters(['formulaires_fields' => 'formulaire_field']);
 Route::get('formulaires/{formulaire}/formulaires_fields', 'FormulaireFieldController@index')->name('formulaires_fields.index');

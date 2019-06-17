@@ -12,4 +12,5 @@
 */
 
 Route::post('domains/datatable', 'DomainController@datatable')->name('domains_datatable');
+Route::get('domains/{id}/active', 'DomainController@active')->name('domains_active');
 Route::resource('domains', 'DomainController');

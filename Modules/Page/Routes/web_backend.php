@@ -12,4 +12,5 @@
 */
 
 Route::post('pages/datatable', 'PageController@datatable')->name('pages_datatable');
+Route::get('pages/{id}/active', 'PageController@active')->name('pages_active');
 Route::resource('pages', 'PageController');

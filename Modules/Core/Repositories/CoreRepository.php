@@ -55,6 +55,7 @@ class CoreRepository implements RepositoryInterface
     // Create a new record in the database
     public function create(array $inputs)
     {
+        unset($inputs['save']);
         if (!empty($this->model->translatedAttributes)) {
             $inputs = $this->formatInputTranslations($inputs);
         }
@@ -64,10 +65,19 @@ class CoreRepository implements RepositoryInterface
     // Update record in the database
     public function update($id, array $inputs)
     {
+        unset($inputs['save']);
         if (!empty($this->model->translatedAttributes)) {
             $inputs = $this->formatInputTranslations($inputs);
         }
         return $this->find($id)->update($inputs);
+    }
+
+    // Activate/Deactivate record in the database
+    public function active($id)
+    {
+        $record = $this->find($id);
+        $inputs['active'] = $record->active == 'Y' ? 'N' : 'Y';
+        return $record->update($inputs);
     }
 
     // Remove record from the database

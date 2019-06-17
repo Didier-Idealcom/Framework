@@ -132,7 +132,17 @@ class RoleController extends Controller
     }
 
     /**
+     * Activate/Deactivate the specified resource in storage.
+     * @param  $id
+     */
+    public function active($id)
+    {
+        $activated = $this->repository->active($id);
+    }
+
+    /**
      * Remove the specified resource from storage.
+     * @param  $id
      * @return Response
      */
     public function destroy($id)
@@ -156,7 +166,7 @@ class RoleController extends Controller
                     <form action="' . $role->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="la la-trash"></i></button>
+                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" aria-label="Delete"><i class="la la-trash"></i></button>
                     </form>
                 ';
             })

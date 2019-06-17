@@ -172,8 +172,10 @@
                 }, {
                     field: 'actions',
                     title: 'Actions',
-                    width: 100,
-                    sortable: false
+                    width: 110,
+                    sortable: false,
+                    overflow: 'visible',
+                    template: function(row) {return row.actions;}
                 }],
 
                 // extentions
