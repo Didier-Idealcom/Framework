@@ -37,7 +37,12 @@ License: You must have a valid license purchased only from themeforest(the above
     </script>-->
     <script>
         WebFontConfig = {
-            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,700"]},
+            google: {
+                "families": [
+                    "Poppins:300,400,500,600,700",
+                    "Roboto:300,400,500,700&display=swap"
+                ]
+            },
             active: function() {
                 sessionStorage.fonts = true;
             }

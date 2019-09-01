@@ -155,11 +155,12 @@ class UserController extends Controller
 
     /**
      * Process datatables ajax request.
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable()
+    public function datatable(Request $request)
     {
-        return Datatables::of(User::all())
+        return Datatables::of(User::orderBy($request->sort['field'], $request->sort['sort']))
             ->editColumn('active', function($user) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
