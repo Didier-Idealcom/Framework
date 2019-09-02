@@ -16,9 +16,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- begin::Head -->
 <head>
     <meta charset="utf-8" />
-    <title>@yield('title')</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <title>@yield('title', 'Administration Metronic')</title>
+    <meta name="description" content="@yield('description', 'Administration du site Metronic')">
+    <meta name="keywords" content="@yield('keywords', '')">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -26,20 +26,41 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!--begin::Web font -->
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-    <script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script async>
         WebFont.load({
-            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,700"]},
             active: function() {
                 sessionStorage.fonts = true;
             }
         });
+    </script>-->
+    <script>
+        WebFontConfig = {
+            google: {
+                "families": [
+                    "Poppins:300,400,500,600,700",
+                    "Roboto:300,400,500,700&display=swap"
+                ]
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            }
+        };
+
+        (function(d) {
+            var wf = d.createElement('script'), s = d.scripts[0];
+            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore(wf, s);
+        })(document);
     </script>
+    <!--<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,700" rel="stylesheet">-->
     <!--end::Web font -->
 
     <!--begin::Base Styles -->
-    <link href="{{ themes('vendors/base/vendors.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ themes('demo/default/base/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ themes('vendors/base/vendors.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ themes('demo/default/base/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <!--end::Base Styles -->
 
     @stack('styles')
@@ -55,7 +76,9 @@ License: You must have a valid license purchased only from themeforest(the above
     @yield('content')
 
     <!--begin::Base Scripts -->
-    <script src="//cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>
+    <script>
+        var CKEDITOR_BASEPATH = '/plugins/ckeditor/';
+    </script>
     <script src="{{ themes('vendors/base/vendors.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ themes('demo/default/base/scripts.bundle.js') }}" type="text/javascript"></script>
     <!--end::Base Scripts -->

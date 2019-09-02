@@ -32,11 +32,11 @@ class DomainForm extends CoreForm
             ])
             ->add('folder', 'text', [
                 'label' => 'Dossier',
-                'rules' => 'required'
+                'rules' => ''
             ])
             ->add('analytics', 'text', [
                 'label' => 'Google Analytics',
-                'rules' => 'required'
+                'rules' => ''
             ])
             ->add('search_console', 'text', [
                 'label' => 'Search Console',

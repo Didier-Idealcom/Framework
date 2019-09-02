@@ -127,7 +127,17 @@ class LanguageController extends Controller
     }
 
     /**
+     * Activate/Deactivate the specified resource in storage.
+     * @param  $id
+     */
+    public function active($id)
+    {
+        $activated = $this->repository->active($id);
+    }
+
+    /**
      * Remove the specified resource from storage.
+     * @param  $id
      * @return Response
      */
     public function destroy($id)
@@ -144,7 +154,11 @@ class LanguageController extends Controller
     {
         return Datatables::of(Language::all())
             ->editColumn('active', function($language) {
-                return $language->active == 'Y' ? '<a href="#" class="btn m-btn btn-success m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-on"></i> &nbsp; Actif</a>' : '<a href="#" class="btn m-btn btn-danger m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-off"></i> &nbsp; Inactif</a>';
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $language->active == 'Y' ? 'btn-success' : 'btn-danger';
+                $class_i = $language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                return '<a href="javascript:;" data-url="' . route('admin.languages_active', ['id' => $language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($language->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($language) {
                 return '
@@ -154,7 +168,7 @@ class LanguageController extends Controller
                     <form action="' . $language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="la la-trash"></i></button>
+                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" aria-label="Delete"><i class="la la-trash"></i></button>
                     </form>
                 ';
             })

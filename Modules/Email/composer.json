@@ -1,0 +1,26 @@
+{
+    "name": "idealframework/email",
+    "description": "",
+    "authors": [
+        {
+            "name": "Didier Largeron",
+            "email": "d.largeron@ideal-com.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Email\\Providers\\EmailServiceProvider",
+                "Modules\\Email\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Email\\": ""
+        }
+    }
+}
