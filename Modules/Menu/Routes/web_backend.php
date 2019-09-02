@@ -11,4 +11,9 @@
 |
 */
 
+Route::post('menus/datatable', 'MenuController@datatable')->name('menus_datatable');
+Route::post('menus/{menu}/menuitems/datatable', 'MenuitemController@datatable')->name('menuitems_datatable');
 Route::resource('menus', 'MenuController');
+Route::resource('menuitems', 'MenuitemController')->except(['index', 'create'])->parameters(['menuitems' => 'menuitem']);
+Route::get('menus/{menu}/menuitems', 'MenuitemController@index')->name('menuitems.index');
+Route::get('menus/{menu}/menuitems/create', 'MenuitemController@create')->name('menuitems.create');
