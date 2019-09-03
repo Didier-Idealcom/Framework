@@ -1,3 +1,7 @@
+<?php if ($options['multiple']): ?>
+<?php $options['attr']['name'] = $name; ?>
+<?php endif; ?>
+
 <?php if ($showLabel && $showField): ?>
     <?php if ($options['wrapper'] !== false): ?>
     <div <?= $options['wrapperAttrs'] ?> >
@@ -5,12 +9,12 @@
 <?php endif; ?>
 
 <?php if ($showLabel && $options['label'] !== false && $options['label_show']): ?>
-    <?= Form::customLabel($name, $options['label'], $options['label_attr']) ?>
+    <?= Form::customLabel($options['real_name'], $options['label'], $options['label_attr']) ?>
 <?php endif; ?>
 
 <?php if ($showField): ?>
     <?php $emptyVal = $options['empty_value'] ? ['' => $options['empty_value']] : null; ?>
-    <?= Form::select($name, (array)$emptyVal + $options['choices'], $options['selected'], $options['attr']) ?>
+    <?= Form::select($options['real_name'], (array)$emptyVal + $options['choices'], $options['selected'], $options['attr']) ?>
     <?php include 'help_block.php' ?>
 <?php endif; ?>
 

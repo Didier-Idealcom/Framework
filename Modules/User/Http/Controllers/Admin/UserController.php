@@ -160,7 +160,12 @@ class UserController extends Controller
      */
     public function datatable(Request $request)
     {
-        return Datatables::of(User::orderBy($request->sort['field'], $request->sort['sort']))
+        if ($request->sort) {
+            $users = User::orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $users = User::all();
+        }
+        return Datatables::of($users)
             ->editColumn('active', function($user) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
