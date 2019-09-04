@@ -6,10 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "dimsav/laravel-translatable": "^9.0",
+        "astrotomic/laravel-translatable": "^11.3",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.4",
-        "inertiajs/inertia-laravel": "^0.1.0",
         "kris/laravel-form-builder": "^1.15",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",

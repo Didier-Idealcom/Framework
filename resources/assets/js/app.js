@@ -1,15 +1,21 @@
-import { InertiaApp } from '@inertiajs/inertia-vue'
-import Vue from 'vue'
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
-Vue.use(InertiaApp)
+require('./bootstrap');
 
-const app = document.getElementById('app')
+window.Vue = require('vue');
 
-new Vue({
-	render: h => h(InertiaApp, {
-		props: {
-			initialPage: JSON.parse(app.dataset.page),
-			resolveComponent: name => import(`@/Pages/${name}`).then(module => module.default)
-		}
-	})
-}).$mount(app)
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+Vue.component('example', require('./components/Example.vue'));
+
+const app = new Vue({
+    el: '#app'
+});

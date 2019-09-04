@@ -1,6 +1,4 @@
 <?php
-use Inertia\Inertia;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,17 +39,3 @@ if (!empty($menuitems)) {
 
 //Route::get('{menuitem}/{actualite}', 'ActualiteController@show');
 //Route::get('{menuitem}/{product}', 'ProductController@show');
-
-Inertia::setRootView('layouts.inertia');
-
-Route::get('/inertia', function () {
-    return Inertia::render('Welcome');
-});
-
-Route::get('/inertia/about', function () {
-    return Inertia::render('About');
-});
-
-Route::get('/inertia/contact', function () {
-    return Inertia::render('Contact');
-});
