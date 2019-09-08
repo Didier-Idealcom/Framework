@@ -1,466 +1,398 @@
-<!-- begin::Quick Sidebar -->
-<div id="m_quick_sidebar" class="m-quick-sidebar m-quick-sidebar--tabbed m-quick-sidebar--skin-light">
-    <div class="m-quick-sidebar__content m--hide">
-        <span id="m_quick_sidebar_close" class="m-quick-sidebar__close">
-            <i class="la la-close"></i>
-        </span>
-        <ul id="m_quick_sidebar_tabs" class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_quick_sidebar_tabs_messenger" role="tab">Messages</a>
+<!-- begin::Quick Panel -->
+<div id="kt_quick_panel" class="kt-quick-panel">
+    <a href="#" class="kt-quick-panel__close" id="kt_quick_panel_close_btn"><i class="flaticon2-delete"></i></a>
+    <div class="kt-quick-panel__nav">
+        <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand  kt-notification-item-padding-x" role="tablist">
+            <li class="nav-item active">
+                <a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_tab_notifications" role="tab">Notifications</a>
             </li>
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_quick_sidebar_tabs_settings" role="tab">Settings</a>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_logs" role="tab">Audit Logs</a>
             </li>
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_quick_sidebar_tabs_logs" role="tab">Logs</a>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_settings" role="tab">Settings</a>
             </li>
         </ul>
+    </div>
+    <div class="kt-quick-panel__content">
         <div class="tab-content">
-            <div class="tab-pane active" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
-                <div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
-                    <div class="m-messenger__messages m-scrollable">
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--in">
-                                <div class="m-messenger__message-pic">
-                                    <img src="{{ themes('app/media/img/users/user3.jpg') }}" alt="" />
-                                </div>
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-username">
-                                            Megan wrote
-                                        </div>
-                                        <div class="m-messenger__message-text">
-                                            Hi Bob. What time will be the meeting ?
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="tab-pane fade show kt-scroll active" id="kt_quick_panel_tab_notifications" role="tabpanel">
+                <div class="kt-notification">
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-line-chart kt-font-success"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New order has been received
+                            </div>
+                            <div class="kt-notification__item-time">
+                                2 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--out">
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-text">
-                                            Hi Megan. It's at 2.30PM
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-box-1 kt-font-brand"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New customer is registered
+                            </div>
+                            <div class="kt-notification__item-time">
+                                3 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--in">
-                                <div class="m-messenger__message-pic">
-                                    <img src="{{ themes('app/media/img/users/user3.jpg') }}" alt="" />
-                                </div>
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-username">
-                                            Megan wrote
-                                        </div>
-                                        <div class="m-messenger__message-text">
-                                            Will the development team be joining ?
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-chart2 kt-font-danger"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                Application has been approved
+                            </div>
+                            <div class="kt-notification__item-time">
+                                3 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--out">
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-text">
-                                            Yes sure. I invited them as well
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-image-file kt-font-warning"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New file has been uploaded
+                            </div>
+                            <div class="kt-notification__item-time">
+                                5 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__datetime">2:30PM</div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--in">
-                                <div class="m-messenger__message-pic">
-                                    <img src="{{ themes('app/media/img/users/user3.jpg') }}" alt="" />
-                                </div>
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-username">
-                                            Megan wrote
-                                        </div>
-                                        <div class="m-messenger__message-text">
-                                            Noted. For the Coca-Cola Mobile App project as well ?
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-drop kt-font-info"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New user feedback received
+                            </div>
+                            <div class="kt-notification__item-time">
+                                8 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--out">
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-text">
-                                            Yes, sure.
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-pie-chart-2 kt-font-success"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                System reboot has been successfully completed
+                            </div>
+                            <div class="kt-notification__item-time">
+                                12 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--out">
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-text">
-                                            Please also prepare the quotation for the Loop CRM project as well.
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-favourite kt-font-danger"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New order has been placed
+                            </div>
+                            <div class="kt-notification__item-time">
+                                15 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__datetime">3:15PM</div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--in">
-                                <div class="m-messenger__message-no-pic m--bg-fill-danger">
-                                    <span>M</span>
-                                </div>
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-username">
-                                            Megan wrote
-                                        </div>
-                                        <div class="m-messenger__message-text">
-                                            Noted. I will prepare it.
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item kt-notification__item--read">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-safe kt-font-primary"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                Company meeting canceled
+                            </div>
+                            <div class="kt-notification__item-time">
+                                19 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--out">
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-text">
-                                            Thanks Megan. I will see you later.
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-psd kt-font-success"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New report has been received
+                            </div>
+                            <div class="kt-notification__item-time">
+                                23 hrs ago
                             </div>
                         </div>
-                        <div class="m-messenger__wrapper">
-                            <div class="m-messenger__message m-messenger__message--in">
-                                <div class="m-messenger__message-pic">
-                                    <img src="{{ themes('app/media/img/users/user3.jpg') }}" alt="" />
-                                </div>
-                                <div class="m-messenger__message-body">
-                                    <div class="m-messenger__message-arrow"></div>
-                                    <div class="m-messenger__message-content">
-                                        <div class="m-messenger__message-username">
-                                            Megan wrote
-                                        </div>
-                                        <div class="m-messenger__message-text">
-                                            Sure. See you in the meeting soon.
-                                        </div>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon-download-1 kt-font-danger"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                Finance report has been generated
+                            </div>
+                            <div class="kt-notification__item-time">
+                                25 hrs ago
                             </div>
                         </div>
-                    </div>
-                    <div class="m-messenger__seperator"></div>
-                    <div class="m-messenger__form">
-                        <div class="m-messenger__form-controls">
-                            <input type="text" name="" placeholder="Type here..." class="m-messenger__form-input">
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon-security kt-font-warning"></i>
                         </div>
-                        <div class="m-messenger__form-tools">
-                            <a href="" class="m-messenger__form-attachment">
-                                <i class="la la-paperclip"></i>
-                            </a>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New customer comment recieved
+                            </div>
+                            <div class="kt-notification__item-time">
+                                2 days ago
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                    <a href="#" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon2-pie-chart kt-font-warning"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                New customer is registered
+                            </div>
+                            <div class="kt-notification__item-time">
+                                3 days ago
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
-            <div class="tab-pane" id="m_quick_sidebar_tabs_settings" role="tabpanel">
-                <div class="m-list-settings m-scrollable">
-                    <div class="m-list-settings__group">
-                        <div class="m-list-settings__heading">General Settings</div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Email Notifications</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+            <div class="tab-pane fade kt-scroll" id="kt_quick_panel_tab_logs" role="tabpanel">
+                <div class="kt-notification-v2">
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon-bell kt-font-brand"></i>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Site Tracking</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                5 new user generated report
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                Reports based on sales
+                            </div>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">SMS Alerts</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon2-box kt-font-danger"></i>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Backup Storage</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                2 new items submited
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                by Grog John
+                            </div>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Audit Logs</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon-psd kt-font-brand"></i>
                         </div>
-                    </div>
-                    <div class="m-list-settings__group">
-                        <div class="m-list-settings__heading">System Settings</div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">System Logs</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                79 PSD files generated
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                Reports based on sales
+                            </div>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Error Reporting</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon2-supermarket kt-font-warning"></i>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Applications Logs</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                $2900 worth producucts sold
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                Total 234 items
+                            </div>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Backup Servers</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" checked="checked" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon-paper-plane-1 kt-font-success"></i>
                         </div>
-                        <div class="m-list-settings__item">
-                            <span class="m-list-settings__item-label">Audit Logs</span>
-                            <span class="m-list-settings__item-control">
-                                <span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
-                                    <label>
-                                        <input type="checkbox" name="">
-                                        <span></span>
-                                    </label>
-                                </span>
-                            </span>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                4.5h-avarage response time
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                Fostest is Barry
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon2-information kt-font-danger"></i>
+                        </div>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                Database server is down
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                10 mins ago
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon2-mail-1 kt-font-brand"></i>
+                        </div>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                System report has been generated
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                Fostest is Barry
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="kt-notification-v2__item">
+                        <div class="kt-notification-v2__item-icon">
+                            <i class="flaticon2-hangouts-logo kt-font-warning"></i>
+                        </div>
+                        <div class="kt-notification-v2__itek-wrapper">
+                            <div class="kt-notification-v2__item-title">
+                                4.5h-avarage response time
+                            </div>
+                            <div class="kt-notification-v2__item-desc">
+                                Fostest is Barry
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
-            <div class="tab-pane" id="m_quick_sidebar_tabs_logs" role="tabpanel">
-                <div class="m-list-timeline m-scrollable">
-                    <div class="m-list-timeline__group">
-                        <div class="m-list-timeline__heading">
-                            System Logs
-                        </div>
-                        <div class="m-list-timeline__items">
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">12 new users registered
-                                    <span class="m-badge m-badge--warning m-badge--wide">important</span>
-                                </a>
-                                <span class="m-list-timeline__time">Just now</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">System shutdown</a>
-                                <span class="m-list-timeline__time">11 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-danger"></span>
-                                <a href="" class="m-list-timeline__text">New invoice received</a>
-                                <span class="m-list-timeline__time">20 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-warning"></span>
-                                <a href="" class="m-list-timeline__text">Database overloaded 89%
-                                    <span class="m-badge m-badge--success m-badge--wide">resolved</span>
-                                </a>
-                                <span class="m-list-timeline__time">1 hr</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">System error</a>
-                                <span class="m-list-timeline__time">2 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">Production server down
-                                    <span class="m-badge m-badge--danger m-badge--wide">pending</span>
-                                </a>
-                                <span class="m-list-timeline__time">3 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">Production server up</a>
-                                <span class="m-list-timeline__time">5 hrs</span>
-                            </div>
+            <div class="tab-pane kt-quick-panel__content-padding-x fade kt-scroll" id="kt_quick_panel_tab_settings" role="tabpanel">
+                <form class="kt-form">
+                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">Customer Care</div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">Enable Notifications:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--success kt-switch--sm">
+                            <label>
+                            <input type="checkbox" checked="checked" name="quick_panel_notifications_1">
+                            <span></span>
+                            </label>
+                            </span>
                         </div>
                     </div>
-                    <div class="m-list-timeline__group">
-                        <div class="m-list-timeline__heading">
-                            Applications Logs
-                        </div>
-                        <div class="m-list-timeline__items">
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">New order received
-                                    <span class="m-badge m-badge--info m-badge--wide">urgent</span>
-                                </a>
-                                <span class="m-list-timeline__time">7 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">12 new users registered</a>
-                                <span class="m-list-timeline__time">Just now</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">System shutdown</a>
-                                <span class="m-list-timeline__time">11 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-danger"></span>
-                                <a href="" class="m-list-timeline__text">New invoices received</a>
-                                <span class="m-list-timeline__time">20 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-warning"></span>
-                                <a href="" class="m-list-timeline__text">Database overloaded 89%</a>
-                                <span class="m-list-timeline__time">1 hr</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">System error
-                                    <span class="m-badge m-badge--info m-badge--wide">pending</span>
-                                </a>
-                                <span class="m-list-timeline__time">2 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">Production server down</a>
-                                <span class="m-list-timeline__time">3 hrs</span>
-                            </div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">Enable Case Tracking:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--success kt-switch--sm">
+                            <label>
+                            <input type="checkbox"  name="quick_panel_notifications_2">
+                            <span></span>
+                            </label>
+                            </span>
                         </div>
                     </div>
-                    <div class="m-list-timeline__group">
-                        <div class="m-list-timeline__heading">
-                            Server Logs
-                        </div>
-                        <div class="m-list-timeline__items">
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">Production server up</a>
-                                <span class="m-list-timeline__time">5 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">New order received</a>
-                                <span class="m-list-timeline__time">7 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">12 new users registered</a>
-                                <span class="m-list-timeline__time">Just now</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">System shutdown</a>
-                                <span class="m-list-timeline__time">11 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-danger"></span>
-                                <a href="" class="m-list-timeline__text">New invoice received</a>
-                                <span class="m-list-timeline__time">20 mins</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-warning"></span>
-                                <a href="" class="m-list-timeline__text">Database overloaded 89%</a>
-                                <span class="m-list-timeline__time">1 hr</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">System error</a>
-                                <span class="m-list-timeline__time">2 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">Production server down</a>
-                                <span class="m-list-timeline__time">3 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-success"></span>
-                                <a href="" class="m-list-timeline__text">Production server up</a>
-                                <span class="m-list-timeline__time">5 hrs</span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-                                <a href="" class="m-list-timeline__text">New order received</a>
-                                <span class="m-list-timeline__time">1117 hrs</span>
-                            </div>
+                    <div class="form-group form-group-last form-group-xs row">
+                        <label class="col-8 col-form-label">Support Portal:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--success kt-switch--sm">
+                            <label>
+                            <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
+                            <span></span>
+                            </label>
+                            </span>
                         </div>
                     </div>
-                </div>
+                    <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
+                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">Reports</div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">Generate Reports:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm kt-switch--danger">
+                            <label>
+                            <input type="checkbox" checked="checked" name="quick_panel_notifications_3">
+                            <span></span>
+                            </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">Enable Report Export:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm kt-switch--danger">
+                            <label>
+                            <input type="checkbox"  name="quick_panel_notifications_3">
+                            <span></span>
+                            </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-last form-group-xs row">
+                        <label class="col-8 col-form-label">Allow Data Collection:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm kt-switch--danger">
+                            <label>
+                            <input type="checkbox" checked="checked" name="quick_panel_notifications_4">
+                            <span></span>
+                            </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
+                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">Memebers</div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">Enable Member singup:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm kt-switch--brand">
+                            <label>
+                            <input type="checkbox" checked="checked" name="quick_panel_notifications_5">
+                            <span></span>
+                            </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-xs row">
+                        <label class="col-8 col-form-label">Allow User Feedbacks:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm kt-switch--brand">
+                            <label>
+                            <input type="checkbox"  name="quick_panel_notifications_5">
+                            <span></span>
+                            </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-last form-group-xs row">
+                        <label class="col-8 col-form-label">Enable Customer Portal:</label>
+                        <div class="col-4 kt-align-right">
+                            <span class="kt-switch kt-switch--sm kt-switch--brand">
+                            <label>
+                            <input type="checkbox" checked="checked" name="quick_panel_notifications_6">
+                            <span></span>
+                            </label>
+                            </span>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<!-- end::Quick Sidebar -->
+<!-- end::Quick Panel -->

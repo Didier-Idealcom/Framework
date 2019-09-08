@@ -1,19 +1,17 @@
 @section('content')
     <!-- begin:: Page -->
-    <div class="m-grid m-grid--hor m-grid--root m-page">
-        @include('partials.header')
+    @include('partials.header-mobile')
 
-        @include('partials.main')
-
-        @include('partials.footer')
-    </div>
+    @include('partials.main')
     <!-- end:: Page -->
 
     @include('partials.aside-right')
 
-    <!-- begin::Scroll Top -->
-    <div id="m_scroll_top" class="m-scroll-top">
-        <i class="la la-arrow-up"></i>
+    @include('partials.sticky-toolbar')
+
+    <!-- begin::Scrolltop -->
+    <div id="kt_scrolltop" class="kt-scrolltop">
+        <i class="fa fa-arrow-up"></i>
     </div>
-    <!-- end::Scroll Top -->
+    <!-- end::Scrolltop -->
 @endsection

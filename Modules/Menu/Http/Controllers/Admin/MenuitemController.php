@@ -154,13 +154,13 @@ class MenuitemController extends Controller
             })
             ->addColumn('actions', function($menuitem) {
                 return '
-                    <a href="' . $menuitem->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <a href="' . $menuitem->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
                         <i class="la la-edit"></i>
                     </a>
                     <form action="' . $menuitem->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="la la-trash"></i></button>
                     </form>
                 ';
             })

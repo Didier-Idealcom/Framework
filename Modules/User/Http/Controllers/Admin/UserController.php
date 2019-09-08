@@ -106,7 +106,7 @@ class UserController extends Controller
     {
         $form = $this->getForm($user);
         $form->getField('role')->setValue($user->roles->pluck('id')->values());
-        return view('user::admin.user_form', compact('form'));
+        return view('user::admin.user_form', compact('form', 'user'));
     }
 
     /**
@@ -175,13 +175,13 @@ class UserController extends Controller
             })
             ->addColumn('actions', function($user) {
                 return '
-                    <a href="' . $user->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <a href="' . $user->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
                         <i class="la la-edit"></i>
                     </a>
                     <form action="' . $user->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" aria-label="Delete"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-label="Delete"><i class="la la-trash"></i></button>
                     </form>
                 ';
             })

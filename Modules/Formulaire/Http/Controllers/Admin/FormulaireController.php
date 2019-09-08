@@ -162,16 +162,16 @@ class FormulaireController extends Controller
             })
             ->addColumn('actions', function($formulaire) {
                 return '
-                    <a href="' . $formulaire->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <a href="' . $formulaire->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
                         <i class="la la-edit"></i>
                     </a>
                     <form action="' . $formulaire->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" aria-label="Delete"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-label="Delete"><i class="la la-trash"></i></button>
                     </form>
                     <div class="dropdown">
-                        <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">
+                        <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
                             <i class="la la-ellipsis-h"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">

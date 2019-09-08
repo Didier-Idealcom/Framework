@@ -148,14 +148,22 @@ class MenuController extends Controller
             })
             ->addColumn('actions', function($menu) {
                 return '
-                    <a href="' . $menu->url_backend->edit . '" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <a href="' . $menu->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
                         <i class="la la-edit"></i>
                     </a>
                     <form action="' . $menu->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="la la-trash"></i></button>
                     </form>
+                    <div class="dropdown">
+                        <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                            <i class="la la-ellipsis-h"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="' . route('admin.menuitems.index', $menu->id) . '"><i class="la la-edit"></i> Menuitems</a>
+                        </div>
+                    </div>
                 ';
             })
             ->escapeColumns(['title'])

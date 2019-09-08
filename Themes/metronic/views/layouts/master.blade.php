@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!--
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 4
-Version: 5.2
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 4 & Angular 8
 Author: KeenThemes
 Website: http://www.keenthemes.com/
 Contact: support@keenthemes.com
@@ -25,16 +24,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!--begin::Web font -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-    <script async>
-        WebFont.load({
-            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,700"]},
-            active: function() {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>-->
+    <!-- begin::Fonts -->
     <script>
         WebFontConfig = {
             google: {
@@ -55,33 +45,69 @@ License: You must have a valid license purchased only from themeforest(the above
             s.parentNode.insertBefore(wf, s);
         })(document);
     </script>
-    <!--<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,700" rel="stylesheet">-->
-    <!--end::Web font -->
+    <!-- end::Fonts -->
 
-    <!--begin::Base Styles -->
-    <link href="{{ themes('vendors/base/vendors.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ themes('demo/default/base/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <!--end::Base Styles -->
+    <!-- begin::Global Theme Styles -->
+    <link href="{{ themes('vendors/global/vendors.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ themes('css/demo1/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <!-- end::Global Theme Styles -->
+
+    <!-- begin::Layout Skins -->
+    <link href="{{ themes('css/demo1/skins/header/base/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ themes('css/demo1/skins/header/menu/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ themes('css/demo1/skins/brand/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ themes('css/demo1/skins/aside/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <!-- end::Layout Skins -->
 
     @stack('styles')
 
-    <link rel="shortcut icon" href="{{ themes('demo/default/media/img/logo/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ themes('media/logos/favicon.ico') }}" />
 </head>
 <!-- end::Head -->
 
 <!-- begin::Body -->
-<body class="m-page--fluid m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-aside--offcanvas-default m-footer--fixed m-footer--push">
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
     @include('layouts.dashboard')
 
     @yield('content')
+
+    <!-- begin::Global Config(global config for global JS sciprts) -->
+    <script>
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#5d78ff",
+                    "dark": "#282a3c",
+                    "light": "#ffffff",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#36a3f7",
+                    "warning": "#ffb822",
+                    "danger": "#fd3995"
+                },
+                "base": {
+                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                }
+            }
+        };
+    </script>
+    <!-- end::Global Config -->
 
     <!--begin::Base Scripts -->
     <script>
         var CKEDITOR_BASEPATH = '/plugins/ckeditor/';
     </script>
-    <script src="{{ themes('vendors/base/vendors.bundle.js') }}" type="text/javascript"></script>
-    <script src="{{ themes('demo/default/base/scripts.bundle.js') }}" type="text/javascript"></script>
     <!--end::Base Scripts -->
+
+    <!--begin::Global Theme Bundle -->
+    <script src="{{ themes('vendors/global/vendors.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ themes('js/demo1/scripts.bundle.js') }}" type="text/javascript"></script>
+    <!--end::Global Theme Bundle -->
+
+    <!--begin::Global Custom Scripts -->
+    <script src="{{ themes('js/demo1/pages/my-script.js') }}" type="text/javascript"></script>
+    <!--end::Global Custom Scripts -->
 
     @stack('scripts')
 </body>

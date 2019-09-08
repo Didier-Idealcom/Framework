@@ -1,42 +1,14 @@
-<!-- begin::Footer -->
-<footer class="m-grid__item m-footer">
-    <div class="m-container m-container--fluid m-container--full-height m-page__container">
-        <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
-            <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
-                <span class="m-footer__copyright">
-                    {{ date('Y') }} &copy; Framework by <a href="https://www.ideal-com.com" class="m-link">Ideal-com</a>
-                </span>
-            </div>
-            <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-                <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
-                    <!--<li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">About</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">Privacy</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">T&amp;C</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">Purchase</span>
-                        </a>
-                    </li>-->
-                    <li class="m-nav__item m-nav__item">
-                        <a href="#" class="m-nav__link" data-toggle="m-tooltip" title="" data-placement="left" data-original-title="Support Center">
-                            <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<!-- begin:: Footer -->
+<div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+    <div class="kt-container  kt-container--fluid ">
+        <div class="kt-footer__copyright">
+            2019&nbsp;&copy;&nbsp;<a href="http://keenthemes.com/metronic" target="_blank" class="kt-link">Keenthemes</a>
+        </div>
+        <div class="kt-footer__menu">
+            <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">About</a>
+            <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Team</a>
+            <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Contact</a>
         </div>
     </div>
-</footer>
-<!-- end::Footer -->
+</div>
+<!-- end:: Footer -->

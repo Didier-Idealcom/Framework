@@ -1,25 +1,21 @@
-<!-- begin::Body -->
-<div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-    <button class="m-aside-left-close m-aside-left-close--skin-dark" id="m_aside_left_close_btn"><i class="la la-close"></i></button>
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+        @include('partials.aside-left')
 
-    @include('partials.aside-left')
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+            @include('partials.header')
 
-    <div class="m-grid__item m-grid__item--fluid m-wrapper">
-        <!-- BEGIN: Subheader -->
-        <div class="m-subheader">
-            <div class="d-flex align-items-center">
-                <div class="mr-auto">
-                    <h1 class="m-subheader__title">@yield('title_page')</h1>
+            <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+                @include('partials.subheader')
 
-                    @yield('breadcrumb')
+                <!-- begin:: Content -->
+                <div class="kt-container kt-container--fluid kt-grid__item kt-grid__item--fluid">
+                    @yield('content_page')
                 </div>
+                <!-- end:: Content -->
             </div>
-        </div>
-        <!-- END: Subheader -->
 
-        <div class="m-content">
-            @yield('content_page')
+            @include('partials.footer')
         </div>
     </div>
 </div>
-<!-- end:: Body -->

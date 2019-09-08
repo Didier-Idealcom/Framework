@@ -3,181 +3,111 @@
 @section('title_page', 'Gestion des permissions')
 
 @section('breadcrumb')
-    <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-        <li class="m-nav__item m-nav__item--home">
-            <a href="{{ route('admin.dashboard') }}" class="m-nav__link m-nav__link--icon">
-               <i class="m-nav__link-icon la la-home"></i>
+    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+    <div class="kt-subheader__breadcrumbs">
+        <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+        <span class="kt-subheader__breadcrumbs-separator"></span>
+        <a href="{{ route('admin.users.index') }}" class="kt-subheader__breadcrumbs-link">Utilisateurs</a>
+        <span class="kt-subheader__breadcrumbs-separator"></span>
+        <a href="{{ route('admin.permissions.index') }}" class="kt-subheader__breadcrumbs-link">Permissions</a>
+    </div>
+@stop
+
+@section('subheader_toolbar')
+    <a href="{{ route('admin.permissions.create') }}" class="btn btn-label-brand btn-bold">Ajouter</a>
+    <div class="kt-subheader__wrapper">
+        <div class="dropdown dropdown-inline" data-toggle="kt-tooltip-" title="Quick actions" data-placement="left">
+            <a href="#" class="btn btn-icon"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <polygon points="0 0 24 0 24 24 0 24"/>
+                        <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                        <path d="M11,14 L9,14 C8.44771525,14 8,13.5522847 8,13 C8,12.4477153 8.44771525,12 9,12 L11,12 L11,10 C11,9.44771525 11.4477153,9 12,9 C12.5522847,9 13,9.44771525 13,10 L13,12 L15,12 C15.5522847,12 16,12.4477153 16,13 C16,13.5522847 15.5522847,14 15,14 L13,14 L13,16 C13,16.5522847 12.5522847,17 12,17 C11.4477153,17 11,16.5522847 11,16 L11,14 Z" fill="#000000"/>
+                    </g>
+                </svg>
+                <!--<i class="flaticon2-plus"></i>-->
             </a>
-        </li>
-        <li class="m-nav__separator">-</li>
-        <li class="m-nav__item">
-            <a href="javascript:;" class="m-nav__link">
-                <span class="m-nav__link-text">Utilisateurs</span>
-            </a>
-        </li>
-        <li class="m-nav__separator">-</li>
-        <li class="m-nav__item">
-            <a href="{{ route('admin.permissions.index') }}" class="m-nav__link">
-                <span class="m-nav__link-text">Rôles</span>
-            </a>
-        </li>
-    </ul>
+            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md dropdown-menu-right">
+                <!--begin::Nav-->
+                <ul class="kt-nav">
+                    <li class="kt-nav__item">
+                        <a href="#" class="kt-nav__link">
+                            <i class="kt-nav__link-icon flaticon2-drop"></i>
+                            <span class="kt-nav__link-text">Importer</span>
+                        </a>
+                    </li>
+                    <li class="kt-nav__item">
+                        <a href="#" class="kt-nav__link">
+                            <i class="kt-nav__link-icon flaticon2-drop"></i>
+                            <span class="kt-nav__link-text">Exporter</span>
+                        </a>
+                    </li>
+                </ul>
+                <!--end::Nav-->
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('content_page')
-    <div class="alert alert-brand alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        <strong>INFO</strong> : This view is loaded from module: {!! config('framework.user.config.name') !!}
+    <div class="alert alert-brand fade show" role="alert">
+        <div class="alert-text">
+            <strong>INFO</strong> : This view is loaded from module: {!! config('framework.user.config.name') !!}
+        </div>
+        <div class="alert-close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="la la-close"></i></span>
+            </button>
+        </div>
     </div>
 
-    <!-- begin: Portlet -->
-    <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <span class="m-portlet__head-icon">
-                        <i class="flaticon-signs-1"></i>
-                    </span>
-                    <h3 class="m-portlet__head-text">Liste des permissions</h3>
-                </div>
-            </div>
-            <div class="m-portlet__head-tools">
-                <ul class="m-portlet__nav">
-                    <li class="m-portlet__nav-item">
-                        <a href="{{ route('admin.permissions.create') }}" class="m-portlet__nav-link btn btn-success m-btn m-btn--pill">
-                            <i class="la la-plus"></i> Ajouter
-                        </a>
-                    </li>
-                    <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
-                        <a href="#" class="m-portlet__nav-link m-dropdown__toggle dropdown-toggle btn btn-brand m-btn m-btn--pill">
-                            <i class="la la-gear"></i> Outils
-                        </a>
-                        <div class="m-dropdown__wrapper">
-                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-                            <div class="m-dropdown__inner">
-                                <div class="m-dropdown__body">
-                                    <div class="m-dropdown__content">
-                                        <ul class="m-nav">
-                                            <li class="m-nav__section m-nav__section--first">
-                                                <span class="m-nav__section-text">Quick Actions</span>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="#" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-up-arrow"></i>
-                                                    <span class="m-nav__link-text">Importer</span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="#" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-download"></i>
-                                                    <span class="m-nav__link-text">Exporter</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="m-portlet__body">
+    <!--begin::Portlet-->
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__body kt-portlet__body--fit">
             @include('partials.flash')
 
             <!--begin: Datatable -->
-            <div class="m_datatable" id="permissions_datatable"></div>
+            <div class="kt-datatable" id="permissions_datatable"></div>
             <!--end: Datatable -->
         </div>
     </div>
-    <!-- end: Portlet -->
+    <!--end::Portlet-->
 @stop
 
 @push('scripts')
+    <!--begin::Page Snippets -->
     <script type="text/javascript">
-        jQuery(document).ready(function() {
-            var datatable = $('#permissions_datatable').mDatatable({
-                // datasource definition
-                data: {
-                    type: 'remote',
-                    source: {
-                        read: {
-                            url: '{!! route('admin.permissions_datatable') !!}',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            map: function(raw) {
-                                // sample data mapping
-                                var dataSet = raw;
-                                if (typeof raw.data !== 'undefined') {
-                                    dataSet = raw.data;
-                                }
-                                return dataSet;
-                            }
-                        }
-                    },
-                    pageSize: 10,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true
-                },
+        // On document ready
+        KTUtil.ready(function() {
+            var target = '#permissions_datatable';
+            var url = '{!! route('admin.permissions_datatable') !!}';
+            var columns = [{
+                field: 'RecordID',
+                title: '#',
+                sortable: false,
+                width: 30,
+                textAlign: 'center',
+                selector: {class: 'm-checkbox--solid m-checkbox--brand'}
+            }, {
+                field: 'id',
+                title: 'ID',
+                width: 50,
+                textAlign: 'center'
+            }, {
+                field: 'name',
+                title: 'Nom'
+            }, {
+                field: 'guard_name',
+                title: 'Guard'
+            }, {
+                field: 'actions',
+                title: 'Actions',
+                width: 100,
+                sortable: false
+            }];
 
-                // layout definition
-                layout: {
-                    scroll: false,
-                    footer: false
-                },
-
-                // column sorting
-                sortable: true,
-
-                pagination: true,
-
-                toolbar: {
-                    // toolbar position
-                    placement: ['top', 'bottom'],
-
-                    // toolbar items
-                    items: {
-                        // pagination
-                        pagination: {
-                            // page size select
-                            pageSizeSelect: [10, 20, 30, 50, 100],
-                        }
-                    }
-                },
-
-                // columns definition
-                columns: [{
-                    field: 'RecordID',
-                    title: '#',
-                    sortable: false,
-                    width: 30,
-                    textAlign: 'center',
-                    selector: {class: 'm-checkbox--solid m-checkbox--brand'}
-                }, {
-                    field: 'id',
-                    title: 'ID',
-                    width: 50,
-                    textAlign: 'center'
-                }, {
-                    field: 'name',
-                    title: 'Nom'
-                }, {
-                    field: 'guard_name',
-                    title: 'Guard'
-                }, {
-                    field: 'actions',
-                    title: 'Actions',
-                    width: 100,
-                    sortable: false
-                }],
-
-                // extentions
-                extensions: {
-                    checkbox: {}
-                }
-            });
+            MyListDatatable.init(target, url, columns);
         });
     </script>
+    <!--end::Page Snippets -->
 @endpush
