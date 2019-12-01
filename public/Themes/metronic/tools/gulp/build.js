@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
+var purgecss = require('gulp-purgecss');
 global.atob = require('atob');
 
 var release = true;
@@ -54,6 +55,21 @@ if (fs.existsSync(__dirname + '/' + confPath)) {
     module.exports = require(confPath);
     module.exports.config.theme = theme;
 }
+
+// remove unused css
+gulp.task('purgecss', function() {
+    return gulp
+        .src('./../assets/**/*.css')
+        .pipe(
+            purgecss({
+                content: ['./../../../Modules/**/*.blade.php', './../../../Themes/**/*.blade.php']
+            })
+        )
+        .pipe(gulp.dest(function (file) {
+            console.log(file);
+            return file.base;
+        }));
+});
 
 // copy core assets
 gulp.task('copy-assets', function(cb) {
