@@ -1,0 +1,9 @@
+compilation metronic :
+dev : gulp build
+prod : gulp --prod
+
+custom metronic :
+js : src/assets/js/theme/pages/my-script.js
+
+seed database :
+php artisan module:seed Core

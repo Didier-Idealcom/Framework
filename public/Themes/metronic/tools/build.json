@@ -340,6 +340,20 @@
                             "fonts": [
                                 "{$config.path.node_modules}/@fortawesome/fontawesome-free/webfonts/**"
                             ]
+                        },
+                        "grapesjs": {
+                            "styles": [
+                                "{$config.path.node_modules}/grapesjs/dist/css/grapes.min.css",
+                                "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/grapesjs/dist/grapes.min.js",
+                                "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
+                                "{$config.path.node_modules}/grapesjs-plugin-ckeditor/dist/grapesjs-plugin-ckeditor.min.js"
+                            ],
+                            "fonts": [
+                                "{$config.path.node_modules}/grapesjs/dist/fonts/**"
+                            ]
                         }
                     }
                 },

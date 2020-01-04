@@ -104,7 +104,7 @@ class RoleController extends Controller
     {
         $form = $this->getForm($role);
         $form->getField('permission')->setValue($role->permissions->pluck('id')->values());
-        return view('user::admin.role_form', compact('form'));
+        return view('user::admin.role_form', compact('form', 'role'));
     }
 
     /**

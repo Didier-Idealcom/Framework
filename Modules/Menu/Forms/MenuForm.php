@@ -18,7 +18,8 @@ class MenuForm extends CoreForm
         }
         $this->formOptions = [
             'method' => $method,
-            'url' => $url
+            'url' => $url,
+            'class' => 'kt-form'
         ];
 
         $this
@@ -28,7 +29,10 @@ class MenuForm extends CoreForm
             ])
             ->add('title', 'text', [
                 'label' => 'Titre',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ]);
+
+        parent::buildForm();
     }
 }

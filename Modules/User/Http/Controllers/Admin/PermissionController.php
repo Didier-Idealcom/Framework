@@ -102,7 +102,7 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         $form = $this->getForm($permission);
-        return view('user::admin.permission_form', compact('form'));
+        return view('user::admin.permission_form', compact('form', 'permission'));
     }
 
     /**

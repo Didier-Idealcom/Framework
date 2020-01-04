@@ -107,7 +107,7 @@ class EmailController extends Controller
     public function edit(Email $email)
     {
         $form = $this->getForm($email);
-        return view('email::admin.form', compact('form'));
+        return view('email::admin.form', compact('form', 'email'));
     }
 
     /**

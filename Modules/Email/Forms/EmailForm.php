@@ -25,7 +25,7 @@ class EmailForm extends CoreForm
         $modules = Module::all();
         $modules_array = array();
         foreach ($modules as $module) {
-            $modules_array[$module->name] = $module->name;
+            $modules_array[$module->getName()] = $module->getName();
         }
 
         $this

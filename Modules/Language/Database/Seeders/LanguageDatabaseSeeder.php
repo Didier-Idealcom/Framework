@@ -5,6 +5,7 @@ namespace Modules\Language\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Modules\Language\Entities\Language;
 
 class LanguageDatabaseSeeder extends Seeder
@@ -18,6 +19,8 @@ class LanguageDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        Schema::disableForeignKeyConstraints();
+        Language::truncate();
         DB::table('languages')->insert([
             [
                 'alpha2' => 'fr',
@@ -55,5 +58,6 @@ class LanguageDatabaseSeeder extends Seeder
                 'format_date_time' => '%d/%m/%Y %H:%i:%s'
             ]
         ]);
+        Schema::disableForeignKeyConstraints();
     }
 }

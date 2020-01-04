@@ -102,7 +102,7 @@ class LanguageController extends Controller
     public function edit(Language $language)
     {
         $form = $this->getForm($language);
-        return view('language::admin.form', compact('form'));
+        return view('language::admin.form', compact('form', 'language'));
     }
 
     /**

@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@babel/runtime@^7.7.1":
+  version "7.7.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.6.tgz#d18c511121aff1b4f2cd1d452f1bac9601dd830f"
+  integrity sha512-BWAJxpNVa0QlE5gZdWjSxXtemZyZ9RmrmVozxt3NUXeZhVIJ5ANyqmMc0JDrivBZyxUuQvFxlvH4OWWOogGfUw==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@fortawesome/fontawesome-free@^5.8.1":
   version "5.10.2"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.10.2.tgz#27e02da1e34b50c9869179d364fb46627b521130"
@@ -987,6 +994,28 @@ bach@^1.0.0:
     async-settle "^1.0.0"
     now-and-later "^2.0.0"
 
+backbone-undo@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/backbone-undo/-/backbone-undo-0.2.5.tgz#55b25230f90319ca622465e89a80248b893c2ce2"
+  integrity sha1-VbJSMPkDGcpiJGXomoAki4k8LOI=
+  dependencies:
+    backbone "1.0.0 - 1.2.1"
+    underscore "1.4.4 - 1.8.3"
+
+"backbone@1.0.0 - 1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.2.1.tgz#d7219c5ed49e5e131dbffaf25c96d6d2cc3ca03e"
+  integrity sha1-1yGcXtSeXhMdv/ryXJbW0sw8oD4=
+  dependencies:
+    underscore ">=1.7.0"
+
+backbone@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.3.3.tgz#4cc80ea7cb1631ac474889ce40f2f8bc683b2999"
+  integrity sha1-TMgOp8sWMaxHSInOQPL4vGg7KZk=
+  dependencies:
+    underscore ">=1.8.3"
+
 backo2@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
@@ -1551,6 +1580,11 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
+cash-dom@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/cash-dom/-/cash-dom-1.3.7.tgz#4e09f98bc7b3339665b48a579b4bb93189ccc3f7"
+  integrity sha512-cWqx3b+8Vh5hvRd87voSW7hxHVhUekGiOUd7iix8fP29cl6TBIInkAqYVSKaL2xeVewS3/kfPnIIC+Xl3nVe/A==
+
 chalk@2.4.2, chalk@^2.3.0, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -1747,6 +1781,16 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
+
+codemirror-formatting@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/codemirror-formatting/-/codemirror-formatting-1.0.0.tgz#879cc1fdd9018343c1d5511769ce5360d705ebf2"
+  integrity sha1-h5zB/dkBg0PB1VEXac5TYNcF6/I=
+
+codemirror@^5.49.2:
+  version "5.49.2"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.49.2.tgz#c84fdaf11b19803f828b0c67060c7bc6d154ccad"
+  integrity sha512-dwJ2HRPHm8w51WB5YTF9J7m6Z5dtkqbU9ntMZ1dqXyFB9IpjoUFDj80ahRVEoVanfIp6pfASJbOlbWdEf8FOzQ==
 
 collection-map@^1.0.0:
   version "1.0.0"
@@ -3462,6 +3506,11 @@ file-loader@^3.0.1:
     loader-utils "^1.0.2"
     schema-utils "^1.0.0"
 
+file-saver@^1.3.2:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-1.3.8.tgz#e68a30c7cb044e2fb362b428469feb291c2e09d8"
+  integrity sha512-spKHSBQIxxS81N/O21WmuXA2F6wppUCsutpzenOeZzOCCJ5gEfcbqJP983IrpLXzYmXnMUa6J03SubcNPdKrlg==
+
 fill-range@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
@@ -3913,6 +3962,78 @@ graceful-fs@4.X, graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.15, g
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
   integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
+
+grapesjs-aviary@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/grapesjs-aviary/-/grapesjs-aviary-0.1.2.tgz#330e7de5ad8ba5fca4dea06adba94372a8d4b487"
+  integrity sha512-F7sYQWj5s9eyUqoOX6q1z2J06AqgXhQqdjQhM8b5BptxlbDsvDTCbqSRmLGkEQKaIF1ca5o9FFi9eKBeUAfLEw==
+
+grapesjs-blocks-basic@^0.1.7:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/grapesjs-blocks-basic/-/grapesjs-blocks-basic-0.1.8.tgz#9eab7c8fd7bc30537143677320b07d85b9bd2e8f"
+  integrity sha512-Iy5M4qGkEE2llb5ZFxitDolRJ3CrQkcK1SQIjRRlkWIAC99On3T/09iFR7NkpTBfsgfdNwcwnSVOMOhSnVLDtw==
+
+grapesjs-component-countdown@^0.1.2:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/grapesjs-component-countdown/-/grapesjs-component-countdown-0.1.3.tgz#7df54b2a6c0bdf3275370f974ac9bd732188aae3"
+  integrity sha512-TmxDETedUDv1jGqNLn6E768iyp+xAK/XcTId5WpLrmKPFB6aCuWqfTowhtSvyRJJs83OAFMiQIwIu+tEtSWOeA==
+
+grapesjs-navbar@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/grapesjs-navbar/-/grapesjs-navbar-0.1.5.tgz#62e35eca0f391f94d455e96c206b74b5f495fa6e"
+  integrity sha512-tVKPtzlTUNCpzk3lHW69II2NsSzLNQd3K32CXssWCP3M1V8fvc9jG/MQECBkd/gMS+DjldD4/4b00ri9F3tKSg==
+
+grapesjs-plugin-ckeditor@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/grapesjs-plugin-ckeditor/-/grapesjs-plugin-ckeditor-0.0.9.tgz#230057099ce595409f24d2e11cf4ed345c83a360"
+  integrity sha512-QXyAcSwgi09pzigGVS/NsHag5Skuw4zTkVGmEiBN/Qi8KU12/cQBG/OjAcjAB3/ZpToyPoglI33Ydjgj2nJuxQ==
+
+grapesjs-plugin-export@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/grapesjs-plugin-export/-/grapesjs-plugin-export-0.1.5.tgz#968631d8d22abdd1d05f14fa30ad86105690ce23"
+  integrity sha512-BgvPY68vIDxVv0Z3v1TTikHseMxbfvUvhk5qUHq3a9kFmc2sFfNA6f5NHP9A4v3Tnd4kuwOd2aIn+QNutZrLRg==
+  dependencies:
+    file-saver "^1.3.2"
+    jszip "^3.0.0"
+
+grapesjs-plugin-filestack@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/grapesjs-plugin-filestack/-/grapesjs-plugin-filestack-0.1.1.tgz#690d8b532fab6e01d614d1ab288da0086b748972"
+  integrity sha512-zRwgHUZd7qDVk92dtizOHxnPiCjBBmsA2BHm0J86tz8uiXf6ou0OoQiB4x4UDewb9ipTkBI6X5nGh/0YET6WLw==
+
+grapesjs-plugin-forms@^0.3.5:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/grapesjs-plugin-forms/-/grapesjs-plugin-forms-0.3.6.tgz#c55ee38ad74e2935e1e279deb0bca45ec0b1d301"
+  integrity sha512-JGIxky3if7FLlXBDuX2T2UoWQnvm55PcNp5P2qoX64zlA0+2npz9zbPcj9g1PUHXVPlTXwTr2qu5x3U/pb+xdw==
+
+grapesjs-preset-webpage@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/grapesjs-preset-webpage/-/grapesjs-preset-webpage-0.1.11.tgz#98dc9c0019683119b7bbb6d4f3b404aee286af6f"
+  integrity sha512-36SuSPwu3a09R6YR31Sklmowz/LvzxzGM74WcPd8KPwbs1mAQ4fFuqWKkX/wv8+GhY58Se9EO42yQVMwsZzELA==
+  dependencies:
+    grapesjs-aviary "^0.1.2"
+    grapesjs-blocks-basic "^0.1.7"
+    grapesjs-component-countdown "^0.1.2"
+    grapesjs-navbar "^0.1.5"
+    grapesjs-plugin-export "^0.1.5"
+    grapesjs-plugin-filestack "^0.1.1"
+    grapesjs-plugin-forms "^0.3.5"
+
+grapesjs@^0.15.9:
+  version "0.15.9"
+  resolved "https://registry.yarnpkg.com/grapesjs/-/grapesjs-0.15.9.tgz#1c0267a257b9708c78ea37625936853fc9de8cc0"
+  integrity sha512-0JZC4wrGX0x/cisYnpSva84YWCt5jzuCgFKRqRFMQb+02A3Y+IAt6zgI5c12B+edDq9ZmKEN6EROrOND1MfvYg==
+  dependencies:
+    "@babel/runtime" "^7.7.1"
+    backbone "1.3.3"
+    backbone-undo "^0.2.5"
+    cash-dom "^1.3.7"
+    codemirror "^5.49.2"
+    codemirror-formatting "^1.0.0"
+    keymaster "^1.6.2"
+    promise-polyfill "^8.1.3"
+    spectrum-colorpicker "^1.8.0"
+    underscore "^1.9.1"
 
 gulp-autoprefixer@^6.0.0:
   version "6.1.0"
@@ -5073,7 +5194,7 @@ jstree@^3.3.8:
   dependencies:
     jquery ">=1.9.1"
 
-jszip@^3.1.5:
+jszip@^3.0.0, jszip@^3.1.5:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
   integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
@@ -5087,6 +5208,11 @@ just-debounce@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/just-debounce/-/just-debounce-1.0.0.tgz#87fccfaeffc0b68cd19d55f6722943f929ea35ea"
   integrity sha1-h/zPrv/AtozRnVX2cilD+SnqNeo=
+
+keymaster@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/keymaster/-/keymaster-1.6.2.tgz#e1ae54d0ea9488f9f60b66b668f02e9a1946c6eb"
+  integrity sha1-4a5U0OqUiPn2C2a2aPAumhlGxus=
 
 killable@^1.0.1:
   version "1.0.1"
@@ -7061,6 +7187,11 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
+promise-polyfill@^8.1.3:
+  version "8.1.3"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-8.1.3.tgz#8c99b3cf53f3a91c68226ffde7bde81d7f904116"
+  integrity sha512-MG5r82wBzh7pSKDRa9y+vllNHz3e3d4CNj1PQE4BQYxLme0gKYYBm9YENq+UkEikyZ0XbiGWxYlVw3Rl9O/U8g==
+
 proper-lockfile@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/proper-lockfile/-/proper-lockfile-2.0.1.tgz#159fb06193d32003f4b3691dd2ec1a634aa80d1d"
@@ -7360,6 +7491,11 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+
+regenerator-runtime@^0.13.2:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
+  integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
@@ -8090,6 +8226,11 @@ spdy@^4.0.1:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
+spectrum-colorpicker@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/spectrum-colorpicker/-/spectrum-colorpicker-1.8.0.tgz#b926cf5002c0a77860b5f8351e1c093c65200107"
+  integrity sha1-uSbPUALAp3hgtfg1HhwJPGUgAQc=
+
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
@@ -8800,7 +8941,12 @@ unc-path-regex@^0.1.2:
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
   integrity sha1-5z3T17DXxe2G+6xrCufYxqadUPo=
 
-underscore@^1.8.3:
+"underscore@1.4.4 - 1.8.3":
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
+  integrity sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
+
+underscore@>=1.7.0, underscore@>=1.8.3, underscore@^1.8.3, underscore@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
   integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==

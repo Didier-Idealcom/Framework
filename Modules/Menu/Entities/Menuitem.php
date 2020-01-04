@@ -37,4 +37,12 @@ class Menuitem extends Model
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
+
+    /**
+     * Get the Menu record associated with the Menuitem.
+     */
+    public function menu()
+    {
+        return $this->belongsTo('Modules\Menu\Entities\Menu');
+    }
 }

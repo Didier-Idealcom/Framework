@@ -17,10 +17,9 @@ class PageForm extends CoreForm
             $method = 'POST';
         }
         $this->formOptions = [
-            'class' => 'm-form',
-            'id' => 'm_form',
             'method' => $method,
-            'url' => $url
+            'url' => $url,
+            'class' => 'kt-form'
         ];
 
         $this

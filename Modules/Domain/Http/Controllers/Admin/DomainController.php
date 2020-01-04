@@ -102,7 +102,7 @@ class DomainController extends Controller
     public function edit(Domain $domain)
     {
         $form = $this->getForm($domain);
-        return view('domain::admin.form', compact('form'));
+        return view('domain::admin.form', compact('form', 'domain'));
     }
 
     /**

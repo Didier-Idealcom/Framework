@@ -4,8 +4,7 @@ namespace Modules\Menu\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-//use Illuminate\Routing\Controller;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
@@ -107,7 +106,8 @@ class MenuitemController extends Controller
     public function edit(Menuitem $menuitem)
     {
         $form = $this->getForm($menuitem);
-        return view('menu::admin.menuitem_form', compact('form', 'menuitem'));
+        $menu = $menuitem->menu;
+        return view('menu::admin.menuitem_form', compact('form', 'menu', 'menuitem'));
     }
 
     /**

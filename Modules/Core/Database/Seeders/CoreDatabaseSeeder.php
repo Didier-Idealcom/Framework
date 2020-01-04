@@ -4,6 +4,9 @@ namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
+use Modules\Menu\Database\Seeders\MenuDatabaseSeeder;
+use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
 class CoreDatabaseSeeder extends Seeder
 {
@@ -16,6 +19,10 @@ class CoreDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call([
+            //LanguageDatabaseSeeder::class,
+            MenuDatabaseSeeder::class,
+            //UserDatabaseSeeder::class,
+        ]);
     }
 }

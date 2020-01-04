@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@if (isset($user))
+@if (isset($domain))
     @section('title_page', 'Edition du domaine')
     @section('breadcrumb')
         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
@@ -46,24 +46,37 @@
 @stop
 
 @section('content_page')
-    {!! form_start($form) !!}
     <!-- begin: Portlet -->
-    <div class="kt-portlet">
+    <div class="kt-portlet kt-portlet--tabs">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-toolbar">
+                <ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab">Fiche détail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:;">Langues</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="kt-portlet__body">
             @include('partials.flash')
 
             <!-- begin: Form -->
+            {!! form_start($form) !!}
             {{-- form($form) --}}
             {!! form_rest($form) !!}
+
+            <div class="d-none">
+                <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
+                <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
+                <button type="submit" name="save" id="save_close" value="save_close">Save &amp; Close</button>
+            </div>
+            {!! form_end($form, false) !!}
             <!-- end: Form -->
         </div>
     </div>
     <!-- end: Portlet -->
-
-    <div class="d-none">
-        <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
-        <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
-        <button type="submit" name="save" id="save_close" value="save_close">Save &amp; Close</button>
-    </div>
-    {!! form_end($form, false) !!}
 @stop

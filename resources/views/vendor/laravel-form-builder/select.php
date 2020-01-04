@@ -1,4 +1,4 @@
-<?php if ($options['multiple']): ?>
+<?php if (isset($options['multiple']) && $options['multiple']): ?>
 <?php $options['attr']['name'] = $name; ?>
 <?php endif; ?>
 

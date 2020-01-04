@@ -20,7 +20,8 @@ class RoleForm extends CoreForm
         }
         $this->formOptions = [
             'method' => $method,
-            'url' => $url
+            'url' => $url,
+            'class' => 'kt-form'
         ];
 
         $this

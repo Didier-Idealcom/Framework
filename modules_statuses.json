@@ -1,0 +1,13 @@
+{
+    "Cart": true,
+    "Core": true,
+    "Dashboard": true,
+    "Domain": true,
+    "Email": true,
+    "Formulaire": true,
+    "Language": true,
+    "Menu": true,
+    "Page": true,
+    "Product": true,
+    "User": true
+}

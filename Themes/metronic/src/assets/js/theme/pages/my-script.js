@@ -85,8 +85,26 @@ var MyListDatatable = function() {
 
 // On document ready
 KTUtil.ready(function() {
+    // Shortcut save button
     $('.my-link__save').on('click', function(e) {
         e.preventDefault();
         $($(this).attr('href')).trigger('click');
+    });
+
+    // Change language
+    var lang = 'fr';
+    $('.input-multilangue').not('.lang-' + lang).parents('.form-group').hide();
+    $('.lang-change[data-lang="' + lang + '"]').addClass('active');
+
+    $('.lang-change').on('click', function(e) {
+        e.preventDefault();
+
+        if (!$(this).hasClass('active')) {
+            var data_lang = $(this).data('lang');
+            $('.input-multilangue').parents('.form-group').hide();
+            $('.input-multilangue.lang-' + data_lang).parents('.form-group').fadeIn();
+            $('.lang-change').removeClass('active');
+            $('.lang-change[data-lang="' + data_lang + '"]').addClass('active');
+        }
     });
 });

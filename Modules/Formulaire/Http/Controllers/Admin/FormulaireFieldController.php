@@ -4,8 +4,7 @@ namespace Modules\Formulaire\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-//use Illuminate\Routing\Controller;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
@@ -107,7 +106,8 @@ class FormulaireFieldController extends Controller
     public function edit(FormulaireField $formulaire_field)
     {
         $form = $this->getForm($formulaire_field);
-        return view('formulaire::admin.formulaire_field_form', compact('form', 'formulaire_field'));
+        $formulaire = $formulaire_field->formulaire;
+        return view('formulaire::admin.formulaire_field_form', compact('form', 'formulaire', 'formulaire_field'));
     }
 
     /**

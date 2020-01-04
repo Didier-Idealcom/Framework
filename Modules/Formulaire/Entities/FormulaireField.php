@@ -37,4 +37,12 @@ class FormulaireField extends Model
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
+
+    /**
+     * Get the Formulaire record associated with the FormulaireField.
+     */
+    public function formulaire()
+    {
+        return $this->belongsTo('Modules\Formulaire\Entities\Formulaire');
+    }
 }

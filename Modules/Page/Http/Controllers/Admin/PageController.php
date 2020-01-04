@@ -103,7 +103,7 @@ class PageController extends Controller
     public function edit(Page $page)
     {
         $form = $this->getForm($page);
-        return view('page::admin.form', compact('form'));
+        return view('page::admin.form', compact('form', 'page'));
     }
 
     /**

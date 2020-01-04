@@ -12,22 +12,30 @@ class MenuitemForm extends CoreForm
         if ($this->getModel() && $this->getModel()->id) {
             $url = route('admin.menuitems.update', $this->getModel()->id);
             $method = 'PUT';
+            $menu_id = $this->getModel()->menu_id;
         } else {
             $url = route('admin.menuitems.store');
             $method = 'POST';
+            $menu = $this->getRequest()->route()->parameter('menu');
+            $menu_id = $menu->id;
         }
         $this->formOptions = [
             'method' => $method,
-            'url' => $url
+            'url' => $url,
+            'class' => 'kt-form'
         ];
 
         $this
-            ->add('menu_id', 'entity', [
+            /*->add('menu_id', 'entity', [
                 'label' => 'Menu',
                 'rules' => 'required',
                 'class' => 'Modules\Menu\Entities\MenuTranslation',
                 'property_key' => 'menu_id',
                 'property' => 'title'
+            ])*/
+            ->add('menu_id', 'hidden', [
+                'rules' => 'required',
+                'default_value' => $menu_id
             ])
             ->add('title_menu', 'text', [
                 'label' => 'Titre menu',

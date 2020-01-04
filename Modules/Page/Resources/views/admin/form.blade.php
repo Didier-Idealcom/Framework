@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@if (isset($user))
+@if (isset($page))
     @section('title_page', 'Edition de la page')
     @section('breadcrumb')
         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
@@ -46,47 +46,32 @@
 @stop
 
 @section('content_page')
-    {!! form_start($form) !!}
     <!-- begin: Portlet -->
     <div class="kt-portlet">
         <div class="kt-portlet__body">
             @include('partials.flash')
 
             <!-- begin: Form -->
+            {!! form_start($form) !!}
             {{-- form($form) --}}
             {!! form_rest($form) !!}
+
+            <div class="d-none">
+                <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
+                <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
+                <button type="submit" name="save" id="save_close" value="save_close">Save &amp; Close</button>
+            </div>
+            {!! form_end($form, false) !!}
             <!-- end: Form -->
         </div>
     </div>
     <!-- end: Portlet -->
-
-    <div class="d-none">
-        <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
-        <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
-        <button type="submit" name="save" id="save_close" value="save_close">Save &amp; Close</button>
-    </div>
-    {!! form_end($form, false) !!}
 @stop
 
 @push('scripts')
+    <script src="//cdn.ckeditor.com/4.8.0/full-all/ckeditor.js" type="text/javascript"></script>
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            var lang = 'fr';
-            $('.input-multilangue').not('.lang-' + lang).parents('.form-group').hide();
-            $('.lang-change[data-lang="' + lang + '"]').addClass('active');
-
-            $('.lang-change').on('click', function(e) {
-                e.preventDefault();
-
-                if (!$(this).hasClass('active')) {
-                    var data_lang = $(this).data('lang');
-                    $('.input-multilangue').parents('.form-group').hide();
-                    $('.input-multilangue.lang-' + data_lang).parents('.form-group').fadeIn();
-                    $('.lang-change').removeClass('active');
-                    $('.lang-change[data-lang="' + data_lang + '"]').addClass('active');
-                }
-            });
-
             $('.grapesjs_container').each(function() {
                 var grapesjs_container = $(this);
                 var editor = grapesjs.init({
