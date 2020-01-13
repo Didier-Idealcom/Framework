@@ -21,14 +21,17 @@ class UserDatabaseSeeder extends Seeder
 
         Schema::disableForeignKeyConstraints();
         User::truncate();
-        DB::table('languages')->insert([
+        DB::table('users')->insert([
             [
                 'name' => 'Didier Largeron',
                 'email' => 'd.largeron@ideal-com.com',
-                'password' => Hash::make('laravel')
+                'password' => bcrypt('laravel'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'email_verified_at' => now()
             ]
         ]);
-        //factory(User::class, 50)->create();
+        factory(User::class, 50)->create();
         Schema::disableForeignKeyConstraints();
     }
 }

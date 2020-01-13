@@ -10,6 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Formulaire\Entities\Formulaire;
 use Modules\Formulaire\Forms\FormulaireForm;
+use Modules\Formulaire\Forms\FormulairePreviewForm;
 use Modules\Core\Repositories\CoreRepository;
 
 class FormulaireController extends Controller
@@ -39,7 +40,7 @@ class FormulaireController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Formulaire|null $formulaire
+     * @param  Formulaire|null $formulaire
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Formulaire $formulaire = null)
@@ -79,24 +80,27 @@ class FormulaireController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $formulaire = $this->repository->create($request->all());
+
         Session::flash('success', 'Le formulaire a été créé avec succès');
         return redirect()->route('admin.formulaires.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Formulaire $formulaire
      * @return Response
      */
-    public function show($id)
+    public function show(Formulaire $formulaire)
     {
-        $formulaire = $this->repository->find($id);
-        return view('formulaire::admin.formulaire_show', compact('formulaire'));
+        $form = $this->formBuilder->create(FormulairePreviewForm::class, [
+            'model' => $formulaire
+        ]);
+        return view('formulaire::admin.formulaire_show', compact('formulaire', 'form'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Formulaire $formulaire
+     * @param  Formulaire $formulaire
      * @return Response
      */
     public function edit(Formulaire $formulaire)
@@ -108,14 +112,14 @@ class FormulaireController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Formulaire $formulaire
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Formulaire $formulaire)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($formulaire);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($formulaire->id, $request->all());
 
         Session::flash('success', 'Le formulaire a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -128,21 +132,21 @@ class FormulaireController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Formulaire $formulaire
      */
-    public function active($id)
+    public function active(Formulaire $formulaire)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($formulaire->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Formulaire $formulaire
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Formulaire $formulaire)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($formulaire->id);
         return redirect()->back();
     }
 
@@ -158,7 +162,7 @@ class FormulaireController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $formulaire->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $formulaire->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.formulaires_active', ['id' => $formulaire->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($formulaire->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.formulaires_active', ['formulaire' => $formulaire->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($formulaire->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($formulaire) {
                 return '
@@ -176,6 +180,7 @@ class FormulaireController extends Controller
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="' . route('admin.formulaires_fields.index', $formulaire->id) . '"><i class="la la-edit"></i> Champs</a>
+                            <a class="dropdown-item" href="' . $formulaire->url_backend->show . '"><i class="la la-eye"></i> Preview</a>
                         </div>
                     </div>
                 ';

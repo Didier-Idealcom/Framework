@@ -40,7 +40,7 @@ class EmailController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Email|null $email
+     * @param  Email|null $email
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Email $email = null)
@@ -90,18 +90,17 @@ class EmailController extends Controller
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Email $email
      * @return Response
      */
-    public function show($id)
+    public function show(Email $email)
     {
-        $email = $this->repository->find($id);
         return view('email::admin.show', compact('email'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Email $email
+     * @param  Email $email
      * @return Response
      */
     public function edit(Email $email)
@@ -113,14 +112,14 @@ class EmailController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Email $email
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Email $email)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($email);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($email->id, $request->all());
 
         Session::flash('success', 'L\'e-mail a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -133,21 +132,21 @@ class EmailController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Email $email
      */
-    public function active($id)
+    public function active(Email $email)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($email->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Email $email
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Email $email)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($email->id);
         return redirect()->back();
     }
 
@@ -163,7 +162,7 @@ class EmailController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $email->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $email->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.emails_active', ['id' => $email->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($email->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.emails_active', ['email' => $email->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($email->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($email) {
                 return '

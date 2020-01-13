@@ -20,9 +20,9 @@ class CoreDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
-            //LanguageDatabaseSeeder::class,
+            LanguageDatabaseSeeder::class,
             MenuDatabaseSeeder::class,
-            //UserDatabaseSeeder::class,
+            UserDatabaseSeeder::class,
         ]);
     }
 }

@@ -1,1 +1,4 @@
-- check extend Controller
+OK - convertir paramètre id dans tous les controleurs
+OK - aligner texte phpdoc dans tous les controleurs
+OK - ajouter paramètre getForm méthode update dans tous les controleurs
+- ajouter champ active table users

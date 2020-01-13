@@ -16,8 +16,12 @@ class MenuitemForm extends CoreForm
         } else {
             $url = route('admin.menuitems.store');
             $method = 'POST';
-            $menu = $this->getRequest()->route()->parameter('menu');
-            $menu_id = $menu->id;
+            if ($this->getRequest()->get('menu_id')) {
+                $menu_id = $this->getRequest()->get('menu_id');
+            } else {
+                $menu = $this->getRequest()->route()->parameter('menu');
+                $menu_id = $menu->id;
+            }
         }
         $this->formOptions = [
             'method' => $method,
@@ -39,11 +43,13 @@ class MenuitemForm extends CoreForm
             ])
             ->add('title_menu', 'text', [
                 'label' => 'Titre menu',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ])
             ->add('title_page', 'text', [
                 'label' => 'Titre page',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ])
             ->add('gabarit', 'select', [
                 'label' => 'Gabarit',
@@ -53,7 +59,8 @@ class MenuitemForm extends CoreForm
             ])
             ->add('link', 'url', [
                 'label' => 'Lien',
-                'rules' => ''
+                'rules' => '',
+                'translatable' => true
             ])
             ->add('target', 'select', [
                 'label' => 'Cible',
@@ -79,5 +86,7 @@ class MenuitemForm extends CoreForm
                 'choices' => ['submenu' => 'Petit', 'big_submenu' => 'Grand'],
                 'selected' => 'submenu'
             ]);
+
+        parent::buildForm();
     }
 }

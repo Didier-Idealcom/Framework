@@ -59,5 +59,7 @@ class DomainForm extends CoreForm
                 'label' => 'Message maintenance',
                 'rules' => ''
             ]);
+
+        parent::buildForm();
     }
 }

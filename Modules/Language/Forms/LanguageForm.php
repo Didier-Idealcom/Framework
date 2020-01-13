@@ -43,5 +43,7 @@ class LanguageForm extends CoreForm
                 'label' => 'Format date time',
                 'rules' => 'required'
             ]);
+
+        parent::buildForm();
     }
 }

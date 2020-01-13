@@ -40,5 +40,7 @@ class RoleForm extends CoreForm
                 'multiple' => true,
                 'class' => 'Modules\User\Entities\Permission'
             ]);
+
+        parent::buildForm();
     }
 }

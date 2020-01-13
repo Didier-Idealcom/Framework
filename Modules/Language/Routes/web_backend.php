@@ -12,5 +12,5 @@
 */
 
 Route::post('languages/datatable', 'LanguageController@datatable')->name('languages_datatable');
-Route::get('languages/{id}/active', 'LanguageController@active')->name('languages_active');
+Route::get('languages/{language}/active', 'LanguageController@active')->name('languages_active');
 Route::resource('languages', 'LanguageController');

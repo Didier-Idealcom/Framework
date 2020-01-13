@@ -29,15 +29,19 @@ class FormulaireForm extends CoreForm
             ])
             ->add('title', 'text', [
                 'label' => 'Titre',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ])
             ->add('resume', 'textarea', [
                 'label' => 'Accroche',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ])
             ->add('tracking', 'textarea', [
                 'label' => 'Code de tracking',
                 'rules' => ''
             ]);
+
+        parent::buildForm();
     }
 }

@@ -42,7 +42,7 @@ class UserController extends Controller
 
     /**
      * Return the formBuilder
-     * @param User|null $user
+     * @param  User|null $user
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?User $user = null)
@@ -82,24 +82,24 @@ class UserController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $user = $this->repository->create($request->all());
+
         Session::flash('success', 'L\'utilisateur a été créé avec succès');
         return redirect()->route('admin.users.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  User $user
      * @return Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = $this->repository->find($id);
         return view('user::admin.user_show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param User $user
+     * @param  User $user
      * @return Response
      */
     public function edit(User $user)
@@ -112,16 +112,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  User $user
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($user);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($user->id, $request->all());
 
-        $user = $this->repository->find($id);
         $user->syncRoles($request->has('role') ? Role::whereIn('id', $request->get('role'))->get() : []);
 
         Session::flash('success', 'L\'utilisateur a été enregistré avec succès');
@@ -135,21 +134,21 @@ class UserController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param User $user
      */
-    public function active($id)
+    public function active(User $user)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($user->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  User $user
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($user->id);
         return redirect()->back();
     }
 
@@ -171,7 +170,7 @@ class UserController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $user->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $user->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.users_active', ['id' => $user->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($user->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.users_active', ['user' => $user->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($user->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($user) {
                 return '

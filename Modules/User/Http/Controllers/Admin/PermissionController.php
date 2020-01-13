@@ -39,7 +39,7 @@ class PermissionController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Permission|null $permission
+     * @param  Permission|null $permission
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Permission $permission = null)
@@ -79,24 +79,24 @@ class PermissionController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $permission = $this->repository->create($request->all());
+
         Session::flash('success', 'La permission a été créée avec succès');
         return redirect()->route('admin.permissions.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Permission $permission
      * @return Response
      */
-    public function show($id)
+    public function show(Permission $permission)
     {
-        $permission = $this->repository->find($id);
         return view('user::admin.permission_show', compact('permission'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Permission $permission
+     * @param  Permission $permission
      * @return Response
      */
     public function edit(Permission $permission)
@@ -108,14 +108,15 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Permission $permission
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Permission $permission)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($permission);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($permission->id, $request->all());
+
         Session::flash('success', 'La permission a été enregistrée avec succès');
         if ($request->get('save') == 'save_new') {
             return redirect()->route('admin.permissions.create');
@@ -127,21 +128,21 @@ class PermissionController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Permission $permission
      */
-    public function active($id)
+    public function active(Permission $permission)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($permission->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Permission $permission
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($permission->id);
         return redirect()->back();
     }
 

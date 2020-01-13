@@ -39,7 +39,7 @@ class DomainController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Domain|null $domain
+     * @param  Domain|null $domain
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Domain $domain = null)
@@ -79,24 +79,24 @@ class DomainController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $domain = $this->repository->create($request->all());
+
         Session::flash('success', 'Le domaine a été créé avec succès');
         return redirect()->route('admin.domains.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Domain $domain
      * @return Response
      */
-    public function show($id)
+    public function show(Domain $domain)
     {
-        $domain = $this->repository->find($id);
         return view('domain::admin.show', compact('domain'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Domain $domain
+     * @param  Domain $domain
      * @return Response
      */
     public function edit(Domain $domain)
@@ -108,14 +108,14 @@ class DomainController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Domain $domain
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Domain $domain)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($domain);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($domain->id, $request->all());
 
         Session::flash('success', 'Le domaine a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -128,21 +128,21 @@ class DomainController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Domain $domain
      */
-    public function active($id)
+    public function active(Domain $domain)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($domain->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Domain $domain
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Domain $domain)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($domain->id);
         return redirect()->back();
     }
 
@@ -158,7 +158,7 @@ class DomainController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $domain->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $domain->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.domains_active', ['id' => $domain->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($domain->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.domains_active', ['domain' => $domain->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($domain->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($domain) {
                 return '

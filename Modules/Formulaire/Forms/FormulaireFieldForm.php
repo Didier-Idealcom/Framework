@@ -16,8 +16,12 @@ class FormulaireFieldForm extends CoreForm
         } else {
             $url = route('admin.formulaires_fields.store');
             $method = 'POST';
-            $formulaire = $this->getRequest()->route()->parameter('formulaire');
-            $formulaire_id = $formulaire->id;
+            if ($this->getRequest()->get('formulaire_id')) {
+                $formulaire_id = $this->getRequest()->get('formulaire_id');
+            } else {
+                $formulaire = $this->getRequest()->route()->parameter('formulaire');
+                $formulaire_id = $formulaire->id;
+            }
         }
         $this->formOptions = [
             'method' => $method,
@@ -47,23 +51,30 @@ class FormulaireFieldForm extends CoreForm
             ])
             ->add('label_admin', 'text', [
                 'label' => 'Label admin',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ])
             ->add('label_front', 'text', [
                 'label' => 'Label front',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ])
             ->add('placeholder', 'text', [
                 'label' => 'Placeholder',
-                'rules' => ''
+                'rules' => '',
+                'translatable' => true
             ])
             ->add('help', 'text', [
                 'label' => 'Aide',
-                'rules' => ''
+                'rules' => '',
+                'translatable' => true
             ])
             ->add('error', 'text', [
                 'label' => 'Erreur',
-                'rules' => 'required'
+                'rules' => 'required',
+                'translatable' => true
             ]);
+
+        parent::buildForm();
     }
 }

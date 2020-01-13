@@ -5,5 +5,10 @@ prod : gulp --prod
 custom metronic :
 js : src/assets/js/theme/pages/my-script.js
 
-seed database :
+interface de commandes heroku :
+heroku run bash
+php artisan tinker
+
+création de la base de données :
+php artisan migrate
 php artisan module:seed Core

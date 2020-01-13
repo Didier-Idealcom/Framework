@@ -41,7 +41,7 @@ class FormulaireFieldController extends Controller
 
     /**
      * Return the formBuilder
-     * @param FormulaireField|null $formulaire_field
+     * @param  FormulaireField|null $formulaire_field
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?FormulaireField $formulaire_field = null)
@@ -54,7 +54,7 @@ class FormulaireFieldController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param Formulaire $formulaire
+     * @param  Formulaire $formulaire
      * @return Response
      */
     public function index(Formulaire $formulaire)
@@ -64,7 +64,7 @@ class FormulaireFieldController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param Formulaire $formulaire
+     * @param  Formulaire $formulaire
      * @return Response
      */
     public function create(Formulaire $formulaire)
@@ -83,24 +83,24 @@ class FormulaireFieldController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $formulaire_field = $this->repository->create($request->all());
+
         Session::flash('success', 'Le champ de formulaire a été créé avec succès');
-        return redirect()->route('admin.formulaires_fields.index');
+        return redirect()->route('admin.formulaires_fields.index', $formulaire_field->formulaire_id);
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  FormulaireField $formulaire_field
      * @return Response
      */
-    public function show($id)
+    public function show(FormulaireField $formulaire_field)
     {
-        $formulaire_field = $this->repository->find($id);
         return view('formulaire::admin.formulaire_field_show', compact('formulaire_field'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param FormulaireField $formulaire_field
+     * @param  FormulaireField $formulaire_field
      * @return Response
      */
     public function edit(FormulaireField $formulaire_field)
@@ -113,14 +113,14 @@ class FormulaireFieldController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  FormulaireField $formulaire_field
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, FormulaireField $formulaire_field)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($formulaire_field);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($formulaire_field->id, $request->all());
 
         Session::flash('success', 'Le champ de formulaire a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -133,27 +133,27 @@ class FormulaireFieldController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param FormulaireField $formulaire_field
      */
-    public function active($id)
+    public function active(FormulaireField $formulaire_field)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($formulaire_field->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  FormulaireField $formulaire_field
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(FormulaireField $formulaire_field)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($formulaire_field->id);
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param Formulaire $formulaire
+     * @param  Formulaire $formulaire
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Formulaire $formulaire)
@@ -164,7 +164,7 @@ class FormulaireFieldController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $formulaire_field->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $formulaire_field->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.formulaires_fields_active', ['id' => $formulaire_field->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($formulaire_field->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.formulaires_fields_active', ['formulaire_field' => $formulaire_field->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($formulaire_field->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($formulaire_field) {
                 return '

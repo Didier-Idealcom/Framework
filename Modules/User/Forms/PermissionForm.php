@@ -33,5 +33,7 @@ class PermissionForm extends CoreForm
                 'label' => 'Nom du guard',
                 'rules' => 'required'
             ]);
+
+        parent::buildForm();
     }
 }

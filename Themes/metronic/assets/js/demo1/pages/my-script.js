@@ -85,6 +85,30 @@ var MyListDatatable = function() {
 
 // On document ready
 KTUtil.ready(function() {
+    // Active button
+    $('.kt-portlet__body').on('click', '.toggle-active', function(e) {
+        //e.preventDefault();
+        var btn = $(this);
+        $.ajax({
+            method: 'GET',
+            url: $(this).data('url'),
+            success: function(data, textStatus, jqXHR) {
+                var label_on = btn.data('label-on');
+                var label_off = btn.data('label-off');
+                if (btn.hasClass('btn-success')) {
+                    btn.html(btn.html().replace(label_on, label_off));
+                } else {
+                    btn.html(btn.html().replace(label_off, label_on));
+                }
+                btn.toggleClass('btn-success btn-danger');
+                btn.find('i').toggleClass('la-toggle-on la-toggle-off');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Status ' + textStatus + ' : ' + errorThrown);
+            }
+        });
+    });
+
     // Shortcut save button
     $('.my-link__save').on('click', function(e) {
         e.preventDefault();

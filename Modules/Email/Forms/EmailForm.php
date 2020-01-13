@@ -66,5 +66,7 @@ class EmailForm extends CoreForm
                 'label' => 'Délai',
                 'rules' => ''
             ]);
+
+        parent::buildForm();
     }
 }

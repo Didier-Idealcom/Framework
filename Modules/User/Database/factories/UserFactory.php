@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Model::class, function (Faker $faker) {
+$factory->define(Modules\User\Entities\User::class, function (Faker $faker) {
     static $password;
 
     return [

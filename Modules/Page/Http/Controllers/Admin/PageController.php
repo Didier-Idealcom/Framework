@@ -40,7 +40,7 @@ class PageController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Page|null $page
+     * @param  Page|null $page
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Page $page = null)
@@ -80,24 +80,24 @@ class PageController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $page = $this->repository->create($request->all());
+
         Session::flash('success', 'La page a été créée avec succès');
         return redirect()->route('admin.pages.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Page $page
      * @return Response
      */
-    public function show($id)
+    public function show(Page $page)
     {
-        $page = $this->repository->find($id);
         return view('page::admin.show', compact('page'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Page $page
+     * @param  Page $page
      * @return Response
      */
     public function edit(Page $page)
@@ -109,14 +109,14 @@ class PageController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Page $page
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Page $page)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($page);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($page->id, $request->all());
 
         Session::flash('success', 'La page a été enregistrée avec succès');
         if ($request->get('save') == 'save_new') {
@@ -129,21 +129,21 @@ class PageController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Page $page
      */
-    public function active($id)
+    public function active(Page $page)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($page->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Page $page
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Page $page)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($page->id);
         return redirect()->back();
     }
 
@@ -159,7 +159,7 @@ class PageController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $page->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $page->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.pages_active', ['id' => $page->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($page->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.pages_active', ['page' => $page->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($page->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($page) {
                 return '

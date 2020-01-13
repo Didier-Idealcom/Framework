@@ -40,7 +40,7 @@ class RoleController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Role|null $role
+     * @param  Role|null $role
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Role $role = null)
@@ -80,24 +80,24 @@ class RoleController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $role = $this->repository->create($request->all());
+
         Session::flash('success', 'Le rôle a été créé avec succès');
         return redirect()->route('admin.roles.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Role $role
      * @return Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        $role = $this->repository->find($id);
         return view('user::admin.role_show', compact('role'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Role $role
+     * @param  Role $role
      * @return Response
      */
     public function edit(Role $role)
@@ -110,16 +110,15 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Role $role
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($role);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($role->id, $request->all());
 
-        $role = $this->repository->find($id);
         $role->syncPermissions($request->has('permission') ? Permission::whereIn('id', $request->get('permission'))->get() : []);
 
         Session::flash('success', 'Le rôle a été enregistré avec succès');
@@ -133,21 +132,21 @@ class RoleController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Role $role
      */
-    public function active($id)
+    public function active(Role $role)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($role->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Role $role
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($role->id);
         return redirect()->back();
     }
 

@@ -41,7 +41,7 @@ class MenuitemController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Menuitem|null $menuitem
+     * @param  Menuitem|null $menuitem
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Menuitem $menuitem = null)
@@ -54,7 +54,7 @@ class MenuitemController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param Menu $menu
+     * @param  Menu $menu
      * @return Response
      */
     public function index(Menu $menu)
@@ -64,7 +64,7 @@ class MenuitemController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param Menu $menu
+     * @param  Menu $menu
      * @return Response
      */
     public function create(Menu $menu)
@@ -83,24 +83,24 @@ class MenuitemController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $menuitem = $this->repository->create($request->all());
+
         Session::flash('success', 'Le menuitem a été créé avec succès');
-        return redirect()->route('admin.menuitems.index');
+        return redirect()->route('admin.menuitems.index', $menuitem->menu_id);
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Menuitem $menuitem
      * @return Response
      */
-    public function show($id)
+    public function show(Menuitem $menuitem)
     {
-        $menuitem = $this->repository->find($id);
         return view('menu::admin.menuitem_show', compact('menuitem'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Menuitem $menuitem
+     * @param  Menuitem $menuitem
      * @return Response
      */
     public function edit(Menuitem $menuitem)
@@ -113,14 +113,14 @@ class MenuitemController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Menuitem $menuitem
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Menuitem $menuitem)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($menuitem);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($menuitem->id, $request->all());
 
         Session::flash('success', 'Le menuitem a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -132,25 +132,39 @@ class MenuitemController extends Controller
     }
 
     /**
+     * Activate/Deactivate the specified resource in storage.
+     * @param Menuitem $menuitem
+     */
+    public function active(Menuitem $menuitem)
+    {
+        $activated = $this->repository->active($menuitem->id);
+    }
+
+    /**
      * Remove the specified resource from storage.
+     * @param  Menuitem $menuitem
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Menuitem $menuitem)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($menuitem->id);
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param Menu $menu
+     * @param  Menu $menu
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Menu $menu)
     {
         return Datatables::of(Menuitem::all()->where('menu_id', $menu->id))
             ->editColumn('active', function($menuitem) {
-                return $menuitem->active == 'Y' ? '<a href="#" class="btn m-btn btn-success m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-on"></i> &nbsp; Actif</a>' : '<a href="#" class="btn m-btn btn-danger m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la la-toggle-off"></i> &nbsp; Inactif</a>';
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $menuitem->active == 'Y' ? 'btn-success' : 'btn-danger';
+                $class_i = $menuitem->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                return '<a href="javascript:;" data-url="' . route('admin.menuitems_active', ['menuitem' => $menuitem->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($menuitem->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($menuitem) {
                 return '

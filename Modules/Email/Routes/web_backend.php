@@ -12,5 +12,5 @@
 */
 
 Route::post('emails/datatable', 'EmailController@datatable')->name('emails_datatable');
-Route::get('emails/{id}/active', 'EmailController@active')->name('emails_active');
+Route::get('emails/{email}/active', 'EmailController@active')->name('emails_active');
 Route::resource('emails', 'EmailController');

@@ -39,7 +39,7 @@ class MenuController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Menu|null $menu
+     * @param  Menu|null $menu
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Menu $menu = null)
@@ -79,24 +79,24 @@ class MenuController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $menu = $this->repository->create($request->all());
+
         Session::flash('success', 'Le menu a été créé avec succès');
         return redirect()->route('admin.menus.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Menu $menu
      * @return Response
      */
-    public function show($id)
+    public function show(Menu $menu)
     {
-        $menu = $this->repository->find($id);
         return view('menu::admin.menu_show', compact('menu'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Menu $menu
+     * @param  Menu $menu
      * @return Response
      */
     public function edit(Menu $menu)
@@ -108,14 +108,14 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Menu $menu
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Menu $menu)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($menu);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($menu->id, $request->all());
 
         Session::flash('success', 'Le menu a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -128,11 +128,12 @@ class MenuController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param  Menu $menu
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Menu $menu)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($menu->id);
         return redirect()->back();
     }
 

@@ -39,7 +39,7 @@ class LanguageController extends Controller
 
     /**
      * Return the formBuilder
-     * @param Language|null $language
+     * @param  Language|null $language
      * @return \Kris\LaravelFormBuilder\Form
      */
     private function getForm(?Language $language = null)
@@ -79,24 +79,24 @@ class LanguageController extends Controller
         $form = $this->getForm();
         $form->redirectIfNotValid();
         $language = $this->repository->create($request->all());
+
         Session::flash('success', 'La langue a été créée avec succès');
         return redirect()->route('admin.languages.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  $id
+     * @param  Language $language
      * @return Response
      */
-    public function show($id)
+    public function show(Language $language)
     {
-        $language = $this->repository->find($id);
         return view('language::admin.show', compact('language'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Language $language
+     * @param  Language $language
      * @return Response
      */
     public function edit(Language $language)
@@ -108,14 +108,14 @@ class LanguageController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  $id
+     * @param  Language $language
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Language $language)
     {
-        $form = $this->getForm();
+        $form = $this->getForm($language);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($id, $request->all());
+        $updated = $this->repository->update($language->id, $request->all());
 
         Session::flash('success', 'La langue a été enregistrée avec succès');
         if ($request->get('save') == 'save_new') {
@@ -128,21 +128,21 @@ class LanguageController extends Controller
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param  $id
+     * @param Language $language
      */
-    public function active($id)
+    public function active(Language $language)
     {
-        $activated = $this->repository->active($id);
+        $activated = $this->repository->active($language->id);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  $id
+     * @param  Language $language
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Language $language)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->repository->delete($language->id);
         return redirect()->back();
     }
 
@@ -158,7 +158,7 @@ class LanguageController extends Controller
                 $label_off = 'Inactif';
                 $class_btn = $language->active == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.languages_active', ['id' => $language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($language->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.languages_active', ['language' => $language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($language->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($language) {
                 return '

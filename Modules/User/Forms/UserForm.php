@@ -49,5 +49,7 @@ class UserForm extends CoreForm
                     'rules' => !$this->getModel() ? 'required|same:password' : 'same:password'
                 ]
             ]);
+
+        parent::buildForm();
     }
 }
