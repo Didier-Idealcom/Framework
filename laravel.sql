@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `domains` (
 -- Listage des données de la table laravel.domains : ~1 rows (environ)
 /*!40000 ALTER TABLE `domains` DISABLE KEYS */;
 INSERT INTO `domains` (`id`, `active`, `title`, `name`, `folder`, `analytics`, `search_console`, `google_maps`, `maintenance_start`, `maintenance_end`, `maintenance_message`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'Main', 'www.ideal-com.com', 'test', 'ga-123456', NULL, NULL, NULL, NULL, NULL, '2018-09-02 08:33:33', '2019-08-25 15:42:46');
+	(1, 'Y', 'Main', 'www.ideal-com.com', 'test', 'ga-123456', NULL, NULL, NULL, NULL, NULL, '2018-09-02 08:33:33', '2020-01-12 17:29:51');
 /*!40000 ALTER TABLE `domains` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. emails
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `emails` (
 -- Listage des données de la table laravel.emails : ~1 rows (environ)
 /*!40000 ALTER TABLE `emails` DISABLE KEYS */;
 INSERT INTO `emails` (`id`, `active`, `module`, `name`, `description`, `from`, `reply_to`, `to`, `cc`, `bcc`, `delay`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'Core', 'Test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-04-14 20:24:10', '2019-05-05 15:15:56');
+	(1, 'Y', 'Core', 'Test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-04-14 20:24:10', '2020-01-12 17:31:49');
 /*!40000 ALTER TABLE `emails` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires
@@ -75,11 +75,11 @@ CREATE TABLE IF NOT EXISTS `formulaires` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires : ~2 rows (environ)
+-- Listage des données de la table laravel.formulaires : ~3 rows (environ)
 /*!40000 ALTER TABLE `formulaires` DISABLE KEYS */;
 INSERT INTO `formulaires` (`id`, `active`, `code`, `tracking`, `created_at`, `updated_at`) VALUES
-	(1, 'N', 'test', NULL, '2018-10-28 11:07:25', '2019-05-04 22:06:32'),
-	(2, 'N', 'test2', NULL, '2018-10-28 17:39:54', '2019-05-04 22:06:34');
+	(1, 'Y', 'test', NULL, '2018-10-28 11:07:25', '2020-01-12 17:31:22'),
+	(2, 'N', 'test2', NULL, '2020-01-12 13:06:56', '2020-01-12 13:06:56');
 /*!40000 ALTER TABLE `formulaires` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires_fields
@@ -95,12 +95,13 @@ CREATE TABLE IF NOT EXISTS `formulaires_fields` (
   PRIMARY KEY (`id`),
   KEY `fk_form_field_formulaire_id` (`formulaire_id`),
   CONSTRAINT `fk_form_field_formulaire_id` FOREIGN KEY (`formulaire_id`) REFERENCES `formulaires` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires_fields : ~1 rows (environ)
+-- Listage des données de la table laravel.formulaires_fields : ~2 rows (environ)
 /*!40000 ALTER TABLE `formulaires_fields` DISABLE KEYS */;
 INSERT INTO `formulaires_fields` (`id`, `formulaire_id`, `active`, `order`, `code`, `type`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'N', 1, 'nom', 'string', '2018-10-28 11:12:29', '2019-05-04 22:16:41');
+	(1, 1, 'Y', 1, 'nom', 'text', '2018-10-28 11:12:29', '2020-01-12 17:31:34'),
+	(2, 1, 'Y', 1, 'prenom', 'text', '2020-01-12 13:03:22', '2020-01-12 17:31:36');
 /*!40000 ALTER TABLE `formulaires_fields` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires_fields_translations
@@ -124,12 +125,15 @@ CREATE TABLE IF NOT EXISTS `formulaires_fields_translations` (
   UNIQUE KEY `u_form_field_trans_formulaire_field_id_locale` (`formulaire_field_id`,`locale`),
   KEY `formulaires_fields_translations_locale_index` (`locale`),
   CONSTRAINT `fk_form_field_trans_formulaire_field_id` FOREIGN KEY (`formulaire_field_id`) REFERENCES `formulaires_fields` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires_fields_translations : ~1 rows (environ)
+-- Listage des données de la table laravel.formulaires_fields_translations : ~4 rows (environ)
 /*!40000 ALTER TABLE `formulaires_fields_translations` DISABLE KEYS */;
 INSERT INTO `formulaires_fields_translations` (`id`, `formulaire_field_id`, `locale`, `label_admin`, `label_front`, `placeholder`, `date_format`, `help`, `error`, `error_min`, `error_max`, `error_extension`, `error_filesize`, `error_dimension`, `error_date_format`) VALUES
-	(1, 1, 'en', 'Nom', 'Nom', NULL, NULL, NULL, 'Merci de renseigner le nom', NULL, NULL, NULL, NULL, NULL, NULL);
+	(1, 1, 'fr', 'Nom', 'Nom', NULL, NULL, NULL, 'Merci de renseigner le nom', NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 1, 'en', 'Lastname', 'Lastname', NULL, NULL, NULL, 'Please fill your lastname', NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 2, 'fr', 'Prénom', 'Prénom', 'Prénom', NULL, NULL, 'Merci de renseigner votre prénom', NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 2, 'en', 'Firstname', 'Firstname', 'Firstname', NULL, NULL, 'Please fill your firstname', NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `formulaires_fields_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires_fields_values
@@ -177,13 +181,15 @@ CREATE TABLE IF NOT EXISTS `formulaires_translations` (
   UNIQUE KEY `u_form_trans_formulaire_id_locale` (`formulaire_id`,`locale`),
   KEY `formulaires_translations_locale_index` (`locale`),
   CONSTRAINT `fk_form_trans_formulaire_id` FOREIGN KEY (`formulaire_id`) REFERENCES `formulaires` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires_translations : ~2 rows (environ)
+-- Listage des données de la table laravel.formulaires_translations : ~4 rows (environ)
 /*!40000 ALTER TABLE `formulaires_translations` DISABLE KEYS */;
 INSERT INTO `formulaires_translations` (`id`, `formulaire_id`, `locale`, `title`, `resume`) VALUES
-	(1, 1, 'en', 'Formulaire test', 'Lorem ipsum lol'),
-	(2, 2, 'en', 'Formulaire test2', 'Lorem ipsum');
+	(1, 1, 'fr', 'Formulaire test', 'Lorem ipsum lol'),
+	(2, 1, 'en', 'Formulaire test', 'Lorem ipsum lol'),
+	(3, 2, 'fr', 'Formulaire test 2', 'test'),
+	(4, 2, 'en', 'Formulaire test 2', 'test');
 /*!40000 ALTER TABLE `formulaires_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. languages
@@ -198,12 +204,16 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.languages : ~1 rows (environ)
+-- Listage des données de la table laravel.languages : ~5 rows (environ)
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
 INSERT INTO `languages` (`id`, `active`, `alpha2`, `name`, `format_date_small`, `format_date_long`, `format_date_time`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'fr', 'Français', 'dd/mm/YYYY', '%d %B %Y', '%d/%m/%Y %H:%i:%s', '2018-09-02 08:59:05', '2019-08-23 10:35:03');
+	(1, 'Y', 'fr', 'Français', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, '2020-01-12 17:29:57'),
+	(2, 'N', 'en', 'English', '%m/%d/%Y', '%B %d %Y', '%m/%d/%Y %H:%i:%s', NULL, NULL),
+	(3, 'N', 'es', 'Español', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, NULL),
+	(4, 'N', 'it', 'Italian', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, NULL),
+	(5, 'N', 'de', 'Deutch', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, NULL);
 /*!40000 ALTER TABLE `languages` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menuitems
@@ -231,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `menuitems` (
 -- Listage des données de la table laravel.menuitems : ~1 rows (environ)
 /*!40000 ALTER TABLE `menuitems` DISABLE KEYS */;
 INSERT INTO `menuitems` (`id`, `menu_id`, `active`, `gabarit`, `bg`, `bd`, `niveau`, `parent_id`, `visible`, `cliquable`, `format`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'N', 'index_index', 0, 0, 1, NULL, 'Y', 'Y', 'submenu', '2019-12-07 17:53:15', '2019-12-07 17:53:15');
+	(1, 1, 'Y', 'index_index', 0, 0, 1, NULL, 'Y', 'Y', 'submenu', '2020-01-12 12:45:43', '2020-01-12 17:30:21');
 /*!40000 ALTER TABLE `menuitems` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menuitems_translations
@@ -247,12 +257,13 @@ CREATE TABLE IF NOT EXISTS `menuitems_translations` (
   UNIQUE KEY `menuitems_translations_menuitem_id_locale_unique` (`menuitem_id`,`locale`),
   KEY `menuitems_translations_locale_index` (`locale`),
   CONSTRAINT `menuitems_translations_menuitem_id_foreign` FOREIGN KEY (`menuitem_id`) REFERENCES `menuitems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.menuitems_translations : ~1 rows (environ)
+-- Listage des données de la table laravel.menuitems_translations : ~2 rows (environ)
 /*!40000 ALTER TABLE `menuitems_translations` DISABLE KEYS */;
 INSERT INTO `menuitems_translations` (`id`, `menuitem_id`, `locale`, `title_menu`, `title_page`, `link`, `target`) VALUES
-	(1, 1, 'en', 'Accueil', 'Accueil', NULL, '_self');
+	(1, 1, 'fr', 'Accueil', 'Accueil', NULL, '_self'),
+	(2, 1, 'en', 'Home', 'Home', NULL, '_self');
 /*!40000 ALTER TABLE `menuitems_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menus
@@ -268,8 +279,8 @@ CREATE TABLE IF NOT EXISTS `menus` (
 -- Listage des données de la table laravel.menus : ~2 rows (environ)
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
 INSERT INTO `menus` (`id`, `active`, `code`, `created_at`, `updated_at`) VALUES
-	(1, 'N', 'home', '2019-12-22 23:10:24', '2019-12-22 23:10:24'),
-	(2, 'N', 'main', '2019-12-22 23:10:24', '2019-12-22 23:10:24');
+	(1, 'N', 'home', '2020-01-04 18:05:17', '2020-01-04 18:05:17'),
+	(2, 'N', 'main', '2020-01-04 18:05:17', '2020-01-04 18:05:17');
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menus_translations
@@ -287,10 +298,10 @@ CREATE TABLE IF NOT EXISTS `menus_translations` (
 -- Listage des données de la table laravel.menus_translations : ~4 rows (environ)
 /*!40000 ALTER TABLE `menus_translations` DISABLE KEYS */;
 INSERT INTO `menus_translations` (`id`, `menu_id`, `locale`, `title`) VALUES
-	(1, 1, 'en', 'Home menu'),
-	(2, 1, 'fr', 'Menu accueil'),
-	(3, 2, 'en', 'Main menu'),
-	(4, 2, 'fr', 'Menu principal');
+	(1, 1, 'fr', 'Menu accueil'),
+	(2, 1, 'en', 'Home menu'),
+	(3, 2, 'fr', 'Menu principal'),
+	(4, 2, 'en', 'Main menu');
 /*!40000 ALTER TABLE `menus_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. migrations
@@ -299,20 +310,20 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.migrations : 9 rows
+-- Listage des données de la table laravel.migrations : ~9 rows (environ)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2014_10_12_000000_create_users_table', 1),
 	(2, '2014_10_12_100000_create_password_resets_table', 1),
-	(3, '2018_08_02_173544_create_pages_table', 2),
-	(6, '2018_08_12_182443_create_domains_table', 3),
-	(7, '2018_08_12_182515_create_languages_table', 3),
-	(8, '2018_09_09_085005_create_permission_tables', 4),
-	(11, '2018_10_03_212343_create_formulaires_table', 5),
-	(12, '2019_04_14_174320_create_emails_table', 6),
-	(13, '2019_06_30_135843_create_menus_table', 7);
+	(3, '2018_08_02_173544_create_pages_table', 1),
+	(4, '2018_08_12_182443_create_domains_table', 1),
+	(5, '2018_08_12_182515_create_languages_table', 1),
+	(6, '2018_09_09_085005_create_permission_tables', 1),
+	(7, '2018_10_03_212343_create_formulaires_table', 1),
+	(8, '2019_04_14_174320_create_emails_table', 1),
+	(9, '2019_06_30_135843_create_menus_table', 1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. model_has_permissions
@@ -358,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
 -- Listage des données de la table laravel.pages : ~3 rows (environ)
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
 INSERT INTO `pages` (`id`, `active`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', '2018-08-09 15:07:28', '2019-09-05 21:12:10'),
+	(1, 'Y', '2018-08-09 15:07:28', '2020-01-12 17:31:16'),
 	(2, 'N', '2018-08-09 15:08:29', '2019-05-04 22:06:24'),
 	(3, 'N', '2018-09-23 13:49:11', '2019-05-04 22:06:26');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
@@ -393,9 +404,9 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   KEY `password_resets_email_index` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.password_resets : 0 rows
+-- Listage des données de la table laravel.password_resets : ~0 rows (environ)
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
@@ -467,63 +478,65 @@ CREATE TABLE IF NOT EXISTS `users` (
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.users : 50 rows
+-- Listage des données de la table laravel.users : ~51 rows (environ)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'Didier Largeron', 'd.largeron@ideal-com.com', '$2y$10$x6cPSat8/qq//H8sAC2HiuoPPixzcInF6XI7FJVmPo9mYAGMFoJtS', 'NvSSZQFPh44fR1pkqcYe7OahVJYvERTlXSMLTe7sGPfbzmCZCdOpFeLtR6sr', '2017-11-18 21:52:54', '2019-09-08 13:14:59'),
-	(2, 'Kyla Padberg', 'zaria26@example.com', '$2y$10$ZhuSu5ukUYjAY0C.LZhgs.Tb2B9FMbOIfOVZe6TwN9oGx18c/PcQO', 'TGsqySEDUBz826rcetkIKuFjAhhHGZL7GDkqWZLOwaDnLWhctDEdoE4pmqxu', '2018-07-29 10:14:48', '2018-08-02 10:09:54'),
-	(3, 'Miss Norma Kirlin', 'zgreenfelder@example.net', '$2y$10$ammWUozvT/NO1XWAlt8N6O2AmwjU/92EEdkamvwWfUqfRFGiob.m2', '9OmPO8K7go', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(4, 'Mr. Randall Skiles MD', 'uemard@example.org', '$2y$10$tPqu5CWPaPv0bTxSnSWKO.8HrIvCLlTXHENoNsJVRxzovOeZaoHES', 'Ensayrrfb1', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(5, 'Judy Gaylord', 'rozella22@example.org', '$2y$10$VuKZ39vOfTzUV.AxL9ThWOvzjNIx8.dttJJhWLVfAG9/ee.GU7Wve', 'DF4SnW0mBK', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(6, 'Carolina Kling', 'hgoodwin@example.com', '$2y$10$oQhv9q1V/4y58uYsewM3ceigSNVsxA9RRDvjaZhZ8zRRAY./QUT/m', 'RZGcEZ3cNm', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(7, 'Carole Hansen', 'bailey49@example.com', '$2y$10$.DkxCBYNRx2Atm.VSa7EZ.MH6qX/pcyH11zQiv16XFg3kTT9OaLNu', 'gslVmUV2gK', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(8, 'Garnett Corkery', 'alfonzo46@example.net', '$2y$10$xi9SbluGlXfAZxIILEwOCuXYfO/tts7Aes7ZuoMe08svDRtOYT25y', 'sSKcW3jnsb', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(9, 'Arturo Schaden I', 'mbarrows@example.com', '$2y$10$SJDS9SZPJoahiMDnqtRPA.7YDiOvH0vfiPTtTQjuxCN.PCoVkkKo2', 'bYgNJs0prK', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(10, 'Drake Johns', 'marina63@example.net', '$2y$10$oW2F.E2dDsi.rZDukS7D6.hXm8MlNRrkUPuytGmCubcN968dqhGWq', 'M5m6rjbocb', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(11, 'Miss Marjory Wiegand', 'zturcotte@example.net', '$2y$10$ZSYNu.Befasg1ZAANLoaseOgTYsr2XUpd3NxY4pXzy1qed2YwWZE6', '4RMXK5ThsV', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(12, 'Mr. Orrin Hauck Jr.', 'christiansen.ernestina@example.org', '$2y$10$zuxksx4.9gfOrFwUxazJZe1nNOojKIWPFfpqzOGyXhms8aeVEWy0y', 'N2tVvxwGpF', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(13, 'Dwight Moen', 'vcole@example.org', '$2y$10$xrgP6nMXdQSxQ1KogyHatuGRUhP03AibloY14Iy.u68f3fdbiVfx2', 'HBv8cOAkpm', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(14, 'Amely Rogahn', 'jewel.west@example.org', '$2y$10$k27Jdu4btOUfuypamFb4X.PnEWbK6Ej2rf4mzzo3gbjsiqTmbcKGy', 'HRrhTtl2ry', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(15, 'Isaiah Braun', 'wilderman.kiley@example.com', '$2y$10$kZK08z3uoK/zRwIO/ndi4Oe.NNAjiqObGJOnBZ1kwsx1BDVX37MzK', 'MDWKIAdzeZ', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(16, 'Maia Frami', 'nellie98@example.net', '$2y$10$xvJ4XT.4OHaql.94CDNOWeHv2puld6m5xT0sCpzWsopocQfh6HcEO', 'kTCkMz5x6T', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(17, 'Geraldine O\'Keefe', 'yost.garrett@example.net', '$2y$10$CFIP9CYSbug84REZ0YIXLuFGPEAFm1eryL0wYooowQM.kOOCa6P2.', 'Poc6khlofR', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(18, 'Mr. Tristian Lynch', 'celine.gislason@example.org', '$2y$10$7Qj1mUpSGhQZH0YfC/Htn.8tA3cpvWxFRmmWYbjmBnTs0p0I83pD.', 'dNxJc9ysK0', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(19, 'Beverly Wilkinson MD', 'beahan.philip@example.net', '$2y$10$ZNgF8MFVl93KOXXMSogmWeKg6H8SN5F6HR2ygZhalbA.nCc3vIhnq', 'MJbwktUFMY', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(20, 'Mike Hackett DVM', 'noemie70@example.net', '$2y$10$koWIURc49v7hUfOagaoQouV3u9epBcqWc20tRf1v18AB3c8EyrQu2', 'udPXvBDu8X', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(21, 'Prof. Jalon Hoppe', 'abernathy.lavina@example.net', '$2y$10$dqC/cm7bEK/lYKoH7TpQzudvIZoztFWmCC0AE2yDtbGeTYVWi37GO', 'SGLXjD98Ei', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(22, 'Shania O\'Kon', 'byost@example.com', '$2y$10$2/mG0.WbJU.grbStEL3vkOgB/rYzMjnK4uZzP1gtAB7nt.ytCTdq6', 'CEC7ZGbxJv', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(23, 'Carmen Watsica III', 'bogan.leonie@example.com', '$2y$10$b/ZfvZASfyXHE6wjF1GPme.Vbmk.I.GEorLYDFQgWhjo.2soQxTO.', 'jhh33tF2ay', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(24, 'Devin Crooks', 'btoy@example.org', '$2y$10$Z7WXuehqxr7cAlLBKiufEeeBvVjELSURETqvDUP7rpc2bcLBTW5q2', 'kQTQ27PgOI', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(25, 'Polly Emard', 'monique53@example.org', '$2y$10$oZ0TssLiMpNVBQJREpkfbut42Gd9Z0G1cclsRP1Vg.U0XrRcm7yEu', 'GQ3KFLII0E', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(26, 'Reggie Lakin', 'naomi12@example.com', '$2y$10$h1jZh5BnkGEbt9yF6rUMRe.W211HlWReb7T.3ubJ8RVtAeUDACS8m', 'zkAuUrS4cA', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(27, 'Arnaldo Howell', 'harris.marilou@example.org', '$2y$10$tpBmKec.FKdijuZxl9tQH.7to1a5bSo0qof3ErrdsTsqQnqn.doj6', 'ztC0aItgxR', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(28, 'Hailie Altenwerth', 'damon.dubuque@example.org', '$2y$10$PzqgnFs7R.gohAJ4O5Ie5u6.5vpzD.QYN4J5DL.XhqmGBwBVQKSO6', '7oqMwKOf1f', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(29, 'Emmanuelle Bergstrom', 'reggie.rodriguez@example.net', '$2y$10$RIsZlc5DiLzwGAhdghanUuAU2FxY7FHf4ZKxy9keLWwzajwUhK8WC', 'fUed4eCDBZ', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(30, 'Rickie Crist', 'ipfeffer@example.org', '$2y$10$PYSKmUFu8J7u29za5u/J1etuGo88OiUzZ51Mczx/IS949CmNTk4Wu', 'oljE1S7TAY', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(31, 'Mr. Dwight Labadie', 'wrunolfsson@example.net', '$2y$10$BK7TdgZbbSn2ixTV5LrwGO1WWl8OHfDpk/IZmSmXTptpvURgDQEAC', 'rWuRSVGIVy', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(32, 'Henderson McLaughlin DDS', 'eswift@example.net', '$2y$10$Y.L8xC6Z3ITMXCnyJBwl4elsnA4JIFGwKcjF/9st2kgZPY/kVrEv.', 'Lx97F3jllf', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(33, 'Dr. Tanya Moen', 'willow13@example.org', '$2y$10$Sg.HtBU7eXALS/Evy0yP5.yKisKz6conqyvaiFGOOBTj0fO8hyWKG', '1U6XhqnSvJ', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(34, 'Prof. Adele Nienow I', 'eleazar.walter@example.org', '$2y$10$IBAkQBpPP7wD2MqEkERx8OLndIxdhdP9Tzaq8z/5fHnm11sK3ISI6', 'ksRFAAKH9w', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(35, 'Mr. Sammie Fahey', 'iwolff@example.com', '$2y$10$9ThLEqOx0frFojxM0fgdjeqcK7Ehy9vLcIuJcu/InBeZ5B.1i33Yu', 'L6JdF53PDk', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(36, 'Philip Windler', 'courtney44@example.net', '$2y$10$ntv.C4FzJPaX419S47qdhOFbzhJK5Jn4Yks.HvHpZbnNLjIf6V7oe', 'NUGIyL2dH7', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(37, 'Mabel Predovic', 'cicero.johnston@example.net', '$2y$10$xZI7QFzXtk23UmVY8rhdmuGnrq7iiV.yloRL3Ii6ISWPXwLTHoOEC', '99DK4jbvJE', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(38, 'Mrs. Kamille Jaskolski III', 'wilton.nikolaus@example.com', '$2y$10$BY7qwvtIWtpWQCKlf9XMm.5T.NoNEMVynb0htIfoHyACVbRZJNwGG', 'SEBSNkW6JL', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(39, 'Mr. Remington Block Jr.', 'kdare@example.net', '$2y$10$OnK8rSo0tkymHCVXL5chxeMT3CK3vjgY3KTjy/D..bcP43UqF42ny', 'dkc9IfOg4G', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(40, 'Prof. Jerod Walsh II', 'tina.spinka@example.net', '$2y$10$K.C3xvLtHoTXWaL0hnGunuten6Lc9nqu9EUTUN.sasmf7HUEIQx2C', 'DZiFrKmjBy', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(41, 'Alaina Kutch', 'hills.flo@example.org', '$2y$10$chLrA2e0i9xbx2GCZu4..uVBTx.tXCMOqP4il3zdFg38HO4aw3Wh2', '5QtwsgBZHw', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(42, 'Gloria Botsford', 'cathryn.langworth@example.org', '$2y$10$zo9Dunzo/0n7j3GAy0ZoCeKdBzTaOFeOm6mJavwtgj.RCZZweFiS.', 'u3k4nRtuAj', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(43, 'Elvera Witting I', 'goyette.betsy@example.org', '$2y$10$1nVwaJxhGN6U0CQmv/Q4DODWe7SET960eiiEDpsr9fQHs/Q0wEi2q', 'fUck3GTJVw', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(44, 'Soledad Johnston', 'morissette.edwin@example.com', '$2y$10$dTf0r.hZsuY75lZJcisBPeyANdYWLabT1bdF7z0HtIPskmPKEBwG6', '40jYI5rdqp', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(45, 'Dr. Elda Stamm PhD', 'aohara@example.com', '$2y$10$UNEnYXqZd/st0EO7gcPftuMJU77XgnunRL2G4SzADtRhWRRpYeWqS', 'K5aNR6ztBM', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(46, 'Jensen Nikolaus', 'shanahan.nedra@example.org', '$2y$10$wovo.usIP.rM3kaCCIqeLuwNz2R7HW2iDWe1yeX7YQU3MAS3CGGz2', 'Sb1w59q9td', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(47, 'Orval Hoeger', 'jaren45@example.com', '$2y$10$mOBCj61Hp9YQjt6lJ4esd.aVP0gESO4eVvJ2ovDrm4xDkKsVCF9JS', 'shaTNJJ3Jg', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(48, 'Mrs. Destinee Waters I', 'triston.pouros@example.net', '$2y$10$L7qiALZYxm8tb3TLu6hR6OP/c10e5fkEBoj8kPYrZjIOPCuOK9lA.', '5NEP7bdfac', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(49, 'Jaclyn Bogan', 'demario13@example.com', '$2y$10$yrkc1kcK2gbwUA58o3iojOtjPPs5MvwN9KXhCy5RSxOG77.b9P2TC', 'm84OG0Rzdg', '2018-07-29 10:14:48', '2018-07-29 10:14:48'),
-	(50, 'Osvaldo Bednar', 'anderson.stefanie@example.org', '$2y$10$GRyD8kJRujJ/zLK1DPo2neES1LHNjxdIWolBmCiOVminRVRyd9XVm', '4gsquRCpT4', '2018-07-29 10:14:48', '2018-07-29 10:14:48');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `email_verified_at`) VALUES
+	(1, 'Didier Largeron', 'd.largeron@ideal-com.com', '$2y$10$HNndj3BOHGJicR2ZdudJO.tlFL.sIgAwFr0yEau6OcsZ/0Soqz9/G', NULL, '2020-01-04 18:05:17', '2020-01-04 18:05:17', '2020-01-04 18:05:17'),
+	(2, 'Jessica Lang', 'ernestine38@example.org', '$2y$10$h42voZQtWBce3tsMS7n3lOwKCQR9eGPl9Nx0efBAVzzjTLKD6NdjC', 'TTSI6s6zkA', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(3, 'Ms. Kali Trantow', 'barton.omari@example.org', '$2y$10$2K9IYJHvC3z17279TSk4leqicDsWQph42jNEN7w2EvXM8hkbZdS/S', 'EhkisrT8Bf', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(4, 'Joanny Gutkowski', 'umarks@example.com', '$2y$10$2/3hKpPGc1XFOlUHwNz7IOZpuqTAA5QyGLGwjtcmQa251rTEOWEZq', 'XgMqLSSzMM', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(5, 'Maye Green', 'kyla88@example.com', '$2y$10$FmDOpEfSA2cm50H0lMZvy.dPKeHqVnIIgABcOpLXBQqwUXxEo66DK', '8JCSiqYAGA', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(6, 'Prof. Marcus Steuber', 'wyman.garett@example.org', '$2y$10$KxwsII360I/QgxvIOeXhrOMPJ7Xw8MOFkQGstBkWrwhLW/Q7uCsYG', '9FNgB0rVoH', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(7, 'Esmeralda Reilly', 'louvenia80@example.com', '$2y$10$WacGeP4bItLvUM...Ykyb.e8Imw8I1C957unIz0WOC/jteIVJDglK', 'DgfjlLRZZc', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(8, 'Brandt Luettgen', 'bwyman@example.com', '$2y$10$35s/6akKrHC0iNifZlvNN.PkQf3hgORJxmbmtGPmkCUafOkm8nK6y', 'tBkr7miqFM', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(9, 'Danika Muller', 'kaelyn37@example.org', '$2y$10$gwtpv80l6bgFhK9mGNtp/u2DsXUBsBvc/2yU8Nbt2dsASkSyGwBJi', 'SrLYLuzjR0', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
+	(10, 'Antonetta Thiel', 'dgleichner@example.org', '$2y$10$1wI4JM2xB3T6ioO64rPsg.ZqVvlNhO2xO8akr5PfWOHg3LJU7kqCe', 'CHcm5mLECv', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(11, 'Keaton Heller', 'lemke.eudora@example.net', '$2y$10$/ULu74VklkPSWEmkxbZlpOF8fRoDOpV1/X7oRRx8WHjh2mo8Ir5SO', '0w0bzohsHd', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(12, 'Guido Torphy', 'tyreek08@example.com', '$2y$10$Wq7OyJ0oRmYrkTybh/t1X.qLMBMR5QEDyKRuuE6V9f4zzXlXz1zg2', '1bWDMe8gFO', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(13, 'Miracle Aufderhar DDS', 'hill.andre@example.net', '$2y$10$lIycpaZ2j/p/fBLd/qf0Humjeq/QmEeDYuddhZWWZ6aH4RIkHQw4e', 'reGxypmoy5', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(14, 'Ms. Anna Turcotte', 'cordie91@example.net', '$2y$10$e5qedVhpVx8U4bdeVQ4/b.Mxu96zSjOdlJsCby/YpkkBiKilQkuQi', 'wyc3g3zUQs', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(15, 'Gabriella Torp', 'dean36@example.com', '$2y$10$s1Juqe92F8/pD4hRu1W8XO01Q54d4TC61fMpHisqYAQy0tGzn80ba', 'qgcbwDwUwm', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(16, 'Granville Dach', 'kendra.schiller@example.com', '$2y$10$7OWRDvOJTCVVsnw/NAXmYud488AxEA8aRBndFDwKVp01iXEshnHaO', 'mKM8RTEmXh', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(17, 'Anastacio Daugherty Jr.', 'monique.rogahn@example.com', '$2y$10$JqMd2X/8iKm1boq95Ql9cuCQVlo5RXKDD5snLqlsJwvORujJj2npC', 'x9QdsI2H7D', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(18, 'Mrs. Marjolaine Romaguera', 'isaias68@example.net', '$2y$10$ECzHjwq15V9w55ajGfUlgupjX6UorkHbWRhkC5XCz2Hl27GOyvs6q', '4t3hze8H7p', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(19, 'Charley Lesch II', 'dickinson.jeremy@example.org', '$2y$10$hxUImV4l2wv0fcRZcXYZ7.S4sSVBryDWt11ubsUKv/WFSW4Dy5Kd6', 'l2XvjVM6lZ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(20, 'Darius Auer', 'ora.quigley@example.net', '$2y$10$KfPtn1D24GomQ6ofMy63HeyMbXevas4xG9mMOn06rAvhPtPjxJz2C', 'mtHvFxHHUo', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(21, 'Dr. Minerva Labadie', 'pearline47@example.com', '$2y$10$Z5.Wii13ljR7V99vvFkKQuNyvj6qQ9HLrajii8bTKOP4e3PxUQqx2', 'MTquo7EUaw', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(22, 'Miss Eda Bruen III', 'xpredovic@example.net', '$2y$10$2Hhb/89sEw7RfkhSmxWzHur3Ak.Jc0gccfWxk86dp3/KFfCSTeRlS', 'VeUXq6FOZ9', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(23, 'Caitlyn Borer DDS', 'willard35@example.com', '$2y$10$MmKck6hFI.LgY6ZhoOzwte3M5EZEjnflKhdUA3J6iLJWK3SSqBYEe', 'YgxL1ijgUJ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(24, 'Makenzie O\'Keefe II', 'stamm.taurean@example.net', '$2y$10$1ZPPQFa1wJBg8e5pTEOGx.9Ps5Vff0EEIDrqtKebe2VbJRh2c3MYa', 'Xip6iwFHfU', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(25, 'Prof. Orval Hamill', 'braun.laila@example.org', '$2y$10$.QAyH4RlE0KXb609Ivs1R.9Fk0woHkIcVSX3bR7RxVWuBhF/qqdaO', 'F40HyaLKn3', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
+	(26, 'Emmet Pfeffer', 'spouros@example.com', '$2y$10$q.4AHUFaNWKjfK2CFdjjI.1TLOzQ8yE2N2ocB5tucoCoMO1sU/gWe', 'S2Y8aFC1kK', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(27, 'Jonas Satterfield', 'jbotsford@example.net', '$2y$10$1Eujif45eqa2xg9Ea3rHwu11aT42jepbXXvGgwAPj0JW2ziadXppq', 'fpSYKmDgzV', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(28, 'Ms. Alison Larkin', 'novella.eichmann@example.com', '$2y$10$XXCuHfiqnwRu7G5zPfJxX.UzqRKF44l70pFK7sFL6g52c0LHXCxtC', 'q5o9gyHrZm', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(29, 'Suzanne Bernier', 'bjohnson@example.com', '$2y$10$VdWy0eOu2Fo6epWQK05kSuVwYDfU1KvnNM9jfgs93TUMaMDtJyihi', 'Tfd83aHXVM', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(30, 'Orin Bruen', 'vella.gulgowski@example.org', '$2y$10$mlRWnN77ji4lq.Gzc4adH.nc8VoQkTeiXJQ5.0TlkBZ4e5zm4i96a', 'LApT0QsyKZ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(31, 'Mr. Harold Pfannerstill Jr.', 'cartwright.harvey@example.com', '$2y$10$Ounp72Y2cmPvuy.tQ.x8u.nlB8lV6w9tXemnPKqJZMSa5zdr.nINu', 'qoEM9hSNL0', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(32, 'Wilma McDermott', 'bethel.dicki@example.com', '$2y$10$7XSfUm5bmDoUG1amdKecKePwcAQGeGSLLgw3XCEIFG/8AWEH8HJsa', '5vyXkd0ML9', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(33, 'Kale Haag V', 'wokuneva@example.org', '$2y$10$1MWwJ3gHH1oioYDSpzAKu.qU4ycgaXp5ijqOCJGtU6fWTNoLNpiaW', 'MAN9CYXbBx', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(34, 'Walker Reinger Jr.', 'purdy.connor@example.net', '$2y$10$O8XC6OCWpU2on.A58dY/Z.PLFmQHaDl4QkbQd.PMdX5bNfViwXWFW', 'Xz2LDjwOUj', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(35, 'Dr. Rodolfo Reichert', 'prosacco.emmanuelle@example.net', '$2y$10$4QaX2mXqxBXTKQouRw/Yk.tt9So8TQ9fa6Z/goZGG/8wIbDnfQV/C', '4mnIjBh8hZ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(36, 'Ethyl Fadel', 'cummerata.lorena@example.net', '$2y$10$2rfBVk1YgpGITfMPTA2bAOYec0xEoKQ1QB8mGXodobJY/JC0FfIGW', '90GesBezug', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(37, 'Eldred Hilpert', 'mhyatt@example.net', '$2y$10$yon2Zchpgw1YrIpbqsQzeufqkvRY1FVdaU51ER1xK6JqVuDM2L3Ju', 'uEtXKv27Db', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(38, 'Mozell Ernser', 'lane08@example.net', '$2y$10$VX4jhbHuOqMVrJmcCfV.BOPUlG6HiJXY70ugtzGbtRy5WisK7.wNS', 'RhiBHforvQ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(39, 'Mrs. Courtney Bahringer', 'rocky43@example.org', '$2y$10$G8qs1GffSzNHnKX66L/V8eJ3bShzZ34cwp6pgS7c2le77dhyVV5bi', 'NChfsjuWs9', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(40, 'Lexie Rowe', 'vruecker@example.org', '$2y$10$bPtfJHBK8VAPJM0tHv6uJ.s2WftmQJJg5IJE1PTa.5pW7VClM6Wxm', 'sSXUVGgSGY', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
+	(41, 'Prof. Ellsworth Davis DDS', 'vicente84@example.net', '$2y$10$Hb1abYrKfeUc6aZRFlOHZ.3MUhjo58dxvkPpwyxnJp/jedI5TntwS', 'agW086EYZ8', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(42, 'Maximillia Davis II', 'odie78@example.org', '$2y$10$3dlVc2fksf2xSqnwcGGpe.Dt7ly3fGPXU1Z0GoubxvqRdsUHk/StC', 'RqTyPZ763O', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(43, 'Mrs. Freeda Lakin', 'steuber.lucie@example.org', '$2y$10$mbrU6nY4pNfjTVjqmIYAb.d9DAyVS2HciIVugILyAXRkho.NelJ2G', 'TGg82TrGQu', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(44, 'Mr. Ariel Bailey V', 'lysanne.armstrong@example.org', '$2y$10$SBenpQTHvQ9swJfYLvblgu.LiN2Z.80PmknLpgTxIhNz45JyfBi8q', '5wFrSJL0SP', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(45, 'Tierra Heidenreich', 'ybogisich@example.org', '$2y$10$xT4iolQt6zCwC6jHkcUMquMvTdC9FnEx/5RiqDfUpLaQSgFOCx8Ta', 'soO7INVY4B', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(46, 'Miss Kailey Trantow II', 'maribel.kovacek@example.com', '$2y$10$oYHCWSEtHIhrreFq0IG5pOAt/AEHQjwbCVmMv3L/6POBvwlyXAOVO', 'NcnahM0bc8', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(47, 'Brannon Botsford', 'jaquan.muller@example.net', '$2y$10$tgXl6eGVa4bT4H8BvNnCJ.LT2ttJgXwzMeTRChz5LyCmzL/nVeg.W', 'E1HY2yevXE', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(48, 'Delphia Mante', 'mitchel.crooks@example.com', '$2y$10$POMlYoytuE9lFNdUVt3dx.mf7yJsHwjIW/8hqpfR.4RISyYz1g5se', 'co7AEIHl6D', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(49, 'Prof. Lloyd Waters', 'boehm.jordon@example.org', '$2y$10$iM7uqIkCECTfEMX32F.DieSFZ37ZjoAKgejiuL/1DEm3n.A/5bwJu', 'GbrplwvJtN', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(50, 'Colby Adams', 'kris.urban@example.com', '$2y$10$WWYKH0ZSwcdfjk7LpIXxC.U6K3FKmnskC9g6L2GfPRri2z3Fd3cyW', 'j3PdYD0WlS', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
+	(51, 'Bradford Kling Sr.', 'alexys49@example.net', '$2y$10$QRaEpcUXgCosIgAIY7kvoOfANxGvi.f8cqrQvbDx8dEu4ioYaBo3q', 'p5wLOZh4st', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
