@@ -11,7 +11,7 @@ use Yajra\Datatables\Datatables;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Entities\Menuitem;
 use Modules\Menu\Forms\MenuitemForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class MenuitemController extends Controller
 {
@@ -21,7 +21,7 @@ class MenuitemController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -36,7 +36,7 @@ class MenuitemController extends Controller
 
         $this->formBuilder = $formBuilder;
         $this->request = $request;
-        $this->repository = new CoreRepository($menuitem);
+        $this->repository = new ModelRepository($menuitem);
     }
 
     /**

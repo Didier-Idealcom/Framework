@@ -4,7 +4,7 @@ namespace Modules\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CoreRepository implements RepositoryInterface
+class ModelRepository implements RepositoryInterface
 {
     // Model property on class instances
     protected $model;

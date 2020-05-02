@@ -11,7 +11,7 @@ use Yajra\Datatables\Datatables;
 use Modules\Formulaire\Entities\Formulaire;
 use Modules\Formulaire\Entities\FormulaireField;
 use Modules\Formulaire\Forms\FormulaireFieldForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class FormulaireFieldController extends Controller
 {
@@ -21,7 +21,7 @@ class FormulaireFieldController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -36,7 +36,7 @@ class FormulaireFieldController extends Controller
 
         $this->formBuilder = $formBuilder;
         $this->request = $request;
-        $this->repository = new CoreRepository($formulaire_field);
+        $this->repository = new ModelRepository($formulaire_field);
     }
 
     /**

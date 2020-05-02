@@ -11,7 +11,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Email\Entities\Email;
 use Modules\Email\Forms\EmailForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class EmailController extends Controller
 {
@@ -21,7 +21,7 @@ class EmailController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -35,7 +35,7 @@ class EmailController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($email);
+        $this->repository = new ModelRepository($email);
     }
 
     /**

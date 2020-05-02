@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Language\Entities\Language;
 use Modules\Language\Forms\LanguageForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class LanguageController extends Controller
 {
@@ -20,7 +20,7 @@ class LanguageController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -34,7 +34,7 @@ class LanguageController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($language);
+        $this->repository = new ModelRepository($language);
     }
 
     /**

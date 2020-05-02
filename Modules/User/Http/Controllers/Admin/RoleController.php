@@ -11,7 +11,7 @@ use Yajra\Datatables\Datatables;
 use Modules\User\Entities\Role;
 use Modules\User\Entities\Permission;
 use Modules\User\Forms\RoleForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class RoleController extends Controller
 {
@@ -21,7 +21,7 @@ class RoleController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -35,7 +35,7 @@ class RoleController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($role);
+        $this->repository = new ModelRepository($role);
     }
 
     /**

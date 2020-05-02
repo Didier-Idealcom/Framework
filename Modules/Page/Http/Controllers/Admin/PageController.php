@@ -11,7 +11,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Page\Entities\Page;
 use Modules\Page\Forms\PageForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class PageController extends Controller
 {
@@ -21,7 +21,7 @@ class PageController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -35,7 +35,7 @@ class PageController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($page);
+        $this->repository = new ModelRepository($page);
     }
 
     /**

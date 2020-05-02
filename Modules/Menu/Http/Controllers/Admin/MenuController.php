@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Forms\MenuForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class MenuController extends Controller
 {
@@ -20,7 +20,7 @@ class MenuController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -34,7 +34,7 @@ class MenuController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($menu);
+        $this->repository = new ModelRepository($menu);
     }
 
     /**

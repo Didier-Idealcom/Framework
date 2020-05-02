@@ -13,7 +13,7 @@ use Modules\User\Entities\User;
 use Modules\User\Entities\Role;
 use Modules\User\Forms\UserForm;
 use Modules\User\Exports\UserExport;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class UserController extends Controller
 {
@@ -23,7 +23,7 @@ class UserController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -37,7 +37,7 @@ class UserController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($user);
+        $this->repository = new ModelRepository($user);
     }
 
     /**

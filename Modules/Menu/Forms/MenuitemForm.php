@@ -66,7 +66,8 @@ class MenuitemForm extends CoreForm
                 'label' => 'Cible',
                 'rules' => '',
                 'choices' => ['_self' => 'Même fenêtre', '_blank' => 'Nouvelle fenêtre'],
-                'selected' => '_self'
+                'selected' => '_self',
+                'translatable' => true
             ])
             ->add('visible', 'select', [
                 'label' => 'Visible',

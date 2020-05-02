@@ -1,4 +1,11 @@
 OK - convertir paramètre id dans tous les controleurs
 OK - aligner texte phpdoc dans tous les controleurs
 OK - ajouter paramètre getForm méthode update dans tous les controleurs
+- locales dynamique (ModelRepository->formatInputTranslations(), CoreForm->buildForm(), Permalink->boot())
+OK - renommer CoreRepository en ModelRepository
+- ajouter try/catch pour les create/update
 - ajouter champ active table users
+OK - système de permalinks (https://github.com/IsraelOrtuno/permalink)
+	- améliorer organisation du code
+	- détecter la création d'une entité en doublon
+- système de versionning (https://github.com/mpociot/versionable)

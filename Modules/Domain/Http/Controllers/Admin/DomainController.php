@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Domain\Entities\Domain;
 use Modules\Domain\Forms\DomainForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class DomainController extends Controller
 {
@@ -20,7 +20,7 @@ class DomainController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -34,7 +34,7 @@ class DomainController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($domain);
+        $this->repository = new ModelRepository($domain);
     }
 
     /**

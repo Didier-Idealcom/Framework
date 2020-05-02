@@ -12,3 +12,19 @@ php artisan tinker
 création de la base de données :
 php artisan migrate
 php artisan module:seed Core
+
+système permalinks :
+- boot trait HasPermalinks
+- observer sur la methode saved des models (EntityObserver)
+- appel à la création ou la mise à jour du permalink (EntityObserver)
+- appel du manager des permalinks (HasPermalinks)
+- sauvegarde du permalink et définition de la relation avec le model (PermalinkManager)
+- boot model Permalink (Permalink)
+- observer sur la methode creating du model permalink (PermalinkObserver)
+- vérification unicité du slug (PermalinkObserver)
+- construction du path (PermalinkObserver)
+
+ALTER TABLE `menuitems` AUTO_INCREMENT=1;
+ALTER TABLE `menuitems_translations` AUTO_INCREMENT=1;
+ALTER TABLE `permalinks` AUTO_INCREMENT=1;
+ALTER TABLE `permalinks_translations` AUTO_INCREMENT=1;

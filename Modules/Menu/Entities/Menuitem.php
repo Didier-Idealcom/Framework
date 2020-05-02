@@ -2,20 +2,15 @@
 
 namespace Modules\Menu\Entities;
 
-use \Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Contracts\Permalinkable;
 use Modules\Core\Traits\HasUrlPresenter;
+use Modules\Core\Traits\HasPermalink;
 
-class Menuitem extends Model
+class Menuitem extends Model implements Permalinkable
 {
-    use Translatable, HasUrlPresenter;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'menuitems';
+    use Translatable, HasUrlPresenter, HasPermalink;
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +39,15 @@ class Menuitem extends Model
     public function menu()
     {
         return $this->belongsTo('Modules\Menu\Entities\Menu');
+    }
+
+    /**
+     * Get the options for the sluggable package.
+     *
+     * @return array
+     */
+    public function permalinkSlug(): array
+    {
+        return ['created_at', 'title_menu'];
     }
 }

@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\User\Entities\Permission;
 use Modules\User\Forms\PermissionForm;
-use Modules\Core\Repositories\CoreRepository;
+use Modules\Core\Repositories\ModelRepository;
 
 class PermissionController extends Controller
 {
@@ -20,7 +20,7 @@ class PermissionController extends Controller
     private $formBuilder;
 
     /**
-     * @var CoreRepository
+     * @var ModelRepository
      */
     protected $repository;
 
@@ -34,7 +34,7 @@ class PermissionController extends Controller
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->repository = new CoreRepository($permission);
+        $this->repository = new ModelRepository($permission);
     }
 
     /**
