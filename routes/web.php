@@ -42,3 +42,11 @@ if (!empty($menuitems)) {
 
 //Route::get('{menuitem}/{actualite}', 'ActualiteController@show');
 //Route::get('{menuitem}/{product}', 'ProductController@show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
