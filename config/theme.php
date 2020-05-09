@@ -29,12 +29,22 @@ return [
     | Symbolic link
     |--------------------------------------------------------------------------
     |
-    | If you theme_path is not in public folder then symlink must be true
+    | If your theme_path is not in public folder then symlink must be true
     | otherwise theme assets not working. If your theme_path under public folder
     | then symlink can be false or true as your wish.
     |
     */
     'symlink'    => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Symbolic path
+    |--------------------------------------------------------------------------
+    |
+    | you can change your
+    |
+    */
+    'symlink_path' => public_path('Themes'),
 
     /*
     |--------------------------------------------------------------------------

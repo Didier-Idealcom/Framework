@@ -5,6 +5,9 @@ prod : gulp --prod
 custom metronic :
 js : src/assets/js/theme/pages/my-script.js
 
+définition thème admin :
+Modules/Core/Config/config.php => middleware theme:metronic
+
 interface de commandes heroku :
 heroku run bash
 php artisan tinker
@@ -23,8 +26,3 @@ système permalinks :
 - observer sur la methode creating du model permalink (PermalinkObserver)
 - vérification unicité du slug (PermalinkObserver)
 - construction du path (PermalinkObserver)
-
-ALTER TABLE `menuitems` AUTO_INCREMENT=1;
-ALTER TABLE `menuitems_translations` AUTO_INCREMENT=1;
-ALTER TABLE `permalinks` AUTO_INCREMENT=1;
-ALTER TABLE `permalinks_translations` AUTO_INCREMENT=1;
