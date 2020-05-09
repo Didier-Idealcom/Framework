@@ -6,12 +6,12 @@
 <!-- begin:: Page -->
 <div class="kt-grid kt-grid--ver kt-grid--root">
     <div class="kt-grid kt-grid--hor kt-grid--root kt-login kt-login--v2 kt-login--signin" id="kt_login">
-        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" style="background-image: url({{ themes('media/bg/bg-1.jpg') }});">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" style="background-image: url({{ theme_url('media/bg/bg-1.jpg') }});">
             <div class="kt-grid__item kt-grid__item--fluid kt-login__wrapper">
                 <div class="kt-login__container">
                     <div class="kt-login__logo">
                         <a href="#">
-                            <img src="{{ themes('media/logos/logo-mini-2-md.png') }}">
+                            <img src="{{ theme_url('media/logos/logo-mini-2-md.png') }}">
                         </a>
                     </div>
                     <div class="kt-login__signin">
@@ -76,12 +76,12 @@
 
 @push('styles')
 <!--begin::Page Snippets -->
-<link href="{{ themes('css/demo1/pages/login/login-2.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ theme_url('css/demo1/pages/login/login-2.css') }}" rel="stylesheet" type="text/css" />
 <!--end::Page Snippets -->
 @endpush
 
 @push('scripts')
 <!--begin::Page Snippets -->
-<script src="{{ themes('js/demo1/pages/login/login-general.js') }}" type="text/javascript"></script>
+<script src="{{ theme_url('js/demo1/pages/login/login-general.js') }}" type="text/javascript"></script>
 <!--end::Page Snippets -->
 @endpush

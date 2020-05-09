@@ -48,20 +48,20 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- end::Fonts -->
 
     <!-- begin::Global Theme Styles -->
-    <link href="{{ themes('vendors/global/vendors.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ themes('css/demo1/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('vendors/global/vendors.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/demo1/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <!-- end::Global Theme Styles -->
 
     <!-- begin::Layout Skins -->
-    <link href="{{ themes('css/demo1/skins/header/base/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ themes('css/demo1/skins/header/menu/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ themes('css/demo1/skins/brand/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ themes('css/demo1/skins/aside/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/demo1/skins/header/base/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/demo1/skins/header/menu/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/demo1/skins/brand/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/demo1/skins/aside/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <!-- end::Layout Skins -->
 
     @stack('styles')
 
-    <link rel="shortcut icon" href="{{ themes('media/logos/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ theme_url('media/logos/favicon.ico') }}" />
 </head>
 <!-- end::Head -->
 
@@ -101,12 +101,12 @@ License: You must have a valid license purchased only from themeforest(the above
     <!--end::Base Scripts -->
 
     <!--begin::Global Theme Bundle -->
-    <script src="{{ themes('vendors/global/vendors.bundle.js') }}" type="text/javascript"></script>
-    <script src="{{ themes('js/demo1/scripts.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('vendors/global/vendors.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('js/demo1/scripts.bundle.js') }}" type="text/javascript"></script>
     <!--end::Global Theme Bundle -->
 
     <!--begin::Global Custom Scripts -->
-    <script src="{{ themes('js/demo1/pages/my-script.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('js/demo1/pages/my-script.js') }}" type="text/javascript"></script>
     <!--end::Global Custom Scripts -->
 
     @stack('scripts')

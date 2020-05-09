@@ -11,6 +11,7 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "igaster/laravel-theme": "^2.0",
         "kris/laravel-form-builder": "^1.30",
         "laravel/framework": "^7.0",
         "laravel/helpers": "^1.1",
@@ -18,7 +19,6 @@
         "laravel/ui": "^2.0",
         "maatwebsite/excel": "^3.0",
         "nwidart/laravel-modules": "^7.0",
-        "shipu/themevel": "^2.0",
         "spatie/laravel-permission": "^3.11",
         "yajra/laravel-datatables-oracle": "^9.0"
     },

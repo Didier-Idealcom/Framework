@@ -6,7 +6,7 @@ custom metronic :
 js : src/assets/js/theme/pages/my-script.js
 
 définition thème admin :
-Modules/Core/Config/config.php => middleware theme:metronic
+Modules/Core/Config/config.php => middleware setTheme:metronic
 
 interface de commandes heroku :
 heroku run bash
