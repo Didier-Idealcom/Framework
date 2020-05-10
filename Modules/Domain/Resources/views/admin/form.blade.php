@@ -48,18 +48,20 @@
 @section('content_page')
     <!-- begin: Portlet -->
     <div class="kt-portlet kt-portlet--tabs">
+        @if (isset($domain))
         <div class="kt-portlet__head">
             <div class="kt-portlet__head-toolbar">
                 <ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab">Fiche détail</a>
+                        <a class="nav-link active" href="javascript:;">Fiche détail</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:;">Langues</a>
+                        <a class="nav-link" href="{{ route('admin.domains_languages.index', $domain->id) }}">Langues</a>
                     </li>
                 </ul>
             </div>
         </div>
+        @endif
 
         <div class="kt-portlet__body">
             @include('partials.flash')
@@ -70,9 +72,9 @@
             {!! form_rest($form) !!}
 
             <div class="d-none">
-                <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
-                <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
                 <button type="submit" name="save" id="save_close" value="save_close">Save &amp; Close</button>
+                <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
+                <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
             </div>
             {!! form_end($form, false) !!}
             <!-- end: Form -->

@@ -31,7 +31,11 @@ class UserForm extends CoreForm
                 'multiple' => true,
                 'class' => 'Modules\User\Entities\Role'
             ])
-            ->add('name', 'text', [
+            ->add('firstname', 'text', [
+                'label' => 'Prénom',
+                'rules' => 'required'
+            ])
+            ->add('lastname', 'text', [
                 'label' => 'Nom',
                 'rules' => 'required'
             ])

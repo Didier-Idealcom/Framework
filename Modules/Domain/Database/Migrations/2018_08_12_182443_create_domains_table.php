@@ -24,7 +24,7 @@ class CreateDomainsTable extends Migration
             $table->string('google_maps')->nullable();
             $table->datetime('maintenance_start')->nullable();
             $table->datetime('maintenance_end')->nullable();
-            $table->string('maintenance_message')->nullable();
+            $table->text('maintenance_message')->nullable();
 
             $table->timestamps();
         });

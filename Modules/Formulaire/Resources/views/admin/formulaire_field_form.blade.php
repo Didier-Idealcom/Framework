@@ -57,9 +57,9 @@
             {!! form_rest($form) !!}
 
             <div class="d-none">
-                <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
-                <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
                 <button type="submit" name="save" id="save_close" value="save_close">Save &amp; Close</button>
+                <button type="submit" name="save" id="save_stay" value="save_stay">Save &amp; Stay</button>
+                <button type="submit" name="save" id="save_new" value="save_new">Save &amp; New</button>
             </div>
             {!! form_end($form, false) !!}
             <!-- end: Form -->

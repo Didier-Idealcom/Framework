@@ -27,6 +27,14 @@ class LanguageForm extends CoreForm
                 'label' => 'Alpha 2',
                 'rules' => !$this->getModel() ? 'required|size:2|unique:languages' : 'required|size:2'
             ])
+            ->add('alpha3', 'text', [
+                'label' => 'Alpha 3',
+                'rules' => !$this->getModel() ? 'required|size:3|unique:languages' : 'required|size:3'
+            ])
+            ->add('locale', 'text', [
+                'label' => 'Locale',
+                'rules' => 'required|max:10'
+            ])
             ->add('name', 'text', [
                 'label' => 'Nom',
                 'rules' => 'required'

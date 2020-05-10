@@ -1,18 +1,20 @@
 @extends('layouts.master')
 
-@section('title_page', 'Gestion des utilisateurs')
+@section('title_page', 'Gestion des domaines')
 
 @section('breadcrumb')
     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
     <div class="kt-subheader__breadcrumbs">
         <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
         <span class="kt-subheader__breadcrumbs-separator"></span>
-        <a href="{{ route('admin.users.index') }}" class="kt-subheader__breadcrumbs-link">Utilisateurs</a>
+        <a href="{{ route('admin.domains.index') }}" class="kt-subheader__breadcrumbs-link">Domaines</a>
+        <span class="kt-subheader__breadcrumbs-separator"></span>
+        <a href="{{ route('admin.domains_languages.index', $domain->id) }}" class="kt-subheader__breadcrumbs-link">Langues</a>
     </div>
 @stop
 
 @section('subheader_toolbar')
-    <a href="{{ route('admin.users.create') }}" class="btn btn-label-brand btn-bold">Ajouter</a>
+    <a href="{{ route('admin.domains_languages.create', $domain->id) }}" class="btn btn-label-brand btn-bold">Ajouter</a>
     <div class="kt-subheader__wrapper">
         <div class="dropdown dropdown-inline" data-toggle="kt-tooltip-" title="Quick actions" data-placement="left">
             <a href="#" class="btn btn-icon"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,24 +50,26 @@
 @stop
 
 @section('content_page')
-    <div class="alert alert-brand fade show" role="alert">
-        <div class="alert-text">
-            <strong>INFO</strong> : This view is loaded from module: {!! config('framework.user.config.name') !!}
-        </div>
-        <div class="alert-close">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"><i class="la la-close"></i></span>
-            </button>
-        </div>
-    </div>
-
     <!--begin::Portlet-->
     <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-toolbar">
+                <ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.domains.edit', $domain->id) }}">Fiche détail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="javascript:;">Langues</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="kt-portlet__body kt-portlet__body--fit">
             @include('partials.flash')
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="users_datatable"></div>
+            <div class="kt-datatable" id="domains_languages_datatable"></div>
             <!--end: Datatable -->
         </div>
     </div>
@@ -77,15 +81,15 @@
     <script type="text/javascript">
         // On document ready
         KTUtil.ready(function() {
-            var target = '#users_datatable';
-            var url = '{!! route('admin.users_datatable') !!}';
+            var target = '#domains_languages_datatable';
+            var url = '{!! route('admin.domains_languages_datatable', $domain->id) !!}';
             var columns = [{
                 field: 'RecordID',
                 title: '#',
                 sortable: false,
                 width: 30,
                 textAlign: 'center',
-                selector: {class: 'kt-checkbox kt-checkbox--single kt-checkbox--solid'}
+                selector: {class: 'm-checkbox--solid m-checkbox--brand'}
             }, {
                 field: 'id',
                 title: 'ID',
@@ -95,19 +99,11 @@
                 field: 'active',
                 title: 'Statut'
             }, {
-                field: 'firstname',
-                title: 'Prénom'
+                field: 'default',
+                title: 'Défaut'
             }, {
-                field: 'lastname',
-                title: 'Nom'
-            }, {
-                field: 'email',
-                title: 'E-mail'
-            }, {
-                field: 'created_at',
-                title: 'Inscription',
-                type: 'date',
-                format: 'DD/MM/YYYY'
+                field: 'language',
+                title: 'Langue'
             }, {
                 field: 'actions',
                 title: 'Actions',

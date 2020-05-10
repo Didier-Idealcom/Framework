@@ -20,7 +20,7 @@ class UserDatabaseSeeder extends Seeder
         Model::unguard();
 
         Schema::disableForeignKeyConstraints();
-        User::truncate();
+        /*User::truncate();
         DB::table('users')->insert([
             [
                 'name' => 'Didier Largeron',
@@ -30,7 +30,7 @@ class UserDatabaseSeeder extends Seeder
                 'updated_at' => now(),
                 'email_verified_at' => now()
             ]
-        ]);
+        ]);*/
         factory(User::class, 50)->create();
         Schema::disableForeignKeyConstraints();
     }

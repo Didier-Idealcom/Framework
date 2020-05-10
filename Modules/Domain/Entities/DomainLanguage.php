@@ -5,9 +5,16 @@ namespace Modules\Domain\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\HasUrlPresenter;
 
-class Domain extends Model
+class DomainLanguage extends Model
 {
     use HasUrlPresenter;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'domains_languages';
 
     /**
      * The attributes that are mass assignable.
@@ -31,10 +38,18 @@ class Domain extends Model
     protected $appends = ['url', 'url_backend', 'url_api'];
 
     /**
-     * Get the languages for the domain.
+     * Get the domain that owns the domain language.
      */
-    public function languages()
+    public function domain()
     {
-        return $this->hasMany('Modules\Domain\Entities\DomainLanguage');
+        return $this->belongsTo('Modules\Domain\Entities\Domain');
+    }
+
+    /**
+     * Get the language that owns the domain language.
+     */
+    public function language()
+    {
+        return $this->belongsTo('Modules\Language\Entities\Language');
     }
 }

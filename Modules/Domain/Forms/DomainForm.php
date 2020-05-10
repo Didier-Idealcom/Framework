@@ -55,7 +55,7 @@ class DomainForm extends CoreForm
                 'label' => 'Fin maintenance',
                 'rules' => ''
             ])
-            ->add('maintenance_message', 'text', [
+            ->add('maintenance_message', 'textarea', [
                 'label' => 'Message maintenance',
                 'rules' => ''
             ]);

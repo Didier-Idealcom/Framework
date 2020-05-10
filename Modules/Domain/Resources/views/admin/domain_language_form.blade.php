@@ -1,20 +1,20 @@
 @extends('layouts.master')
 
-@if (isset($menuitem))
-    @section('title_page', 'Edition du menuitem')
+@if (isset($domain_language))
+    @section('title_page', 'Edition de la langue du domaine')
     @section('breadcrumb')
         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
         <div class="kt-subheader__breadcrumbs">
-            <span class="kt-subheader__desc">{{ $menuitem->title_menu }}</span>
+            <span class="kt-subheader__desc">{{ $domain_language->language->name }}</span>
         </div>
     @stop
 @else
-    @section('title_page', 'Création d\'un nouveau menuitem')
+    @section('title_page', 'Création d\'une nouvelle langue du domaine')
 @endif
 
 @section('subheader_toolbar')
 <div class="kt-subheader__toolbar">
-    <a href="{{ route('admin.menuitems.index', $menu->id) }}" class="btn btn-default btn-bold">Back</a>
+    <a href="{{ route('admin.domains_languages.index', $domain->id) }}" class="btn btn-default btn-bold">Back</a>
 
     <div class="btn-group">
         <button type="button" href="#save_close" class="btn btn-brand btn-bold my-link__save">Save Changes</button>

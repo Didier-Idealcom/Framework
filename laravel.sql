@@ -28,17 +28,52 @@ CREATE TABLE IF NOT EXISTS `domains` (
   `google_maps` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `maintenance_start` datetime DEFAULT NULL,
   `maintenance_end` datetime DEFAULT NULL,
-  `maintenance_message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `maintenance_message` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.domains : ~1 rows (environ)
+-- Listage des données de la table laravel.domains : ~0 rows (environ)
 /*!40000 ALTER TABLE `domains` DISABLE KEYS */;
 INSERT INTO `domains` (`id`, `active`, `title`, `name`, `folder`, `analytics`, `search_console`, `google_maps`, `maintenance_start`, `maintenance_end`, `maintenance_message`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'Main', 'www.ideal-com.com', 'test', 'ga-123456', NULL, NULL, NULL, NULL, NULL, '2018-09-02 08:33:33', '2020-01-12 17:29:51');
+	(1, 'Y', 'test', 'www.test.fr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-02-22 17:44:13', '2020-05-09 14:20:53');
 /*!40000 ALTER TABLE `domains` ENABLE KEYS */;
+
+-- Listage de la structure de la table laravel. domains_languages
+CREATE TABLE IF NOT EXISTS `domains_languages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `domain_id` int(10) unsigned NOT NULL,
+  `language_id` int(10) unsigned NOT NULL,
+  `active` enum('Y','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
+  `default` enum('Y','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
+  `order` int(11) NOT NULL DEFAULT 1,
+  `url_redirect` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_blog` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_facebook` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_googleplus` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_instagram` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_linkedin` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_pinterest` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_twitter` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_viadeo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_youtube` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `home_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `home_content` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_domain_language_domain_id_language_id` (`domain_id`,`language_id`),
+  KEY `fk_domain_language_language_id` (`language_id`),
+  CONSTRAINT `fk_domain_language_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `domains` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_domain_language_language_id` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Listage des données de la table laravel.domains_languages : ~0 rows (environ)
+/*!40000 ALTER TABLE `domains_languages` DISABLE KEYS */;
+INSERT INTO `domains_languages` (`id`, `domain_id`, `language_id`, `active`, `default`, `order`, `url_redirect`, `url_blog`, `url_facebook`, `url_googleplus`, `url_instagram`, `url_linkedin`, `url_pinterest`, `url_twitter`, `url_viadeo`, `url_youtube`, `home_title`, `home_content`, `created_at`, `updated_at`) VALUES
+	(1, 1, 1, 'Y', 'Y', 1, 'https://www.google.fr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-05-10 13:27:54', '2020-05-10 12:03:06');
+/*!40000 ALTER TABLE `domains_languages` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. emails
 CREATE TABLE IF NOT EXISTS `emails` (
@@ -56,13 +91,26 @@ CREATE TABLE IF NOT EXISTS `emails` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.emails : ~1 rows (environ)
+-- Listage des données de la table laravel.emails : ~0 rows (environ)
 /*!40000 ALTER TABLE `emails` DISABLE KEYS */;
-INSERT INTO `emails` (`id`, `active`, `module`, `name`, `description`, `from`, `reply_to`, `to`, `cc`, `bcc`, `delay`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'Core', 'Test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-04-14 20:24:10', '2020-01-12 17:31:49');
 /*!40000 ALTER TABLE `emails` ENABLE KEYS */;
+
+-- Listage de la structure de la table laravel. failed_jobs
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `connection` text COLLATE utf8_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Listage des données de la table laravel.failed_jobs : ~0 rows (environ)
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires
 CREATE TABLE IF NOT EXISTS `formulaires` (
@@ -73,13 +121,10 @@ CREATE TABLE IF NOT EXISTS `formulaires` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires : ~3 rows (environ)
+-- Listage des données de la table laravel.formulaires : ~0 rows (environ)
 /*!40000 ALTER TABLE `formulaires` DISABLE KEYS */;
-INSERT INTO `formulaires` (`id`, `active`, `code`, `tracking`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'test', NULL, '2018-10-28 11:07:25', '2020-01-12 17:31:22'),
-	(2, 'N', 'test2', NULL, '2020-01-12 13:06:56', '2020-01-12 13:06:56');
 /*!40000 ALTER TABLE `formulaires` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires_fields
@@ -95,13 +140,10 @@ CREATE TABLE IF NOT EXISTS `formulaires_fields` (
   PRIMARY KEY (`id`),
   KEY `fk_form_field_formulaire_id` (`formulaire_id`),
   CONSTRAINT `fk_form_field_formulaire_id` FOREIGN KEY (`formulaire_id`) REFERENCES `formulaires` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires_fields : ~2 rows (environ)
+-- Listage des données de la table laravel.formulaires_fields : ~0 rows (environ)
 /*!40000 ALTER TABLE `formulaires_fields` DISABLE KEYS */;
-INSERT INTO `formulaires_fields` (`id`, `formulaire_id`, `active`, `order`, `code`, `type`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'Y', 1, 'nom', 'text', '2018-10-28 11:12:29', '2020-01-12 17:31:34'),
-	(2, 1, 'Y', 1, 'prenom', 'text', '2020-01-12 13:03:22', '2020-01-12 17:31:36');
 /*!40000 ALTER TABLE `formulaires_fields` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires_fields_translations
@@ -125,15 +167,10 @@ CREATE TABLE IF NOT EXISTS `formulaires_fields_translations` (
   UNIQUE KEY `u_form_field_trans_formulaire_field_id_locale` (`formulaire_field_id`,`locale`),
   KEY `formulaires_fields_translations_locale_index` (`locale`),
   CONSTRAINT `fk_form_field_trans_formulaire_field_id` FOREIGN KEY (`formulaire_field_id`) REFERENCES `formulaires_fields` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires_fields_translations : ~4 rows (environ)
+-- Listage des données de la table laravel.formulaires_fields_translations : ~0 rows (environ)
 /*!40000 ALTER TABLE `formulaires_fields_translations` DISABLE KEYS */;
-INSERT INTO `formulaires_fields_translations` (`id`, `formulaire_field_id`, `locale`, `label_admin`, `label_front`, `placeholder`, `date_format`, `help`, `error`, `error_min`, `error_max`, `error_extension`, `error_filesize`, `error_dimension`, `error_date_format`) VALUES
-	(1, 1, 'fr', 'Nom', 'Nom', NULL, NULL, NULL, 'Merci de renseigner le nom', NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 1, 'en', 'Lastname', 'Lastname', NULL, NULL, NULL, 'Please fill your lastname', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 2, 'fr', 'Prénom', 'Prénom', 'Prénom', NULL, NULL, 'Merci de renseigner votre prénom', NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 2, 'en', 'Firstname', 'Firstname', 'Firstname', NULL, NULL, 'Please fill your firstname', NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `formulaires_fields_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. formulaires_fields_values
@@ -181,22 +218,19 @@ CREATE TABLE IF NOT EXISTS `formulaires_translations` (
   UNIQUE KEY `u_form_trans_formulaire_id_locale` (`formulaire_id`,`locale`),
   KEY `formulaires_translations_locale_index` (`locale`),
   CONSTRAINT `fk_form_trans_formulaire_id` FOREIGN KEY (`formulaire_id`) REFERENCES `formulaires` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.formulaires_translations : ~4 rows (environ)
+-- Listage des données de la table laravel.formulaires_translations : ~0 rows (environ)
 /*!40000 ALTER TABLE `formulaires_translations` DISABLE KEYS */;
-INSERT INTO `formulaires_translations` (`id`, `formulaire_id`, `locale`, `title`, `resume`) VALUES
-	(1, 1, 'fr', 'Formulaire test', 'Lorem ipsum lol'),
-	(2, 1, 'en', 'Formulaire test', 'Lorem ipsum lol'),
-	(3, 2, 'fr', 'Formulaire test 2', 'test'),
-	(4, 2, 'en', 'Formulaire test 2', 'test');
 /*!40000 ALTER TABLE `formulaires_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. languages
 CREATE TABLE IF NOT EXISTS `languages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `active` enum('Y','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
-  `alpha2` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alpha2` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `alpha3` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
+  `locale` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `format_date_small` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `format_date_long` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -204,16 +238,12 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.languages : ~5 rows (environ)
+-- Listage des données de la table laravel.languages : ~1 rows (environ)
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
-INSERT INTO `languages` (`id`, `active`, `alpha2`, `name`, `format_date_small`, `format_date_long`, `format_date_time`, `created_at`, `updated_at`) VALUES
-	(1, 'Y', 'fr', 'Français', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, '2020-01-12 17:29:57'),
-	(2, 'N', 'en', 'English', '%m/%d/%Y', '%B %d %Y', '%m/%d/%Y %H:%i:%s', NULL, NULL),
-	(3, 'N', 'es', 'Español', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, NULL),
-	(4, 'N', 'it', 'Italian', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, NULL),
-	(5, 'N', 'de', 'Deutch', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', NULL, NULL);
+INSERT INTO `languages` (`id`, `active`, `alpha2`, `alpha3`, `locale`, `name`, `format_date_small`, `format_date_long`, `format_date_time`, `created_at`, `updated_at`) VALUES
+	(1, 'Y', 'fr', 'fra', 'fr_FR.utf8', 'Français', '%d/%m/%Y', '%d %B %Y', '%d/%m/%Y %H:%i:%s', '2020-05-09 17:11:16', '2020-05-09 15:17:02');
 /*!40000 ALTER TABLE `languages` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menuitems
@@ -236,12 +266,13 @@ CREATE TABLE IF NOT EXISTS `menuitems` (
   KEY `menuitems_parent_id_foreign` (`parent_id`),
   CONSTRAINT `menuitems_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `menuitems_parent_id_foreign` FOREIGN KEY (`parent_id`) REFERENCES `menuitems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.menuitems : ~1 rows (environ)
+-- Listage des données de la table laravel.menuitems : ~3 rows (environ)
 /*!40000 ALTER TABLE `menuitems` DISABLE KEYS */;
 INSERT INTO `menuitems` (`id`, `menu_id`, `active`, `gabarit`, `bg`, `bd`, `niveau`, `parent_id`, `visible`, `cliquable`, `format`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'Y', 'index_index', 0, 0, 1, NULL, 'Y', 'Y', 'submenu', '2020-01-12 12:45:43', '2020-01-12 17:30:21');
+	(1, 1, 'Y', 'index_index', 0, 0, 1, NULL, 'Y', 'Y', 'submenu', '2020-04-26 20:47:16', '2020-05-09 14:33:41'),
+	(2, 2, 'Y', 'cmspages_index', 0, 0, 1, NULL, 'Y', 'Y', 'submenu', '2020-05-02 17:38:24', '2020-05-09 14:32:58');
 /*!40000 ALTER TABLE `menuitems` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menuitems_translations
@@ -257,13 +288,15 @@ CREATE TABLE IF NOT EXISTS `menuitems_translations` (
   UNIQUE KEY `menuitems_translations_menuitem_id_locale_unique` (`menuitem_id`,`locale`),
   KEY `menuitems_translations_locale_index` (`locale`),
   CONSTRAINT `menuitems_translations_menuitem_id_foreign` FOREIGN KEY (`menuitem_id`) REFERENCES `menuitems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.menuitems_translations : ~2 rows (environ)
+-- Listage des données de la table laravel.menuitems_translations : ~4 rows (environ)
 /*!40000 ALTER TABLE `menuitems_translations` DISABLE KEYS */;
 INSERT INTO `menuitems_translations` (`id`, `menuitem_id`, `locale`, `title_menu`, `title_page`, `link`, `target`) VALUES
 	(1, 1, 'fr', 'Accueil', 'Accueil', NULL, '_self'),
-	(2, 1, 'en', 'Home', 'Home', NULL, '_self');
+	(2, 1, 'en', 'Home', 'Home', NULL, '_self'),
+	(3, 2, 'fr', 'Item 1', 'Item 1', NULL, '_self'),
+	(4, 2, 'en', 'Item 1', 'Item 1', NULL, '_self');
 /*!40000 ALTER TABLE `menuitems_translations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menus
@@ -279,8 +312,8 @@ CREATE TABLE IF NOT EXISTS `menus` (
 -- Listage des données de la table laravel.menus : ~2 rows (environ)
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
 INSERT INTO `menus` (`id`, `active`, `code`, `created_at`, `updated_at`) VALUES
-	(1, 'N', 'home', '2020-01-04 18:05:17', '2020-01-04 18:05:17'),
-	(2, 'N', 'main', '2020-01-04 18:05:17', '2020-01-04 18:05:17');
+	(1, 'Y', 'home', '2020-04-26 20:45:43', '2020-05-09 14:32:46'),
+	(2, 'Y', 'main', '2020-04-26 20:46:03', '2020-05-09 14:31:11');
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. menus_translations
@@ -310,20 +343,25 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.migrations : ~9 rows (environ)
+-- Listage des données de la table laravel.migrations : ~14 rows (environ)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2014_10_12_000000_create_users_table', 1),
 	(2, '2014_10_12_100000_create_password_resets_table', 1),
 	(3, '2018_08_02_173544_create_pages_table', 1),
-	(4, '2018_08_12_182443_create_domains_table', 1),
-	(5, '2018_08_12_182515_create_languages_table', 1),
-	(6, '2018_09_09_085005_create_permission_tables', 1),
-	(7, '2018_10_03_212343_create_formulaires_table', 1),
-	(8, '2019_04_14_174320_create_emails_table', 1),
-	(9, '2019_06_30_135843_create_menus_table', 1);
+	(10, '2018_08_12_182443_create_domains_table', 2),
+	(12, '2018_09_09_085005_create_permission_tables', 2),
+	(13, '2018_10_03_212343_create_formulaires_table', 2),
+	(14, '2019_04_14_174320_create_emails_table', 2),
+	(15, '2019_06_30_135843_create_menus_table', 2),
+	(17, '2020_01_27_052021_create_permalinks_table', 3),
+	(18, '2018_08_12_182515_create_languages_table', 4),
+	(19, '2019_08_19_000000_create_failed_jobs_table', 5),
+	(22, '2020_05_09_153204_rename_field_users_table', 6),
+	(23, '2020_05_09_155329_update_users_table', 6),
+	(24, '2020_05_10_102048_create_domains_languages_table', 7);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. model_has_permissions
@@ -354,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 /*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 	(1, 'Modules\\User\\Entities\\User', 1),
-	(2, 'Modules\\User\\Entities\\User', 1);
+	(1, 'Modules\\User\\Entities\\User', 2);
 /*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. pages
@@ -364,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Listage des données de la table laravel.pages : ~3 rows (environ)
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
@@ -385,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `pages_translations` (
   UNIQUE KEY `pages_translations_page_id_locale_unique` (`page_id`,`locale`),
   KEY `pages_translations_locale_index` (`locale`),
   CONSTRAINT `pages_translations_page_id_foreign` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Listage des données de la table laravel.pages_translations : ~6 rows (environ)
 /*!40000 ALTER TABLE `pages_translations` DISABLE KEYS */;
@@ -410,6 +448,55 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
+-- Listage de la structure de la table laravel. permalinks
+CREATE TABLE IF NOT EXISTS `permalinks` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `active` enum('Y','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
+  `entity_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `entity_id` int(10) unsigned DEFAULT NULL,
+  `redirect` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `permalinks_redirect_foreign` (`redirect`),
+  CONSTRAINT `permalinks_redirect_foreign` FOREIGN KEY (`redirect`) REFERENCES `permalinks` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Listage des données de la table laravel.permalinks : ~4 rows (environ)
+/*!40000 ALTER TABLE `permalinks` DISABLE KEYS */;
+INSERT INTO `permalinks` (`id`, `active`, `entity_type`, `entity_id`, `redirect`, `created_at`, `updated_at`) VALUES
+	(1, 'N', 'Modules\\Menu\\Entities\\Menuitem', 1, NULL, '2020-04-26 20:47:19', '2020-04-26 20:47:19'),
+	(2, 'N', 'Modules\\Menu\\Entities\\Menuitem', 2, NULL, '2020-05-02 17:38:24', '2020-05-02 21:08:16'),
+	(3, 'N', 'Modules\\Menu\\Entities\\Menuitem', 2, 2, '2020-05-02 21:04:15', '2020-05-02 21:08:16'),
+	(4, 'N', 'Modules\\Menu\\Entities\\Menuitem', 2, 2, '2020-05-02 21:07:52', '2020-05-02 21:08:16');
+/*!40000 ALTER TABLE `permalinks` ENABLE KEYS */;
+
+-- Listage de la structure de la table laravel. permalinks_translations
+CREATE TABLE IF NOT EXISTS `permalinks_translations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `permalink_id` int(10) unsigned NOT NULL,
+  `locale` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `full_path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permalinks_translations_permalink_id_locale_unique` (`permalink_id`,`locale`),
+  KEY `permalinks_translations_locale_index` (`locale`),
+  CONSTRAINT `permalinks_translations_permalink_id_foreign` FOREIGN KEY (`permalink_id`) REFERENCES `permalinks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Listage des données de la table laravel.permalinks_translations : ~8 rows (environ)
+/*!40000 ALTER TABLE `permalinks_translations` DISABLE KEYS */;
+INSERT INTO `permalinks_translations` (`id`, `permalink_id`, `locale`, `slug`, `full_path`) VALUES
+	(1, 1, 'fr', '2020-04-26-home', '2020-04-26-home'),
+	(2, 1, 'en', '2020-04-26-home', '2020-04-26-home'),
+	(3, 2, 'fr', '2020-05-02-item-1', '2020-05-02-item-1'),
+	(4, 2, 'en', '2020-05-02-item-1', '2020-05-02-item-1'),
+	(5, 3, 'fr', '2020-05-02-item-1-test-1', '2020-05-02-item-1-test-1'),
+	(6, 3, 'en', '2020-05-02-item-1', '2020-05-02-item-1'),
+	(7, 4, 'fr', '2020-05-02-item-1-test-2', '2020-05-02-item-1-test-2'),
+	(8, 4, 'en', '2020-05-02-item-1', '2020-05-02-item-1');
+/*!40000 ALTER TABLE `permalinks_translations` ENABLE KEYS */;
+
 -- Listage de la structure de la table laravel. permissions
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -418,16 +505,10 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.permissions : ~5 rows (environ)
+-- Listage des données de la table laravel.permissions : ~0 rows (environ)
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-	(1, 'permission_test1', 'admin', '2018-09-30 22:02:14', '2018-09-30 22:02:14'),
-	(2, 'permission_test2', 'admin', '2018-09-30 22:02:21', '2018-09-30 22:02:21'),
-	(3, 'permission_test3', 'admin', '2018-09-30 22:02:27', '2018-09-30 22:02:27'),
-	(4, 'permission_test4', 'admin', '2018-09-30 22:02:33', '2018-09-30 22:02:33'),
-	(5, 'permission_test5', 'admin', '2018-09-30 22:02:41', '2018-09-30 22:02:41');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. roles
@@ -438,15 +519,17 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.roles : ~4 rows (environ)
+-- Listage des données de la table laravel.roles : ~6 rows (environ)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-	(1, 'Utilisateur', 'web', '2018-09-23 21:35:20', '2018-09-23 21:39:47'),
-	(2, 'Superviseur', 'admin', '2018-09-23 21:35:33', '2018-09-23 21:39:55'),
-	(3, 'Référenceur', 'admin', '2018-09-23 21:37:27', '2018-09-23 21:40:07'),
-	(4, 'Administrateur 1', 'admin', '2018-09-23 21:39:16', '2018-09-23 21:40:16');
+	(1, 'Superviseur', 'admin', '2020-05-10 12:36:34', '2020-05-10 12:36:34'),
+	(2, 'Administrateur 1', 'admin', '2020-05-10 12:36:48', '2020-05-10 12:36:48'),
+	(3, 'Administrateur 2', 'admin', '2020-05-10 12:36:56', '2020-05-10 12:36:56'),
+	(4, 'Administrateur 3', 'admin', '2020-05-10 12:37:03', '2020-05-10 12:37:03'),
+	(5, 'Référenceur', 'admin', '2020-05-10 12:37:25', '2020-05-10 12:37:25'),
+	(6, 'Client', 'guest', '2020-05-10 12:39:10', '2020-05-10 12:39:10');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. role_has_permissions
@@ -459,84 +542,82 @@ CREATE TABLE IF NOT EXISTS `role_has_permissions` (
   CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Listage des données de la table laravel.role_has_permissions : ~5 rows (environ)
+-- Listage des données de la table laravel.role_has_permissions : ~0 rows (environ)
 /*!40000 ALTER TABLE `role_has_permissions` DISABLE KEYS */;
-INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
-	(1, 2),
-	(2, 2),
-	(3, 2),
-	(4, 2),
-	(5, 2);
 /*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
 
 -- Listage de la structure de la table laravel. users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `active` enum('Y','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
+  `firstname` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lastname` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
+  `last_login_at` timestamp NULL DEFAULT NULL,
+  `last_login_ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Listage des données de la table laravel.users : ~51 rows (environ)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `email_verified_at`) VALUES
-	(1, 'Didier Largeron', 'd.largeron@ideal-com.com', '$2y$10$HNndj3BOHGJicR2ZdudJO.tlFL.sIgAwFr0yEau6OcsZ/0Soqz9/G', NULL, '2020-01-04 18:05:17', '2020-01-04 18:05:17', '2020-01-04 18:05:17'),
-	(2, 'Jessica Lang', 'ernestine38@example.org', '$2y$10$h42voZQtWBce3tsMS7n3lOwKCQR9eGPl9Nx0efBAVzzjTLKD6NdjC', 'TTSI6s6zkA', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(3, 'Ms. Kali Trantow', 'barton.omari@example.org', '$2y$10$2K9IYJHvC3z17279TSk4leqicDsWQph42jNEN7w2EvXM8hkbZdS/S', 'EhkisrT8Bf', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(4, 'Joanny Gutkowski', 'umarks@example.com', '$2y$10$2/3hKpPGc1XFOlUHwNz7IOZpuqTAA5QyGLGwjtcmQa251rTEOWEZq', 'XgMqLSSzMM', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(5, 'Maye Green', 'kyla88@example.com', '$2y$10$FmDOpEfSA2cm50H0lMZvy.dPKeHqVnIIgABcOpLXBQqwUXxEo66DK', '8JCSiqYAGA', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(6, 'Prof. Marcus Steuber', 'wyman.garett@example.org', '$2y$10$KxwsII360I/QgxvIOeXhrOMPJ7Xw8MOFkQGstBkWrwhLW/Q7uCsYG', '9FNgB0rVoH', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(7, 'Esmeralda Reilly', 'louvenia80@example.com', '$2y$10$WacGeP4bItLvUM...Ykyb.e8Imw8I1C957unIz0WOC/jteIVJDglK', 'DgfjlLRZZc', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(8, 'Brandt Luettgen', 'bwyman@example.com', '$2y$10$35s/6akKrHC0iNifZlvNN.PkQf3hgORJxmbmtGPmkCUafOkm8nK6y', 'tBkr7miqFM', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(9, 'Danika Muller', 'kaelyn37@example.org', '$2y$10$gwtpv80l6bgFhK9mGNtp/u2DsXUBsBvc/2yU8Nbt2dsASkSyGwBJi', 'SrLYLuzjR0', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:17'),
-	(10, 'Antonetta Thiel', 'dgleichner@example.org', '$2y$10$1wI4JM2xB3T6ioO64rPsg.ZqVvlNhO2xO8akr5PfWOHg3LJU7kqCe', 'CHcm5mLECv', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(11, 'Keaton Heller', 'lemke.eudora@example.net', '$2y$10$/ULu74VklkPSWEmkxbZlpOF8fRoDOpV1/X7oRRx8WHjh2mo8Ir5SO', '0w0bzohsHd', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(12, 'Guido Torphy', 'tyreek08@example.com', '$2y$10$Wq7OyJ0oRmYrkTybh/t1X.qLMBMR5QEDyKRuuE6V9f4zzXlXz1zg2', '1bWDMe8gFO', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(13, 'Miracle Aufderhar DDS', 'hill.andre@example.net', '$2y$10$lIycpaZ2j/p/fBLd/qf0Humjeq/QmEeDYuddhZWWZ6aH4RIkHQw4e', 'reGxypmoy5', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(14, 'Ms. Anna Turcotte', 'cordie91@example.net', '$2y$10$e5qedVhpVx8U4bdeVQ4/b.Mxu96zSjOdlJsCby/YpkkBiKilQkuQi', 'wyc3g3zUQs', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(15, 'Gabriella Torp', 'dean36@example.com', '$2y$10$s1Juqe92F8/pD4hRu1W8XO01Q54d4TC61fMpHisqYAQy0tGzn80ba', 'qgcbwDwUwm', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(16, 'Granville Dach', 'kendra.schiller@example.com', '$2y$10$7OWRDvOJTCVVsnw/NAXmYud488AxEA8aRBndFDwKVp01iXEshnHaO', 'mKM8RTEmXh', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(17, 'Anastacio Daugherty Jr.', 'monique.rogahn@example.com', '$2y$10$JqMd2X/8iKm1boq95Ql9cuCQVlo5RXKDD5snLqlsJwvORujJj2npC', 'x9QdsI2H7D', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(18, 'Mrs. Marjolaine Romaguera', 'isaias68@example.net', '$2y$10$ECzHjwq15V9w55ajGfUlgupjX6UorkHbWRhkC5XCz2Hl27GOyvs6q', '4t3hze8H7p', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(19, 'Charley Lesch II', 'dickinson.jeremy@example.org', '$2y$10$hxUImV4l2wv0fcRZcXYZ7.S4sSVBryDWt11ubsUKv/WFSW4Dy5Kd6', 'l2XvjVM6lZ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(20, 'Darius Auer', 'ora.quigley@example.net', '$2y$10$KfPtn1D24GomQ6ofMy63HeyMbXevas4xG9mMOn06rAvhPtPjxJz2C', 'mtHvFxHHUo', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(21, 'Dr. Minerva Labadie', 'pearline47@example.com', '$2y$10$Z5.Wii13ljR7V99vvFkKQuNyvj6qQ9HLrajii8bTKOP4e3PxUQqx2', 'MTquo7EUaw', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(22, 'Miss Eda Bruen III', 'xpredovic@example.net', '$2y$10$2Hhb/89sEw7RfkhSmxWzHur3Ak.Jc0gccfWxk86dp3/KFfCSTeRlS', 'VeUXq6FOZ9', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(23, 'Caitlyn Borer DDS', 'willard35@example.com', '$2y$10$MmKck6hFI.LgY6ZhoOzwte3M5EZEjnflKhdUA3J6iLJWK3SSqBYEe', 'YgxL1ijgUJ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(24, 'Makenzie O\'Keefe II', 'stamm.taurean@example.net', '$2y$10$1ZPPQFa1wJBg8e5pTEOGx.9Ps5Vff0EEIDrqtKebe2VbJRh2c3MYa', 'Xip6iwFHfU', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(25, 'Prof. Orval Hamill', 'braun.laila@example.org', '$2y$10$.QAyH4RlE0KXb609Ivs1R.9Fk0woHkIcVSX3bR7RxVWuBhF/qqdaO', 'F40HyaLKn3', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:18'),
-	(26, 'Emmet Pfeffer', 'spouros@example.com', '$2y$10$q.4AHUFaNWKjfK2CFdjjI.1TLOzQ8yE2N2ocB5tucoCoMO1sU/gWe', 'S2Y8aFC1kK', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(27, 'Jonas Satterfield', 'jbotsford@example.net', '$2y$10$1Eujif45eqa2xg9Ea3rHwu11aT42jepbXXvGgwAPj0JW2ziadXppq', 'fpSYKmDgzV', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(28, 'Ms. Alison Larkin', 'novella.eichmann@example.com', '$2y$10$XXCuHfiqnwRu7G5zPfJxX.UzqRKF44l70pFK7sFL6g52c0LHXCxtC', 'q5o9gyHrZm', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(29, 'Suzanne Bernier', 'bjohnson@example.com', '$2y$10$VdWy0eOu2Fo6epWQK05kSuVwYDfU1KvnNM9jfgs93TUMaMDtJyihi', 'Tfd83aHXVM', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(30, 'Orin Bruen', 'vella.gulgowski@example.org', '$2y$10$mlRWnN77ji4lq.Gzc4adH.nc8VoQkTeiXJQ5.0TlkBZ4e5zm4i96a', 'LApT0QsyKZ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(31, 'Mr. Harold Pfannerstill Jr.', 'cartwright.harvey@example.com', '$2y$10$Ounp72Y2cmPvuy.tQ.x8u.nlB8lV6w9tXemnPKqJZMSa5zdr.nINu', 'qoEM9hSNL0', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(32, 'Wilma McDermott', 'bethel.dicki@example.com', '$2y$10$7XSfUm5bmDoUG1amdKecKePwcAQGeGSLLgw3XCEIFG/8AWEH8HJsa', '5vyXkd0ML9', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(33, 'Kale Haag V', 'wokuneva@example.org', '$2y$10$1MWwJ3gHH1oioYDSpzAKu.qU4ycgaXp5ijqOCJGtU6fWTNoLNpiaW', 'MAN9CYXbBx', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(34, 'Walker Reinger Jr.', 'purdy.connor@example.net', '$2y$10$O8XC6OCWpU2on.A58dY/Z.PLFmQHaDl4QkbQd.PMdX5bNfViwXWFW', 'Xz2LDjwOUj', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(35, 'Dr. Rodolfo Reichert', 'prosacco.emmanuelle@example.net', '$2y$10$4QaX2mXqxBXTKQouRw/Yk.tt9So8TQ9fa6Z/goZGG/8wIbDnfQV/C', '4mnIjBh8hZ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(36, 'Ethyl Fadel', 'cummerata.lorena@example.net', '$2y$10$2rfBVk1YgpGITfMPTA2bAOYec0xEoKQ1QB8mGXodobJY/JC0FfIGW', '90GesBezug', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(37, 'Eldred Hilpert', 'mhyatt@example.net', '$2y$10$yon2Zchpgw1YrIpbqsQzeufqkvRY1FVdaU51ER1xK6JqVuDM2L3Ju', 'uEtXKv27Db', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(38, 'Mozell Ernser', 'lane08@example.net', '$2y$10$VX4jhbHuOqMVrJmcCfV.BOPUlG6HiJXY70ugtzGbtRy5WisK7.wNS', 'RhiBHforvQ', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(39, 'Mrs. Courtney Bahringer', 'rocky43@example.org', '$2y$10$G8qs1GffSzNHnKX66L/V8eJ3bShzZ34cwp6pgS7c2le77dhyVV5bi', 'NChfsjuWs9', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(40, 'Lexie Rowe', 'vruecker@example.org', '$2y$10$bPtfJHBK8VAPJM0tHv6uJ.s2WftmQJJg5IJE1PTa.5pW7VClM6Wxm', 'sSXUVGgSGY', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:19'),
-	(41, 'Prof. Ellsworth Davis DDS', 'vicente84@example.net', '$2y$10$Hb1abYrKfeUc6aZRFlOHZ.3MUhjo58dxvkPpwyxnJp/jedI5TntwS', 'agW086EYZ8', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(42, 'Maximillia Davis II', 'odie78@example.org', '$2y$10$3dlVc2fksf2xSqnwcGGpe.Dt7ly3fGPXU1Z0GoubxvqRdsUHk/StC', 'RqTyPZ763O', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(43, 'Mrs. Freeda Lakin', 'steuber.lucie@example.org', '$2y$10$mbrU6nY4pNfjTVjqmIYAb.d9DAyVS2HciIVugILyAXRkho.NelJ2G', 'TGg82TrGQu', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(44, 'Mr. Ariel Bailey V', 'lysanne.armstrong@example.org', '$2y$10$SBenpQTHvQ9swJfYLvblgu.LiN2Z.80PmknLpgTxIhNz45JyfBi8q', '5wFrSJL0SP', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(45, 'Tierra Heidenreich', 'ybogisich@example.org', '$2y$10$xT4iolQt6zCwC6jHkcUMquMvTdC9FnEx/5RiqDfUpLaQSgFOCx8Ta', 'soO7INVY4B', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(46, 'Miss Kailey Trantow II', 'maribel.kovacek@example.com', '$2y$10$oYHCWSEtHIhrreFq0IG5pOAt/AEHQjwbCVmMv3L/6POBvwlyXAOVO', 'NcnahM0bc8', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(47, 'Brannon Botsford', 'jaquan.muller@example.net', '$2y$10$tgXl6eGVa4bT4H8BvNnCJ.LT2ttJgXwzMeTRChz5LyCmzL/nVeg.W', 'E1HY2yevXE', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(48, 'Delphia Mante', 'mitchel.crooks@example.com', '$2y$10$POMlYoytuE9lFNdUVt3dx.mf7yJsHwjIW/8hqpfR.4RISyYz1g5se', 'co7AEIHl6D', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(49, 'Prof. Lloyd Waters', 'boehm.jordon@example.org', '$2y$10$iM7uqIkCECTfEMX32F.DieSFZ37ZjoAKgejiuL/1DEm3n.A/5bwJu', 'GbrplwvJtN', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(50, 'Colby Adams', 'kris.urban@example.com', '$2y$10$WWYKH0ZSwcdfjk7LpIXxC.U6K3FKmnskC9g6L2GfPRri2z3Fd3cyW', 'j3PdYD0WlS', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20'),
-	(51, 'Bradford Kling Sr.', 'alexys49@example.net', '$2y$10$QRaEpcUXgCosIgAIY7kvoOfANxGvi.f8cqrQvbDx8dEu4ioYaBo3q', 'p5wLOZh4st', '2020-01-04 18:05:20', '2020-01-04 18:05:20', '2020-01-04 18:05:20');
+INSERT INTO `users` (`id`, `active`, `firstname`, `lastname`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `email_verified_at`, `last_login_at`, `last_login_ip`) VALUES
+	(1, 'Y', 'Didier', 'Largeron', 'd.largeron@ideal-com.com', '$2y$10$HNndj3BOHGJicR2ZdudJO.tlFL.sIgAwFr0yEau6OcsZ/0Soqz9/G', 'KwzrSq9G7q1cYmlUKNu2g0ZTRfhYZ93IstO54u9bxcFYE2PchvDzcGVbOVLn', '2020-01-04 18:05:17', '2020-05-10 13:43:13', '2020-01-04 18:05:17', '2020-05-10 13:43:13', '127.0.0.1'),
+	(2, 'Y', 'test', 'test', 'test@test.fr', '$2y$10$KPu6PFlEtXq.a8swey/.5uiq0cvI5DCjLY2wVwr0SfqlTFIjCKARm', NULL, '2020-05-09 16:23:03', '2020-05-10 12:40:28', '2020-05-09 16:23:00', '2020-05-10 12:40:28', '127.0.0.1'),
+	(3, 'N', 'Michelle', 'Beatty', 'monroe.senger@example.com', '$2y$10$QLxY4.spZheX1SoHdxT9qeYv3a1ZcWnGbKw41gw30oV3ZpkYfIxLm', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(4, 'N', 'Maudie', 'Kilback', 'okeefe.mozelle@example.net', '$2y$10$jT6/5LluZyBwRQJg4aNS8eLC.zB5b15.jAIJfio21Xm4TraO7Wssq', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(5, 'N', 'Josie', 'Rutherford', 'paucek.joy@example.org', '$2y$10$jWtsh6S8/8hL0sRTYlgLB.mpU7n/B6kA6CBlc/Tz17negJRaRMpRq', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(6, 'N', 'Allen', 'Strosin', 'maribel.fritsch@example.net', '$2y$10$xAhXBvUbfk/w5DjVSuS1s.AJcJp2bBXLBnRj/BMVuNTfgMVBh/2Im', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(7, 'N', 'Sydnee', 'Flatley', 'quitzon.sandra@example.com', '$2y$10$Txk3mW6heDmXr6Z5YU3pH.xk2c.491QU2LLkhqirWtm8ZUsrP2UHm', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(8, 'N', 'Kellen', 'Stehr', 'bridie.zemlak@example.com', '$2y$10$gznUW8.Au0Jbvx6DLP2WEuPy32gHhQtRhEVTeqo/Dh7HblR5Vvi4W', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(9, 'N', 'Meggie', 'Kshlerin', 'thauck@example.net', '$2y$10$Zz2gtclYP5SySr1rkKCnI.Y3NA0Cfg/2fLbx5ho/7feyxRtvo6qRO', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:00', NULL, NULL),
+	(10, 'N', 'Chadrick', 'Cassin', 'ucorkery@example.net', '$2y$10$IIPdiaAahAzuVwPn3mkNRez3jorfqyfcSOgY/YrvZLHvNd9jrFh/6', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(11, 'N', 'Wilbert', 'D\'Amore', 'bednar.joan@example.com', '$2y$10$uJmhF9FD/1xv2/bpasbu8OAlAuNog3Se.hzhTz3b0boxgFXFmfGn.', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(12, 'N', 'Tyrique', 'Hamill', 'glemke@example.net', '$2y$10$uNW0wrxX.QVyvC1bB2XGoujiHafO/w1TBd8tgzXrCWSbaw0QCrlJi', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(13, 'N', 'Ike', 'Wilderman', 'htrantow@example.org', '$2y$10$BGHYFm9L4o9UPyyunU2yUOn1ciifZh0MqEFWlee13VxVGe4Y/C2TG', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(14, 'N', 'Shaina', 'Emard', 'aida55@example.net', '$2y$10$nU9CcIIO8gnwoi9bC9HUa.u1VGhOoJhboz0cPpJZ3ntn.nhnE502S', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(15, 'N', 'Jack', 'Adams', 'maritza41@example.net', '$2y$10$5R8giZwibGbUgPmryn.kTOOTVVROCsrg1NOUi2NSZKcGwmxQYbyP6', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(16, 'N', 'Trace', 'Schuppe', 'dibbert.prudence@example.net', '$2y$10$.ICAcF5yQDZkZLJgIwg1BOHVv1J/8nnK./Q0SVmuBVPXmm7j1aBNO', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(17, 'N', 'Orrin', 'Hammes', 'tia.heathcote@example.com', '$2y$10$O0vM1PU1Q8TWhimRxXqNU.e/6Ri4uUC1enQw6i8jJLjExxHRJbaT2', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(18, 'N', 'Curtis', 'Torphy', 'annamae.rutherford@example.org', '$2y$10$80IBGBQyHo5QsR9ZAxwruOmjfe1lSSE7sDWAt.n/tgdoLp4B5eZCW', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(19, 'N', 'Lisandro', 'Streich', 'fgutmann@example.com', '$2y$10$7NBfzZlhvsWSAd.GdOLY5OFkPTy8xKOfY4cPr90gfmXiniitu8qTW', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(20, 'N', 'Rossie', 'Ebert', 'dayana.klein@example.org', '$2y$10$Eqb7pXd23rz03yoijQl1n.ZrLbxkFn4JknUy1Y/xN98Tk2uGlkFGS', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(21, 'N', 'Eloisa', 'Kassulke', 'usauer@example.com', '$2y$10$ZT/9gW2iERLbJvnEwmx.U.J2Lo6blHpr4NnOpUOXoQ7dZDixL.Q6K', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(22, 'N', 'Jerrell', 'Schroeder', 'xdickinson@example.com', '$2y$10$FDlNO4x9YFR374fvAGYTr.JAaSSxD3pRO8akhmwTRE6b5GyE8OBN.', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(23, 'N', 'Adah', 'Streich', 'jamison.dickinson@example.net', '$2y$10$ow6byq5BXcXC2UG3t4lRQeOc3ciIx21paPbifRBTZ0f66HvCWWgCW', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(24, 'N', 'Lexus', 'Rath', 'odoyle@example.org', '$2y$10$borJ0HtJQnBZydh9.m.r0e.FY4jyyj1enaZACp.iY7hlH6d/2wOcq', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(25, 'N', 'Elaina', 'Conroy', 'ullrich.ana@example.com', '$2y$10$kELqVvR.8XLKvcnQ/UvnaeZSpGVMCMDAx2.fTw94dN8x.KrccMeEi', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:01', NULL, NULL),
+	(26, 'N', 'Tony', 'Zemlak', 'roscoe.dickinson@example.org', '$2y$10$CyctIFA0HJbeBGZIADMrceSmyyG3aScm7bB1AFxqXNlL/62X2BXn2', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(27, 'N', 'Sadie', 'Kulas', 'maynard.abernathy@example.com', '$2y$10$3/wTXVClrX.TdXCXDYW0aOttgjapsdiTMrNG4k.8YoZZAP5bnHdIe', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(28, 'N', 'Fred', 'Blick', 'thora30@example.net', '$2y$10$SCRp8bX/O6yQpLU9L378cOpwsALZHBSU3hgsLFew5pydFbITZjlKS', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(29, 'N', 'Jo', 'Rempel', 'dhowell@example.com', '$2y$10$1dNEPwSmHsdueqdd4AbVcuJvYAmNUA2va0oESm6iLcTp5FBFIhMsO', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(30, 'N', 'Santina', 'Leffler', 'grant.santa@example.org', '$2y$10$spHnGRQ.eGizy8q9OISjxOfGdfk9hxZWYwH/4Z405KpvZtIEU65P6', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(31, 'N', 'Dillon', 'Schinner', 'crist.lucile@example.org', '$2y$10$4RYWbbpeVoy9Qmy1IMB7yOOtYJ7MVpsNx8vdptyFFjyBI3oxfiKBy', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(32, 'N', 'Maximus', 'Langosh', 'trobel@example.net', '$2y$10$jwMJepcty2Zz4jhLyUQjZOmUc/rig3gUNFEZ1f252NjrkJ.pqvCTe', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(33, 'N', 'Maia', 'Champlin', 'yasmine.sipes@example.com', '$2y$10$hboamMnezJZSZRvb5.6IGOLTEPlYIqvFwP/VkdcrnI6bBGAFjhLGq', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(34, 'N', 'Claudine', 'Schuppe', 'xthiel@example.org', '$2y$10$cSqk4y/AhmlJBZOrVieLJu5HflMH4IhaE7XQR0KhI.Ze2wjQ3OtGG', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(35, 'N', 'Quinten', 'Lindgren', 'hammes.cloyd@example.org', '$2y$10$RAHCTbaThgFD8xrL591Pkexa43wwboQ41w1WCuRlnA3.FMy9QbJma', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(36, 'N', 'Hailee', 'Leuschke', 'naomie.schamberger@example.net', '$2y$10$tKlDVNobbCEzVM9yOB28UOkrMlmlmPtP6gT/MfVkji2eGOiWc796e', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(37, 'N', 'Camryn', 'Fay', 'demarcus73@example.org', '$2y$10$2SCCeCZ6AssIXboUjBDHv.U8flDcL4MCySewIFgaGOvTUUkjmsiKK', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(38, 'N', 'Guido', 'Kshlerin', 'yfadel@example.net', '$2y$10$/IKdIXVJvHJKEu08DdcFAuxAdvaPwhKZcXNwkMI2Chc.B9rjL7Lbm', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(39, 'N', 'Aditya', 'Gleichner', 'swilliamson@example.com', '$2y$10$1eM7uP4P0ak2jkrAcPk6z.Tr9WN2gZHdHHKehCT8AMVEKnowKuvpO', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(40, 'N', 'Cleve', 'Erdman', 'cornell.thompson@example.net', '$2y$10$eHiOsdtx4XDHEZa/Mst2ZOpzQAN8fhcvQpIylMlXZpMmKpO6470gi', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(41, 'N', 'Lucienne', 'Green', 'yvette.mcclure@example.com', '$2y$10$M6YDecPpM0hOTGzeueIlCuefhZISChgMRj/zNzvbyBgCuSPDqaHz.', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:02', NULL, NULL),
+	(42, 'N', 'Thelma', 'Homenick', 'kuvalis.velma@example.org', '$2y$10$NFS8BJHZfX3d2BXNJCLcsOvyd1zYIUdqHMR581GGABev2/rGG7IL2', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(43, 'N', 'Gregorio', 'Runolfsson', 'robel.madisyn@example.com', '$2y$10$hZsDTTUarPWcadrePPKlp.hAY738n43k/pJdKkFXD16GDBxxoADJW', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(44, 'N', 'Celestine', 'Murazik', 'pruecker@example.org', '$2y$10$p75Fn13dy4sWMnuafjZaJ.Sbcm0rQ7GSRCrkoqebNq3IqStoxYmJO', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(45, 'N', 'Penelope', 'Ebert', 'timmothy76@example.org', '$2y$10$yVW8vXwAuJIhk1WbTp36pOLdeVMxjOeQU8i3ODCoNewzVs/VlbeR2', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(46, 'N', 'Verdie', 'Funk', 'gwendolyn.murray@example.org', '$2y$10$adoXOEhVzd8ioJRDlEpxReo0a7YDTiZCYfB7dfwFj9.uZFESKn8g2', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(47, 'N', 'Reilly', 'Leannon', 'mclaughlin.gerhard@example.net', '$2y$10$XpuD9ouSLfKBTDt5bVMcGO4NJ01sLbt7gEFRfJysQG18W26gKHSvG', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(48, 'N', 'Humberto', 'Roob', 'berneice.blanda@example.net', '$2y$10$5Fm5hVJhW7s3uRRfRAY6kO0L74KKF.E/O9fOP7YOK2WO3yPW6OJ/u', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(49, 'N', 'Loy', 'Abshire', 'aokuneva@example.org', '$2y$10$xDMySFUyp9H0WgKCg41eWesguca/LgEPZiJmwHm0kAMQvYPuz.cOO', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(50, 'N', 'Lamar', 'Bernhard', 'boconner@example.com', '$2y$10$2op4ufPCOsdXHEwsIdgSMeAZwwW.ixuVRYbxQlGFS.kNstSdy570K', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL),
+	(51, 'N', 'Felton', 'Orn', 'karlie.boehm@example.org', '$2y$10$lDMbLV7g05QbXQa/VIRj7einJ.NB0qEMfMyK0Z.3aVwXAvL0c3xia', NULL, '2020-05-09 16:23:03', '2020-05-09 16:23:03', '2020-05-09 16:23:03', NULL, NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

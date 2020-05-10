@@ -172,6 +172,9 @@ class UserController extends Controller
                 $class_i = $user->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
                 return '<a href="javascript:;" data-url="' . route('admin.users_active', ['user' => $user->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($user->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
+            ->editColumn('created_at', function($user) {
+                return date('d/m/Y', strtotime($user->created_at));
+            })
             ->addColumn('actions', function($user) {
                 return '
                     <a href="' . $user->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
@@ -184,7 +187,7 @@ class UserController extends Controller
                     </form>
                 ';
             })
-            ->escapeColumns(['name', 'email'])
+            ->escapeColumns(['firstname', 'lastname', 'email'])
             ->make(true);
     }
 

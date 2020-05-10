@@ -8,6 +8,7 @@
         "php": ">=7.2.5",
         "ext-blackfire": "^1.29",
         "astrotomic/laravel-translatable": "^11.3",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -20,6 +21,7 @@
         "maatwebsite/excel": "^3.0",
         "nwidart/laravel-modules": "^7.0",
         "spatie/laravel-permission": "^3.11",
+        "thepinecode/blade-filters": "^0.6.0",
         "yajra/laravel-datatables-oracle": "^9.0"
     },
     "require-dev": {

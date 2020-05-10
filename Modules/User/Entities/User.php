@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['active', 'firstname', 'lastname', 'email', 'password', 'last_login_at', 'last_login_ip'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -32,6 +32,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = ['url', 'url_backend', 'url_api'];
+
+    public function getFullnameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 
     public function setPasswordAttribute($value)
     {
