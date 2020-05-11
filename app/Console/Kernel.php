@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function() {
-            DB::table('users')->first()->update(['updated_at' => Carbon::now()->toDateTimeString()]);
+            DB::table('users')->where('email', 'd.largeron@ideal-com.com')->update(['updated_at' => Carbon::now('Europe/Paris')->toDateTimeString()]);
         })->dailyAt('08:00');
     }
 
