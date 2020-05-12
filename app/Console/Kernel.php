@@ -28,7 +28,17 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function() {
             DB::table('users')->where('email', 'd.largeron@ideal-com.com')->update(['updated_at' => Carbon::now('Europe/Paris')->toDateTimeString()]);
-        })->dailyAt('08:00');
+        })->everyFiveMinutes();
+    }
+
+    /**
+     * Get the timezone that should be used by default for scheduled events.
+     *
+     * @return \DateTimeZone|string|null
+     */
+    protected function scheduleTimezone()
+    {
+        return 'Europe/Paris';
     }
 
     /**
