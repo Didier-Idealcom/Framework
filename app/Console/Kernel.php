@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() {
             Log::info('Running schedule task');
             DB::table('users')->where('email', 'd.largeron@ideal-com.com')->update(['updated_at' => Carbon::now('Europe/Paris')->toDateTimeString()]);
-        })->hourly();
+        })->dailyAt('08:00');
     }
 
     /**

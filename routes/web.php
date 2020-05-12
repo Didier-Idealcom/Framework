@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,10 @@ Auth::routes(['verify' => true]);
 
 Route::prefix('admin')->group(function() {
 	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
+});
+
+Route::get('/schedule/run', function () {
+    Artisan::call('schedule:run');
 });
 
 /*$menuitems = [];
