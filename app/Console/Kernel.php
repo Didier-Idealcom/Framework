@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,8 +28,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function() {
+            Log::info('Running schedule task');
             DB::table('users')->where('email', 'd.largeron@ideal-com.com')->update(['updated_at' => Carbon::now('Europe/Paris')->toDateTimeString()]);
-        })->everyFiveMinutes();
+        })->hourly();
     }
 
     /**
