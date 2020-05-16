@@ -8,6 +8,6 @@ class GrapesjsType extends FormField
 {
     protected function getTemplate()
     {
-        return 'laravel-form-builder::grapesjs';
+        return 'fields.grapesjs';
     }
 }
