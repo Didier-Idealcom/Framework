@@ -1,7 +1,7 @@
-var MyListDatatable = function() {
-    // variables
-    var datatable;
+// variables
+var datatable;
 
+var MyListDatatable = function() {
     // init
     var init = function(target, url, columns) {
         // init the datatables. Learn more: https://keenthemes.com/metronic/?page=docs&section=datatable
@@ -102,6 +102,10 @@ KTUtil.ready(function() {
                 }
                 btn.toggleClass('btn-success btn-danger');
                 btn.find('i').toggleClass('la-toggle-on la-toggle-off');
+
+                if (btn.data('reload')) {
+                    datatable.reload();
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Status ' + textStatus + ' : ' + errorThrown);

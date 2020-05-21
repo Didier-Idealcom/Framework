@@ -60,7 +60,7 @@
     </div>
 
     <!--begin::Portlet-->
-    <div class="kt-portlet kt-portlet--mobile">
+    <div class="kt-portlet">
         <div class="kt-portlet__body kt-portlet__body--fit">
             @include('partials.flash')
 

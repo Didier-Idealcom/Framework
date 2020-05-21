@@ -137,7 +137,7 @@ class MenuitemController extends Controller
      */
     public function active(Menuitem $menuitem)
     {
-        $activated = $this->repository->active($menuitem->id);
+        $activated = $this->repository->switch($menuitem->id);
     }
 
     /**

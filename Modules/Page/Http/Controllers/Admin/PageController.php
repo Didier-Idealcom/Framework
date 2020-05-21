@@ -133,7 +133,7 @@ class PageController extends Controller
      */
     public function active(Page $page)
     {
-        $activated = $this->repository->active($page->id);
+        $activated = $this->repository->switch($page->id);
     }
 
     /**

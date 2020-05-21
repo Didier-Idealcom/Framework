@@ -41,7 +41,7 @@ class UserForm extends CoreForm
             ])
             ->add('email', 'email', [
                 'label' => 'E-mail',
-                'rules' => !$this->getModel() ? 'required|unique:users' : 'required'
+                'rules' => 'required|unique:users,email,' . $this->getModel()->id
             ])
             ->add('password', 'repeated', [
                 'first_options' => [

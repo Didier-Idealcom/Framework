@@ -138,7 +138,7 @@ class UserController extends Controller
      */
     public function active(User $user)
     {
-        $activated = $this->repository->active($user->id);
+        $activated = $this->repository->switch($user->id);
     }
 
     /**

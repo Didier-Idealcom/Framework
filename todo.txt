@@ -10,3 +10,4 @@ OK - système de permalinks (https://github.com/IsraelOrtuno/permalink)
 	- détecter la création d'une entité en doublon
 - système de versionning (https://github.com/mpociot/versionable)
 - système de duplication (https://github.com/BKWLD/cloner)
+- commande installation BO

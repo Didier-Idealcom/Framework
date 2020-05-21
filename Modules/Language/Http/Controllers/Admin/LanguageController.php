@@ -132,7 +132,7 @@ class LanguageController extends Controller
      */
     public function active(Language $language)
     {
-        $activated = $this->repository->active($language->id);
+        $activated = $this->repository->switch($language->id);
     }
 
     /**

@@ -132,7 +132,7 @@ class PermissionController extends Controller
      */
     public function active(Permission $permission)
     {
-        $activated = $this->repository->active($permission->id);
+        $activated = $this->repository->switch($permission->id);
     }
 
     /**

@@ -1,15 +1,37 @@
 @extends('layouts.master')
 
 @if (isset($domain_language))
-    @section('title_page', 'Edition de la langue du domaine')
+    @section('title_page', 'Gestion des langues du domaine : Edition')
+
     @section('breadcrumb')
         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
         <div class="kt-subheader__breadcrumbs">
-            <span class="kt-subheader__desc">{{ $domain_language->language->name }}</span>
+            <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains.index') }}" class="kt-subheader__breadcrumbs-link">Domaines</a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains.edit', $domain->id) }}" class="kt-subheader__breadcrumbs-link">« {{ $domain->title }} »</a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains_languages.index', $domain->id) }}" class="kt-subheader__breadcrumbs-link">Langues</a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <span class="kt-subheader__desc">« {{ $domain_language->language->name }} »</span>
         </div>
     @stop
 @else
-    @section('title_page', 'Création d\'une nouvelle langue du domaine')
+    @section('title_page', 'Gestion des langues du domaine : Création')
+
+    @section('breadcrumb')
+        <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+        <div class="kt-subheader__breadcrumbs">
+            <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains.index') }}" class="kt-subheader__breadcrumbs-link">Domaines</a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains.edit', $domain->id) }}" class="kt-subheader__breadcrumbs-link">« {{ $domain->title }} »</a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains_languages.index', $domain->id) }}" class="kt-subheader__breadcrumbs-link">Langues</a>
+        </div>
+    @stop
 @endif
 
 @section('subheader_toolbar')
@@ -47,7 +69,20 @@
 
 @section('content_page')
     <!-- begin: Portlet -->
-    <div class="kt-portlet">
+    <div class="kt-portlet kt-portlet--tabs">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-toolbar">
+                <ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.domains.edit', $domain->id) }}">Fiche détail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('admin.domains_languages.index', $domain->id) }}">Langues</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="kt-portlet__body">
             @include('partials.flash')
 

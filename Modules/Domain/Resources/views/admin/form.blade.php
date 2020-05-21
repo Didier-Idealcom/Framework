@@ -1,15 +1,29 @@
 @extends('layouts.master')
 
 @if (isset($domain))
-    @section('title_page', 'Edition du domaine')
+    @section('title_page', 'Gestion des domaines : Edition')
+
     @section('breadcrumb')
         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
         <div class="kt-subheader__breadcrumbs">
-            <span class="kt-subheader__desc">{{ $domain->title }}</span>
+            <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains.index') }}" class="kt-subheader__breadcrumbs-link">Domaines</a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <span class="kt-subheader__desc">« {{ $domain->title }} »</span>
         </div>
     @stop
 @else
-    @section('title_page', 'Création d\'un nouveau domaine')
+    @section('title_page', 'Gestion des domaines : Création')
+
+    @section('breadcrumb')
+        <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+        <div class="kt-subheader__breadcrumbs">
+            <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+            <span class="kt-subheader__breadcrumbs-separator"></span>
+            <a href="{{ route('admin.domains.index') }}" class="kt-subheader__breadcrumbs-link">Domaines</a>
+        </div>
+    @stop
 @endif
 
 @section('subheader_toolbar')

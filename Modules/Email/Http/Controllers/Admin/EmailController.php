@@ -136,7 +136,7 @@ class EmailController extends Controller
      */
     public function active(Email $email)
     {
-        $activated = $this->repository->active($email->id);
+        $activated = $this->repository->switch($email->id);
     }
 
     /**

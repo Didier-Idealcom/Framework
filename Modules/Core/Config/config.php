@@ -47,7 +47,6 @@ return [
     'middleware' => [
        'backend' => [
             'web',
-            //'theme:metronic'
             'setTheme:metronic'
        ],
        'frontend' => [

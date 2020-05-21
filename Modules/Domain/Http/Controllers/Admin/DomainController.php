@@ -132,7 +132,7 @@ class DomainController extends Controller
      */
     public function active(Domain $domain)
     {
-        $activated = $this->repository->active($domain->id);
+        $activated = $this->repository->switch($domain->id);
     }
 
     /**

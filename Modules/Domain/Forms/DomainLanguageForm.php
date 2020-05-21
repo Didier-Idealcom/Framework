@@ -2,6 +2,7 @@
 
 namespace Modules\Domain\Forms;
 
+use Illuminate\Validation\Rule;
 use Modules\Core\Forms\CoreForm;
 
 class DomainLanguageForm extends CoreForm
@@ -36,7 +37,12 @@ class DomainLanguageForm extends CoreForm
             ])
             ->add('language_id', 'entity', [
                 'label' => 'Langue',
-                'rules' => 'required',
+                'rules' => [
+                    'required',
+                    Rule::unique('domains_languages')->where(function ($query) use ($domain_id) {
+                        return $query->where('domain_id', $domain_id);
+                    })
+                ],
                 'class' => 'Modules\Language\Entities\Language',
                 'property_key' => 'id',
                 'property' => 'name'

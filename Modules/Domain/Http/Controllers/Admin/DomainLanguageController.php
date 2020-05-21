@@ -137,7 +137,7 @@ class DomainLanguageController extends Controller
      */
     public function active(DomainLanguage $domain_language)
     {
-        $activated = $this->repository->active($domain_language->id);
+        $activated = $this->repository->switch($domain_language->id);
     }
 
     /**
@@ -146,7 +146,7 @@ class DomainLanguageController extends Controller
      */
     public function default(DomainLanguage $domain_language)
     {
-        $activated = $this->repository->default($domain_language->id);
+        $activated = $this->repository->switchDefault($domain_language->id, 'domain_id');
     }
 
     /**
@@ -177,10 +177,10 @@ class DomainLanguageController extends Controller
             })
             ->editColumn('default', function($domain_language) {
                 $label_on = 'Défaut';
-                $label_off = '';
+                $label_off = 'Inactif';
                 $class_btn = $domain_language->default == 'Y' ? 'btn-success' : 'btn-danger';
                 $class_i = $domain_language->default == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.domains_languages_default', ['domain_language' => $domain_language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($domain_language->default == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.domains_languages_default', ['domain_language' => $domain_language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" data-reload="true" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($domain_language->default == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('language', function($domain_language) {
                 return $domain_language->language->name;

@@ -3,6 +3,7 @@
 namespace Modules\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ModelRepository implements RepositoryInterface
 {
@@ -72,12 +73,26 @@ class ModelRepository implements RepositoryInterface
         return $this->find($id)->update($inputs);
     }
 
-    // Activate/Deactivate record in the database
-    public function active($id)
+    // Switch "on/off" a record field in the database
+    public function switch($id, $field = 'active')
     {
         $record = $this->find($id);
-        $inputs['active'] = $record->active == 'Y' ? 'N' : 'Y';
+        $inputs[$field] = $record->$field == 'Y' ? 'N' : 'Y';
         return $record->update($inputs);
+    }
+
+    // Switch default record field in the database
+    public function switchDefault($id, $column = '', $field = 'default')
+    {
+        $record = $this->find($id);
+
+        $query = DB::table($this->model->getTable());
+        if (!empty($column)) {
+            $query = $query->where($column, $record->$column);
+        }
+        $query->update([$field => 'N']);
+
+        return $record->update([$field => 'Y']);
     }
 
     // Remove record from the database

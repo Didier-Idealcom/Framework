@@ -136,7 +136,7 @@ class RoleController extends Controller
      */
     public function active(Role $role)
     {
-        $activated = $this->repository->active($role->id);
+        $activated = $this->repository->switch($role->id);
     }
 
     /**

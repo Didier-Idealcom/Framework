@@ -132,7 +132,7 @@ class MenuController extends Controller
      */
     public function active(Menu $menu)
     {
-        $activated = $this->repository->active($menu->id);
+        $activated = $this->repository->switch($menu->id);
     }
 
     /**

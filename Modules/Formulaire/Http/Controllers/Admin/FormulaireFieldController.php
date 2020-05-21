@@ -137,7 +137,7 @@ class FormulaireFieldController extends Controller
      */
     public function active(FormulaireField $formulaire_field)
     {
-        $activated = $this->repository->active($formulaire_field->id);
+        $activated = $this->repository->switch($formulaire_field->id);
     }
 
     /**
