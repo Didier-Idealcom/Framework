@@ -5,10 +5,11 @@ $I->wantTo('login as a user');
 $I->dontSeeRecord('users', array('email' => 'taylor@laravel.com'));
 
 // Création de l'utilisateur
-$user = $I->haveRecord('App\User', [
-    'name' =>  'Taylor Otwell',
-    'email' =>  'taylor@laravel.com',
-    'password' => bcrypt('secret'),
+$user = $I->haveRecord('Modules\User\Entities\User', [
+    'firstname' => 'Taylor',
+    'lastname' => 'Otwell',
+    'email' => 'taylor@laravel.com',
+    'password' => 'secret',
     'created_at' => new DateTime(),
     'updated_at' => new DateTime()
 ]);

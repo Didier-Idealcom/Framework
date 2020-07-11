@@ -1,9 +1,14 @@
 compilation metronic :
-dev : gulp build
+dev : gulp --demo1
 prod : gulp --prod
 
 custom metronic :
 js : src/assets/js/theme/pages/my-script.js
+
+execution tests :
+php artisan migrate --env=testing
+vendor\bin\codecept build
+vendor\bin\codecept run functional
 
 définition thème admin :
 Modules/Core/Config/config.php => middleware setTheme:metronic
@@ -17,12 +22,5 @@ php artisan migrate
 php artisan module:seed Core
 
 système permalinks :
-- boot trait HasPermalinks
-- observer sur la methode saved des models (EntityObserver)
-- appel à la création ou la mise à jour du permalink (EntityObserver)
-- appel du manager des permalinks (HasPermalinks)
-- sauvegarde du permalink et définition de la relation avec le model (PermalinkManager)
-- boot model Permalink (Permalink)
-- observer sur la methode creating du model permalink (PermalinkObserver)
-- vérification unicité du slug (PermalinkObserver)
-- construction du path (PermalinkObserver)
+- sauvegarde permalinks menuitems avec hierarchie
+- sauvegarde permalinks indépendants pour les autres types d'instances (actualités, produits, etc)

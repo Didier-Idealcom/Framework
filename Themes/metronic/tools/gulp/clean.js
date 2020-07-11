@@ -9,25 +9,12 @@ var getPaths = function(outPaths) {
 	var paths = [];
 	var outputs = build.config.dist;
 	outputs.forEach(function(output) {
-		// has demo placeholder
-		if (output.indexOf('**') !== -1) {
-			func.getDemos().forEach(function(demo) {
-				paths.push(output.replace('**', demo));
-			});
-		} else {
-			if (outPaths.length === 0) {
-				paths.push(output);
-			}
-			outPaths.forEach(function(path) {
-				paths.push(output + '/' + path);
-			});
-		}
+		paths.push(output.replace('{demo}', func.getDemo()));
 	});
 
 	var realpaths = [];
 	paths.forEach(function(path) {
 		realpaths.push(path + '/*');
-		realpaths.push('!' + path + '/lib');
 	});
 
 	return realpaths;

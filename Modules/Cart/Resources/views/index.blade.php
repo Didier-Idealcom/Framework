@@ -6,4 +6,4 @@
     <p>
         This view is loaded from module: {!! config('framework.cart.config.name') !!}
     </p>
-@stop
+@endsection

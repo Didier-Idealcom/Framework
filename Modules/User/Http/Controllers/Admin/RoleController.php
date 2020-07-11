@@ -159,13 +159,19 @@ class RoleController extends Controller
         return Datatables::of(Role::all())
             ->addColumn('actions', function($role) {
                 return '
-                    <a href="' . $role->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
-                        <i class="la la-edit"></i>
+                    <a href="' . $role->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
+                        <span class="svg-icon svg-icon-md">
+                            ' . svg(theme_url('media/svg/icons/Communication/') . 'Write') . '
+                        </span>
                     </a>
                     <form action="' . $role->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-label="Delete"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
+                            <span class="svg-icon svg-icon-md">
+                                ' . svg(theme_url('media/svg/icons/General/') . 'Trash') . '
+                            </span>
+                        </button>
                     </form>
                 ';
             })

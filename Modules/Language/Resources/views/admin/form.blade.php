@@ -1,54 +1,43 @@
 @extends('layouts.master')
 
 @if (isset($language))
-    @section('title_page', 'Edition de la langue')
+    @section('title_page', 'Gestion des langues : Edition')
+
     @section('breadcrumb')
-        <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-        <div class="kt-subheader__breadcrumbs">
-            <span class="kt-subheader__desc">{{ $language->name }}</span>
-        </div>
-    @stop
+        <div class="subheader-separator subheader-separator-ver mr-5 bg-gray-200"></div>
+        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-muted"><i class="flaticon2-shelter"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.languages.index') }}" class="text-muted">Langues</a></li>
+            <li class="breadcrumb-item"><span class="text-muted">« {{ $language->name }} »</span></li>
+        </ul>
+    @endsection
 @else
-    @section('title_page', 'Création d\'une nouvelle langue')
+    @section('title_page', 'Gestion des langues : Création')
+
+    @section('breadcrumb')
+        <div class="subheader-separator subheader-separator-ver mr-5 bg-gray-200"></div>
+        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-muted"><i class="flaticon2-shelter"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.languages.index') }}" class="text-muted">Langues</a></li>
+        </ul>
+    @endsection
 @endif
 
 @section('subheader_toolbar')
-<div class="kt-subheader__toolbar">
-    <a href="{{ route('admin.languages.index') }}" class="btn btn-default btn-bold">Back</a>
+    <div class="d-flex align-items-center">
+        <!--begin::Button-->
+        <a href="{{ route('admin.languages.index') }}" class="btn btn-light-primary font-weight-bold btn-sm px-4 font-size-base ml-2">Back</a>
+        <!--end::Button-->
 
-    <div class="btn-group">
-        <button type="button" href="#save_close" class="btn btn-brand btn-bold my-link__save">Save Changes</button>
-        <button type="button" class="btn btn-brand btn-bold dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
-            <ul class="kt-nav">
-                <li class="kt-nav__item">
-                    <a href="#save_stay" class="kt-nav__link my-link__save">
-                        <i class="kt-nav__link-icon flaticon2-writing"></i>
-                        <span class="kt-nav__link-text">Save &amp; Stay</span>
-                    </a>
-                </li>
-                <li class="kt-nav__item">
-                    <a href="#save_new" class="kt-nav__link my-link__save">
-                        <i class="kt-nav__link-icon flaticon2-medical-records"></i>
-                        <span class="kt-nav__link-text">Save &amp; New</span>
-                    </a>
-                </li>
-                <li class="kt-nav__item">
-                    <a href="#save_close" class="kt-nav__link my-link__save">
-                        <i class="kt-nav__link-icon flaticon2-hourglass-1"></i>
-                        <span class="kt-nav__link-text">Save &amp; Close</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        @include('partials.dropdown_save')
     </div>
-</div>
-@stop
+@endsection
 
 @section('content_page')
-    <!-- begin: Portlet -->
-    <div class="kt-portlet">
-        <div class="kt-portlet__body">
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <!--begin::Card body-->
+        <div class="card-body">
             @include('partials.flash')
 
             <!-- begin: Form -->
@@ -64,6 +53,7 @@
             {!! form_end($form, false) !!}
             <!-- end: Form -->
         </div>
+        <!--end::Card body-->
     </div>
-    <!-- end: Portlet -->
-@stop
+    <!-- end::Card -->
+@endsection

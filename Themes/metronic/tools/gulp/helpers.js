@@ -173,50 +173,12 @@ module.exports = {
         if (matched) {
             var outputs = build.config.dist;
             outputs.forEach(function (output) {
-                if (output.indexOf('/**/') !== -1) {
-                    module.exports.getDemos().forEach(function (demo) {
-                        var outputPath = path.replace('**', demo).replace(matched[0], output.replace('**', demo)).replace(outputFile, '');
-                        // exclude unrelated demo assets
-                        if (outputPath.indexOf('/assets/demo/') !== -1 && outputPath.indexOf('/assets/demo/' + demo) === -1) {
-                            var f = filter(outputPath, {restore: true});
-                            piping = piping.pipe(function () {
-                                return f;
-                            });
-                            (function (_output) {
-                                piping = piping.pipe(function () {
-                                    return gulp.dest(_output);
-                                });
-                            })(outputPath);
-                            piping = piping.pipe(function () {
-                                return f.restore;
-                            });
-                        } else {
-                            (function (_output) {
-                                piping = piping.pipe(function () {
-                                    return gulp.dest(_output);
-                                });
-                            })(outputPath);
-                        }
+                var outputPath = path.replace(matched[0], output).replace(outputFile, '');
+                (function (_output) {
+                    piping = piping.pipe(function () {
+                        return gulp.dest(_output);
                     });
-                } else {
-                    if (path.indexOf('/**/') !== -1) {
-                        module.exports.getDemos().forEach(function (demo) {
-                            var outputPath = path.replace('**', demo).replace(matched[0], output).replace(outputFile, '');
-                            (function (_output) {
-                                piping = piping.pipe(function () {
-                                    return gulp.dest(_output);
-                                });
-                            })(outputPath);
-                        });
-                    } else {
-                        var outputPath = path.replace(matched[0], output).replace(outputFile, '');
-                        (function (_output) {
-                            piping = piping.pipe(function () {
-                                return gulp.dest(_output);
-                            });
-                        })(outputPath);
-                    }
-                }
+                })(outputPath);
             });
         }
 
@@ -254,42 +216,39 @@ module.exports = {
 
     /**
      * Css path rewriter when bundle files moved
-     * @param folder
+     * @param bundle
      */
-    cssRewriter: function (folder) {
+    cssRewriter: function (bundle) {
         var imgRegex = new RegExp(/\.(gif|jpg|jpeg|tiff|png|ico|svg)$/i);
-        // var fontRegex = new RegExp(/\.(otf|eot|svg|ttf|woff|woff2)$/i);
-        var vendorGlobalRegex = new RegExp(/vendors\/global/i);
         var config = this.config;
 
         return lazypipe().pipe(function () {
             // rewrite css relative path
             return rewrite({
-                destination: folder,
+                destination: bundle['styles'],
                 debug: config.debug,
                 adaptPath: function (ctx) {
+
                     var isCss = ctx.sourceFile.match(/\.[css]+$/i);
                     // process css only
                     if (isCss[0] === '.css') {
-                        var pieces = ctx.sourceDir.split(/\\|\//);
 
-                        var vendor = '';
-                        if (vendorGlobalRegex.test(folder)) {
+                        if (/plugins\.bundle/.test(bundle['styles'])) {
+                            var pieces = ctx.sourceDir.split(/\\|\//);
                             // only vendors/base pass this
-                            vendor = pieces[pieces.indexOf('node_modules') + 1];
+                            var vendor = pieces[pieces.indexOf('node_modules') + 1];
                             if (pieces.indexOf('node_modules') === -1) {
-                                vendor = pieces[pieces.indexOf('vendors') + 1];
+                                vendor = pieces[pieces.indexOf('plugins') + 1];
                             }
+                            var extension = 'fonts/';
+                            if (imgRegex.test(ctx.targetFile)) {
+                                extension = 'images/';
+                            }
+
+                            return path.join(extension, vendor, path.basename(ctx.targetFile));
                         }
 
-                        var file = path.basename(ctx.targetFile);
-
-                        var extension = 'fonts/';
-                        if (imgRegex.test(file)) {
-                            extension = 'images/';
-                        }
-
-                        return path.join(extension + vendor, file);
+                        return ctx.targetFile.replace(/\.?\.\//, '');
                     }
                 },
             });
@@ -447,7 +406,7 @@ module.exports = {
                                     shouldRtl = true;
                                 }
                                 var rtlOutput = _self.pathOnly(bundle.bundle[type]) + '/' + _self.baseName(bundle.bundle[type]) + '.rtl.css';
-                                stream = gulp.src(toRtlFiles, {allowEmpty: true}).pipe(_self.cssRewriter(bundle.bundle[type])()).pipe(concat(_self.baseName(bundle.bundle[type]) + '.rtl.css')).pipe(_self.cssChannel(shouldRtl)());
+                                stream = gulp.src(toRtlFiles, {allowEmpty: true}).pipe(_self.cssRewriter(bundle.bundle)()).pipe(concat(_self.baseName(bundle.bundle[type]) + '.rtl.css')).pipe(_self.cssChannel(shouldRtl)());
                                 var output = _self.outputChannel(rtlOutput, _self.baseName(bundle.bundle[type]) + '.rtl.css', type)();
                                 if (output) {
                                     stream.pipe(output);
@@ -456,7 +415,7 @@ module.exports = {
                             }
 
                             // default css bundle
-                            stream = gulp.src(bundle.src[type], {allowEmpty: true}).pipe(_self.cssRewriter(bundle.bundle[type])()).pipe(concat(outputFile)).pipe(_self.cssChannel()());
+                            stream = gulp.src(bundle.src[type], {allowEmpty: true}).pipe(_self.cssRewriter(bundle.bundle)()).pipe(concat(outputFile)).pipe(_self.cssChannel()());
                             var output = _self.outputChannel(bundle.bundle[type], outputFile, type)();
                             if (output) {
                                 stream.pipe(output);
@@ -538,43 +497,6 @@ module.exports = {
                                 streams.push(stream);
                             }
                             break;
-                        case 'styles-by-demo':
-                            // custom scss with suffix demos
-                            module.exports.getDemos().forEach(function (demo) {
-                                // custom page scss
-                                stream = gulp.src(bundle.src[type], {allowEmpty: true}).pipe(_self.cssChannel(false, [
-                                    '../themes/themes/' + module.exports.config.theme + '/src/sass/theme/demos/' + demo + '/', //  development
-                                    '../src/assets/sass/theme/demos/' + demo + '/', // release default package
-                                    '../src/sass/theme/demos/' + demo + '/', // release angular package
-                                ])());// pipe(rename({ suffix: '.' + demo })).
-
-                                var output = _self.outputChannel(bundle.output[type], undefined, type)();
-                                if (output) {
-                                    stream.pipe(output);
-                                }
-                                streams.push(stream);
-
-                                // rtl styles for scss
-                                var shouldRtl = false;
-                                if (build.config.compile.rtl.enabled) {
-                                    bundle.src[type].forEach(function (output) {
-                                        if (output.indexOf('.scss') !== -1) {
-                                            return shouldRtl = true;
-                                        }
-                                    });
-                                    stream = gulp.src(bundle.src[type], {allowEmpty: true}).pipe(_self.cssChannel(shouldRtl, [
-                                        '../themes/themes/' + module.exports.config.theme + '/src/sass/theme/demos/' + demo + '/', //  development
-                                        '../src/assets/sass/theme/demos/' + demo + '/', // release default package
-                                        '../src/sass/theme/demos/' + demo + '/', // release angular package
-                                    ])()).pipe(rename({suffix: '.rtl'}));
-                                    var output = _self.outputChannel(bundle.output[type], undefined, type)();
-                                    if (output) {
-                                        stream.pipe(output);
-                                    }
-                                    streams.push(stream);
-                                }
-                            });
-                            break;
                         case 'scripts':
                             stream = gulp.src(bundle.src[type], {allowEmpty: true}).pipe(_self.jsChannel()());
                             var output = _self.outputChannel(bundle.output[type], undefined, type)();
@@ -601,6 +523,7 @@ module.exports = {
 
     getDemos: function () {
         var demos = Object.keys(build.build.demos);
+        console.log(demos);
         // build by demo, leave demo empty to generate all demos
         if (typeof build.config.demo !== 'undefined' && build.config.demo !== '') {
             demos = build.config.demo.split(',').map(function (item) {
@@ -616,4 +539,22 @@ module.exports = {
         });
     },
 
+    getParameters: function() {
+        console.log(process.env);
+        // remove first 2 unused elements from array
+        let argv = JSON.parse(process.env.npm_config_argv).cooked.slice(2);
+        argv = argv.map((arg) => {
+            return arg.replace(/--/i, '');
+        });
+        return argv;
+    },
+
+    getDemo: function() {
+        // get demo from parameters
+        var demo = Object.keys(yargs.argv).join(' ').match(/(demo\d+)/ig) || 'demo1';
+        if (typeof demo === 'object') {
+            demo = demo[0];
+        }
+        return demo;
+    }
 };

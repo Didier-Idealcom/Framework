@@ -1,21 +1,33 @@
-<div class="kt-grid kt-grid--hor kt-grid--root">
-    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root">
+    <!-- begin:: Page -->
+    <div class="d-flex flex-row flex-column-fluid page">
         @include('partials.aside-left')
 
-        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
             @include('partials.header')
 
-            <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 @include('partials.subheader')
 
-                <!-- begin:: Content -->
-                <div class="kt-container kt-container--fluid kt-grid__item kt-grid__item--fluid">
-                    @yield('content_page')
+                <!--begin::Entry-->
+                <div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container-fluid">
+                        @yield('content_page')
+                    </div>
+                    <!--end::Container-->
                 </div>
-                <!-- end:: Content -->
+                <!--end::Entry-->
             </div>
+            <!--end::Content-->
 
             @include('partials.footer')
         </div>
+        <!--end::Wrapper-->
     </div>
+    <!-- end:: Page -->
 </div>
+<!--end::Main-->

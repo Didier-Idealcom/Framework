@@ -1,391 +1,366 @@
-/**
- * Main file of webpack config.
- * Please do not modified unless you know what to do
- */
+const webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
+const del = require('del');
+const glob = require('glob');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackRTLPlugin = require('webpack-rtl-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const WebpackMessages = require('webpack-messages');
+const ExcludeAssetsPlugin = require('webpack-exclude-assets-plugin');
+const ConcatPlugin = require('webpack-concat-plugin');
 
-const path = require("path");
-const glob = require("glob");
-const webpack = require("webpack");
-const fs = require("fs");
-const parser = require("comment-parser");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const WebpackRTLPlugin = require("webpack-rtl-plugin");
-const TerserJSPlugin = require("terser-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const WebpackMessages = require("webpack-messages");
-const ExcludeAssetsPlugin = require("webpack-exclude-assets-plugin");
-const atob = require("atob");
-const slash = require("slash");
-
-// optional
-const ReplaceInFileWebpackPlugin = require("replace-in-file-webpack-plugin");
-
-/**
- * Known issues:
- * 1) Remove webpack bootstrap for single-module apps
- *      https://github.com/webpack/webpack/issues/2638
- */
+// paths
+const rootPath = path.resolve(__dirname, '..');
 
 // arguments/params from the line command
-const args = {};
-// remove first 2 unused elements from array
-const argv = JSON.parse(process.env.npm_config_argv).cooked.slice(2);
-argv.forEach((arg, i) => {
-    if (arg.match(/^--/)) {
-        const next = argv[i + 1];
-        args[arg] = true;
-        if (next && !next.match(/^--/)) {
-            args[arg] = argv[i + 1];
-        }
-    }
-});
-// read parameters from the command executed by user
-const demo = args["--demo"];
-const rtl = args["--rtl"] || false;
-const prod = args["--prod"] || false;
-const css = args["--css"] || true;
-const js = args["--js"] || true;
+const args = getParameters();
+// get theme name
+let theme = getTheme();
+// get selected demo, default demo1
+let demo = getDemos(rootPath)[0];
 
-// theme name
-const name = getRoot("metronic");
-
-// global variables
-const release = true;
-const apiUrl = false; // boolean
-const rootPath = path.resolve(__dirname, "..");
-const frameworkPath = path.resolve(__dirname, "..");
-const distPath = rootPath + "/dist";
-const configPath = rootPath + "/tools";
-const assetDistPath = distPath + "/assets";
-const srcPath = rootPath + "/src/assets";
-
-// page scripts and styles
-const pageScripts = glob.sync(srcPath + "/js/theme/pages/**/!(_*).js");
-const pagesScss = glob.sync(srcPath + "/sass/theme/pages/**/!(_*).scss");
-
-// get list of available demos
-let demos = require(configPath + "/webpack/demos");
-if (demo) {
-    // filter by demos, remove unused demos from the list on the run
-    demos = demos.filter((d) => {
-        return demo.split(",").indexOf(d) !== -1;
-    });
-}
+// under demo paths
+const demoPath = rootPath + '/' + demo;
+const distPath = demoPath + '/dist';
+const assetDistPath = distPath + '/assets';
+const srcPath = demoPath + '/src';
 
 const extraPlugins = [];
-const filesConfig = [];
-const imageReference = {};
 const exclude = [];
-const nodeMedia = [];
+const extraConfig = [];
 
-// get all assets config
-let files = glob.sync(configPath + "/webpack/**/*.js");
-// exclude unused files from excluded demos
-files = files.filter((filename) => {
-    if (filename.match(/demo[0-9]*/)) {
-        if (!filename.match(new RegExp("\/(" + demos.join("|") + ")\/", "g"))) {
-            return false;
-        }
-    }
-    return true;
-});
+const js = args.indexOf('js') !== -1;
+const css = args.indexOf('css') !== -1 || args.indexOf('scss') !== -1;
 
-// parse comments to get the output location
-files.forEach((filename) => {
-    // get file content
-    const text = fs.readFileSync(filename).toString();
-    // use parser plugin to parse the comment.
-    const parsed = parser(text);
-    if (parsed.length > 0 && parsed[0].tags.length > 0) {
-        // push to list
-        filesConfig.push({
-            filename: filename,
-            params: parsed[0].tags,
-        });
-    }
-});
+addtionalSettings();
+importDatatables();
 
-const entries = {};
-filesConfig.forEach((file) => {
-    let output = "";
-    file.params.forEach((param) => {
-        // get output path
-        if (param.tag === "output") {
-            output = param.name;
-        }
-    });
-    entries[output] = file.filename;
-});
+function importDatatables() {
+  // Optional: Import datatables.net
+  extraPlugins.push(new ConcatPlugin({
+    name: 'datatables',
+    outputPath: 'plugins/custom/datatables/',
+    fileName: '[name].bundle.js',
+    filesToConcat: [
+      'datatables.net/js/jquery.dataTables.js',
+      'datatables.net-bs4/js/dataTables.bootstrap4.js',
+      '@/src/js/vendors/plugins/datatables.init.js',
+      'datatables.net-autofill/js/dataTables.autoFill.min.js',
+      'datatables.net-autofill-bs4/js/autoFill.bootstrap4.min.js',
+      'jszip/dist/jszip.min.js',
+      'pdfmake/build/pdfmake.min.js',
+      'pdfmake/build/vfs_fonts.js',
+      'datatables.net-buttons/js/dataTables.buttons.min.js',
+      'datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
+      'datatables.net-buttons/js/buttons.colVis.js',
+      'datatables.net-buttons/js/buttons.flash.js',
+      'datatables.net-buttons/js/buttons.html5.js',
+      'datatables.net-buttons/js/buttons.print.js',
+      'datatables.net-colreorder/js/dataTables.colReorder.min.js',
+      'datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js',
+      'datatables.net-fixedheader/js/dataTables.fixedHeader.min.js',
+      'datatables.net-keytable/js/dataTables.keyTable.min.js',
+      'datatables.net-responsive/js/dataTables.responsive.min.js',
+      'datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js',
+      'datatables.net-rowgroup/js/dataTables.rowGroup.min.js',
+      'datatables.net-rowreorder/js/dataTables.rowReorder.min.js',
+      'datatables.net-scroller/js/dataTables.scroller.min.js',
+      'datatables.net-select/js/dataTables.select.min.js',
+    ],
+  }));
+  extraPlugins.push(new ConcatPlugin({
+    name: 'datatables',
+    outputPath: 'plugins/custom/datatables/',
+    fileName: '[name].bundle.css',
+    filesToConcat: [
+      'datatables.net-bs4/css/dataTables.bootstrap4.css',
+      'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css',
+      'datatables.net-autofill-bs4/css/autoFill.bootstrap4.min.css',
+      'datatables.net-colreorder-bs4/css/colReorder.bootstrap4.min.css',
+      'datatables.net-fixedcolumns-bs4/css/fixedColumns.bootstrap4.min.css',
+      'datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css',
+      'datatables.net-keytable-bs4/css/keyTable.bootstrap4.min.css',
+      'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css',
+      'datatables.net-rowgroup-bs4/css/rowGroup.bootstrap4.min.css',
+      'datatables.net-rowreorder-bs4/css/rowReorder.bootstrap4.min.css',
+      'datatables.net-scroller-bs4/css/scroller.bootstrap4.min.css',
+      'datatables.net-select-bs4/css/select.bootstrap4.min.css',
+    ],
+  }));
+}
 
-demos.forEach((demo) => {
-    // process skin scss
-    const skinScss = glob.sync(srcPath + "/sass/theme/demos/" + demo + "/**/!(_*|style*).scss");
-    skinScss.forEach((file) => {
-        const matched = file.match(/demos\/demo[1-9]+\/(.*?)\.scss$/);
-        if (matched) {
-            entries["css/" + demo + "/skins/" + matched[1].replace(/\/skins\//, "/")] = file;
-        }
-    });
-
-    // process pages scss
-    pagesScss.forEach((file) => {
-        const matched = file.match(/theme\/(pages\/.*?)\.scss$/);
-        if (matched) {
-            // keep image reference for output path rewrite
-            const imgMatched = fs.readFileSync(file).toString().match(/['|"](.*?\.(gif|png|jpe?g))['|"]/g);
-            if (imgMatched) {
-                imgMatched.forEach((img) => {
-                    img = img.replace(/^['|"](.+(?=['|"]$))['|"]$/, '$1');
-                    imageReference[path.basename(img)] = "css/" + demo + "/" + matched[1] + ".css";
-                });
-            }
-            entries["css/" + demo + "/" + matched[1]] = file;
-        }
-    });
-
-    // auto get page scripts from source
-    pageScripts.forEach(function (jsPath) {
-        const matched = jsPath.match(/js\/theme\/(.*?)\.js$/);
-        entries["js/" + demo + "/" + matched[1]] = jsPath;
-    });
-
-    if (release) {
-        // copy html by demo
-        extraPlugins.push(new CopyWebpackPlugin([{
-            from: rootPath + "/src/" + demo,
-            to: distPath + "/" + demo,
-        }]));
-    }
-});
-
-if ((/true/i).test(rtl)) {
+function addtionalSettings() {
+  if (args.indexOf('rtl') !== -1) {
     // enable rtl for css
     extraPlugins.push(new WebpackRTLPlugin({
-        filename: "[name].rtl.css",
+      filename: '[name].rtl.css',
     }));
-}
+  }
 
-if (!(/true/i).test(js)) {
+  if (!js && css) {
     // exclude js files
     exclude.push('\.js$');
-}
+  }
 
-if (!(/true/i).test(css)) {
+  if (js && !css) {
     // exclude css files
     exclude.push('\.s?css$');
-}
+  }
 
-if (exclude.length) {
+  if (exclude.length) {
     // add plugin for exclude assets (js/css)
     extraPlugins.push(new ExcludeAssetsPlugin({
-        path: exclude
+      path: exclude,
     }));
+  }
 }
 
-if (apiUrl) {
-    // replace api url to point to server
-    extraPlugins.push(new ReplaceInFileWebpackPlugin([{
-        dir: assetDistPath + "/js",
-        test: /\.js$/,
-        rules: [{
-            search: /inc\/api\//i,
-            replace: 'https://keenthemes.com/' + name + '/themes/themes/' + name + '/dist/preview/inc/api/'
-        }]
-    }]));
-}
+function getEntryFiles() {
+  const entries = {
+    // 3rd party plugins css/js
+    'plugins/global/plugins.bundle': ['./webpack/plugins/plugins.js', './webpack/plugins/plugins.scss'],
+    // Metronic css/js
+    'css/style.bundle': path.relative('./', srcPath) + '/sass/style.scss',
+    'js/scripts.bundle': './webpack/scripts.' + demo + '.js',
+  };
 
-module.exports = function () {
-    return {
-        // enabled/disable optimizations
-        mode: (/true/i).test(prod) ? "production" : "development",
-        // console logs output, https://webpack.js.org/configuration/stats/
-        stats: "errors-warnings",
-        performance: {
-            // disable warnings hint
-            hints: false
-        },
-        optimization: {
-            // js and css minimizer
-            minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-        },
-        entry: entries,
-        output: {
-            // main output path in assets folder
-            path: assetDistPath,
-            // output path based on the entries' filename
-            filename: "[name].js"
-        },
-        resolve: {
-            alias: {
-                "morris.js": "morris.js/morris.js",
-                "jquery-ui": "jquery-ui",
-            }
-        },
-        plugins: [
-            // create css file
-            new MiniCssExtractPlugin({
-                filename: "[name].css",
-            }),
-            // copy media
-            new CopyWebpackPlugin([{
-                from: srcPath + "/media",
-                to: assetDistPath + "/media",
-            }]),
-            // webpack log message
-            new WebpackMessages({
-                name: name,
-                logger: str => console.log(`>> ${str}`)
-            }),
-            {
-                apply: (compiler) => {
-                    // hook name
-                    compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-                        filesConfig.forEach((file) => {
-                            let output = "";
-                            file.params.forEach((param) => {
-                                // get output path
-                                if (param.tag === "output") {
-                                    output = param.name;
-                                }
-                                if (param.tag === "images") {
-                                    param.name.split(",").forEach((file) => {
-                                        if (file) {
-                                            const outputPath = assetDistPath + "/" + pathWithoutFile(output) + "/images/";
-                                            // create dir
-                                            fs.mkdirSync(outputPath, {recursive: true});
-                                            // copy image
-                                            fs.copyFileSync(fs.realpathSync(srcPath + "/" + file), outputPath + path.basename(file));
-                                        }
-                                    });
-                                }
-                            });
-                        });
-                    });
-                }
-            },
-        ].concat(extraPlugins),
-        module: {
-            rules: [
-                {
-                    test: /\.css$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        "css-loader",
-                    ],
-                },
-                {
-                    test: /\.scss$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        "css-loader",
-                        {
-                            loader: "sass-loader",
-                            options: {
-                                sourceMap: true,
-                                // use for separate css pages (custom pages, eg. wizard, invoices, etc.)
-                                includePaths: demos.map((demo) => {
-                                    return srcPath + "/sass/theme/demos/" + demo;
-                                })
-                            }
-                        },
-                    ]
-                },
-                {
-                    test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                    include: [
-                        path.resolve(__dirname, "node_modules"),
-                        rootPath,
-                        frameworkPath,
-                    ],
-                    use: [
-                        {
-                            loader: "file-loader",
-                            options: {
-                                // prevent name become hash
-                                name: "[name].[ext]",
-                                // move files
-                                outputPath: "vendors/global/fonts",
-                                // rewrite path in css
-                                publicPath: "fonts",
-                            }
-                        }
-                    ]
-                },
-                {
-                    test: /\.(gif|png|jpe?g)$/,
-                    include: [
-                        path.resolve(__dirname, "node_modules"),
-                        rootPath,
-                    ],
-                    use: [{
-                        loader: "file-loader",
-                        options: {
-                            // prevent name become hash
-                            name: "[name].[ext]",
-                            // move files
-                            outputPath: (url, resourcePath) => {
-                                // look for node_modules plugin
-                                const matched = slash(resourcePath).match(/node_modules\/(.*?)\//);
-                                if (matched) {
-                                    for (let i = 0; i < filesConfig.length; i++) {
-                                        if (filesConfig[i].filename.match(new RegExp(matched[1]))) {
-                                            let output = "";
-                                            filesConfig[i].params.forEach((param) => {
-                                                // get output path without filename
-                                                if (param.tag === "output") {
-                                                    output = pathWithoutFile(param.name);
-                                                }
-                                            });
-                                            nodeMedia[url] = output + "/images/" + url;
-                                            return output + "/images/" + url;
-                                        }
-                                    }
-                                }
-                                // the rest of images put in media/misc/
-                                return "media/misc/" + url;
-                            },
-                            // rewrite path in css
-                            publicPath: (url, resourcePath) => {
-                                if (imageReference[url]) {
-                                    // fix image rewrite path
-                                    const filePath = pathWithoutFile(imageReference[url]);
-                                    return slash(path.relative(assetDistPath + "/" + filePath, assetDistPath + "/media") + "/" + url);
-                                }
-                                if (nodeMedia[url]) {
-                                    return "images/" + url;
-                                }
-                                return "../../media/misc/" + url;
-                            },
-                        }
-                    }]
-                },
-            ]
-        },
-        // webpack dev server config
-        devServer: {
-            contentBase: distPath,
-            compress: true,
-            port: 3000
-        }
-    };
-};
-
-function getRoot(name) {
-    if (typeof name !== 'undefined') {
-        return name;
+  // Custom 3rd party plugins
+  (glob.sync('./webpack/plugins/custom/**/*.+(js)') || []).forEach(file => {
+    let loc = file.replace('webpack/', '').replace('./', '');
+    if (path.basename(file) === 'gmaps.js') {
+      loc = loc.replace('.js', '');
     }
-    const ts = ["bWV0cm9uaWM=", "a2Vlbg=="];
-    let tf = atob(ts[0]);
-    ts.forEach(function (t) {
-        const th = atob(t);
-        if (args["--" + th]) {
-            tf = th;
-        }
-    });
-    return tf;
+    else {
+      loc = loc.replace('.js', '.bundle');
+    }
+    entries[loc] = file;
+  });
+
+  // Metronic css pages (single page use)
+  (glob.sync(path.relative('./', srcPath) + '/sass/pages/**/!(_)*.scss') || []).forEach(file => {
+    entries[file.replace(/.*sass\/(.*?)\.scss$/ig, 'css/$1')] = file;
+  });
+  (glob.sync(path.relative('./', srcPath) + '/js/pages/**/!(_)*.js') || []).forEach(file => {
+    entries[file.replace(/.*js\/(.*?)\.js$/ig, 'js/$1')] = file;
+  });
+
+  // Metronic theme
+  (glob.sync(path.relative('./', srcPath) + '/sass/themes/**/!(_)*.scss') || []).forEach(file => {
+    entries[file.replace(/.*sass\/(.*?)\.scss$/ig, 'css/$1')] = file;
+  });
+
+  return entries;
 }
 
-function pathWithoutFile(filname) {
-    return filname.substring(0, filname.lastIndexOf("/"));
+function mainConfig() {
+  return {
+    // enabled/disable optimizations
+    mode: args.indexOf('prod') === 0 ? 'production' : 'development',
+    // console logs output, https://webpack.js.org/configuration/stats/
+    stats: 'errors-warnings',
+    performance: {
+      // disable warnings hint
+      hints: false,
+    },
+    optimization: {
+      // js and css minimizer
+      minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
+    entry: getEntryFiles(),
+    output: {
+      // main output path in assets folder
+      path: assetDistPath,
+      // output path based on the entries' filename
+      filename: '[name].js',
+    },
+    resolve: {
+      alias: {
+        jquery: path.join(__dirname, 'node_modules/jquery/src/jquery'),
+        '@': demoPath,
+      },
+      extensions: ['.js', '.scss'],
+    },
+    devtool: 'source-map',
+    plugins: [
+      new WebpackMessages({
+        name: theme,
+        logger: str => console.log(`>> ${str}`),
+      }),
+      // create css file
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+      }),
+      new CopyWebpackPlugin([
+        {
+          // copy media
+          from: srcPath + '/media',
+          to: assetDistPath + '/media',
+        },
+        {
+          // copy tinymce skins
+          from: path.resolve(__dirname, 'node_modules') + '/tinymce/skins',
+          to: assetDistPath + '/plugins/custom/tinymce/skins',
+        },
+        {
+          // copy tinymce plugins
+          from: path.resolve(__dirname, 'node_modules') + '/tinymce/plugins',
+          to: assetDistPath + '/plugins/custom/tinymce/plugins',
+        },
+      ]),
+    ].concat(extraPlugins),
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+          ],
+        },
+        {
+          test: /\.scss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                url: (url, resourcePath) => {
+                  // Don't handle local urls
+                  return !!url.includes('media');
+                },
+              },
+            },
+            {
+              loader: 'postcss-loader', // Run post css actions
+              options: {
+                plugins: function() { // post css plugins, can be exported to postcss.config.js
+                  return [
+                    // require('precss'),
+                    require('autoprefixer'),
+                  ];
+                },
+              },
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: false,
+                includePaths: [demoPath],
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+          include: [
+            path.resolve(__dirname, 'node_modules'),
+            rootPath,
+          ],
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                // emitFile: false,
+                // prevent name become hash
+                name: '[name].[ext]',
+                // move files
+                outputPath: 'plugins/global/fonts',
+                // rewrite path in css
+                publicPath: 'fonts',
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(gif|png|jpe?g)$/,
+          include: [
+            path.resolve(__dirname, 'node_modules'),
+          ],
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                // emitFile: false,
+                name: '[path][name].[ext]',
+                publicPath: (url, resourcePath, context) => {
+                  return path.basename(url);
+                },
+                outputPath: (url, resourcePath, context) => {
+                  var plugin = url.match(/node_modules\/(.*?)\//i);
+                  if (plugin) {
+                    return `plugins/custom/${plugin[1]}/${path.basename(url)}`;
+                  }
+                  return url;
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    // webpack dev server config
+    devServer: {
+      contentBase: demoPath,
+      compress: true,
+      port: 3000,
+    },
+  };
 }
+
+function getParameters() {
+  // remove first 2 unused elements from array
+  let argv = JSON.parse(process.env.npm_config_argv).cooked.slice(2);
+  argv = argv.map((arg) => {
+    return arg.replace(/--/i, '');
+  });
+  return argv;
+}
+
+function getTheme() {
+  // debug
+  // console.log('getTheme()');
+
+  const themes = ['metronic', 'keen', 'craft'];
+  let theme = themes[0];
+  themes.forEach((th) => {
+    if (args.indexOf(th) === 0) {
+      theme = th;
+    }
+  });
+  return theme;
+}
+
+function getDemos(pathDemos) {
+  // get possible demo from parameter command
+  let demos = [];
+  args.forEach((arg) => {
+    const demo = arg.match(/^demo.*/g);
+    if (demo) {
+      demos.push(demo[0]);
+    }
+  });
+
+  if (demos.length === 0) {
+    demos = ['demo1'];
+    if (args.indexOf('alldemos') !== -1) {
+      try {
+        // sync reusable source code with demo1 for all other demos
+        demos = fs.readdirSync(pathDemos).filter((file) => {
+          return !/(^|\/)\.[^\/\.]/g.test(file) && /^demo\d+$/g.test(file) && file !== 'demo0';
+        });
+      }
+      catch (err) {
+        console.error('Failed to read demo folder: ' + pathDemos);
+      }
+    }
+  }
+
+  return demos;
+}
+
+module.exports = () => {
+  return [mainConfig()];
+};

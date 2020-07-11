@@ -18,7 +18,6 @@ License: You must have a valid license purchased only from themeforest(the above
     <title>@yield('title', 'Administration Metronic')</title>
     <meta name="description" content="@yield('description', 'Administration du site Metronic')">
     <meta name="keywords" content="@yield('keywords', '')">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- CSRF Token -->
@@ -29,8 +28,7 @@ License: You must have a valid license purchased only from themeforest(the above
         WebFontConfig = {
             google: {
                 "families": [
-                    "Poppins:300,400,500,600,700",
-                    "Roboto:300,400,500,700&display=swap"
+                    "Poppins:300,400,500,600,700&display=swap"
                 ]
             },
             active: function() {
@@ -47,49 +45,90 @@ License: You must have a valid license purchased only from themeforest(the above
     </script>
     <!-- end::Fonts -->
 
+    @stack('styles')
+
     <!-- begin::Global Theme Styles -->
-    <link href="{{ theme_url('vendors/global/vendors.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ theme_url('css/demo1/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <!-- end::Global Theme Styles -->
 
     <!-- begin::Layout Skins -->
-    <link href="{{ theme_url('css/demo1/skins/header/base/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ theme_url('css/demo1/skins/header/menu/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ theme_url('css/demo1/skins/brand/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ theme_url('css/demo1/skins/aside/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
+    <link href="{{ theme_url('css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <!-- end::Layout Skins -->
-
-    @stack('styles')
 
     <link rel="shortcut icon" href="{{ theme_url('media/logos/favicon.ico') }}" />
 </head>
 <!-- end::Head -->
 
 <!-- begin::Body -->
-<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
     @include('layouts.dashboard')
 
     @yield('content')
 
     <!-- begin::Global Config(global config for global JS sciprts) -->
     <script>
-        var KTAppOptions = {
+        var KTAppSettings = {
+            "breakpoints": {
+                "sm": 576,
+                "md": 768,
+                "lg": 992,
+                "xl": 1200,
+                "xxl": 1200
+            },
             "colors": {
-                "state": {
-                    "brand": "#5d78ff",
-                    "dark": "#282a3c",
-                    "light": "#ffffff",
-                    "primary": "#5867dd",
-                    "success": "#34bfa3",
-                    "info": "#36a3f7",
-                    "warning": "#ffb822",
-                    "danger": "#fd3995"
+                "theme": {
+                    "base": {
+                        "white": "#ffffff",
+                        "primary": "#3699FF",
+                        "secondary": "#E5EAEE",
+                        "success": "#1BC5BD",
+                        "info": "#8950FC",
+                        "warning": "#FFA800",
+                        "danger": "#F64E60",
+                        "light": "#F3F6F9",
+                        "dark": "#212121"
+                    },
+                    "light": {
+                        "white": "#ffffff",
+                        "primary": "#E1F0FF",
+                        "secondary": "#ECF0F3",
+                        "success": "#C9F7F5",
+                        "info": "#EEE5FF",
+                        "warning": "#FFF4DE",
+                        "danger": "#FFE2E5",
+                        "light": "#F3F6F9",
+                        "dark": "#D6D6E0"
+                    },
+                    "inverse": {
+                        "white": "#ffffff",
+                        "primary": "#ffffff",
+                        "secondary": "#212121",
+                        "success": "#ffffff",
+                        "info": "#ffffff",
+                        "warning": "#ffffff",
+                        "danger": "#ffffff",
+                        "light": "#464E5F",
+                        "dark": "#ffffff"
+                    }
                 },
-                "base": {
-                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
-                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                "gray": {
+                    "gray-100": "#F3F6F9",
+                    "gray-200": "#ECF0F3",
+                    "gray-300": "#E5EAEE",
+                    "gray-400": "#D6D6E0",
+                    "gray-500": "#B5B5C3",
+                    "gray-600": "#80808F",
+                    "gray-700": "#464E5F",
+                    "gray-800": "#1B283F",
+                    "gray-900": "#212121"
                 }
-            }
+            },
+            "font-family": "Poppins"
         };
     </script>
     <!-- end::Global Config -->
@@ -101,12 +140,13 @@ License: You must have a valid license purchased only from themeforest(the above
     <!--end::Base Scripts -->
 
     <!--begin::Global Theme Bundle -->
-    <script src="{{ theme_url('vendors/global/vendors.bundle.js') }}" type="text/javascript"></script>
-    <script src="{{ theme_url('js/demo1/scripts.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('plugins/global/plugins.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('plugins/custom/prismjs/prismjs.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('js/scripts.bundle.js') }}" type="text/javascript"></script>
     <!--end::Global Theme Bundle -->
 
     <!--begin::Global Custom Scripts -->
-    <script src="{{ theme_url('js/demo1/pages/my-script.js') }}" type="text/javascript"></script>
+    <script src="{{ theme_url('js/pages/my-script.js') }}" type="text/javascript"></script>
     <!--end::Global Custom Scripts -->
 
     @stack('scripts')

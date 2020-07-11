@@ -1,78 +1,90 @@
 @extends('layouts.master')
 
-@section('title_page', 'Gestion des menus')
+@section('title_page', 'Gestion des items du menu')
 
 @section('breadcrumb')
-    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-    <div class="kt-subheader__breadcrumbs">
-        <a href="{{ route('admin.dashboard') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-        <span class="kt-subheader__breadcrumbs-separator"></span>
-        <a href="{{ route('admin.menus.index') }}" class="kt-subheader__breadcrumbs-link">Menus</a>
-        <span class="kt-subheader__breadcrumbs-separator"></span>
-        <a href="{{ route('admin.menuitems.index', $menu->id) }}" class="kt-subheader__breadcrumbs-link">Menuitems</a>
-    </div>
-@stop
+    <div class="subheader-separator subheader-separator-ver mr-5 bg-gray-200"></div>
+    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-muted"><i class="flaticon2-shelter"></i></a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.menus.index') }}" class="text-muted">Menus</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.menuitems.index', $menu->id) }}" class="text-muted">Menuitems</a></li>
+    </ul>
+@endsection
 
 @section('subheader_toolbar')
-    <a href="{{ route('admin.menuitems.create', $menu->id) }}" class="btn btn-label-brand btn-bold">Ajouter</a>
-    <div class="kt-subheader__wrapper">
-        <div class="dropdown dropdown-inline" data-toggle="kt-tooltip-" title="Quick actions" data-placement="left">
-            <a href="#" class="btn btn-icon"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md">
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <polygon points="0 0 24 0 24 24 0 24"/>
-                        <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-                        <path d="M11,14 L9,14 C8.44771525,14 8,13.5522847 8,13 C8,12.4477153 8.44771525,12 9,12 L11,12 L11,10 C11,9.44771525 11.4477153,9 12,9 C12.5522847,9 13,9.44771525 13,10 L13,12 L15,12 C15.5522847,12 16,12.4477153 16,13 C16,13.5522847 15.5522847,14 15,14 L13,14 L13,16 C13,16.5522847 12.5522847,17 12,17 C11.4477153,17 11,16.5522847 11,16 L11,14 Z" fill="#000000"/>
-                    </g>
-                </svg>
-                <!--<i class="flaticon2-plus"></i>-->
+    <div class="d-flex align-items-center">
+        <!--begin::Button-->
+        <a href="{{ route('admin.menuitems.create', $menu->id) }}" class="btn btn-light-primary font-weight-bold btn-sm px-4 font-size-base ml-2">Ajouter</a>
+        <!--end::Button-->
+
+        <!--begin::Dropdown-->
+        <div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Quick actions">
+            <a href="#" class="btn btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="svg-icon svg-icon-success svg-icon-2x">
+                    <!--begin::Svg Icon | path:assets/media/svg/icons/Files/File-plus.svg-->
+                    {!! svg(theme_url('media/svg/icons/Files/') . 'File-plus') !!}
+                    <!--end::Svg Icon-->
+                </span>
             </a>
-            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md dropdown-menu-right">
-                <!--begin::Nav-->
-                <ul class="kt-nav">
-                    <li class="kt-nav__item">
-                        <a href="#" class="kt-nav__link">
-                            <i class="kt-nav__link-icon flaticon2-drop"></i>
-                            <span class="kt-nav__link-text">Importer</span>
+            <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
+                <!--begin::Navigation-->
+                <ul class="navi">
+                    <li class="navi-item">
+                        <a href="#" class="navi-link">
+                            <span class="navi-icon">
+                                <i class="flaticon2-shopping-cart-1"></i>
+                            </span>
+                            <span class="navi-text">Importer</span>
                         </a>
                     </li>
-                    <li class="kt-nav__item">
-                        <a href="#" class="kt-nav__link">
-                            <i class="kt-nav__link-icon flaticon2-drop"></i>
-                            <span class="kt-nav__link-text">Exporter</span>
+                    <li class="navi-item">
+                        <a href="#" class="navi-link">
+                            <span class="navi-icon">
+                                <i class="flaticon2-shopping-cart-1"></i>
+                            </span>
+                            <span class="navi-text">Exporter</span>
                         </a>
                     </li>
                 </ul>
-                <!--end::Nav-->
+                <!--end::Navigation-->
             </div>
         </div>
+        <!--end::Dropdown-->
     </div>
-@stop
+@endsection
 
 @section('content_page')
-    <div class="alert alert-brand fade show" role="alert">
-        <div class="alert-text">
-            <strong>INFO</strong> : This view is loaded from module: {!! config('framework.menu.config.name') !!}
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <!--begin::Card header-->
+        <div class="card-header card-header-tabs-line nav-tabs-line-3x">
+            <!--begin::Toolbar-->
+            <div class="card-toolbar">
+                <ul class="nav nav-tabs nav-bold nav-tabs-line nav-tabs-line-3x">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.menus.edit', $menu->id) }}">Fiche détail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="javascript:;">Items</a>
+                    </li>
+                </ul>
+            </div>
+            <!--end::Toolbar-->
         </div>
-        <div class="alert-close">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"><i class="la la-close"></i></span>
-            </button>
-        </div>
-    </div>
+        <!--end::Card header-->
 
-    <!--begin::Portlet-->
-    <div class="kt-portlet kt-portlet--mobile">
-        <div class="kt-portlet__body kt-portlet__body--fit">
+        <!--begin::Card body-->
+        <div class="card-body">
             @include('partials.flash')
 
-            <!--begin: Datatable -->
-            <div class="kt-datatable" id="menuitems_datatable"></div>
-            <!--end: Datatable -->
+            <!--begin::Datatable-->
+            <div class="datatable datatable-bordered datatable-head-custom" id="menuitems_datatable"></div>
+            <!--end::Datatable-->
         </div>
+        <!--end::Card body-->
     </div>
-    <!--end::Portlet-->
-@stop
+    <!-- end::Card -->
+@endsection
 
 @push('scripts')
     <!--begin::Page Snippets -->

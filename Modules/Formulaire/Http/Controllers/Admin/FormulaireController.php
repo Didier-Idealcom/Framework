@@ -166,21 +166,41 @@ class FormulaireController extends Controller
             })
             ->addColumn('actions', function($formulaire) {
                 return '
-                    <a href="' . $formulaire->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
-                        <i class="la la-edit"></i>
+                    <a href="' . $formulaire->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
+                        <span class="svg-icon svg-icon-md">
+                            ' . svg(theme_url('media/svg/icons/Communication/') . 'Write') . '
+                        </span>
                     </a>
-                    <form action="' . $formulaire->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                    <form action="' . $formulaire->url_backend->destroy . '" method="POST" class="form-delete d-inline-block mr-2">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-label="Delete"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
+                            <span class="svg-icon svg-icon-md">
+                                ' . svg(theme_url('media/svg/icons/General/') . 'Trash') . '
+                            </span>
+                        </button>
                     </form>
-                    <div class="dropdown">
-                        <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
-                            <i class="la la-ellipsis-h"></i>
+                    <div class="dropdown dropdown-inline">
+                        <a href="javascript:;" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" data-toggle="dropdown">
+                            <span class="svg-icon svg-icon-md">
+                                ' . preg_replace('#<title>.*</title>#', '', svg_image(theme_url('media/svg/icons/General/') . 'Other2')->renderInline()) . '
+                            </span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="' . route('admin.formulaires_fields.index', $formulaire->id) . '"><i class="la la-edit"></i> Champs</a>
-                            <a class="dropdown-item" href="' . $formulaire->url_backend->show . '"><i class="la la-eye"></i> Preview</a>
+                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                            <ul class="navi flex-column navi-hover py-2">
+                                <li class="navi-item">
+                                    <a class="navi-link" href="' . route('admin.formulaires_fields.index', $formulaire->id) . '">
+                                        <span class="navi-icon"><i class="la la-edit"></i></span>
+                                        <span class="navi-text">Champs</span>
+                                    </a>
+                                </li>
+                                <li class="navi-item">
+                                    <a class="navi-link" href="' . $formulaire->url_backend->show . '">
+                                        <span class="navi-icon"><i class="la la-eye"></i></span>
+                                        <span class="navi-text">Preview</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 ';

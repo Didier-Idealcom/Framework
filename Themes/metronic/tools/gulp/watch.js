@@ -1,12 +1,20 @@
 var gulp = require('gulp');
 var build = require('./build');
+var yargs = require('yargs');
+
+// get demo from parameters
+var demo = Object.keys(yargs.argv).join(' ').match(/(demo\d+)/ig) || 'demo1';
+if (typeof demo === 'object') {
+  demo = demo[0];
+}
 
 // localhost site
 var connect = require('gulp-connect');
 gulp.task('localhost', function(cb) {
   connect.server({
-    root: '../dist',
+    root: '../' + demo + '/dist',
     livereload: true,
+    // port: 8081,
   });
   cb();
 });

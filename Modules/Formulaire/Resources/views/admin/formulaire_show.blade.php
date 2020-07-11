@@ -1,18 +1,23 @@
 @extends('layouts.master')
 
 @section('title_page', 'Prévisualisation du formulaire')
+
 @section('breadcrumb')
-    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-    <div class="kt-subheader__breadcrumbs">
-        <span class="kt-subheader__desc">{{ $formulaire->title }}</span>
-    </div>
-@stop
+    <div class="subheader-separator subheader-separator-ver mr-5 bg-gray-200"></div>
+    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-muted"><i class="flaticon2-shelter"></i></a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.formulaires.index') }}" class="text-muted">Formulaires</a></li>
+        <li class="breadcrumb-item"><span class="text-muted">« {{ $formulaire->title }} »</span></li>
+    </ul>
+@endsection
 
 @section('subheader_toolbar')
-<div class="kt-subheader__toolbar">
-    <a href="{{ route('admin.formulaires.index') }}" class="btn btn-default btn-bold">Back</a>
-</div>
-@stop
+    <div class="d-flex align-items-center">
+        <!--begin::Button-->
+        <a href="{{ route('admin.formulaires.index') }}" class="btn btn-light-primary font-weight-bold btn-sm px-4 font-size-base ml-2">Back</a>
+        <!--end::Button-->
+    </div>
+@endsection
 
 @section('content_page')
     <!-- begin: Portlet -->
@@ -26,4 +31,4 @@
         </div>
     </div>
     <!-- end: Portlet -->
-@stop
+@endsection

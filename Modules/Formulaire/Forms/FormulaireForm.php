@@ -34,7 +34,7 @@ class FormulaireForm extends CoreForm
             ])
             ->add('resume', 'textarea', [
                 'label' => 'Accroche',
-                'rules' => 'required',
+                'rules' => '',
                 'translatable' => true
             ])
             ->add('tracking', 'textarea', [

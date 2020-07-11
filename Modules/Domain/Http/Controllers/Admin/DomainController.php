@@ -162,13 +162,19 @@ class DomainController extends Controller
             })
             ->addColumn('actions', function($domain) {
                 return '
-                    <a href="' . $domain->url_backend->edit . '" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
-                        <i class="la la-edit"></i>
+                    <a href="' . $domain->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
+                        <span class="svg-icon svg-icon-md">
+                            ' . svg(theme_url('media/svg/icons/Communication/') . 'Write') . '
+                        </span>
                     </a>
                     <form action="' . $domain->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
-                        <button class="btn btn-sm btn-clean btn-icon btn-icon-md" aria-label="Delete"><i class="la la-trash"></i></button>
+                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
+                            <span class="svg-icon svg-icon-md">
+                                ' . svg(theme_url('media/svg/icons/General/') . 'Trash') . '
+                            </span>
+                        </button>
                     </form>
                 ';
             })
