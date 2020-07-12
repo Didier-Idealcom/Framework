@@ -53,7 +53,8 @@ return [
             'web'
        ],
        'api' => [
-            'api'
+            'api',
+            'auth:api'
        ],
     ],
 
