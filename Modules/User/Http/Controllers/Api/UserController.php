@@ -22,13 +22,6 @@ class UserController extends Controller
      *     )
      * )
      *
-     * @OA\SecurityScheme(
-     *     securityScheme="api_key",
-     *     type="apiKey",
-     *     name="Authorization",
-     *     in="header"
-     * )
-     *
      * @OA\Server(
      *     url=L5_SWAGGER_CONST_HOST,
      *     description="Demo API Server"
@@ -50,6 +43,9 @@ class UserController extends Controller
      *     tags={"Users"},
      *     summary="Get all Users",
      *     description="Returns list of all Users",
+     *     security={
+     *         {"passport": {}},
+     *     },
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -81,6 +77,9 @@ class UserController extends Controller
      *     tags={"Users"},
      *     summary="Create new User",
      *     description="Returns new User data",
+     *     security={
+     *         {"passport": {}},
+     *     },
      *     @OA\RequestBody(
      *         required=true
      *     ),
@@ -118,6 +117,9 @@ class UserController extends Controller
      *     tags={"Users"},
      *     summary="Get User details",
      *     description="Returns User details",
+     *     security={
+     *         {"passport": {}},
+     *     },
      *     @OA\Parameter(
      *         name="id",
      *         description="User id",
@@ -166,6 +168,9 @@ class UserController extends Controller
      *     tags={"Users"},
      *     summary="Update existing User",
      *     description="Returns updated User data",
+     *     security={
+     *         {"passport": {}},
+     *     },
      *     @OA\Parameter(
      *         name="id",
      *         description="User id",
@@ -216,6 +221,9 @@ class UserController extends Controller
      *     tags={"Users"},
      *     summary="Delete existing User",
      *     description="Deletes a User record",
+     *     security={
+     *         {"passport": {}},
+     *     },
      *     @OA\Parameter(
      *         name="id",
      *         description="User id",
@@ -261,7 +269,7 @@ class UserController extends Controller
      *     @OA\Parameter(
      *         name="email",
      *         required=true,
-     *         in="path",
+     *         in="query",
      *         @OA\Schema(
      *             type="string"
      *         )
@@ -269,7 +277,7 @@ class UserController extends Controller
      *     @OA\Parameter(
      *         name="password",
      *         required=true,
-     *         in="path",
+     *         in="query",
      *         @OA\Schema(
      *             type="string"
      *         )
@@ -280,14 +288,20 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function login()
+    public function login(Request $request)
     {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('api_token_name')->accessToken;
-            return response()->json(['success' => $success], 200);
+        $validator = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+
+
+        if (!auth()->attempt($validator)) {
+            return response()->json(['error' => 'Unauthorised'], 401);
         } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            $success['token'] = auth()->user()->createToken('authToken')->accessToken;
+            $success['user'] = auth()->user();
+            return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
         }
     }
 }

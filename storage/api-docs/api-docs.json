@@ -197,7 +197,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -222,7 +227,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/users/{id}": {
@@ -260,7 +270,12 @@
                     "404": {
                         "description": "Resource Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -299,7 +314,12 @@
                     "404": {
                         "description": "Resource Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -332,7 +352,12 @@
                     "404": {
                         "description": "Resource Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/login": {
@@ -343,7 +368,7 @@
                 "parameters": [
                     {
                         "name": "email",
-                        "in": "path",
+                        "in": "query",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -351,7 +376,7 @@
                     },
                     {
                         "name": "password",
-                        "in": "path",
+                        "in": "query",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -444,10 +469,19 @@
             }
         },
         "securitySchemes": {
-            "api_key": {
-                "type": "apiKey",
-                "name": "Authorization",
-                "in": "header"
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "https://laravel.test/oauth/authorize",
+                        "tokenUrl": "https://laravel.test/oauth/token",
+                        "refreshUrl": "https://laravel.test/token/refresh",
+                        "scopes": []
+                    }
+                }
             }
         }
     },
