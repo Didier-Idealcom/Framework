@@ -1,59 +1,28 @@
 <?php
 
-namespace Modules\User\Http\Controllers\Api;
+namespace Modules\Domain\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Modules\User\Entities\User;
-use Modules\User\Transformers\UserResource;
+use Modules\Domain\Entities\Domain;
+use Modules\Domain\Transformers\DomainResource;
 
-class UserController extends Controller
+class DomainController extends Controller
 {
-    /**
-     * @OA\Info(
-     *     version="1.0.0",
-     *     title="Framework API Documentation",
-     *     description="",
-     *     @OA\Contact(
-     *         url="https://www.ideal-com.com",
-     *         email="d.largeron@ideal-com.com"
-     *     )
-     * )
-     *
-     * @OA\SecurityScheme(
-     *     securityScheme="api_key",
-     *     type="apiKey",
-     *     name="Authorization",
-     *     in="header"
-     * )
-     *
-     * @OA\Server(
-     *     url=L5_SWAGGER_CONST_HOST,
-     *     description="Demo API Server"
-     * )
-     *
-     * @OA\Tag(
-     *     name="Users",
-     *     description="Users API endpoints"
-     * )
-     */
-
     /**
      * Display a listing of the resource.
      * @return Response
      *
      * @OA\Get(
-     *     path="/users",
-     *     operationId="getUsersList",
-     *     tags={"Users"},
-     *     summary="Get all Users",
-     *     description="Returns list of all Users",
+     *     path="/domains",
+     *     operationId="getDomainsList",
+     *     tags={"Domains"},
+     *     summary="Get all Domains",
+     *     description="Returns list of all Domains",
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *         description="Successful operation"
      *     ),
      *     @OA\Response(
      *         response=401,
@@ -67,7 +36,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate());
+        return DomainResource::collection(Domain::paginate());
     }
 
     /**
@@ -76,11 +45,11 @@ class UserController extends Controller
      * @return Response
      *
      * @OA\Post(
-     *     path="/users",
-     *     operationId="storeUser",
-     *     tags={"Users"},
-     *     summary="Create new User",
-     *     description="Returns new User data",
+     *     path="/domains",
+     *     operationId="storeDomain",
+     *     tags={"Domains"},
+     *     summary="Create new Domain",
+     *     description="Returns new Domain data",
      *     @OA\RequestBody(
      *         required=true
      *     ),
@@ -104,23 +73,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create($request->all());
+        Domain::create($request->all());
     }
 
     /**
      * Show the specified resource.
-     * @param  User $user
+     * @param  Domain $domain
      * @return Response
      *
      * @OA\Get(
-     *     path="/users/{id}",
-     *     operationId="getUserById",
-     *     tags={"Users"},
-     *     summary="Get User details",
-     *     description="Returns User details",
+     *     path="/domains/{id}",
+     *     operationId="getDomainById",
+     *     tags={"Domains"},
+     *     summary="Get Domain details",
+     *     description="Returns Domain details",
      *     @OA\Parameter(
      *         name="id",
-     *         description="User id",
+     *         description="Domain id",
      *         required=true,
      *         in="path",
      *         @OA\Schema(
@@ -149,26 +118,26 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function show(User $user)
+    public function show(Domain $domain)
     {
-        return new UserResource($user);
+        return new DomainResource($domain);
     }
 
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  User $user
+     * @param  Domain $domain
      * @return Response
      *
      * @OA\Put(
-     *     path="/users/{id}",
-     *     operationId="updateUser",
-     *     tags={"Users"},
-     *     summary="Update existing User",
-     *     description="Returns updated User data",
+     *     path="/domains/{id}",
+     *     operationId="updateDomain",
+     *     tags={"Domains"},
+     *     summary="Update existing Domain",
+     *     description="Returns updated Domain data",
      *     @OA\Parameter(
      *         name="id",
-     *         description="User id",
+     *         description="Domain id",
      *         required=true,
      *         in="path",
      *         @OA\Schema(
@@ -200,25 +169,25 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Domain $domain)
     {
-        $user->update($request->all());
+        $domain->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  User $user
+     * @param  Domain $domain
      * @return Response
      *
      * @OA\Delete(
-     *     path="/users/{id}",
-     *     operationId="deleteUser",
-     *     tags={"Users"},
-     *     summary="Delete existing User",
-     *     description="Deletes a User record",
+     *     path="/domains/{id}",
+     *     operationId="deleteDomain",
+     *     tags={"Domains"},
+     *     summary="Delete existing Domain",
+     *     description="Deletes a Domain record",
      *     @OA\Parameter(
      *         name="id",
-     *         description="User id",
+     *         description="Domain id",
      *         required=true,
      *         in="path",
      *         @OA\Schema(
@@ -243,51 +212,8 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function destroy(User $user)
+    public function destroy(Domain $domain)
     {
-        $user->delete();
-    }
-
-    /**
-     * Login API
-     *
-     * @return \Illuminate\Http\Response
-     *
-     * @OA\Post(
-     *     path="/login",
-     *     operationId="Login",
-     *     summary="API Login",
-     *     description="Returns authentification token",
-     *     @OA\Parameter(
-     *         name="email",
-     *         required=true,
-     *         in="path",
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="password",
-     *         required=true,
-     *         in="path",
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
-     *     )
-     * )
-     */
-    public function login()
-    {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('api_token_name')->accessToken;
-            return response()->json(['success' => $success], 200);
-        } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
-        }
+        $domain->delete();
     }
 }

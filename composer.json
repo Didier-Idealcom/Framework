@@ -9,6 +9,7 @@
         "ext-blackfire": "^1.29",
         "astrotomic/laravel-translatable": "^11.3",
         "barryvdh/laravel-translation-manager": "^0.5.8",
+        "darkaonline/l5-swagger": "^7.0",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",

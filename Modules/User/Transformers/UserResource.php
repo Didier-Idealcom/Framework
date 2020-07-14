@@ -4,8 +4,27 @@ namespace Modules\User\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     title="UserResource",
+ *     description="User resource",
+ *     @OA\Xml(
+ *         name="UserResource"
+ *     )
+ * )
+ */
 class UserResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \Modules\User\Entities\User[]
+     */
+    private $data;
+
     /**
      * Transform the resource into an array.
      *
@@ -22,6 +41,7 @@ class UserResource extends JsonResource
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
+            'email_verified_at' => $this->email_verified_at,
             'created_at' => $this->created_at,
             'update_at' => $this->update_at
         ];
