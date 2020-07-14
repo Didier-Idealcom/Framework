@@ -11,7 +11,7 @@
     },
     "servers": [
         {
-            "url": "https://ideal-framework.herokuapp.com/api",
+            "url": "http://ideal-framework.herokuapp.com/api",
             "description": "Demo API Server"
         }
     ],
