@@ -31,6 +31,10 @@ class UserForm extends CoreForm
                 'multiple' => true,
                 'class' => 'Modules\User\Entities\Role'
             ])
+            ->add('avatar', 'slim', [
+                'label' => 'Avatar',
+                'rules' => ''
+            ])
             ->add('firstname', 'text', [
                 'label' => 'Prénom',
                 'rules' => 'required'

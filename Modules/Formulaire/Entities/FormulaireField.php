@@ -6,6 +6,12 @@ use \Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\HasUrlPresenter;
 
+/**
+ * @OA\Schema(
+ *     title="FormulaireField",
+ *     description="FormulaireField model",
+ * )
+ */
 class FormulaireField extends Model
 {
     use Translatable, HasUrlPresenter;

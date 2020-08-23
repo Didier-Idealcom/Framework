@@ -4,8 +4,27 @@ namespace Modules\Formulaire\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     title="FormulaireResource",
+ *     description="Formulaire resource",
+ *     @OA\Xml(
+ *         name="FormulaireResource"
+ *     )
+ * )
+ */
 class FormulaireResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \Modules\Formulaire\Entities\Formulaire[]
+     */
+    private $data;
+
     /**
      * Transform the resource into an array.
      *

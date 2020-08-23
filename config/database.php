@@ -39,12 +39,6 @@ return [
             'prefix' => '',
         ],
 
-        'sqlite_test' => [
-            'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', database_path('test.sqlite')),
-            'prefix' => '',
-        ],
-
         'sqlite_memory' => [
             'driver' => 'sqlite',
             'database' => ':memory:',

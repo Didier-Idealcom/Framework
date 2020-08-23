@@ -404,12 +404,21 @@
                                 "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css"
                             ],
                             "scripts": [
+                                "{$config.path.node_modules}/ckeditor4/ckeditor.js",
                                 "{$config.path.node_modules}/grapesjs/dist/grapes.min.js",
                                 "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
                                 "{$config.path.node_modules}/grapesjs-plugin-ckeditor/dist/grapesjs-plugin-ckeditor.min.js"
                             ],
                             "fonts": [
                                 "{$config.path.node_modules}/grapesjs/dist/fonts/**"
+                            ]
+                        },
+                        "slim": {
+                            "styles": [
+                                "{$config.path.src}/plugins/slim/slim.min.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.src}/plugins/slim/slim.kickstart.min.js"
                             ]
                         }
                     }
@@ -636,56 +645,6 @@
                     },
                     "output": {
                         "scripts": "{$config.dist}/plugins/custom/tinymce/plugins"
-                    }
-                },
-                "ckeditor-classic": {
-                    "src": {
-                        "scripts": [
-                            "{$config.path.node_modules}/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"
-                        ]
-                    },
-                    "bundle": {
-                        "scripts": "{$config.dist}/plugins/custom/ckeditor/ckeditor-classic.bundle.js"
-                    }
-                },
-                "ckeditor-inline": {
-                    "src": {
-                        "scripts": [
-                            "{$config.path.node_modules}/@ckeditor/ckeditor5-build-inline/build/ckeditor.js"
-                        ]
-                    },
-                    "bundle": {
-                        "scripts": "{$config.dist}/plugins/custom/ckeditor/ckeditor-inline.bundle.js"
-                    }
-                },
-                "ckeditor-balloon": {
-                    "src": {
-                        "scripts": [
-                            "{$config.path.node_modules}/@ckeditor/ckeditor5-build-balloon/build/ckeditor.js"
-                        ]
-                    },
-                    "bundle": {
-                        "scripts": "{$config.dist}/plugins/custom/ckeditor/ckeditor-balloon.bundle.js"
-                    }
-                },
-                "ckeditor-balloon-block": {
-                    "src": {
-                        "scripts": [
-                            "{$config.path.node_modules}/@ckeditor/ckeditor5-build-balloon-block/build/ckeditor.js"
-                        ]
-                    },
-                    "bundle": {
-                        "scripts": "{$config.dist}/plugins/custom/ckeditor/ckeditor-balloon-block.bundle.js"
-                    }
-                },
-                "ckeditor-decoupled-document": {
-                    "src": {
-                        "scripts": [
-                            "{$config.path.node_modules}/@ckeditor/ckeditor5-build-decoupled-document/build/ckeditor.js"
-                        ]
-                    },
-                    "bundle": {
-                        "scripts": "{$config.dist}/plugins/custom/ckeditor/ckeditor-document.bundle.js"
                     }
                 },
                 "jkanban": {

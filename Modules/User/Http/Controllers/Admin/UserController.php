@@ -13,6 +13,7 @@ use Modules\User\Entities\User;
 use Modules\User\Entities\Role;
 use Modules\User\Forms\UserForm;
 use Modules\User\Exports\UserExport;
+use Modules\Core\Classes\Slim;
 use Modules\Core\Repositories\ModelRepository;
 
 class UserController extends Controller
@@ -122,6 +123,33 @@ class UserController extends Controller
         $updated = $this->repository->update($user->id, $request->all());
 
         $user->syncRoles($request->has('role') ? Role::whereIn('id', $request->get('role'))->get() : []);
+
+        if (!empty($request->slim)) {
+            // Pass Slim's getImages the name of your file input, and since we only care about one image, use Laravel's head() helper to get the first element
+            $image = head(Slim::getImages());
+
+            // Grab the ouput data (data modified after Slim has done its thing)
+            if (isset($image['output']['data'])) {
+                // Original file name
+                $name = $image['output']['name'];
+                $name = preg_replace('#(.*)\.(.*)#', 'users_avatar_' . $user->id . '.$2', $name);
+
+                // Base64 of the image
+                $data = $image['output']['data'];
+
+                // Server path
+                $path = base_path() . '/public/images/users/';
+
+                // Save the file to the server
+                $file = Slim::saveFile($data, $name, $path, false);
+
+                // Get the absolute web path to the image
+                $imagePath = asset('images/users/' . $file['name']);
+
+                $user->avatar = $imagePath;
+                $user->save();
+            }
+        }
 
         Session::flash('success', 'L\'utilisateur a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {

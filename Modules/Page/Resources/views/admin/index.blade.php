@@ -96,7 +96,7 @@
             }, {
                 field: 'actions',
                 title: 'Actions',
-                width: 100,
+                width: 120,
                 sortable: false
             }];
 

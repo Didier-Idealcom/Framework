@@ -21,10 +21,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * @OA\Property(
-     *     title="ID",
-     *     description="ID",
-     *     format="int64",
-     *     example=1
+     *     property="id",
+     *     ref="#/components/schemas/BaseModel/properties/id")
      * )
      *
      * @var integer
@@ -35,6 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @OA\Property(
      *     title="Active",
      *     description="Active",
+     *     type="string",
+     *     enum={"Y","N"}
      * )
      *
      * @var string
@@ -45,6 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @OA\Property(
      *     title="Firstname",
      *     description="Firstname",
+     *     type="string"
      * )
      *
      * @var string
@@ -55,6 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @OA\Property(
      *     title="Lastname",
      *     description="Lastname",
+     *     type="string"
      * )
      *
      * @var string
@@ -65,7 +67,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @OA\Property(
      *     title="Email",
      *     description="Email",
-     *     format="email",
+     *     type="string",
+     *     format="email"
      * )
      *
      * @var string
@@ -74,24 +77,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * @OA\Property(
-     *     title="Email verified at",
-     *     description="Email verified at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
+     *     title="Password",
+     *     description="Password",
      *     type="string"
      * )
      *
-     * @var \DateTime
+     * @var string
      */
-    private $email_verified_at;
+    private $password;
 
     /**
      * @OA\Property(
-     *     title="Created at",
-     *     description="Created at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
+     *     property="created_at",
+     *     ref="#/components/schemas/BaseModel/properties/created_at")
      * )
      *
      * @var \DateTime
@@ -100,11 +98,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * @OA\Property(
-     *     title="Updated at",
-     *     description="Updated at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
+     *     property="updated_at",
+     *     ref="#/components/schemas/BaseModel/properties/updated_at")
      * )
      *
      * @var \DateTime
@@ -112,11 +107,24 @@ class User extends Authenticatable implements MustVerifyEmail
     private $updated_at;
 
     /**
+     * @OA\Property(
+     *     title="Email verified at",
+     *     description="Email verified at",
+     *     type="string",
+     *     format="date-time",
+     *     example="2020-01-27 17:50:45"
+     * )
+     *
+     * @var \DateTime
+     */
+    private $email_verified_at;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['active', 'firstname', 'lastname', 'email', 'password', 'last_login_at', 'last_login_ip'];
+    protected $fillable = ['active', 'firstname', 'lastname', 'email', 'password', 'avatar', 'last_login_at', 'last_login_ip'];
 
     /**
      * The attributes that should be hidden for arrays.

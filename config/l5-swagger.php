@@ -70,7 +70,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'docs' => storage_path('api-docs'),
+        'docs' => storage_path('app/public/api-docs'),
 
         /*
         |--------------------------------------------------------------------------
@@ -95,6 +95,7 @@ return [
         */
 
         'annotations' => [
+            base_path('app'),
             base_path('Modules'),
         ],
 

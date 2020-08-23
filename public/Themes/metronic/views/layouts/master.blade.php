@@ -135,7 +135,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <!--begin::Base Scripts -->
     <script>
-        var CKEDITOR_BASEPATH = '/plugins/ckeditor/';
+        var CKEDITOR_BASEPATH = '/Themes/metronic/tools/node_modules/ckeditor4/';
     </script>
     <!--end::Base Scripts -->
 

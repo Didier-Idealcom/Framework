@@ -168,7 +168,7 @@ class PageController extends Controller
                             ' . svg(theme_url('media/svg/icons/Communication/') . 'Write') . '
                         </span>
                     </a>
-                    <form action="' . $page->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                    <form action="' . $page->url_backend->destroy . '" method="POST" class="form-delete d-inline-block mr-2">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
                         <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
@@ -177,6 +177,23 @@ class PageController extends Controller
                             </span>
                         </button>
                     </form>
+                    <div class="dropdown dropdown-inline">
+                        <a href="javascript:;" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" data-toggle="dropdown">
+                            <span class="svg-icon svg-icon-md">
+                                ' . preg_replace('#<title>.*</title>#', '', svg_image(theme_url('media/svg/icons/General/') . 'Other2')->renderInline()) . '
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                            <ul class="navi flex-column navi-hover py-2">
+                                <li class="navi-item">
+                                    <a class="navi-link" href="' . $page->url_backend->show . '">
+                                        <span class="navi-icon"><i class="la la-eye"></i></span>
+                                        <span class="navi-text">Preview</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 ';
             })
             ->escapeColumns(['title'])

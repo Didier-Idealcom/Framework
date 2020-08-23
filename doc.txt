@@ -5,8 +5,11 @@ prod : gulp --prod
 custom metronic :
 js : src/assets/js/theme/pages/my-script.js
 
+génération doc API :
+php artisan l5-swagger:generate
+
 execution tests :
-php artisan migrate --env=testing
+php artisan migrate:fresh --env=testing
 vendor\bin\codecept build
 vendor\bin\codecept run functional
 

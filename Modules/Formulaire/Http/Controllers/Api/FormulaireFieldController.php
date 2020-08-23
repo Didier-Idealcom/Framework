@@ -11,8 +11,39 @@ use Modules\Formulaire\Transformers\FormulaireFieldResource;
 class FormulaireFieldController extends Controller
 {
     /**
+     * @OA\Tag(
+     *     name="FormulairesFields",
+     *     description="FormulairesFields API endpoints"
+     * )
+     */
+
+    /**
      * Display a listing of the resource.
      * @return Response
+     *
+     * @OA\Get(
+     *     path="/formulaires_fields",
+     *     operationId="getFormulairesFieldsList",
+     *     tags={"FormulairesFields"},
+     *     summary="Get all FormulairesFields",
+     *     description="Returns list of all FormulairesFields",
+     *     security={
+     *         {"passport": {}}
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/FormulaireFieldResource")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     )
+     * )
      */
     public function index()
     {
@@ -23,6 +54,36 @@ class FormulaireFieldController extends Controller
      * Store a newly created resource in storage.
      * @param  Request $request
      * @return Response
+     *
+     * @OA\Post(
+     *     path="/formulaires_fields",
+     *     operationId="storeFormulaireField",
+     *     tags={"FormulairesFields"},
+     *     summary="Create new FormulaireField",
+     *     description="Returns new FormulaireField data",
+     *     security={
+     *         {"passport": {}}
+     *     },
+     *     @OA\RequestBody(
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -31,32 +92,151 @@ class FormulaireFieldController extends Controller
 
     /**
      * Show the specified resource.
-     * @param  FormulaireField $user
+     * @param  FormulaireField $formulaire_field
      * @return Response
+     *
+     * @OA\Get(
+     *     path="/formulaires_fields/{id}",
+     *     operationId="getFormulaireFieldById",
+     *     tags={"FormulairesFields"},
+     *     summary="Get FormulaireField details",
+     *     description="Returns FormulaireField details",
+     *     security={
+     *         {"passport": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="FormulaireField id",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     )
+     * )
      */
-    public function show(FormulaireField $user)
+    public function show(FormulaireField $formulaire_field)
     {
-        return new FormulaireFieldResource($user);
+        return new FormulaireFieldResource($formulaire_field);
     }
 
     /**
      * Update the specified resource in storage.
      * @param  Request $request
-     * @param  FormulaireField $user
+     * @param  FormulaireField $formulaire_field
      * @return Response
+     *
+     * @OA\Put(
+     *     path="/formulaires_fields/{id}",
+     *     operationId="updateFormulaireField",
+     *     tags={"FormulairesFields"},
+     *     summary="Update existing FormulaireField",
+     *     description="Returns updated FormulaireField data",
+     *     security={
+     *         {"passport": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="FormulaireField id",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     )
+     * )
      */
-    public function update(Request $request, FormulaireField $user)
+    public function update(Request $request, FormulaireField $formulaire_field)
     {
-        $user->update($request->all());
+        $formulaire_field->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  FormulaireField $user
+     * @param  FormulaireField $formulaire_field
      * @return Response
+     *
+     * @OA\Delete(
+     *     path="/formulaires_fields/{id}",
+     *     operationId="deleteFormulaireField",
+     *     tags={"FormulairesFields"},
+     *     summary="Delete existing FormulaireField",
+     *     description="Deletes a FormulaireField record",
+     *     security={
+     *         {"passport": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="FormulaireField id",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     )
+     * )
      */
-    public function destroy(FormulaireField $user)
+    public function destroy(FormulaireField $formulaire_field)
     {
-        $user->delete();
+        $formulaire_field->delete();
     }
 }

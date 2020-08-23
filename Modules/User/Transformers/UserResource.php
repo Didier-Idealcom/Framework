@@ -26,6 +26,13 @@ class UserResource extends JsonResource
     private $data;
 
     /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string
+     */
+    public static $wrap = '';
+
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request
@@ -41,9 +48,10 @@ class UserResource extends JsonResource
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
+            'avatar' => $this->avatar,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at
+            'updated_at' => $this->updated_at,
+            'email_verified_at' => $this->email_verified_at
         ];
     }
 }

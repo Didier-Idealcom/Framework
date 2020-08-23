@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'DashboardController@index')->name('dashboard');
+Route::get('/media', 'DashboardController@media')->name('media');
+Route::post('/media_upload', 'DashboardController@upload')->name('media_upload');

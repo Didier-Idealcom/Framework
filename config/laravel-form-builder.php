@@ -45,6 +45,7 @@ return [
     'default_namespace' => '',
 
     'custom_fields' => [
-        'grapesjs' => Modules\Core\Forms\Fields\GrapesjsType::class
+        'grapesjs' => Modules\Core\Forms\Fields\GrapesjsType::class,
+        'slim' => Modules\Core\Forms\Fields\SlimType::class
     ]
 ];

@@ -5,28 +5,13 @@ namespace Modules\User\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Modules\User\Entities\User;
 use Modules\User\Transformers\UserResource;
 
 class UserController extends Controller
 {
     /**
-     * @OA\Info(
-     *     version="1.0.0",
-     *     title="Framework API Documentation",
-     *     description="",
-     *     @OA\Contact(
-     *         url="https://www.ideal-com.com",
-     *         email="d.largeron@ideal-com.com"
-     *     )
-     * )
-     *
-     * @OA\Server(
-     *     url=L5_SWAGGER_CONST_HOST,
-     *     description="Demo API Server"
-     * )
-     *
      * @OA\Tag(
      *     name="Users",
      *     description="Users API endpoints"
@@ -44,7 +29,7 @@ class UserController extends Controller
      *     summary="Get all Users",
      *     description="Returns list of all Users",
      *     security={
-     *         {"passport": {}},
+     *         {"passport": {}}
      *     },
      *     @OA\Response(
      *         response=200,
@@ -54,10 +39,16 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     )
      * )
      */
@@ -78,32 +69,49 @@ class UserController extends Controller
      *     summary="Create new User",
      *     description="Returns new User data",
      *     security={
-     *         {"passport": {}},
+     *         {"passport": {}}
      *     },
      *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/User"),
      *         required=true
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
+     *         response=201,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     )
      * )
      */
     public function store(Request $request)
     {
-        User::create($request->all());
+        $request->validate([
+            'email' => 'required|unique:users',
+            'password' => 'required'
+        ]);
+
+        $user = User::create($request->all());
+        return (new UserResource($user))->response()->setStatusCode(201);
     }
 
     /**
@@ -118,7 +126,7 @@ class UserController extends Controller
      *     summary="Get User details",
      *     description="Returns User details",
      *     security={
-     *         {"passport": {}},
+     *         {"passport": {}}
      *     },
      *     @OA\Parameter(
      *         name="id",
@@ -131,23 +139,36 @@ class UserController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
@@ -169,7 +190,7 @@ class UserController extends Controller
      *     summary="Update existing User",
      *     description="Returns updated User data",
      *     security={
-     *         {"passport": {}},
+     *         {"passport": {}}
      *     },
      *     @OA\Parameter(
      *         name="id",
@@ -181,33 +202,48 @@ class UserController extends Controller
      *         )
      *     ),
      *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/User"),
      *         required=true
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, User $user)
     {
         $user->update($request->all());
+        return new UserResource($user);
     }
 
     /**
@@ -222,7 +258,7 @@ class UserController extends Controller
      *     summary="Delete existing User",
      *     description="Deletes a User record",
      *     security={
-     *         {"passport": {}},
+     *         {"passport": {}}
      *     },
      *     @OA\Parameter(
      *         name="id",
@@ -234,26 +270,36 @@ class UserController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=204,
      *         description="Successful operation"
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
     public function destroy(User $user)
     {
         $user->delete();
+        return response()->json(null, 204);
     }
 
     /**
@@ -283,25 +329,42 @@ class UserController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=202,
      *         description="Successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     )
      * )
      */
     public function login(Request $request)
     {
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'email|required',
             'password' => 'required'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Bad Request.', 'errors' => $validator->errors()], 400);
+        }
 
-        if (!auth()->attempt($validator)) {
-            return response()->json(['error' => 'Unauthorised'], 401);
+        if (!auth()->attempt(['email' => request('email'), 'password' => request('password')])) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
         } else {
             $success['token'] = auth()->user()->createToken('authToken')->accessToken;
             $success['user'] = auth()->user();
-            return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
+            return response()->json(['success' => $success])->setStatusCode(202);
         }
     }
 }
