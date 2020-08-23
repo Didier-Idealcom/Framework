@@ -2,15 +2,16 @@
 
 namespace Modules\Core\Classes;
 
-abstract class SlimStatus {
+abstract class SlimStatus
+{
     const FAILURE = 'failure';
     const SUCCESS = 'success';
 }
 
-class Slim {
-
-    public static function getImages($inputName = 'slim') {
-
+class Slim
+{
+    public static function getImages($inputName = 'slim')
+    {
         $values = Slim::getPostData($inputName);
 
         // test for errors
@@ -34,14 +35,15 @@ class Slim {
 
         // return the data collected from the fields
         return $data;
-
     }
 
     // $value should be in JSON format
-    private static function parseInput($value) {
-
+    private static function parseInput($value)
+    {
         // if no json received, exit, don't handle empty input values.
-        if (empty($value)) {return null;}
+        if (empty($value)) {
+            return null;
+        }
 
         // If magic quotes enabled
         if (get_magic_quotes_gpc()) {
@@ -58,7 +60,6 @@ class Slim {
         $meta = null;
 
         if (isset ($data->input)) {
-
             $inputData = null;
             if (isset($data->input->image)) {
                 $inputData = Slim::getBase64Data($data->input->image);
@@ -78,11 +79,9 @@ class Slim {
                 'width' => $data->input->width,
                 'height' => $data->input->height,
             );
-
         }
 
         if (isset($data->output)) {
-
             $outputDate = null;
             if (isset($data->output->image)) {
                 $outputData = Slim::getBase64Data($data->output->image);
@@ -137,13 +136,14 @@ class Slim {
     }
 
     // will test if the supplied file is an image
-    private static function isImage($filename) {
+    private static function isImage($filename)
+    {
         return @exif_imagetype($filename);
     }
 
     // $path should have trailing slash
-    public static function saveFile($data, $name, $path = 'tmp/', $uid = true) {
-
+    public static function saveFile($data, $name, $path = 'tmp/', $uid = true)
+    {
         // Add trailing slash if omitted
         if (substr($path, -1) !== '/') {
             $path .= '/';
@@ -161,7 +161,7 @@ class Slim {
         if ($uid) {
             $name = uniqid() . '_' . $name;
         }
-        
+
         // Tet for .htaccess file in directory, if none found, add custom one
         if (!file_exists($path . DIRECTORY_SEPARATOR . '.htaccess')) {
             Slim::secureDirectory($path);
@@ -191,20 +191,22 @@ class Slim {
      * @param $url
      * @return string
      */
-    public static function fetchURL($url, $maxFileSize) {
+    public static function fetchURL($url, $maxFileSize)
+    {
         if (!ini_get('allow_url_fopen')) {
             return null;
         }
         $content = null;
         try {
             $content = @file_get_contents($url, false, null, 0, $maxFileSize);
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return false;
         }
         return $content;
     }
 
-    public static function outputJSON($data) {
+    public static function outputJSON($data)
+    {
         header('Content-Type: application/json');
         echo json_encode($data);
     }
@@ -218,7 +220,8 @@ class Slim {
      * @param $str
      * @return string
      */
-    public static function sanitizeFileName($str) {
+    public static function sanitizeFileName($str)
+    {
         // Basic clean up
         $str = preg_replace('([^\w\s\d\-_~,;\[\]\(\).])', '', $str);
         // Remove any runs of periods
@@ -231,8 +234,8 @@ class Slim {
      * @param $inputName
      * @return array|bool
      */
-    private static function getPostData($inputName) {
-
+    private static function getPostData($inputName)
+    {
         $values = array();
 
         if (isset($_POST[$inputName])) {
@@ -254,10 +257,10 @@ class Slim {
      */
     private static function secureDirectory($path) {
         $content = '# Don\'t list directory contents
-IndexIgnore *
-# Disable script execution
-AddHandler cgi-script .php .pl .jsp .asp .sh .cgi
-Options -ExecCGI -Indexes';
+                    IndexIgnore *
+                    # Disable script execution
+                    AddHandler cgi-script .php .pl .jsp .asp .sh .cgi
+                    Options -ExecCGI -Indexes';
         file_put_contents($path . DIRECTORY_SEPARATOR . '.htaccess', $content);
     }
 
@@ -267,7 +270,8 @@ Options -ExecCGI -Indexes';
      * @param $path
      * @return bool
      */
-    private static function save($data, $path) {
+    private static function save($data, $path)
+    {
         if (!file_put_contents($path, $data)) {
             return false;
         }
@@ -279,8 +283,8 @@ Options -ExecCGI -Indexes';
      * @param $data
      * @return string
      */
-    private static function getBase64Data($data) {
+    private static function getBase64Data($data)
+    {
         return base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
     }
-
 }

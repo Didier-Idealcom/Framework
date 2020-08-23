@@ -5,6 +5,9 @@ prod : gulp --prod
 custom metronic :
 js : src/assets/js/theme/pages/my-script.js
 
+slim cropper :
+utilise la librairie exif
+
 génération doc API :
 php artisan l5-swagger:generate
 
