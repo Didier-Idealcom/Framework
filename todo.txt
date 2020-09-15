@@ -8,6 +8,7 @@ OK - ajouter champ active table users
 OK - système de permalinks (https://github.com/IsraelOrtuno/permalink)
 	- améliorer organisation du code
 	- détecter la création d'une entité en doublon
+- fonction upload générique slim
 - système de versionning (https://github.com/mpociot/versionable)
 - système de duplication (https://github.com/BKWLD/cloner)
 - commande installation BO

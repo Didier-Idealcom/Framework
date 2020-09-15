@@ -4,8 +4,34 @@ namespace Modules\Menu\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     title="MenuitemResource",
+ *     description="Menuitem resource",
+ *     @OA\Xml(
+ *         name="MenuitemResource"
+ *     )
+ * )
+ */
 class MenuitemResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \Modules\Menu\Entities\Menuitem[]
+     */
+    private $data;
+
+    /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string
+     */
+    public static $wrap = '';
+
     /**
      * Transform the resource into an array.
      *

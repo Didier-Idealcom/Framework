@@ -4,8 +4,34 @@ namespace Modules\Domain\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     title="DomainResource",
+ *     description="Domain resource",
+ *     @OA\Xml(
+ *         name="DomainResource"
+ *     )
+ * )
+ */
 class DomainResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \Modules\Domain\Entities\Domain[]
+     */
+    private $data;
+
+    /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string
+     */
+    public static $wrap = '';
+
     /**
      * Transform the resource into an array.
      *

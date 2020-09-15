@@ -12,7 +12,7 @@ use Modules\Core\Traits\HasUrlPresenter;
 /**
  * @OA\Schema(
  *     title="User",
- *     description="User model",
+ *     description="User model"
  * )
  */
 class User extends Authenticatable implements MustVerifyEmail

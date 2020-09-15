@@ -8,6 +8,12 @@ use Illuminate\Routing\Controller;
 use Modules\Domain\Entities\Domain;
 use Modules\Domain\Transformers\DomainResource;
 
+/**
+ * @OA\Tag(
+ *     name="Domains",
+ *     description="Domains API endpoints"
+ * )
+ */
 class DomainController extends Controller
 {
     /**
@@ -20,17 +26,27 @@ class DomainController extends Controller
      *     tags={"Domains"},
      *     summary="Get all Domains",
      *     description="Returns list of all Domains",
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/DomainResource")
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     )
      * )
      */
@@ -50,30 +66,50 @@ class DomainController extends Controller
      *     tags={"Domains"},
      *     summary="Create new Domain",
      *     description="Returns new Domain data",
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     @OA\RequestBody(
-     *         required=true
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Domain")
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
+     *         response=201,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Domain")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     )
      * )
      */
     public function store(Request $request)
     {
-        Domain::create($request->all());
+        $request->validate([
+            'title' => 'required',
+            'name' => 'required'
+        ]);
+
+        $domain = Domain::create($request->all());
+        return (new DomainResource($domain))->response()->setStatusCode(201);
     }
 
     /**
@@ -87,6 +123,9 @@ class DomainController extends Controller
      *     tags={"Domains"},
      *     summary="Get Domain details",
      *     description="Returns Domain details",
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     @OA\Parameter(
      *         name="id",
      *         description="Domain id",
@@ -98,23 +137,36 @@ class DomainController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Domain")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
@@ -135,6 +187,9 @@ class DomainController extends Controller
      *     tags={"Domains"},
      *     summary="Update existing Domain",
      *     description="Returns updated Domain data",
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     @OA\Parameter(
      *         name="id",
      *         description="Domain id",
@@ -145,33 +200,48 @@ class DomainController extends Controller
      *         )
      *     ),
      *     @OA\RequestBody(
-     *         required=true
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Domain")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Domain")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, Domain $domain)
     {
         $domain->update($request->all());
+        return new DomainResource($domain);
     }
 
     /**
@@ -185,6 +255,9 @@ class DomainController extends Controller
      *     tags={"Domains"},
      *     summary="Delete existing Domain",
      *     description="Deletes a Domain record",
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     @OA\Parameter(
      *         name="id",
      *         description="Domain id",
@@ -195,25 +268,35 @@ class DomainController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=204,
      *         description="Successful operation"
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
     public function destroy(Domain $domain)
     {
         $domain->delete();
+        return response()->json(null, 204);
     }
 }

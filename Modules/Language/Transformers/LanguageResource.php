@@ -4,8 +4,34 @@ namespace Modules\Language\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     title="LanguageResource",
+ *     description="Language resource",
+ *     @OA\Xml(
+ *         name="LanguageResource"
+ *     )
+ * )
+ */
 class LanguageResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \Modules\Language\Entities\Language[]
+     */
+    private $data;
+
+    /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string
+     */
+    public static $wrap = '';
+
     /**
      * Transform the resource into an array.
      *

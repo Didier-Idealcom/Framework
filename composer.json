@@ -9,6 +9,7 @@
         "ext-blackfire": "^1.29",
         "astrotomic/laravel-translatable": "^11.3",
         "barryvdh/laravel-translation-manager": "^0.5.8",
+        "bepsvpt/secure-headers": "^6.3",
         "cloudinary-labs/cloudinary-laravel": "^1.0",
         "darkaonline/l5-swagger": "^7.0",
         "doctrine/dbal": "^2.10",

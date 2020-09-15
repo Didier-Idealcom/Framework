@@ -15,6 +15,7 @@ execution tests :
 php artisan migrate:fresh --env=testing
 vendor\bin\codecept build
 vendor\bin\codecept run functional
+php artisan test
 
 définition thème admin :
 Modules/Core/Config/config.php => middleware setTheme:metronic

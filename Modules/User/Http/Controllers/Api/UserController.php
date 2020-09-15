@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Validator;
 use Modules\User\Entities\User;
 use Modules\User\Transformers\UserResource;
 
+/**
+ * @OA\Tag(
+ *     name="Users",
+ *     description="Users API endpoints"
+ * )
+ */
 class UserController extends Controller
 {
-    /**
-     * @OA\Tag(
-     *     name="Users",
-     *     description="Users API endpoints"
-     * )
-     */
-
     /**
      * Display a listing of the resource.
      * @return Response
@@ -72,8 +71,8 @@ class UserController extends Controller
      *         {"passport": {}}
      *     },
      *     @OA\RequestBody(
-     *         @OA\JsonContent(ref="#/components/schemas/User"),
-     *         required=true
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *         response=201,
@@ -202,8 +201,8 @@ class UserController extends Controller
      *         )
      *     ),
      *     @OA\RequestBody(
-     *         @OA\JsonContent(ref="#/components/schemas/User"),
-     *         required=true
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *         response=200,

@@ -8,15 +8,14 @@ use Illuminate\Routing\Controller;
 use Modules\Formulaire\Entities\FormulaireField;
 use Modules\Formulaire\Transformers\FormulaireFieldResource;
 
+/**
+ * @OA\Tag(
+ *     name="FormulairesFields",
+ *     description="FormulairesFields API endpoints"
+ * )
+ */
 class FormulaireFieldController extends Controller
 {
-    /**
-     * @OA\Tag(
-     *     name="FormulairesFields",
-     *     description="FormulairesFields API endpoints"
-     * )
-     */
-
     /**
      * Display a listing of the resource.
      * @return Response
@@ -38,10 +37,16 @@ class FormulaireFieldController extends Controller
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     )
      * )
      */
@@ -65,29 +70,47 @@ class FormulaireFieldController extends Controller
      *         {"passport": {}}
      *     },
      *     @OA\RequestBody(
-     *         required=true
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/FormulaireField")
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
+     *         response=201,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/FormulaireField")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     )
      * )
      */
     public function store(Request $request)
     {
-        FormulaireField::create($request->all());
+        $request->validate([
+            'formulaire_id' => 'required',
+            'code' => 'required',
+            'type' => 'required'
+        ]);
+
+        $formulaire_field = FormulaireField::create($request->all());
+        return (new FormulaireFieldResource($formulaire_field))->response()->setStatusCode(201);
     }
 
     /**
@@ -115,23 +138,36 @@ class FormulaireFieldController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/FormulaireField")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
@@ -165,33 +201,48 @@ class FormulaireFieldController extends Controller
      *         )
      *     ),
      *     @OA\RequestBody(
-     *         required=true
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/FormulaireField")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation"
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/FormulaireField")
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request"
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bad Request.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
     public function update(Request $request, FormulaireField $formulaire_field)
     {
         $formulaire_field->update($request->all());
+        return new FormulaireFieldResource($formulaire_field);
     }
 
     /**
@@ -218,25 +269,35 @@ class FormulaireFieldController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=204,
      *         description="Successful operation"
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Forbidden"
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Resource Not Found"
+     *         description="Resource Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Resource Not Found.")
+     *         )
      *     )
      * )
      */
     public function destroy(FormulaireField $formulaire_field)
     {
         $formulaire_field->delete();
+        return response()->json(null, 204);
     }
 }

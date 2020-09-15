@@ -18,10 +18,8 @@ class Formulaire extends Model
 
     /**
      * @OA\Property(
-     *     title="ID",
-     *     description="ID",
-     *     format="int64",
-     *     example=1
+     *     property="id",
+     *     ref="#/components/schemas/BaseModel/properties/id")
      * )
      *
      * @var integer
@@ -32,6 +30,8 @@ class Formulaire extends Model
      * @OA\Property(
      *     title="Active",
      *     description="Active",
+     *     type="string",
+     *     enum={"Y","N"}
      * )
      *
      * @var string
@@ -40,55 +40,30 @@ class Formulaire extends Model
 
     /**
      * @OA\Property(
-     *     title="Firstname",
-     *     description="Firstname",
-     * )
-     *
-     * @var string
-     */
-    private $firstname;
-
-    /**
-     * @OA\Property(
-     *     title="Lastname",
-     *     description="Lastname",
-     * )
-     *
-     * @var string
-     */
-    private $lastname;
-
-    /**
-     * @OA\Property(
-     *     title="Email",
-     *     description="Email",
-     *     format="email",
-     * )
-     *
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @OA\Property(
-     *     title="Email verified at",
-     *     description="Email verified at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
+     *     title="Code",
+     *     description="Code",
      *     type="string"
      * )
      *
-     * @var \DateTime
+     * @var string
      */
-    private $email_verified_at;
+    private $code;
 
     /**
      * @OA\Property(
-     *     title="Created at",
-     *     description="Created at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
+     *     title="Tracking",
+     *     description="Tracking",
      *     type="string"
+     * )
+     *
+     * @var string
+     */
+    private $tracking;
+
+    /**
+     * @OA\Property(
+     *     property="created_at",
+     *     ref="#/components/schemas/BaseModel/properties/created_at")
      * )
      *
      * @var \DateTime
@@ -97,11 +72,8 @@ class Formulaire extends Model
 
     /**
      * @OA\Property(
-     *     title="Updated at",
-     *     description="Updated at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
+     *     property="updated_at",
+     *     ref="#/components/schemas/BaseModel/properties/updated_at")
      * )
      *
      * @var \DateTime
