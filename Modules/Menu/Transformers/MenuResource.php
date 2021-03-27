@@ -8,23 +8,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="MenuResource",
  *     description="Menu resource",
- *     @OA\Xml(
- *         name="MenuResource"
+ *     @OA\Property(
+ *         property="data",
+ *         title="Data",
+ *         description="Data wrapper",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Menu"
+ *         )
  *     )
  * )
  */
 class MenuResource extends JsonResource
 {
-    /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \Modules\Menu\Entities\Menu[]
-     */
-    private $data;
-
     /**
      * The "data" wrapper that should be applied.
      *

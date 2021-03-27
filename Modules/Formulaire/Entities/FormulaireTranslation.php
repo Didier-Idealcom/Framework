@@ -4,6 +4,24 @@ namespace Modules\Formulaire\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     title="FormulaireTranslation",
+ *     description="FormulaireTranslation model",
+ *     @OA\Property(
+ *         property="title",
+ *         title="Title",
+ *         description="Title",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="resume",
+ *         title="Resume",
+ *         description="Resume",
+ *         type="string"
+ *     )
+ * )
+ */
 class FormulaireTranslation extends Model
 {
 	/**

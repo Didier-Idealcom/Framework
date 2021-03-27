@@ -8,23 +8,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="MenuitemResource",
  *     description="Menuitem resource",
- *     @OA\Xml(
- *         name="MenuitemResource"
+ *     @OA\Property(
+ *         property="data",
+ *         title="Data",
+ *         description="Data wrapper",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Menuitem"
+ *         )
  *     )
  * )
  */
 class MenuitemResource extends JsonResource
 {
-    /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \Modules\Menu\Entities\Menuitem[]
-     */
-    private $data;
-
     /**
      * The "data" wrapper that should be applied.
      *
@@ -55,7 +51,8 @@ class MenuitemResource extends JsonResource
             'cliquable' => $this->cliquable,
             'format' => $this->format,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at
+            'update_at' => $this->update_at,
+            'translations' => $this->getTranslationsArray()
         ];
     }
 }

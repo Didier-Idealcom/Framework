@@ -8,23 +8,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="UserResource",
  *     description="User resource",
- *     @OA\Xml(
- *         name="UserResource"
+ *     @OA\Property(
+ *         property="data",
+ *         title="Data",
+ *         description="Data wrapper",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/User"
+ *         )
  *     )
  * )
  */
 class UserResource extends JsonResource
 {
-    /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \Modules\User\Entities\User[]
-     */
-    private $data;
-
     /**
      * The "data" wrapper that should be applied.
      *

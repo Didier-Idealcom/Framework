@@ -12,165 +12,106 @@ use Modules\Core\Traits\HasPermalink;
  * @OA\Schema(
  *     title="Menuitem",
  *     description="Menuitem model",
+ *     @OA\Property(
+ *         property="id",
+ *         ref="#/components/schemas/BaseModel/properties/id")
+ *     ),
+ *     @OA\Property(
+ *         property="menu_id",
+ *         title="Menu ID",
+ *         description="Menu ID",
+ *         type="integer",
+ *         format="int64",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="active",
+ *         title="Active",
+ *         description="Active",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="gabarit",
+ *         title="Gabarit",
+ *         description="Gabarit",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="bg",
+ *         title="BG",
+ *         description="Bord gauche",
+ *         type="integer",
+ *         format="int64",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="bd",
+ *         title="BD",
+ *         description="Bord droit",
+ *         type="integer",
+ *         format="int64",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="niveau",
+ *         title="Niveau",
+ *         description="Niveau",
+ *         type="integer",
+ *         format="int64",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="parent_id",
+ *         title="Parent ID",
+ *         description="Parent ID",
+ *         type="integer",
+ *         format="int64",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="visible",
+ *         title="Visible",
+ *         description="Visible",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="cliquable",
+ *         title="Cliquable",
+ *         description="Cliquable",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="format",
+ *         title="Format",
+ *         description="Format",
+ *         type="string",
+ *         enum={"submenu","big_submenu"}
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         ref="#/components/schemas/BaseModel/properties/created_at")
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         ref="#/components/schemas/BaseModel/properties/updated_at")
+ *     ),
+ *     @OA\Property(
+ *         property="translations",
+ *         title="Translations",
+ *         description="Menuitem translations",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/MenuitemTranslation"
+ *         )
+ *     )
  * )
  */
 class Menuitem extends Model implements Permalinkable
 {
     use Translatable, HasUrlPresenter, HasPermalink;
-
-    /**
-     * @OA\Property(
-     *     property="id",
-     *     ref="#/components/schemas/BaseModel/properties/id")
-     * )
-     *
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @OA\Property(
-     *     title="Menu ID",
-     *     description="Menu ID",
-     *     type="integer",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-    private $menu_id;
-
-    /**
-     * @OA\Property(
-     *     title="Active",
-     *     description="Active",
-     *     type="string",
-     *     enum={"Y","N"}
-     * )
-     *
-     * @var string
-     */
-    private $active;
-
-    /**
-     * @OA\Property(
-     *     title="Gabarit",
-     *     description="Gabarit",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $gabarit;
-
-    /**
-     * @OA\Property(
-     *     title="BG",
-     *     description="Bord gauche",
-     *     type="integer",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var string
-     */
-    private $bg;
-
-    /**
-     * @OA\Property(
-     *     title="BD",
-     *     description="Bord droit",
-     *     type="integer",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var string
-     */
-    private $bd;
-
-    /**
-     * @OA\Property(
-     *     title="Niveau",
-     *     description="Niveau",
-     *     type="integer",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var string
-     */
-    private $niveau;
-
-    /**
-     * @OA\Property(
-     *     title="Parent ID",
-     *     description="Parent ID",
-     *     type="integer",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var string
-     */
-    private $parent_id;
-
-    /**
-     * @OA\Property(
-     *     title="Visible",
-     *     description="Visible",
-     *     type="string",
-     *     enum={"Y","N"}
-     * )
-     *
-     * @var string
-     */
-    private $visible;
-
-    /**
-     * @OA\Property(
-     *     title="Cliquable",
-     *     description="Cliquable",
-     *     type="string",
-     *     enum={"Y","N"}
-     * )
-     *
-     * @var string
-     */
-    private $cliquable;
-
-    /**
-     * @OA\Property(
-     *     title="Format",
-     *     description="Format",
-     *     type="string",
-     *     enum={"submenu","big_submenu"}
-     * )
-     *
-     * @var string
-     */
-    private $format;
-
-    /**
-     * @OA\Property(
-     *     property="created_at",
-     *     ref="#/components/schemas/BaseModel/properties/created_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *     property="updated_at",
-     *     ref="#/components/schemas/BaseModel/properties/updated_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $updated_at;
 
     /**
      * The attributes that are mass assignable.

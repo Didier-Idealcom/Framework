@@ -12,112 +12,64 @@ use Modules\Core\Traits\HasUrlPresenter;
 /**
  * @OA\Schema(
  *     title="User",
- *     description="User model"
+ *     description="User model",
+ *     @OA\Property(
+ *         property="id",
+ *         ref="#/components/schemas/BaseModel/properties/id")
+ *     ),
+ *     @OA\Property(
+ *         property="active",
+ *         title="Active",
+ *         description="Active",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="firstname",
+ *         title="Firstname",
+ *         description="Firstname",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="lastname",
+ *         title="Lastname",
+ *         description="Lastname",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         title="Email",
+ *         description="Email",
+ *         type="string",
+ *         format="email"
+ *     ),
+ *     @OA\Property(
+ *         property="password",
+ *         title="Password",
+ *         description="Password",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         ref="#/components/schemas/BaseModel/properties/created_at")
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         ref="#/components/schemas/BaseModel/properties/updated_at")
+ *     ),
+ *     @OA\Property(
+ *         property="email_verified_at",
+ *         title="Email verified at",
+ *         description="Email verified at",
+ *         type="string",
+ *         format="date-time",
+ *         example="2020-01-27 17:50:45"
+ *     )
  * )
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasRoles, HasUrlPresenter, HasApiTokens, Notifiable;
-
-    /**
-     * @OA\Property(
-     *     property="id",
-     *     ref="#/components/schemas/BaseModel/properties/id")
-     * )
-     *
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @OA\Property(
-     *     title="Active",
-     *     description="Active",
-     *     type="string",
-     *     enum={"Y","N"}
-     * )
-     *
-     * @var string
-     */
-    private $active;
-
-    /**
-     * @OA\Property(
-     *     title="Firstname",
-     *     description="Firstname",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $firstname;
-
-    /**
-     * @OA\Property(
-     *     title="Lastname",
-     *     description="Lastname",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $lastname;
-
-    /**
-     * @OA\Property(
-     *     title="Email",
-     *     description="Email",
-     *     type="string",
-     *     format="email"
-     * )
-     *
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @OA\Property(
-     *     title="Password",
-     *     description="Password",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $password;
-
-    /**
-     * @OA\Property(
-     *     property="created_at",
-     *     ref="#/components/schemas/BaseModel/properties/created_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *     property="updated_at",
-     *     ref="#/components/schemas/BaseModel/properties/updated_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $updated_at;
-
-    /**
-     * @OA\Property(
-     *     title="Email verified at",
-     *     description="Email verified at",
-     *     type="string",
-     *     format="date-time",
-     *     example="2020-01-27 17:50:45"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $email_verified_at;
 
     /**
      * The attributes that are mass assignable.

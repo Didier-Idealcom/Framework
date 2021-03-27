@@ -6,6 +6,40 @@ use \Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\HasUrlPresenter;
 
+/**
+ * @OA\Schema(
+ *     title="Page",
+ *     description="Page model",
+ *     @OA\Property(
+ *         property="id",
+ *         ref="#/components/schemas/BaseModel/properties/id")
+ *     ),
+ *     @OA\Property(
+ *         property="active",
+ *         title="Active",
+ *         description="Active",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         ref="#/components/schemas/BaseModel/properties/created_at")
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         ref="#/components/schemas/BaseModel/properties/updated_at")
+ *     ),
+ *     @OA\Property(
+ *         property="translations",
+ *         title="Translations",
+ *         description="Page translations",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/PageTranslation"
+ *         )
+ *     )
+ * )
+ */
 class Page extends Model
 {
     use Translatable, HasUrlPresenter;

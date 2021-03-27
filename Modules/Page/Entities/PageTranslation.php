@@ -4,6 +4,24 @@ namespace Modules\Page\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     title="PageTranslation",
+ *     description="PageTranslation model",
+ *     @OA\Property(
+ *         property="title",
+ *         title="Title",
+ *         description="Title",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="content",
+ *         title="Content",
+ *         description="Content",
+ *         type="string"
+ *     )
+ * )
+ */
 class PageTranslation extends Model
 {
 	/**

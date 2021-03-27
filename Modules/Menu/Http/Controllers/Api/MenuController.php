@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Menu\Entities\Menu;
+use Modules\Menu\Entities\Menuitem;
 use Modules\Menu\Transformers\MenuResource;
+use Modules\Menu\Transformers\MenuitemResource;
 
 /**
  * @OA\Tag(
@@ -53,6 +55,45 @@ class MenuController extends Controller
     public function index()
     {
         return MenuResource::collection(Menu::paginate());
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     *
+     * @OA\Get(
+     *     path="/menus/{id}/menuitems",
+     *     operationId="getMenuMenuitemsList",
+     *     tags={"Menus"},
+     *     summary="Get all Menuitems of a Menu",
+     *     description="Returns list of all Menuitems of a Menu",
+     *     security={
+     *         {"passport": {}}
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/MenuitemResource")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Forbidden.")
+     *         )
+     *     )
+     * )
+     */
+    public function menuitems(Menu $menu)
+    {
+        return MenuitemResource::collection(Menuitem::where('menu_id', '=', $menu->id)->paginate());
     }
 
     /**

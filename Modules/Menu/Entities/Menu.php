@@ -10,74 +10,45 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Menu",
  *     description="Menu model",
+ *     @OA\Property(
+ *         property="id",
+ *         ref="#/components/schemas/BaseModel/properties/id")
+ *     ),
+ *     @OA\Property(
+ *         property="active",
+ *         title="Active",
+ *         description="Active",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="code",
+ *         title="Code",
+ *         description="Code",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         ref="#/components/schemas/BaseModel/properties/created_at")
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         ref="#/components/schemas/BaseModel/properties/updated_at")
+ *     ),
+ *     @OA\Property(
+ *         property="translations",
+ *         title="Translations",
+ *         description="Menu translations",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/MenuTranslation"
+ *         )
+ *     )
  * )
  */
 class Menu extends Model
 {
     use Translatable, HasUrlPresenter;
-
-    /**
-     * @OA\Property(
-     *     property="id",
-     *     ref="#/components/schemas/BaseModel/properties/id")
-     * )
-     *
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @OA\Property(
-     *     title="Active",
-     *     description="Active",
-     *     type="string",
-     *     enum={"Y","N"}
-     * )
-     *
-     * @var string
-     */
-    private $active;
-
-    /**
-     * @OA\Property(
-     *     title="Code",
-     *     description="Code",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $code;
-
-    /**
-     * @OA\Property(
-     *     property="created_at",
-     *     ref="#/components/schemas/BaseModel/properties/created_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *     property="updated_at",
-     *     ref="#/components/schemas/BaseModel/properties/updated_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $updated_at;
-
-    /**
-     * @OA\Property(
-     *     title="Translations",
-     *     description="Menu translations"
-     * )
-     *
-     * @var \Modules\Menu\Entities\MenuTranslation[]
-     */
-    private $translations;
 
     /**
      * The attributes that are mass assignable.

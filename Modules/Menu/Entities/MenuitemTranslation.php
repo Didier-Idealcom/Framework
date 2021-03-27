@@ -4,6 +4,36 @@ namespace Modules\Menu\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     title="MenuitemTranslation",
+ *     description="MenuitemTranslation model",
+ *     @OA\Property(
+ *         property="title_menu",
+ *         title="Title menu",
+ *         description="Title menu",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="title_page",
+ *         title="Title page",
+ *         description="Title page",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="link",
+ *         title="Link",
+ *         description="Link",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="target",
+ *         title="Target",
+ *         description="Target",
+ *         type="string"
+ *     )
+ * )
+ */
 class MenuitemTranslation extends Model
 {
 	/**

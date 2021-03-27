@@ -167,7 +167,7 @@ class MenuController extends Controller
                 return '
                     <a href="' . $menu->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
                         <span class="svg-icon svg-icon-md">
-                            ' . svg(theme_url('media/svg/icons/Communication/') . 'Write') . '
+                            ' . svg('icons/Communication/Write')->toHtml() . '
                         </span>
                     </a>
                     <form action="' . $menu->url_backend->destroy . '" method="POST" class="form-delete d-inline-block mr-2">
@@ -175,14 +175,14 @@ class MenuController extends Controller
                         ' . csrf_field() . '
                         <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
                             <span class="svg-icon svg-icon-md">
-                                ' . svg(theme_url('media/svg/icons/General/') . 'Trash') . '
+                                ' . svg('icons/General/Trash')->toHtml() . '
                             </span>
                         </button>
                     </form>
                     <div class="dropdown dropdown-inline">
                         <a href="javascript:;" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" data-toggle="dropdown">
                             <span class="svg-icon svg-icon-md">
-                                ' . preg_replace('#<title>.*</title>#', '', svg_image(theme_url('media/svg/icons/General/') . 'Other2')->renderInline()) . '
+                                ' . svg('icons/General/Other2')->toHtml() . '
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">

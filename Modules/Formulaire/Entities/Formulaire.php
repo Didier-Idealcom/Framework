@@ -10,75 +10,42 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Formulaire",
  *     description="Formulaire model",
+ *     @OA\Property(
+ *         property="id",
+ *         ref="#/components/schemas/BaseModel/properties/id")
+ *     ),
+ *     @OA\Property(
+ *         property="active",
+ *         title="Active",
+ *         description="Active",
+ *         type="string",
+ *         enum={"Y","N"}
+ *     ),
+ *     @OA\Property(
+ *         property="code",
+ *         title="Code",
+ *         description="Code",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="tracking",
+ *         title="Tracking",
+ *         description="Tracking",
+ *         type="string"
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         ref="#/components/schemas/BaseModel/properties/created_at")
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         ref="#/components/schemas/BaseModel/properties/updated_at")
+ *     )
  * )
  */
 class Formulaire extends Model
 {
     use Translatable, HasUrlPresenter;
-
-    /**
-     * @OA\Property(
-     *     property="id",
-     *     ref="#/components/schemas/BaseModel/properties/id")
-     * )
-     *
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @OA\Property(
-     *     title="Active",
-     *     description="Active",
-     *     type="string",
-     *     enum={"Y","N"}
-     * )
-     *
-     * @var string
-     */
-    private $active;
-
-    /**
-     * @OA\Property(
-     *     title="Code",
-     *     description="Code",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $code;
-
-    /**
-     * @OA\Property(
-     *     title="Tracking",
-     *     description="Tracking",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $tracking;
-
-    /**
-     * @OA\Property(
-     *     property="created_at",
-     *     ref="#/components/schemas/BaseModel/properties/created_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *     property="updated_at",
-     *     ref="#/components/schemas/BaseModel/properties/updated_at")
-     * )
-     *
-     * @var \DateTime
-     */
-    private $updated_at;
 
     /**
      * The attributes that are mass assignable.

@@ -164,7 +164,7 @@ class LanguageController extends Controller
                 return '
                     <a href="' . $language->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
                         <span class="svg-icon svg-icon-md">
-                            ' . svg(theme_url('media/svg/icons/Communication/') . 'Write') . '
+                            ' . svg('icons/Communication/Write')->toHtml() . '
                         </span>
                     </a>
                     <form action="' . $language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
@@ -172,7 +172,7 @@ class LanguageController extends Controller
                         ' . csrf_field() . '
                         <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
                             <span class="svg-icon svg-icon-md">
-                                ' . svg(theme_url('media/svg/icons/General/') . 'Trash') . '
+                                ' . svg('icons/General/Trash')->toHtml() . '
                             </span>
                         </button>
                     </form>

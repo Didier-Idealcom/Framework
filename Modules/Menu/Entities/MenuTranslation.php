@@ -8,21 +8,16 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  *     title="MenuTranslation",
  *     description="MenuTranslation model",
+ *     @OA\Property(
+ *         property="title",
+ *         title="Title",
+ *         description="Title",
+ *         type="string"
+ *     )
  * )
  */
 class MenuTranslation extends Model
 {
-    /**
-     * @OA\Property(
-     *     title="Title",
-     *     description="Title",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $title;
-
     /**
      * The table associated with the model.
      *

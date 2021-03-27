@@ -8,23 +8,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="DomainResource",
  *     description="Domain resource",
- *     @OA\Xml(
- *         name="DomainResource"
+ *     @OA\Property(
+ *         property="data",
+ *         title="Data",
+ *         description="Data wrapper",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Domain"
+ *         )
  *     )
  * )
  */
 class DomainResource extends JsonResource
 {
-    /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \Modules\Domain\Entities\Domain[]
-     */
-    private $data;
-
     /**
      * The "data" wrapper that should be applied.
      *

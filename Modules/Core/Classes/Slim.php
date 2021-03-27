@@ -45,11 +45,6 @@ class Slim
             return null;
         }
 
-        // If magic quotes enabled
-        if (get_magic_quotes_gpc()) {
-            $value = stripslashes($value);
-        }
-
         // The data is posted as a JSON String so to be used it needs to be deserialized first
         $data = json_decode($value);
 
@@ -63,8 +58,7 @@ class Slim
             $inputData = null;
             if (isset($data->input->image)) {
                 $inputData = Slim::getBase64Data($data->input->image);
-            }
-            else if (isset($data->input->field)) {
+            } elseif (isset($data->input->field)) {
                 $filename = $_FILES[$data->input->field]['tmp_name'];
                 if ($filename && Slim::isImage($filename)) {
                     $inputData = file_get_contents($filename);
@@ -85,8 +79,7 @@ class Slim
             $outputDate = null;
             if (isset($data->output->image)) {
                 $outputData = Slim::getBase64Data($data->output->image);
-            }
-            else if (isset ($data->output->field)) {
+            } elseif (isset ($data->output->field)) {
                 $filename = $_FILES[$data->output->field]['tmp_name'];
                 if ($filename && Slim::isImage($filename)) {
                     $outputData = file_get_contents($filename);
@@ -150,7 +143,7 @@ class Slim
         }
 
         // Test if directory already exists
-        if(!is_dir($path)){
+        if (!is_dir($path)) {
             mkdir($path, 0755, true);
         }
 
@@ -199,7 +192,7 @@ class Slim
         $content = null;
         try {
             $content = @file_get_contents($url, false, null, 0, $maxFileSize);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return $content;
@@ -240,8 +233,7 @@ class Slim
 
         if (isset($_POST[$inputName])) {
             $values = $_POST[$inputName];
-        }
-        else if (isset($_FILES[$inputName])) {
+        } elseif (isset($_FILES[$inputName])) {
             // Slim was not used to upload this file
             return false;
         }

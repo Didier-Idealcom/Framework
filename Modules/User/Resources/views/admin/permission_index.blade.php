@@ -22,7 +22,7 @@
             <a href="#" class="btn btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="svg-icon svg-icon-success svg-icon-2x">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Files/File-plus.svg-->
-                    {!! svg(theme_url('media/svg/icons/Files/') . 'File-plus') !!}
+                    {{ svg('icons/Files/File-plus') }}
                     <!--end::Svg Icon-->
                 </span>
             </a>

@@ -8,23 +8,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="FormulaireResource",
  *     description="Formulaire resource",
- *     @OA\Xml(
- *         name="FormulaireResource"
+ *     @OA\Property(
+ *         property="data",
+ *         title="Data",
+ *         description="Data wrapper",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Formulaire"
+ *         )
  *     )
  * )
  */
 class FormulaireResource extends JsonResource
 {
-    /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \Modules\Formulaire\Entities\Formulaire[]
-     */
-    private $data;
-
     /**
      * The "data" wrapper that should be applied.
      *

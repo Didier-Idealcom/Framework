@@ -8,23 +8,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="LanguageResource",
  *     description="Language resource",
- *     @OA\Xml(
- *         name="LanguageResource"
+ *     @OA\Property(
+ *         property="data",
+ *         title="Data",
+ *         description="Data wrapper",
+ *         type="array",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Language"
+ *         )
  *     )
  * )
  */
 class LanguageResource extends JsonResource
 {
-    /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \Modules\Language\Entities\Language[]
-     */
-    private $data;
-
     /**
      * The "data" wrapper that should be applied.
      *

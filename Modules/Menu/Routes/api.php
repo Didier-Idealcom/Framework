@@ -12,4 +12,5 @@
 */
 
 Route::apiResource('menus', 'MenuController');
+Route::get('menus/{menu}/menuitems', 'MenuController@menuitems')->name('menu.menuitems');
 Route::apiResource('menuitems', 'MenuitemController');
