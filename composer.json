@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.3.0",
+        "php": "^7.3|^8.0",
         "ext-blackfire": "^1.29",
         "astrotomic/laravel-translatable": "^11.3",
         "barryvdh/laravel-translation-manager": "^0.5.8",
@@ -25,7 +25,7 @@
         "laravel/legacy-factories": "^1.1",
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^3.0",
+        "laravel/ui": "^3.2",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.0",
         "nwidart/laravel-modules": "^7.0",
