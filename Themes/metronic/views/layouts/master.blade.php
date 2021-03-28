@@ -49,7 +49,6 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <!-- begin::Global Theme Styles -->
     <link href="{{ theme_url('plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
-    <link href="{{ theme_url('plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <link href="{{ theme_url('css/style.bundle.css') }}" rel="stylesheet" type="text/css" media="none" onload="if (media!='all') media='all'" />
     <!-- end::Global Theme Styles -->
 
@@ -141,7 +140,6 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <!--begin::Global Theme Bundle -->
     <script src="{{ theme_url('plugins/global/plugins.bundle.js') }}" type="text/javascript"></script>
-    <script src="{{ theme_url('plugins/custom/prismjs/prismjs.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ theme_url('js/scripts.bundle.js') }}" type="text/javascript"></script>
     <!--end::Global Theme Bundle -->
 
