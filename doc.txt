@@ -28,6 +28,7 @@ php artisan l5-swagger:generate
 
 execution tests :
 php artisan migrate:fresh --env=testing
+php artisan db:seed --class=Modules\Core\Database\Seeders\CoreDatabaseSeeder --env=testing
 vendor\bin\codecept build
 vendor\bin\codecept run functional
 php artisan test

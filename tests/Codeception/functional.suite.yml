@@ -10,5 +10,5 @@ modules:
     enabled:
         # add a framework module here
         - \Helper\Functional
-        - Laravel5:
+        - Laravel:
             environment_file: .env.testing
