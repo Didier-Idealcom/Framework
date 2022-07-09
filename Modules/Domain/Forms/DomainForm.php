@@ -39,12 +39,8 @@ class DomainForm extends CoreForm
                 'label' => 'Google Analytics',
                 'rules' => ''
             ])
-            ->add('search_console', 'text', [
-                'label' => 'Search Console',
-                'rules' => ''
-            ])
-            ->add('google_maps', 'text', [
-                'label' => 'Google Maps',
+            ->add('google_maps_api_key', 'text', [
+                'label' => 'Google Maps API key',
                 'rules' => ''
             ])
             ->add('maintenance_start', 'date', [

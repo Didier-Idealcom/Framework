@@ -32,5 +32,17 @@ class MenuTranslation extends Model
      */
     protected $fillable = ['title'];
 
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['menu'];
+
     public $timestamps = false;
+
+    public function menu()
+    {
+        return $this->belongsTo('Modules\Menu\Entities\Menu');
+    }
 }

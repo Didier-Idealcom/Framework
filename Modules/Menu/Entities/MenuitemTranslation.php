@@ -50,5 +50,17 @@ class MenuitemTranslation extends Model
      */
     protected $fillable = ['title_menu', 'title_page', 'bandeau', 'link', 'target'];
 
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['menuitem'];
+
     public $timestamps = false;
+
+    public function menuitem()
+    {
+        return $this->belongsTo('Modules\Menu\Entities\Menuitem');
+    }
 }

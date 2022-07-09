@@ -118,7 +118,7 @@ class Menuitem extends Model implements Permalinkable
      *
      * @var array
      */
-    protected $fillable = ['menu_id', 'active', 'bg', 'bd', 'niveau', 'parents_id', 'gabarit', 'visible', 'cliquable', 'format'];
+    protected $fillable = ['menu_id', 'active', 'bg', 'bd', 'niveau', 'parent_id', 'gabarit', 'visible', 'cliquable', 'format'];
 
     /**
      * The attributes that are translatable.
@@ -149,6 +149,147 @@ class Menuitem extends Model implements Permalinkable
      */
     public function permalinkSlug(): array
     {
-        return ['created_at', 'title_menu'];
+        return ['title_menu'];
+    }
+
+    public function loadRoot()
+    {
+        return Menuitem::where('menu_id', $this->menu_id)
+                        ->where('bg', '<=', $this->bg)
+                        ->where('bd', '>=', $this->bd)
+                        ->where('niveau', 1)
+                        ->orderBy('bg', 'asc')
+                        ->get();
+    }
+
+    public function loadParents()
+    {
+        return Menuitem::where('menu_id', $this->menu_id)
+                        ->where('bg', '<', $this->bg)
+                        ->where('bd', '>', $this->bd)
+                        ->where('niveau', '<', $this->niveau)
+                        ->orderBy('bg', 'desc')
+                        ->get();
+    }
+
+    public function loadParent()
+    {
+        return $this->loadParents()->first();
+    }
+
+    public function loadChilds($direct = false)
+    {
+        return Menuitem::where('menu_id', $this->menu_id)
+                        ->where('bg', '>', $this->bg)
+                        ->where('bd', '<', $this->bd)
+                        ->when($direct, function($query) {
+                            return $query->where('niveau', $this->niveau + 1);
+                        })
+                        ->orderBy('bg', 'asc')
+                        ->get();
+    }
+
+    public function loadBrothers()
+    {
+        return Menuitem::where('menu_id', $this->menu_id)
+                        ->where('parent_id', $this->parent_id)
+                        ->where('niveau', $this->niveau)
+                        ->where('id', '<>', $this->id)
+                        ->orderBy('bg', 'asc')
+                        ->get();
+    }
+
+    public function loadLeftBrother()
+    {
+        return Menuitem::where('menu_id', $this->menu_id)
+                        ->where('parent_id', $this->parent_id)
+                        ->where('niveau', $this->niveau)
+                        ->where('bd', $this->bg - 1)
+                        ->first();
+    }
+
+    public function loadRightBrother()
+    {
+        return Menuitem::where('menu_id', $this->menu_id)
+                        ->where('parent_id', $this->parent_id)
+                        ->where('niveau', $this->niveau)
+                        ->where('bg', $this->bd + 1)
+                        ->first();
+    }
+
+    /**
+     * Booting the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // https://sqlpro.developpez.com/cours/arborescence/
+        static::created(function ($menuitem) {
+            if ($menuitem->parent_id > 0) {
+                $parent = self::find($menuitem->parent_id);
+
+                // mode = FA (create menuitem in first position)
+                /*self::where('menu_id', $menuitem->menu_id)
+                    ->where('bd', '>', $parent->bg)
+                    ->increment('bd', 2);
+
+                self::where('menu_id', $menuitem->menu_id)
+                    ->where('bg', '>', $parent->bg)
+                    ->increment('bg', 2);
+
+                $menuitem->bg     = $parent->bg + 1;
+                $menuitem->bd     = $parent->bg + 2;
+                $menuitem->niveau = $parent->niveau + 1;
+                $menuitem->save();*/
+
+                // mode = FC (create menuitem in last position)
+                self::where('menu_id', $menuitem->menu_id)
+                    ->where('bd', '>=', $parent->bd)
+                    ->increment('bd', 2);
+
+                self::where('menu_id', $menuitem->menu_id)
+                    ->where('bg', '>', $parent->bd)
+                    ->increment('bg', 2);
+
+                $menuitem->bg     = $parent->bd;
+                $menuitem->bd     = $parent->bd + 1;
+                $menuitem->niveau = $parent->niveau + 1;
+                $menuitem->save();
+            } else {
+                $menuitem_ref = self::where('menu_id', $menuitem->menu_id)
+                    ->where('niveau', 1)
+                    ->orderBy('bg', 'desc')
+                    ->first();
+
+                // mode = PF (create menuitem in last position)
+                if (!empty($menuitem_ref)) {
+                    self::where('menu_id', $menuitem->menu_id)
+                        ->where('bd', '>', $menuitem_ref->bd)
+                        ->increment('bd', 2);
+
+                    self::where('menu_id', $menuitem->menu_id)
+                        ->where('bg', '>=', $menuitem_ref->bd)
+                        ->increment('bg', 2);
+                }
+
+                $menuitem->bg     = !empty($menuitem_ref) ? $menuitem_ref->bd + 1 : 1;
+                $menuitem->bd     = !empty($menuitem_ref) ? $menuitem_ref->bd + 2 : 2;
+                $menuitem->niveau = 1;
+                $menuitem->save();
+            }
+        });
+
+        static::deleted(function ($menuitem) {
+            $delta = $menuitem->bd - $menuitem->bg + 1;
+
+            self::where('menu_id', $menuitem->menu_id)
+                ->where('bg', '>', $menuitem->bd)
+                ->decrement('bg', $delta);
+
+            self::where('menu_id', $menuitem->menu_id)
+                ->where('bd', '>', $menuitem->bd)
+                ->decrement('bd', $delta);
+        });
     }
 }

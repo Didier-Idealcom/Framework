@@ -57,7 +57,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('user::admin.role_index');
+        $roles = Role::all();
+        return view('user::admin.role_index', compact('roles'));
     }
 
     /**
@@ -82,6 +83,11 @@ class RoleController extends Controller
         $role = $this->repository->create($request->all());
 
         Session::flash('success', 'Le rôle a été créé avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.roles.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.roles.index');
     }
 
@@ -103,7 +109,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $form = $this->getForm($role);
-        $form->getField('permission')->setValue($role->permissions->pluck('id')->values());
+        $form->getField('permission')->setValue($role->permissions->pluck('id')->values()->toArray());
         return view('user::admin.role_form', compact('form', 'role'));
     }
 
@@ -152,28 +158,42 @@ class RoleController extends Controller
 
     /**
      * Process datatables ajax request.
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable()
+    public function datatable(Request $request)
     {
-        return Datatables::of(Role::all())
+        if ($request->sort) {
+            $roles = Role::orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $roles = Role::all();
+        }
+        return DataTables::of($roles)
+            ->addColumn('record_id', function($role) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $role->id . '" />
+                        </div>';
+            })
+            ->editColumn('created_at', function($role) {
+                return date('d/m/Y', strtotime($role->created_at));
+            })
             ->addColumn('actions', function($role) {
-                return '
-                    <a href="' . $role->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $role->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-80px">
+                            <a href="' . $role->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $role->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                        </div>';
             })
             ->escapeColumns(['name', 'guard_name'])
             ->make(true);

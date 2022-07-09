@@ -13,16 +13,10 @@
     <div class="input-group">
     <?php endif; ?>
 
-    <?= Form::textarea($name, $options['value'], $options['attr']) ?>
+        <?= Form::textarea($name, $options['value'], $options['attr']) ?>
 
     <?php if (isset($options['translatable']) && $options['translatable'] === true): ?>
-        <div class="input-group-append">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $options['attr']['data-lang-libelle']; ?></button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item lang-change" href="#" data-lang="fr">Français</a>
-                <a class="dropdown-item lang-change" href="#" data-lang="en">Anglais</a>
-            </div>
-        </div>
+        <?php include 'translatable.php' ?>
     </div>
     <?php endif; ?>
 

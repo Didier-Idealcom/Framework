@@ -45,6 +45,7 @@ class DomainResource extends JsonResource
             'name' => $this->name,
             'folder' => $this->folder,
             'analytics' => $this->analytics,
+            'google_maps_api_key' => $this->google_maps_api_key,
             'maintenance_start' => $this->maintenance_start,
             'maintenance_end' => $this->maintenance_end,
             'maintenance_message' => $this->maintenance_message,

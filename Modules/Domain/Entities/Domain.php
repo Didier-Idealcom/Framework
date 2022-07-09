@@ -45,15 +45,9 @@ use Modules\Core\Traits\HasUrlPresenter;
  *         type="string"
  *     ),
  *     @OA\Property(
- *         property="search_console",
- *         title="Search console",
- *         description="Search console",
- *         type="string"
- *     ),
- *     @OA\Property(
- *         property="google_maps",
- *         title="Google Maps",
- *         description="Google Maps",
+ *         property="google_maps_api_key",
+ *         title="Google Maps API key",
+ *         description="Google Maps API key",
  *         type="string"
  *     ),
  *     @OA\Property(

@@ -3,7 +3,22 @@ dev : gulp --demo1
 prod : gulp --prod
 
 custom metronic :
-js : src/assets/js/theme/pages/my-script.js
+    js :
+    - src\demo1\js\custom\authentication\sign-in\general.js
+    - src\demo1\js\custom\my-script.js
+
+    package.json :
+    - ckeditor4
+    - grapesjs
+    - grapesjs-plugin-ckeditor
+    - grapesjs-preset-webpage
+
+    gulp.config.js
+    - optional => grapesjs
+    - optional => slim
+
+    plugins :
+    - src\demo1\plugins\slim
 
 slim cropper :
 utilise la librairie exif
@@ -18,6 +33,7 @@ vendor\bin\codecept run functional
 php artisan test
 
 définition thème admin :
+config/themes.php
 Modules/Core/Config/config.php => middleware setTheme:metronic
 
 interface de commandes heroku :
@@ -31,3 +47,7 @@ php artisan module:seed Core
 système permalinks :
 - sauvegarde permalinks menuitems avec hierarchie
 - sauvegarde permalinks indépendants pour les autres types d'instances (actualités, produits, etc)
+
+page builder :
+https://github.com/HansSchouten/Laravel-Pagebuilder
+https://github.com/artf/grapesjs

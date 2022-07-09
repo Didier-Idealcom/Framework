@@ -38,5 +38,17 @@ class FormulaireTranslation extends Model
      */
     protected $fillable = ['title', 'resume'];
 
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['formulaire'];
+
     public $timestamps = false;
+
+    public function formulaire()
+    {
+        return $this->belongsTo('Modules\Formulaire\Entities\Formulaire');
+    }
 }

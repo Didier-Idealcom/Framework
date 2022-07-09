@@ -38,5 +38,17 @@ class PageTranslation extends Model
      */
     protected $fillable = ['title', 'content'];
 
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['page'];
+
     public $timestamps = false;
+
+    public function page()
+    {
+        return $this->belongsTo('Modules\Page\Entities\Page');
+    }
 }

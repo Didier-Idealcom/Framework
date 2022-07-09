@@ -23,15 +23,11 @@ class CreateDomainsLanguagesTable extends Migration
             $table->string('url_redirect')->nullable();
             $table->string('url_blog')->nullable();
             $table->string('url_facebook')->nullable();
-            $table->string('url_googleplus')->nullable();
             $table->string('url_instagram')->nullable();
             $table->string('url_linkedin')->nullable();
             $table->string('url_pinterest')->nullable();
             $table->string('url_twitter')->nullable();
-            $table->string('url_viadeo')->nullable();
             $table->string('url_youtube')->nullable();
-            $table->string('home_title')->nullable();
-            $table->text('home_content')->nullable();
 
             $table->timestamps();
 

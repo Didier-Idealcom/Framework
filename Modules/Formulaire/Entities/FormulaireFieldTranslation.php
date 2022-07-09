@@ -98,5 +98,17 @@ class FormulaireFieldTranslation extends Model
      */
     protected $fillable = ['label_admin', 'label_front', 'placeholder', 'date_format', 'help', 'error', 'error_min', 'error_max', 'error_extension', 'error_filesize', 'error_dimension', 'error_date_format'];
 
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['formulaire_field'];
+
     public $timestamps = false;
+
+    public function formulaire_field()
+    {
+        return $this->belongsTo('Modules\Formulaire\Entities\FormulaireField');
+    }
 }

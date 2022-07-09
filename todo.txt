@@ -2,6 +2,7 @@ OK - convertir paramètre id dans tous les controleurs
 OK - aligner texte phpdoc dans tous les controleurs
 OK - ajouter paramètre getForm méthode update dans tous les controleurs
 - locales dynamique (ModelRepository->formatInputTranslations(), CoreForm->buildForm(), Permalink->boot())
+OK - vérification rôle admin (User->isAdmin())
 OK - renommer CoreRepository en ModelRepository
 - ajouter try/catch pour les create/update
 OK - ajouter champ active table users
@@ -12,3 +13,9 @@ OK - système de permalinks (https://github.com/IsraelOrtuno/permalink)
 - système de versionning (https://github.com/mpociot/versionable)
 - système de duplication (https://github.com/BKWLD/cloner)
 - commande installation BO
+OK - upgrade metronic v8
+- multiple laravel mix (https://www.compulsivecoders.com/tech/how-to-build-multiple-vendors-using-laravel-mix/, https://github.com/spatie/laravel-mix-purgecss)
+- gestion hiérarchie menu
+- déplacer liste menuitems/formulaires_fields/domaines_languages dans le détail du menu/formulaire/domaine
+- suppression permalink après suppression model
+- gestion des permissions dans le BO et dans l'API

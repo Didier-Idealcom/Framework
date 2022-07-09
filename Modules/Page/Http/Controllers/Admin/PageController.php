@@ -82,6 +82,11 @@ class PageController extends Controller
         $page = $this->repository->create($request->all());
 
         Session::flash('success', 'La page a été créée avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.pages.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.pages.index');
     }
 
@@ -149,52 +154,65 @@ class PageController extends Controller
 
     /**
      * Process datatables ajax request.
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable()
+    public function datatable(Request $request)
     {
-        return Datatables::of(Page::all())
+        if ($request->sort) {
+            $pages = Page::orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $pages = Page::all();
+        }
+        return DataTables::of($pages)
+            ->addColumn('record_id', function($page) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $page->id . '" />
+                        </div>';
+            })
+            ->editColumn('created_at', function($page) {
+                return date('d/m/Y', strtotime($page->created_at));
+            })
+            ->editColumn('updated_at', function($page) {
+                if (!empty($page->updated_at)) {
+                    return date('d/m/Y', strtotime($page->updated_at));
+                }
+                return '';
+            })
             ->editColumn('active', function($page) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $page->active == 'Y' ? 'btn-success' : 'btn-danger';
+                return ($page->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($page) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $page->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $page->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.pages_active', ['page' => $page->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($page->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.pages_active', ['page' => $page->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($page->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($page) {
-                return '
-                    <a href="' . $page->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $page->url_backend->destroy . '" method="POST" class="form-delete d-inline-block mr-2">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                    <div class="dropdown dropdown-inline">
-                        <a href="javascript:;" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" data-toggle="dropdown">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Other2')->toHtml() . '
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                            <ul class="navi flex-column navi-hover py-2">
-                                <li class="navi-item">
-                                    <a class="navi-link" href="' . $page->url_backend->show . '">
-                                        <span class="navi-icon"><i class="la la-eye"></i></span>
-                                        <span class="navi-text">Preview</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                ';
+                return '<div class="min-w-125px">
+                            <a href="' . $page->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $page->url_backend->destroy . '" method="POST" class="form-delete d-inline-block me-2">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                            <a href="' . $page->url_backend->show . '" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/General/Visible')) . '
+                                </span>
+                            </a>
+                        </div>';
             })
             ->escapeColumns(['title'])
             ->make(true);

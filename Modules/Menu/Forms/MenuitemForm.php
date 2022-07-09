@@ -13,6 +13,7 @@ class MenuitemForm extends CoreForm
             $url = route('admin.menuitems.update', $this->getModel()->id);
             $method = 'PUT';
             $menu_id = $this->getModel()->menu_id;
+            $parent_id = $this->getModel()->parent_id;
         } else {
             $url = route('admin.menuitems.store');
             $method = 'POST';
@@ -22,6 +23,7 @@ class MenuitemForm extends CoreForm
                 $menu = $this->getRequest()->route()->parameter('menu');
                 $menu_id = $menu->id;
             }
+            $parent_id = $this->getRequest()->get('parent_id');
         }
         $this->formOptions = [
             'method' => $method,
@@ -41,6 +43,10 @@ class MenuitemForm extends CoreForm
                 'rules' => 'required',
                 'default_value' => $menu_id
             ])
+            ->add('parent_id', 'hidden', [
+                'rules' => '',
+                'default_value' => $parent_id
+            ])
             ->add('title_menu', 'text', [
                 'label' => 'Titre menu',
                 'rules' => 'required',
@@ -54,7 +60,7 @@ class MenuitemForm extends CoreForm
             ->add('gabarit', 'select', [
                 'label' => 'Gabarit',
                 'rules' => '',
-                'choices' => ['index_index' => 'Accueil', 'cmspages_index' => 'Page de contenu'],
+                'choices' => ['index_index' => 'Accueil', 'actualites_index' => 'Listing actualités', 'cmspages_index' => 'Page de contenu'],
                 'empty_value' => 'Sélectionnez...'
             ])
             ->add('link', 'url', [

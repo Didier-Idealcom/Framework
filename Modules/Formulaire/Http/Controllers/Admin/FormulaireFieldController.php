@@ -85,6 +85,11 @@ class FormulaireFieldController extends Controller
         $formulaire_field = $this->repository->create($request->all());
 
         Session::flash('success', 'Le champ de formulaire a été créé avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.formulaires_fields.create', $request->get('formulaire_id'));
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.formulaires_fields.index', $formulaire_field->formulaire_id);
     }
 
@@ -153,36 +158,52 @@ class FormulaireFieldController extends Controller
 
     /**
      * Process datatables ajax request.
-     * @param  Formulaire $formulaire
+     * @param  Request $request
+     * @param  Formulaire  $formulaire
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable(Formulaire $formulaire)
+    public function datatable(Request $request, Formulaire $formulaire)
     {
-        return Datatables::of(FormulaireField::all()->where('formulaire_id', $formulaire->id))
+        if ($request->sort) {
+            $formulaires_fields = FormulaireField::where('formulaire_id', $formulaire->id)->orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $formulaires_fields = FormulaireField::where('formulaire_id', $formulaire->id);
+        }
+        return Datatables::of($formulaires_fields)
+            ->addColumn('record_id', function($formulaire_field) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $formulaire_field->id . '" />
+                        </div>';
+            })
             ->editColumn('active', function($formulaire_field) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $formulaire_field->active == 'Y' ? 'btn-success' : 'btn-danger';
+                return ($formulaire_field->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($formulaire_field) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $formulaire_field->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $formulaire_field->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.formulaires_fields_active', ['formulaire_field' => $formulaire_field->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($formulaire_field->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.formulaires_fields_active', ['formulaire_field' => $formulaire_field->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($formulaire_field->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($formulaire_field) {
-                return '
-                    <a href="' . $formulaire_field->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $formulaire_field->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-80px">
+                            <a href="' . $formulaire_field->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $formulaire_field->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                        </div>';
             })
             ->escapeColumns(['code', 'type', 'label_front'])
             ->make(true);

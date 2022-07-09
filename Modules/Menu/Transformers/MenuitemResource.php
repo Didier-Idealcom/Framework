@@ -52,7 +52,8 @@ class MenuitemResource extends JsonResource
             'format' => $this->format,
             'created_at' => $this->created_at,
             'update_at' => $this->update_at,
-            'translations' => $this->getTranslationsArray()
+            'translations' => $this->getTranslationsArray(),
+            'permalinks' => $this->permalinks
         ];
     }
 }

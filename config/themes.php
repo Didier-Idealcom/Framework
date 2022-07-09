@@ -65,10 +65,10 @@ return [
             'views-path'    => 'metronic/views', // = resources/views/example_theme
             'asset-path'    => 'Themes/metronic/assets', // = public/example_theme
         ],
-        'metronicnew' => [
+        'metronic8' => [
             'extends'       => null,    // doesn't extend any theme
-            'views-path'    => 'metronicnew/views', // = resources/views/example_theme
-            'asset-path'    => 'Themes/metronicnew/assets', // = public/example_theme
+            'views-path'    => 'metronic8/views', // = resources/views/example_theme
+            'asset-path'    => 'Themes/metronic8/assets', // = public/example_theme
         ],
 
         /*

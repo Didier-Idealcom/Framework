@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'defaults'      => [
-        'wrapper_class'       => 'form-group',
+    'defaults' => [
+        'wrapper_class'       => 'field-wrapper mb-5',
         'wrapper_error_class' => 'has-error',
-        'label_class'         => 'control-label',
+        'label_class'         => 'form-label',
         'field_class'         => 'form-control',
         'field_error_class'   => '',
         'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger',
-        'required_class'      => 'required'
+        'required_class'      => 'required',
 
         // Override a class from a field.
         //'text'                => [
@@ -23,6 +23,12 @@ return [
         //        'label'       => ['class' => 'form-radio-label'],
         //        'field'       => ['class' => 'form-radio-field'],
         //],
+        'select' => [
+            'field_class'     => 'form-select',
+        ],
+        'checkbox' => [
+            'field_class'     => 'form-check-input',
+        ]
     ],
     // Templates
     'form'          => 'laravel-form-builder::form',
@@ -46,6 +52,7 @@ return [
 
     'custom_fields' => [
         'grapesjs' => Modules\Core\Forms\Fields\GrapesjsType::class,
+        'permission' => Modules\Core\Forms\Fields\PermissionType::class,
         'slim' => Modules\Core\Forms\Fields\SlimType::class
     ]
 ];

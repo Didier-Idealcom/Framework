@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Maatwebsite\Excel\Excel;
-use Yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 use Modules\User\Entities\User;
 use Modules\User\Entities\Role;
 use Modules\User\Forms\UserForm;
@@ -85,6 +85,11 @@ class UserController extends Controller
         $user = $this->repository->create($request->all());
 
         Session::flash('success', 'L\'utilisateur a été créé avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.users.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.users.index');
     }
 
@@ -106,7 +111,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $form = $this->getForm($user);
-        $form->getField('role')->setValue($user->roles->pluck('id')->values());
+        $form->getField('role')->setValue($user->roles->pluck('id')->values()->toArray());
         return view('user::admin.user_form', compact('form', 'user'));
     }
 
@@ -192,34 +197,78 @@ class UserController extends Controller
         } else {
             $users = User::all();
         }
-        return Datatables::of($users)
-            ->editColumn('active', function($user) {
-                $label_on = 'Actif';
-                $label_off = 'Inactif';
-                $class_btn = $user->active == 'Y' ? 'btn-success' : 'btn-danger';
-                $class_i = $user->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.users_active', ['user' => $user->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($user->active == 'Y' ? $label_on : $label_off) . '</a>';
+        return DataTables::of($users)
+            ->addColumn('record_id', function($user) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $user->id . '" />
+                        </div>';
+            })
+            ->addColumn('user', function($user) {
+                return $user->getFullnameAttribute() . '(' . $user->email . ')';
+            })
+            ->addColumn('user_display', function($user) {
+                return '<div class="d-flex align-items-center">
+                            <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">' .
+                                (!empty($user->avatar) ?
+                                '<div class="symbol-label">
+                                    <img src="' . $user->avatar . '" alt="' . $user->getFullnameAttribute() . '" class="w-100">
+                                </div>' :
+                                '<div class="symbol-label fs-3 bg-light-primary text-primary">' . substr($user->firstname, 0, 1) . '</div>') .
+                            '</div>
+                            <div class="d-flex flex-column">
+                                <span class="text-gray-800 mb-1">' . $user->getFullnameAttribute() . '</span>
+                                <span>' . $user->email . '</span>
+                            </div>
+                        </div>';
+            })
+            ->addColumn('role', function($user) {
+                $roles = '';
+                $colors = ['badge-light-primary', 'badge-light-success', 'badge-light-info', 'badge-light-warning', 'badge-light-danger', 'badge-light-dark'];
+                if (!empty($user->roles)) {
+                    foreach ($user->roles as $key => $role) {
+                        $roles .= '<a href="' . $role->url_backend->edit . '" class="badge ' . $colors[$key % 6] . ' fs-7 m-1">' . $role->name . '</a>';
+                    }
+                }
+                return $roles;
             })
             ->editColumn('created_at', function($user) {
                 return date('d/m/Y', strtotime($user->created_at));
             })
+            ->editColumn('last_login_at', function($user) {
+                if (!empty($user->last_login_at)) {
+                    return date('d/m/Y', strtotime($user->last_login_at));
+                }
+                return '';
+            })
+            ->editColumn('active', function($user) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                return ($user->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($user) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $user->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $user->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                return '<a href="javascript:;" data-url="' . route('admin.users_active', ['user' => $user->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($user->active == 'Y' ? $label_on : $label_off) . '</a>';
+            })
             ->addColumn('actions', function($user) {
-                return '
-                    <a href="' . $user->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $user->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-80px">
+                            <a href="' . $user->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $user->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                        </div>';
             })
             ->escapeColumns(['firstname', 'lastname', 'email'])
             ->make(true);

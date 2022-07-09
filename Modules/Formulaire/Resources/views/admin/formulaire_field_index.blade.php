@@ -3,125 +3,90 @@
 @section('title_page', 'Gestion des champs de formulaire')
 
 @section('breadcrumb')
-    <div class="subheader-separator subheader-separator-ver mr-5 bg-gray-200"></div>
-    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-muted"><i class="flaticon2-shelter"></i></a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.formulaires.index') }}" class="text-muted">Formulaires</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.formulaires_fields.index', $formulaire->id) }}" class="text-muted">Champs</a></li>
-    </ul>
+    @php
+        $items = [];
+        $items[] = ['link' => route('admin.dashboard'), 'class' => 'text-muted text-hover-primary', 'label' => 'Dashboard'];
+        $items[] = ['link' => route('admin.formulaires.index'), 'class' => 'text-muted text-hover-primary', 'label' => 'Formulaires'];
+        $items[] = ['link' => $formulaire->url_backend->edit, 'class' => 'text-muted text-hover-primary', 'label' => $formulaire->title];
+        $items[] = ['link' => route('admin.formulaires_fields.index', $formulaire->id), 'class' => 'text-dark', 'label' => 'Champs'];
+    @endphp
+    <x-breadcrumb :items="$items" />
 @endsection
 
 @section('subheader_toolbar')
-    <div class="d-flex align-items-center">
-        <!--begin::Button-->
-        <a href="{{ route('admin.formulaires_fields.create', $formulaire->id) }}" class="btn btn-light-primary font-weight-bold btn-sm px-4 font-size-base ml-2">Ajouter</a>
-        <!--end::Button-->
-
-        <!--begin::Dropdown-->
-        <div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Quick actions">
-            <a href="#" class="btn btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="svg-icon svg-icon-success svg-icon-2x">
-                    <!--begin::Svg Icon | path:assets/media/svg/icons/Files/File-plus.svg-->
-                    {{ svg('icons/Files/File-plus') }}
-                    <!--end::Svg Icon-->
-                </span>
-            </a>
-            <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
-                <!--begin::Navigation-->
-                <ul class="navi">
-                    <li class="navi-item">
-                        <a href="#" class="navi-link">
-                            <span class="navi-icon">
-                                <i class="flaticon2-shopping-cart-1"></i>
-                            </span>
-                            <span class="navi-text">Importer</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a href="#" class="navi-link">
-                            <span class="navi-icon">
-                                <i class="flaticon2-shopping-cart-1"></i>
-                            </span>
-                            <span class="navi-text">Exporter</span>
-                        </a>
-                    </li>
-                </ul>
-                <!--end::Navigation-->
-            </div>
-        </div>
-        <!--end::Dropdown-->
-    </div>
+    <x-addbutton url="{{ route('admin.formulaires_fields.create', $formulaire->id) }}" />
 @endsection
 
 @section('content_page')
-    <!--begin::Card-->
-    <div class="card card-custom">
-        <!--begin::Card header-->
-        <div class="card-header card-header-tabs-line nav-tabs-line-3x">
-            <!--begin::Toolbar-->
-            <div class="card-toolbar">
-                <ul class="nav nav-tabs nav-bold nav-tabs-line nav-tabs-line-3x">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.formulaires.edit', $formulaire->id) }}">Fiche détail</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="javascript:;">Champs</a>
-                    </li>
-                </ul>
-            </div>
-            <!--end::Toolbar-->
-        </div>
-        <!--end::Card header-->
+    @php
+        $items = [];
+        $items[] = ['link' => $formulaire->url_backend->edit, 'label' => 'Fiche détail', 'active' => false];
+        $items[] = ['link' => 'javascript:;', 'label' => 'Champs', 'active' => true];
+    @endphp
+    <x-tabs :items="$items" />
 
-        <!--begin::Card body-->
-        <div class="card-body">
-            @include('partials.flash')
-
-            <!--begin::Datatable-->
-            <div class="datatable datatable-bordered datatable-head-custom" id="formulaires_fields_datatable"></div>
-            <!--end::Datatable-->
-        </div>
-        <!--end::Card body-->
-    </div>
-    <!-- end::Card -->
+    @php
+        $id = 'kt_table_formulaires_fields';
+        $search = true;
+        $filter = true;
+        $import = 'javascript:;';
+        $export = 'javascript:;';
+    @endphp
+    <x-datatable :id="$id" :search="$search" :filter="$filter" :import="$import" :export="$export" />
 @endsection
 
 @push('scripts')
     <!--begin::Page Snippets -->
     <script type="text/javascript">
         // On document ready
-        KTUtil.ready(function() {
-            var target = '#formulaires_fields_datatable';
+        KTUtil.onDOMContentLoaded(function() {
+            var target = '#kt_table_formulaires_fields';
             var url = '{!! route('admin.formulaires_fields_datatable', $formulaire->id) !!}';
             var columns = [{
-                field: 'RecordID',
+                data: 'record_id',
+                name: 'record_id',
                 title: '#',
-                sortable: false,
                 width: 30,
-                textAlign: 'center',
-                selector: {class: 'm-checkbox--solid m-checkbox--brand'}
-            }, {
-                field: 'id',
-                title: 'ID',
-                width: 50,
                 textAlign: 'center'
             }, {
-                field: 'active',
-                title: 'Statut'
+                data: 'id',
+                name: 'id',
+                title: 'ID',
+                width: 50,
+                visible: false,
+                textAlign: 'center'
             }, {
-                field: 'code',
+                data: 'code',
+                name: 'code',
                 title: 'Code'
             }, {
-                field: 'type',
+                data: 'type',
+                name: 'type',
                 title: 'Type'
             }, {
-                field: 'label_front',
+                data: 'label_front',
+                name: 'label_front',
                 title: 'Label'
             }, {
-                field: 'actions',
-                title: 'Actions',
+                data: 'active',
+                name: 'active',
+                title: 'Statut',
                 width: 100,
-                sortable: false
+                orderable: false,
+                customFilter: true,
+                customFilterSmart: false,
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        return row.active_display;
+                    }
+                    return data;
+                }
+            }, {
+                data: 'actions',
+                name: 'actions',
+                title: 'Actions',
+                width: 80,
+                orderable: false
             }];
 
             MyListDatatable.init(target, url, columns);

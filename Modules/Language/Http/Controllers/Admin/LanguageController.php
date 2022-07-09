@@ -81,6 +81,11 @@ class LanguageController extends Controller
         $language = $this->repository->create($request->all());
 
         Session::flash('success', 'La langue a été créée avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.languages.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.languages.index');
     }
 
@@ -148,35 +153,51 @@ class LanguageController extends Controller
 
     /**
      * Process datatables ajax request.
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable()
+    public function datatable(Request $request)
     {
-        return Datatables::of(Language::all())
+        if ($request->sort) {
+            $languages = Language::orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $languages = Language::all();
+        }
+        return DataTables::of($languages)
+            ->addColumn('record_id', function($language) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $language->id . '" />
+                        </div>';
+            })
             ->editColumn('active', function($language) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $language->active == 'Y' ? 'btn-success' : 'btn-danger';
+                return ($language->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($language) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $language->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.languages_active', ['language' => $language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($language->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.languages_active', ['language' => $language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($language->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($language) {
-                return '
-                    <a href="' . $language->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-80px">
+                            <a href="' . $language->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                        </div>';
             })
             ->escapeColumns(['alpha2', 'name'])
             ->make(true);

@@ -162,46 +162,82 @@ class DomainLanguageController extends Controller
 
     /**
      * Process datatables ajax request.
-     * @param  Domain $domain
+     * @param  Request $request
+     * @param  Domain  $domain
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable(Domain $domain)
+    public function datatable(Request $request, Domain $domain)
     {
-        return Datatables::of(DomainLanguage::all()->where('domain_id', $domain->id))
-            ->editColumn('active', function($domain_language) {
-                $label_on = 'Actif';
-                $label_off = 'Inactif';
-                $class_btn = $domain_language->active == 'Y' ? 'btn-success' : 'btn-danger';
-                $class_i = $domain_language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.domains_languages_active', ['domain_language' => $domain_language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($domain_language->active == 'Y' ? $label_on : $label_off) . '</a>';
+        if ($request->sort) {
+            $domains_languages = DomainLanguage::where('domain_id', $domain->id)->orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $domains_languages = DomainLanguage::where('domain_id', $domain->id);
+        }
+        return Datatables::of($domains_languages)
+            ->addColumn('record_id', function($domain_language) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $domain_language->id . '" />
+                        </div>';
             })
-            ->editColumn('default', function($domain_language) {
-                $label_on = 'Défaut';
-                $label_off = 'Inactif';
-                $class_btn = $domain_language->default == 'Y' ? 'btn-success' : 'btn-danger';
-                $class_i = $domain_language->default == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.domains_languages_default', ['domain_language' => $domain_language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" data-reload="true" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($domain_language->default == 'Y' ? $label_on : $label_off) . '</a>';
+            ->addColumn('row_details', function($domain_language) {
+                $form = $this->getForm($domain_language);
+                $submit = true;
+                return view('components.form', compact('form', 'submit'));
+            })
+            ->addColumn('row_details_display', function($domain_language) {
+                return '<a href="javascript:;" class="btn btn-sm btn-icon btn-color-primary me-2 trigger_row_details" data-bs-toggle="tooltip" data-bs-placement="top" title="Details">
+                            <span class="svg-icon svg-icon-2">
+                                ' . purifySvg(svg('icons/Code/Plus')) . '
+                            </span>
+                            <span class="svg-icon svg-icon-2 d-none">
+                                ' . purifySvg(svg('icons/Code/Minus')) . '
+                            </span>
+                        </a>';
             })
             ->addColumn('language', function($domain_language) {
                 return $domain_language->language->name;
             })
+            ->editColumn('active', function($domain_language) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                return ($domain_language->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($domain_language) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $domain_language->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $domain_language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                return '<a href="javascript:;" data-url="' . route('admin.domains_languages_active', ['domain_language' => $domain_language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($domain_language->active == 'Y' ? $label_on : $label_off) . '</a>';
+            })
+            ->editColumn('default', function($domain_language) {
+                $label_on = 'Défaut';
+                $label_off = 'Inactif';
+                return ($domain_language->default == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('default_display', function($domain_language) {
+                $label_on = 'Défaut';
+                $label_off = 'Inactif';
+                $class_btn = $domain_language->default == 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $domain_language->default == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                return '<a href="javascript:;" data-url="' . route('admin.domains_languages_default', ['domain_language' => $domain_language->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($domain_language->default == 'Y' ? $label_on : $label_off) . '</a>';
+            })
             ->addColumn('actions', function($domain_language) {
-                return '
-                    <a href="' . $domain_language->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $domain_language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-80px">
+                            <a href="' . $domain_language->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $domain_language->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                        </div>';
             })
             ->escapeColumns(['language'])
             ->make(true);

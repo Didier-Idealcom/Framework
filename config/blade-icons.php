@@ -101,7 +101,11 @@ return [
 
         'default' => [
             'paths' => [
-                'Themes/metronic/assets/media/svg'
+                'Themes/metronic/assets/media/svg',
+                'Themes/metronic8/assets/media/flags',
+                'Themes/metronic8/assets/media/icons',
+                'Themes/metronic8/assets/media/logos',
+                'Themes/metronic8/assets/media/svg'
             ],
             'prefix' => ''
         ]

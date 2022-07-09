@@ -85,6 +85,11 @@ class EmailController extends Controller
         Artisan::call('module:make-mail ' . $email->name . 'Email ' . $email->module);
 
         Session::flash('success', 'L\'e-mail a été créé avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.emails.create');
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.emails.index');
     }
 
@@ -152,35 +157,51 @@ class EmailController extends Controller
 
     /**
      * Process datatables ajax request.
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable()
+    public function datatable(Request $request)
     {
-        return Datatables::of(Email::all())
+        if ($request->sort) {
+            $emails = Email::orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $emails = Email::all();
+        }
+        return DataTables::of($emails)
+            ->addColumn('record_id', function($email) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $email->id . '" />
+                        </div>';
+            })
             ->editColumn('active', function($email) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $email->active == 'Y' ? 'btn-success' : 'btn-danger';
+                return ($email->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($email) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $email->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $email->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.emails_active', ['email' => $email->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($email->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.emails_active', ['email' => $email->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($email->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($email) {
-                return '
-                    <a href="' . $email->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $email->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-80px">
+                            <a href="' . $email->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $email->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                        </div>';
             })
             ->escapeColumns(['name', 'module'])
             ->make(true);

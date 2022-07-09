@@ -41,7 +41,7 @@ class DomainLanguageForm extends CoreForm
                     'required',
                     Rule::unique('domains_languages')->where(function ($query) use ($domain_id) {
                         return $query->where('domain_id', $domain_id);
-                    })
+                    })->ignore($this->getModel()->id)
                 ],
                 'class' => 'Modules\Language\Entities\Language',
                 'property_key' => 'id',
@@ -57,10 +57,6 @@ class DomainLanguageForm extends CoreForm
             ])
             ->add('url_facebook', 'text', [
                 'label' => 'URL Facebook',
-                'rules' => ''
-            ])
-            ->add('url_googleplus', 'text', [
-                'label' => 'URL Google Plus',
                 'rules' => ''
             ])
             ->add('url_instagram', 'text', [
@@ -79,20 +75,8 @@ class DomainLanguageForm extends CoreForm
                 'label' => 'URL Twitter',
                 'rules' => ''
             ])
-            ->add('url_viadeo', 'text', [
-                'label' => 'URL Viadeo',
-                'rules' => ''
-            ])
             ->add('url_youtube', 'text', [
                 'label' => 'URL Youtube',
-                'rules' => ''
-            ])
-            ->add('home_title', 'text', [
-                'label' => 'Titre accueil',
-                'rules' => ''
-            ])
-            ->add('home_content', 'textarea', [
-                'label' => 'Texte accueil',
                 'rules' => ''
             ]);
 

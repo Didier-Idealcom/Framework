@@ -85,6 +85,11 @@ class MenuitemController extends Controller
         $menuitem = $this->repository->create($request->all());
 
         Session::flash('success', 'Le menuitem a été créé avec succès');
+        if ($request->get('save') == 'save_new') {
+            return redirect()->route('admin.menuitems.create', $request->get('menu_id'));
+        } elseif ($request->get('save') == 'save_stay') {
+            return redirect()->back();
+        }
         return redirect()->route('admin.menuitems.index', $menuitem->menu_id);
     }
 
@@ -153,36 +158,60 @@ class MenuitemController extends Controller
 
     /**
      * Process datatables ajax request.
-     * @param  Menu $menu
+     * @param  Request $request
+     * @param  Menu  $menu
      * @return \Illuminate\Http\JsonResponse
      */
-    public function datatable(Menu $menu)
+    public function datatable(Request $request, Menu $menu)
     {
-        return Datatables::of(Menuitem::all()->where('menu_id', $menu->id))
+        if ($request->sort) {
+            $menuitems = Menuitem::where('menu_id', $menu->id)->orderBy($request->sort['field'], $request->sort['sort']);
+        } else {
+            $menuitems = Menuitem::where('menu_id', $menu->id)->orderBy('bg', 'asc');
+        }
+        return Datatables::of($menuitems)
+            ->addColumn('record_id', function($menuitem) {
+                return '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="' . $menuitem->id . '" />
+                        </div>';
+            })
             ->editColumn('active', function($menuitem) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $menuitem->active == 'Y' ? 'btn-success' : 'btn-danger';
+                return ($menuitem->active == 'Y' ? $label_on : $label_off);
+            })
+            ->addColumn('active_display', function($menuitem) {
+                $label_on = 'Actif';
+                $label_off = 'Inactif';
+                $class_btn = $menuitem->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $menuitem->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.menuitems_active', ['menuitem' => $menuitem->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn m-btn ' . $class_btn . ' m-btn--icon m-btn--pill m-btn--wide btn-sm"><i class="la ' . $class_i . '"></i> &nbsp; ' . ($menuitem->active == 'Y' ? $label_on : $label_off) . '</a>';
+                return '<a href="javascript:;" data-url="' . route('admin.menuitems_active', ['menuitem' => $menuitem->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($menuitem->active == 'Y' ? $label_on : $label_off) . '</a>';
+            })
+            ->editColumn('title_menu', function($menuitem) {
+                return '<span style="margin-left: ' . (($menuitem->niveau - 1) * 30) . 'px">' . $menuitem->title_menu . '</span>';
             })
             ->addColumn('actions', function($menuitem) {
-                return '
-                    <a href="' . $menuitem->url_backend->edit . '" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit">
-                        <span class="svg-icon svg-icon-md">
-                            ' . svg('icons/Communication/Write')->toHtml() . '
-                        </span>
-                    </a>
-                    <form action="' . $menuitem->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon" title="Delete">
-                            <span class="svg-icon svg-icon-md">
-                                ' . svg('icons/General/Trash')->toHtml() . '
-                            </span>
-                        </button>
-                    </form>
-                ';
+                return '<div class="min-w-125px">
+                            <a href="' . $menuitem->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/Communication/Write')) . '
+                                </span>
+                            </a>
+                            <form action="' . $menuitem->url_backend->destroy . '" method="POST" class="form-delete d-inline-block me-2">
+                                ' . method_field("DELETE") . '
+                                ' . csrf_field() . '
+                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                    <span class="svg-icon svg-icon-2">
+                                        ' . purifySvg(svg('icons/General/Trash')) . '
+                                    </span>
+                                </button>
+                            </form>
+                            <a href="' . $menuitem->url_backend->show . '" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
+                                <span class="svg-icon svg-icon-2">
+                                    ' . purifySvg(svg('icons/General/Visible')) . '
+                                </span>
+                            </a>
+                        </div>';
             })
             ->escapeColumns(['code', 'type', 'label_front'])
             ->make(true);
