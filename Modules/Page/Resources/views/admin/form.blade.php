@@ -37,7 +37,7 @@
 
 @push('styles')
     <style type="text/css">
-        .grapesjs_container .fa {font-family: FontAwesome;}
+        /*.grapesjs_container .fa {font-family: FontAwesome;}
         .grapesjs_container label, .gjs-two-color {color: #b9a5a6 !important;}
         .gjs-radio-item-label {margin: 0 auto;}
         .icons-flex {
@@ -85,11 +85,41 @@
         }
         .icon-al-center{
             background: url('/images/grapesjs/flex-al-center.png') no-repeat center;
-        }
+        }*/
     </style>
 @endpush
 
 @push('scripts')
+    <script type="module">
+        import {VisualEditor, Text, Select, HTMLText, Repeater} from 'https://unpkg.com/@boxraiser/visual-editor@0.0.23/VisualEditor.standalone.js';
+        
+        const editor = new VisualEditor();
+        editor.registerComponent('hero', {
+            title: 'Hero',
+            fields: [
+                Text('title', {label: 'Title'}),
+                HTMLText('content', {label: 'Content'}),
+                Repeater('actions', {
+                    label: 'Buttons',
+                    fields: [
+                        Text('label', { label: 'Label', default: 'Call to action' }),
+                        Text('url', { label: 'Link' }),
+                        Select('type', {
+                            default: 'primary',
+                            label: 'type',
+                            options: [
+                                { label: 'Primary', value: 'primary' },
+                                { label: 'Secondary', value: 'secondary' }
+                            ]
+                        })
+                    ]
+                })
+            ]
+        });
+        editor.defineElement();
+    </script>
+
+    <?php /*
     <script type="text/javascript">
         jQuery(document).ready(function() {
             $('.grapesjs_container').each(function() {
@@ -127,15 +157,8 @@
                             }, {
                                 name: 'Dimension',
                                 open: false,
-                                buildProps: ['width', /*'flex-width', */'height', 'min-width', 'max-width', 'min-height', 'max-height', 'margin', 'padding'],
-                                properties: [/*{
-                                    id: 'flex-width',
-                                    type: 'integer',
-                                    name: 'Width',
-                                    units: ['px', '%'],
-                                    property: 'flex-basis',
-                                    toRequire: 1,
-                                }, */{
+                                buildProps: ['width', 'height', 'min-width', 'max-width', 'min-height', 'max-height', 'margin', 'padding'],
+                                properties: [{
                                     property: 'margin',
                                     properties: [
                                         {name: 'Top', property: 'margin-top'},
@@ -423,4 +446,5 @@
             });
         });
     </script>
+    */ ?>
 @endpush

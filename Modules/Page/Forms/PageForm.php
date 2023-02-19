@@ -11,9 +11,13 @@ class PageForm extends CoreForm
         // Form options
         if ($this->getModel() && $this->getModel()->id) {
             $url = route('admin.pages.update', $this->getModel()->id);
+            $url_show = route('admin.pages.show', $this->getModel()->id);
+            $url_preview = route('admin.pages_preview', $this->getModel()->id);
             $method = 'PUT';
         } else {
             $url = route('admin.pages.store');
+            $url_show = '';
+            $url_preview = '';
             $method = 'POST';
         }
         $this->formOptions = [
@@ -28,10 +32,17 @@ class PageForm extends CoreForm
                 'rules' => 'required',
                 'translatable' => true
             ])
-            ->add('content', 'grapesjs', [
+            /*->add('content', 'grapesjs', [
                 'label' => 'Contenu',
                 'rules' => 'required',
                 'translatable' => true
+            ]);*/
+            ->add('content', 'visualeditor', [
+                'label' => 'Contenu',
+                'rules' => 'required',
+                'translatable' => true,
+                'url_show' => $url_show,
+                'url_preview' => $url_preview
             ]);
 
         parent::buildForm();

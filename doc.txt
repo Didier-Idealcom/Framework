@@ -14,8 +14,11 @@ custom metronic :
     - grapesjs-preset-webpage
 
     gulp.config.js
+    - update path/dist
     - optional => grapesjs
     - optional => slim
+
+    gulp.config.json
 
     plugins :
     - src\demo1\plugins\slim

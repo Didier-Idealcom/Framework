@@ -27,16 +27,8 @@ class MenuDatabaseSeeder extends Seeder
         Menuitem::truncate();
         MenuitemTranslation::truncate();
         Menu::create([
-            'code' => 'home',
-            'en' => [
-                'title' => 'Home menu'
-            ],
-            'fr' => [
-                'title' => 'Menu accueil'
-            ]
-        ]);
-        Menu::create([
             'code' => 'main',
+            'active' => 'Y',
             'en' => [
                 'title' => 'Main menu'
             ],

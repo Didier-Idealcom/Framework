@@ -52,6 +52,7 @@ return [
 
     'custom_fields' => [
         'grapesjs' => Modules\Core\Forms\Fields\GrapesjsType::class,
+        'visualeditor' => Modules\Core\Forms\Fields\VisualeditorType::class,
         'permission' => Modules\Core\Forms\Fields\PermissionType::class,
         'slim' => Modules\Core\Forms\Fields\SlimType::class
     ]

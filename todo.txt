@@ -1,7 +1,7 @@
 OK - convertir paramètre id dans tous les controleurs
 OK - aligner texte phpdoc dans tous les controleurs
 OK - ajouter paramètre getForm méthode update dans tous les controleurs
-- locales dynamique (ModelRepository->formatInputTranslations(), CoreForm->buildForm(), Permalink->boot())
+- locales dynamique (ModelRepository->formatInputTranslations(), CoreForm->buildForm(), Permalink->boot(), grapesjs, visual-editor)
 OK - vérification rôle admin (User->isAdmin())
 OK - renommer CoreRepository en ModelRepository
 - ajouter try/catch pour les create/update

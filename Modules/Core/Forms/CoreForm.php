@@ -27,10 +27,16 @@ class CoreForm extends Form
             // Multi-langue
             if (isset($options['translatable']) && $options['translatable'] === true) {
                 $attr_class = $options['attr']['class'];
+                if (!empty($options['url_show'])) {
+                    $url_show = $options['url_show'];
+                }
                 foreach ($locales as $locale => $libelle) {
                     $options['attr']['class'] = $attr_class . ' input-multilangue lang-' . $locale;
                     $options['attr']['data-lang'] = $locale;
                     $options['attr']['data-lang-libelle'] = $libelle;
+                    if (!empty($options['url_show'])) {
+                        $options['url_show'] = $url_show . '?lang=' . $locale;
+                    }
                     $options['value'] = ($this->getModel() && $this->getModel()->id) ? $this->getModel()->translate($locale)->$name : '';
                     $this->addBefore($name, $locale . '_' . $name, $field->getType(), $options);
                 }

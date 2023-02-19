@@ -101,6 +101,21 @@ class PageController extends Controller
     }
 
     /**
+     * Preview the specified resource.
+     * @param  Page $page
+     * @param  Request $request
+     * @return Response
+     */
+    public function preview(Page $page, Request $request)
+    {
+        $page_blocks = json_decode($request->getContent(), true);
+        if (array_is_list($page_blocks)) {
+            return view('page::admin.show', compact('page', 'page_blocks'));
+        }
+        return view('page_blocks.' . $page_blocks['_name'], $page_blocks);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      * @param  Page $page
      * @return Response
@@ -207,7 +222,7 @@ class PageController extends Controller
                                     </span>
                                 </button>
                             </form>
-                            <a href="' . $page->url_backend->show . '" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
+                            <a href="' . $page->url_backend->show . '" target="_blank" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
                                 <span class="svg-icon svg-icon-2">
                                     ' . purifySvg(svg('icons/General/Visible')) . '
                                 </span>

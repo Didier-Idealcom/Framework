@@ -1,34 +1,21 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
-@section('title_page', 'Gestion des pages : Prévisualisation')
-@section('title_page', 'Gestion des pages : Edition')
-
-@section('breadcrumb')
-    <div class="subheader-separator subheader-separator-ver mr-5 bg-gray-200"></div>
-    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-muted"><i class="flaticon2-shelter"></i></a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.pages.index') }}" class="text-muted">Pages</a></li>
-        <li class="breadcrumb-item"><span class="text-muted">« {{ $page->title }} »</span></li>
-    </ul>
-@endsection
-
-@section('subheader_toolbar')
-    <div class="d-flex align-items-center">
-        <!--begin::Button-->
-        <a href="{{ route('admin.pages.index') }}" class="btn btn-light-primary font-weight-bold btn-sm px-4 font-size-base ml-2">Back</a>
-        <a href="{{ route('admin.pages.edit', $page->id) }}" class="btn btn-light-primary font-weight-bold btn-sm px-4 font-size-base ml-2">Edit</a>
-        <!--end::Button-->
-    </div>
-@endsection
-
-@section('content_page')
-    <!--begin::Card-->
-    <div class="card card-custom">
-        <!--begin::Card body-->
-        <div class="card-body">
-            {!! $page->content !!}
+@section('content')
+    @if (!empty($page_blocks))
+        <!-- Preview -->
+        <div id="ve-components">
+            @foreach ($page_blocks as $page_block)
+                @include('page_blocks.' . $page_block['_name'], $page_block)
+            @endforeach
         </div>
-        <!--end::Card body-->
-    </div>
-    <!-- end::Card -->
+    @else
+        <!-- Show -->
+        @php
+            $lang = request()->query('lang');
+            $page_blocks = json_decode($page->translate($lang)->content, true);
+        @endphp
+        @foreach ($page_blocks as $page_block)
+            @include('page_blocks.' . $page_block['_name'], $page_block)
+        @endforeach
+    @endif
 @endsection

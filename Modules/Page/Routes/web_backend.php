@@ -13,4 +13,5 @@
 
 Route::post('pages/datatable', 'PageController@datatable')->name('pages_datatable');
 Route::get('pages/{page}/active', 'PageController@active')->name('pages_active');
+Route::post('pages/{page}/preview', 'PageController@preview')->name('pages_preview')->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 Route::resource('pages', 'PageController');

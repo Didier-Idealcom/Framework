@@ -383,4 +383,13 @@ var MyScriptGeneral = function() {
 // On document ready
 jQuery(document).ready(function() {
     MyScriptGeneral.init();
+
+    $('.open_visual_editor').on('click', function(e) {
+        e.preventDefault();
+        $(this).prev('visual-editor').removeAttr('hidden');
+    });
+
+    $('visual-editor').on('close', function(e) {
+        $(this).attr('hidden', 'hidden');
+    });
 });
