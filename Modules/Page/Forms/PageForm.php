@@ -32,18 +32,18 @@ class PageForm extends CoreForm
                 'rules' => 'required',
                 'translatable' => true
             ])
-            /*->add('content', 'grapesjs', [
+            ->add('content', 'grapesjs', [
                 'label' => 'Contenu',
                 'rules' => 'required',
                 'translatable' => true
-            ]);*/
-            ->add('content', 'visualeditor', [
+            ]);
+            /*->add('content', 'visualeditor', [
                 'label' => 'Contenu',
                 'rules' => 'required',
                 'translatable' => true,
                 'url_show' => $url_show,
                 'url_preview' => $url_preview
-            ]);
+            ]);*/
 
         parent::buildForm();
     }

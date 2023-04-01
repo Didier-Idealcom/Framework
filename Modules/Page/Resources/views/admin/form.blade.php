@@ -90,6 +90,7 @@
 @endpush
 
 @push('scripts')
+    <?php /*
     <script type="module">
         import {VisualEditor, Text, Select, HTMLText, Repeater} from 'https://unpkg.com/@boxraiser/visual-editor@0.0.23/VisualEditor.standalone.js';
         
@@ -118,8 +119,8 @@
         });
         editor.defineElement();
     </script>
+    */ ?>
 
-    <?php /*
     <script type="text/javascript">
         jQuery(document).ready(function() {
             $('.grapesjs_container').each(function() {
@@ -446,5 +447,4 @@
             });
         });
     </script>
-    */ ?>
 @endpush
