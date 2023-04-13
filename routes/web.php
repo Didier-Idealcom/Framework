@@ -20,8 +20,6 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes(['verify' => true]);
-
 Route::prefix('admin')->group(function() {
 	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
 });
@@ -47,3 +45,13 @@ if (!empty($menuitems)) {
 
 //Route::get('{menuitem}/{actualite}', 'ActualiteController@show');
 //Route::get('{menuitem}/{product}', 'ProductController@show');
+
+Route::middleware([
+    'auth',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

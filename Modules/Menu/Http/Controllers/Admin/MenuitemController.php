@@ -191,27 +191,11 @@ class MenuitemController extends Controller
                 return '<span style="margin-left: ' . (($menuitem->niveau - 1) * 30) . 'px">' . $menuitem->title_menu . '</span>';
             })
             ->addColumn('actions', function($menuitem) {
-                return '<div class="min-w-125px">
-                            <a href="' . $menuitem->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/Communication/Write')) . '
-                                </span>
-                            </a>
-                            <form action="' . $menuitem->url_backend->destroy . '" method="POST" class="form-delete d-inline-block me-2">
-                                ' . method_field("DELETE") . '
-                                ' . csrf_field() . '
-                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                    <span class="svg-icon svg-icon-2">
-                                        ' . purifySvg(svg('icons/General/Trash')) . '
-                                    </span>
-                                </button>
-                            </form>
-                            <a href="' . $menuitem->url_backend->show . '" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/General/Visible')) . '
-                                </span>
-                            </a>
-                        </div>';
+                $items = [];
+                $items['edit'] = ['link' => $menuitem->url_backend->edit, 'label' => 'Edit'];
+                $items['delete'] = ['link' => $menuitem->url_backend->destroy, 'label' => 'Delete'];
+                $items['preview'] = ['link' => $menuitem->url_backend->show, 'label' => 'Preview'];
+                return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])
             ->make(true);

@@ -19,3 +19,5 @@ OK - upgrade metronic v8
 - déplacer liste menuitems/formulaires_fields/domaines_languages dans le détail du menu/formulaire/domaine
 - suppression permalink après suppression model
 - gestion des permissions dans le BO et dans l'API
+OK - CKEDITOR_BASEPATH dynamique (theme metronic layout master.blade.php)
+OK - update registerTranslations path dans les modules

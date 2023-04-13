@@ -73,7 +73,8 @@
                 name: 'actions',
                 title: 'Actions',
                 width: 175,
-                orderable: false
+                orderable: false,
+                searchable: false
             }];
 
             MyListDatatable.init(target, url, columns);

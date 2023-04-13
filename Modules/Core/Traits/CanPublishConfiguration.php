@@ -15,10 +15,8 @@ trait CanPublishConfiguration
             //return;
         }
 
+        $this->publishes([$this->getModuleConfigFilePath($module, $filename) => config_path(strtolower("framework/$module/$filename") . '.php')], 'config');
         $this->mergeConfigFrom($this->getModuleConfigFilePath($module, $filename), strtolower("framework.$module.$filename"));
-        $this->publishes([
-            $this->getModuleConfigFilePath($module, $filename) => config_path(strtolower("framework/$module/$filename") . '.php'),
-        ], 'config');
     }
 
     /**

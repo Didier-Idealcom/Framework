@@ -188,22 +188,10 @@ class FormulaireFieldController extends Controller
                 return '<a href="javascript:;" data-url="' . route('admin.formulaires_fields_active', ['formulaire_field' => $formulaire_field->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($formulaire_field->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($formulaire_field) {
-                return '<div class="min-w-80px">
-                            <a href="' . $formulaire_field->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/Communication/Write')) . '
-                                </span>
-                            </a>
-                            <form action="' . $formulaire_field->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                                ' . method_field("DELETE") . '
-                                ' . csrf_field() . '
-                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                    <span class="svg-icon svg-icon-2">
-                                        ' . purifySvg(svg('icons/General/Trash')) . '
-                                    </span>
-                                </button>
-                            </form>
-                        </div>';
+                $items = [];
+                $items['edit'] = ['link' => $formulaire_field->url_backend->edit, 'label' => 'Edit'];
+                $items['delete'] = ['link' => $formulaire_field->url_backend->destroy, 'label' => 'Delete'];
+                return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])
             ->make(true);

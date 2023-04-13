@@ -178,22 +178,10 @@ class RoleController extends Controller
                 return date('d/m/Y', strtotime($role->created_at));
             })
             ->addColumn('actions', function($role) {
-                return '<div class="min-w-80px">
-                            <a href="' . $role->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/Communication/Write')) . '
-                                </span>
-                            </a>
-                            <form action="' . $role->url_backend->destroy . '" method="POST" class="form-delete d-inline-block">
-                                ' . method_field("DELETE") . '
-                                ' . csrf_field() . '
-                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                    <span class="svg-icon svg-icon-2">
-                                        ' . purifySvg(svg('icons/General/Trash')) . '
-                                    </span>
-                                </button>
-                            </form>
-                        </div>';
+                $items = [];
+                $items['edit'] = ['link' => $role->url_backend->edit, 'label' => 'Edit'];
+                $items['delete'] = ['link' => $role->url_backend->destroy, 'label' => 'Delete'];
+                return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['name', 'guard_name'])
             ->make(true);

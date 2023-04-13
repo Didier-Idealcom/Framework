@@ -2,26 +2,22 @@ compilation metronic :
 dev : gulp --demo1
 prod : gulp --prod
 
-custom metronic :
-    js :
-    - src\demo1\js\custom\authentication\sign-in\general.js
-    - src\demo1\js\custom\my-script.js
-
-    package.json :
-    - ckeditor4
-    - grapesjs
-    - grapesjs-plugin-ckeditor
-    - grapesjs-preset-webpage
-
-    gulp.config.js
-    - update path/dist
-    - optional => grapesjs
-    - optional => slim
-
-    gulp.config.json
-
-    plugins :
-    - src\demo1\plugins\slim
+maj metronic :
+    - download zip from github
+    - create folder in Themes directory
+    - copy lang, views, changelog.yml, theme.json from older version
+    - copy src, tools from metronic zip
+    - copy src\demo1\plugins\slim from older version
+    - copy src\demo1\js\custom\my-script.js from older version
+    - update src\demo1\js\custom\authentication\sign-in\general.js
+    - update tools/package.json
+        => add ckeditor4, grapesjs, grapesjs-plugin-ckeditor, grapesjs-preset-webpage
+    - update tools/gulp.config.js
+        => update path/dist
+        => add optional grapesjs, slim
+    - update tools/gulp.config.json
+        => update path/dist
+    - yarn install from tools directory
 
 slim cropper :
 utilise la librairie exif

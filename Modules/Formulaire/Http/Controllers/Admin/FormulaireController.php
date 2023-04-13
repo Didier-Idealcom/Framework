@@ -186,32 +186,12 @@ class FormulaireController extends Controller
                 return '<a href="javascript:;" data-url="' . route('admin.formulaires_active', ['formulaire' => $formulaire->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($formulaire->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($formulaire) {
-                return '<div class="min-w-175px">
-                            <a href="' . $formulaire->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/Communication/Write')) . '
-                                </span>
-                            </a>
-                            <form action="' . $formulaire->url_backend->destroy . '" method="POST" class="form-delete d-inline-block me-2">
-                                ' . method_field("DELETE") . '
-                                ' . csrf_field() . '
-                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                    <span class="svg-icon svg-icon-2">
-                                        ' . purifySvg(svg('icons/General/Trash')) . '
-                                    </span>
-                                </button>
-                            </form>
-                            <a href="' . route('admin.formulaires_fields.index', $formulaire->id) . '" class="btn btn-sm btn-icon btn-light-dark me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Champs">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/General/Other2')) . '
-                                </span>
-                            </a>
-                            <a href="' . $formulaire->url_backend->show . '" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/General/Visible')) . '
-                                </span>
-                            </a>
-                        </div>';
+                $items = [];
+                $items['edit'] = ['link' => $formulaire->url_backend->edit, 'label' => 'Edit'];
+                $items['delete'] = ['link' => $formulaire->url_backend->destroy, 'label' => 'Delete'];
+                $items['preview'] = ['link' => $formulaire->url_backend->show, 'label' => 'Preview'];
+                $items['more'] = ['link' => route('admin.formulaires_fields.index', $formulaire->id), 'label' => 'Champs'];
+                return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])
             ->make(true);

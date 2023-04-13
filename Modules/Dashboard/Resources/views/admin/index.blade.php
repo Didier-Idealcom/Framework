@@ -6,8 +6,7 @@
     @php
         $message = '<strong>INFO</strong>
                     <span>This view is loaded from module: ' .config('framework.dashboard.config.name') . '</span>';
-        $icon = 'duotone/Code/Info-circle';
         $dismiss = true;
     @endphp
-    <x-alert type="primary" :message="$message" :icon="$icon" :dismiss="$dismiss" class="mb-10" />
+    <x-alert type="primary" :message="$message" :dismiss="$dismiss" class="mb-10" />
 @endsection

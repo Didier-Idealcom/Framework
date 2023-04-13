@@ -3,6 +3,7 @@
 namespace Modules\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Traits\CanPublishConfiguration;
 
@@ -24,11 +25,11 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerTranslations();
         $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->registerMigrations();
     }
 
     /**
@@ -48,12 +49,8 @@ class MenuServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        /*$this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('menu.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'menu'
-        );*/
+        //$this->publishes([__DIR__.'/../Config/config.php' => config_path('menu.php')], 'config');
+        //$this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'menu');
         $this->publishConfig('menu', 'config');
     }
 
@@ -64,17 +61,13 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
+        $sourcePath = __DIR__.'/../Resources/views';
         $viewPath = resource_path('views/modules/menu');
 
-        $sourcePath = __DIR__.'/../Resources/views';
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
-
+        $this->publishes([$sourcePath => $viewPath], 'views');
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/menu';
-        }, \Config::get('view.paths')), [$sourcePath]), 'menu');
+        }, Config::get('view.paths')), [$sourcePath]), 'menu');
     }
 
     /**
@@ -84,24 +77,37 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/menu');
+        $sourcePath = __DIR__.'/../Lang';
+        $langPath = lang_path('modules/menu');
 
+        $this->publishes([$sourcePath => $langPath], 'lang');
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'menu');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'menu');
+            $this->loadTranslationsFrom($sourcePath, 'menu');
         }
     }
 
     /**
-     * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
+     * Register factories.
+     *
+     * @return void
      */
     public function registerFactories()
     {
         if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+            app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
+    }
+
+    /**
+     * Register migrations.
+     *
+     * @return void
+     */
+    public function registerMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
     }
 
     /**

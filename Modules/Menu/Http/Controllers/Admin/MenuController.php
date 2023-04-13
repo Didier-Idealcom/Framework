@@ -182,27 +182,11 @@ class MenuController extends Controller
                 return '<a href="javascript:;" data-url="' . route('admin.menus_active', ['menu' => $menu->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($menu->active == 'Y' ? $label_on : $label_off) . '</a>';
             })
             ->addColumn('actions', function($menu) {
-                return '<div class="min-w-125px">
-                            <a href="' . $menu->url_backend->edit . '" class="btn btn-sm btn-icon btn-light-primary me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/Communication/Write')) . '
-                                </span>
-                            </a>
-                            <form action="' . $menu->url_backend->destroy . '" method="POST" class="form-delete d-inline-block me-2">
-                                ' . method_field("DELETE") . '
-                                ' . csrf_field() . '
-                                <button class="btn btn-sm btn-icon btn-light-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                    <span class="svg-icon svg-icon-2">
-                                        ' . purifySvg(svg('icons/General/Trash')) . '
-                                    </span>
-                                </button>
-                            </form>
-                            <a href="' . route('admin.menuitems.index', $menu->id) . '" class="btn btn-sm btn-icon btn-light-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Menuitems">
-                                <span class="svg-icon svg-icon-2">
-                                    ' . purifySvg(svg('icons/General/Other2')) . '
-                                </span>
-                            </a>
-                        </div>';
+                $items = [];
+                $items['edit'] = ['link' => $menu->url_backend->edit, 'label' => 'Edit'];
+                $items['delete'] = ['link' => $menu->url_backend->destroy, 'label' => 'Delete'];
+                $items['more'] = ['link' => route('admin.menuitems.index', $menu->id), 'label' => 'Menuitems'];
+                return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])
             ->make(true);

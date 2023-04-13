@@ -24,13 +24,22 @@ class PermissionForm extends CoreForm
             'class' => 'kt-form'
         ];
 
+        // Guard options
+        $auth_guards = array_keys(config('auth.guards'));
+        $guards_choices = array_combine($auth_guards, $auth_guards);
+
         $this
             ->add('name', 'text', [
                 'label' => 'Nom',
-                'rules' => 'required'
+                'attr' => [
+                    'placeholder' => 'Module:Permission'
+                ],
+                'rules' => 'required|regex:/^(.*):(.*)$/'
             ])
-            ->add('guard_name', 'text', [
+            ->add('guard_name', 'select', [
                 'label' => 'Nom du guard',
+                'choices' => $guards_choices,
+                'empty_value' => 'Sélectionnez...',
                 'rules' => 'required'
             ]);
 
