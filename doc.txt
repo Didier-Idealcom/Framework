@@ -31,6 +31,9 @@ php artisan db:seed --class=Modules\Core\Database\Seeders\CoreDatabaseSeeder --e
 vendor\bin\codecept build
 vendor\bin\codecept run functional
 php artisan test
+php artisan test --testsuite=Api
+php artisan test --testsuite=Feature
+php artisan test --testsuite=Unit
 
 définition thème admin :
 config/themes.php
@@ -49,5 +52,6 @@ système permalinks :
 - sauvegarde permalinks indépendants pour les autres types d'instances (actualités, produits, etc)
 
 page builder :
+https://boxraiser.github.io/visual-editor/
 https://github.com/HansSchouten/Laravel-Pagebuilder
 https://github.com/artf/grapesjs

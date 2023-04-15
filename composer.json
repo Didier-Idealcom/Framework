@@ -11,6 +11,7 @@
         "bepsvpt/secure-headers": "^7.4",
         "blade-ui-kit/blade-icons": "^1.5",
         "darkaonline/l5-swagger": "^8.0",
+        "doctrine/dbal": "^3.6",
         "guzzlehttp/guzzle": "^7.2",
         "kris/laravel-form-builder": "^1.52",
         "laravel/framework": "^10.0",

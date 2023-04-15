@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use Modules\User\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Jetstream\Http\Livewire\UpdateProfileInformationForm;
+use App\Http\Livewire\CustomUpdateProfileInformationForm;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -16,9 +16,10 @@ class ProfileInformationTest extends TestCase
     {
         $this->actingAs($user = User::factory()->create());
 
-        $component = Livewire::test(UpdateProfileInformationForm::class);
+        $component = Livewire::test(CustomUpdateProfileInformationForm::class);
 
-        $this->assertEquals($user->name, $component->state['name']);
+        $this->assertEquals($user->firstname, $component->state['firstname']);
+        $this->assertEquals($user->lastname, $component->state['lastname']);
         $this->assertEquals($user->email, $component->state['email']);
     }
 
@@ -26,11 +27,12 @@ class ProfileInformationTest extends TestCase
     {
         $this->actingAs($user = User::factory()->create());
 
-        Livewire::test(UpdateProfileInformationForm::class)
-                ->set('state', ['name' => 'Test Name', 'email' => 'test@example.com'])
+        Livewire::test(CustomUpdateProfileInformationForm::class)
+                ->set('state', ['firstname' => 'John', 'lastname' => 'Doe', 'email' => 'test@example.com'])
                 ->call('updateProfileInformation');
 
-        $this->assertEquals('Test Name', $user->fresh()->name);
+        $this->assertEquals('John', $user->fresh()->firstname);
+        $this->assertEquals('Doe', $user->fresh()->lastname);
         $this->assertEquals('test@example.com', $user->fresh()->email);
     }
 }

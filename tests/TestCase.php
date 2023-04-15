@@ -19,10 +19,5 @@ abstract class TestCase extends BaseTestCase
 
         Artisan::call('passport:install');
         $this->seed(CoreDatabaseSeeder::class);
-
-        $payload = ['email' => 'd.largeron@ideal-com.com', 'password' => 'laravel'];
-        $result = $this->json('POST', 'api/login', $payload)
-                       ->decodeResponseJson();
-        $this->token = $result['success']['token'];
     }
 }

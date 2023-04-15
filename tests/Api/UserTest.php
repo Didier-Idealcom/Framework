@@ -7,6 +7,16 @@ use Modules\User\Entities\User;
 
 class UserTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $payload = ['email' => 'd.largeron@ideal-com.com', 'password' => 'laravel'];
+        $result = $this->json('POST', 'api/login', $payload)
+                       ->decodeResponseJson();
+        $this->token = $result['success']['token'];
+    }
+
     public function testUsersAreListedCorrectly()
     {
         $headers = ['Authorization' => 'Bearer ' . $this->token];

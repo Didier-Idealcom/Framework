@@ -2,12 +2,17 @@
 
 namespace Modules\User\Entities;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Modules\Core\Traits\HasUrlPresenter;
+use Modules\User\Database\Factories\UserFactory;
 
 /**
  * @OA\Schema(
@@ -67,9 +72,9 @@ use Modules\Core\Traits\HasUrlPresenter;
  *     )
  * )
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable/* implements MustVerifyEmail*/
 {
-    use HasRoles, HasUrlPresenter, HasApiTokens, Notifiable;
+    use HasRoles, HasUrlPresenter, HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -83,14 +88,14 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['url', 'url_backend', 'url_api'];
+    protected $appends = ['url', 'url_backend', 'url_api', 'profile_photo_url'];
 
     public function getFullnameAttribute()
     {
@@ -102,6 +107,14 @@ class User extends Authenticatable implements MustVerifyEmail
         if (!empty($value)) {
             $this->attributes['password'] = bcrypt($value);
         }
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
     }
 
     /**

@@ -11,7 +11,7 @@ $I->fillField('lastname', 'Doe');
 $I->fillField('email', 'john@doe.com');
 $I->fillField('password', 'password');
 $I->fillField('password_confirmation', 'password');
-$I->click('#kt_content button[type=submit]');
+$I->click('#kt_app_content button[type=submit]');
 
 $I->amOnRoute('admin.users.index');
 $I->seeRecord('users', ['email' => 'john@doe.com']);
