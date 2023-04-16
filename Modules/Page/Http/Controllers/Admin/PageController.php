@@ -3,6 +3,7 @@
 namespace Modules\Page\Http\Controllers\Admin;
 
 use \App;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -148,6 +149,23 @@ class PageController extends Controller
     }
 
     /**
+     * Duplicate the specified resource in storage.
+     * @param Page $page
+     */
+    public function duplicate(Page $page)
+    {
+        $new_page = $page->replicateWithTranslations();
+        foreach ($new_page->translations as $translation) {
+            $translation->title .= ' (copy)';
+        }
+        $new_page->active = 'N';
+        $new_page->created_at = Carbon::now();
+        $new_page->updated_at = Carbon::now();
+        $new_page->save();
+        return redirect()->route('admin.pages.index');
+    }
+
+    /**
      * Activate/Deactivate the specified resource in storage.
      * @param Page $page
      */
@@ -209,6 +227,7 @@ class PageController extends Controller
             ->addColumn('actions', function($page) {
                 $items = [];
                 $items['edit'] = ['link' => $page->url_backend->edit, 'label' => 'Edit'];
+                $items['duplicate'] = ['link' => route('admin.pages_duplicate', ['page' => $page->id]), 'label' => 'Duplicate'];
                 $items['delete'] = ['link' => $page->url_backend->destroy, 'label' => 'Delete'];
                 $items['preview'] = ['link' => $page->url_backend->show, 'label' => 'Preview'];
                 return view('components.datatableactions', compact('items'));

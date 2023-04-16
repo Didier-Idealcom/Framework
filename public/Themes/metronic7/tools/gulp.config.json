@@ -1,0 +1,459 @@
+{
+    "name": "metronic",
+    "theme": "metronic",
+    "desc": "Metronic build config file for Gulp",
+    "version": "7.0.5",
+    "config": {
+        "debug": false,
+        "compile": {
+            "rtl": {
+                "enabled": false,
+                "skip": [
+                    "select2",
+                    "socicon",
+                    "line-awesome",
+                    "flaticon",
+                    "flaticon2",
+                    "fontawesome5",
+                    "jstree",
+                    "owl.carousel",
+                    "fullcalendar",
+                    "bootstrap-datepicker",
+                    "bootstrap-datetime-picker",
+                    "bootstrap-switch",
+                    "nouislider",
+                    "tinymce",
+                    "sweetalert2"
+                ]
+            },
+            "jsUglify": false,
+            "cssMinify": false,
+            "jsSourcemaps": false,
+            "cssSourcemaps": false
+        },
+        "path": {
+            "src": "./../src/{demo}",
+            "node_modules": "./node_modules",
+            "demo_api_url": "https://keenthemes.com/metronic/tools/preview/"
+        },
+        "dist": [
+            "./../assets"
+        ]
+    },
+    "build": {
+        "main": {
+            "src": {
+                "styles": [
+                    "{$config.path.src}/sass/style.scss"
+                ],
+                "scripts": [
+                    "{$config.path.src}/js/components/**/*.js",
+                    "{$config.path.src}/js/layout/**/*.js"
+                ]
+            },
+            "bundle": {
+                "styles": "{$config.dist}/css/style.bundle.css",
+                "scripts": "{$config.dist}/js/scripts.bundle.js"
+            }
+        },
+        "vendors": {
+            "base": {
+                "src": {
+                    "mandatory": {
+                        "jquery": {
+                            "scripts": [
+                                "{$config.path.node_modules}/jquery/dist/jquery.js"
+                            ]
+                        },
+                        "popper.js": {
+                            "scripts": [
+                                "{$config.path.node_modules}/popper.js/dist/umd/popper.js"
+                            ]
+                        },
+                        "bootstrap": {
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap/dist/js/bootstrap.min.js"
+                            ]
+                        },
+                        "moment": {
+                            "scripts": [
+                                "{$config.path.node_modules}/moment/min/moment.min.js"
+                            ]
+                        },
+                        "perfect-scrollbar": {
+                            "styles": [
+                                "{$config.path.node_modules}/perfect-scrollbar/css/perfect-scrollbar.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/perfect-scrollbar/dist/perfect-scrollbar.js"
+                            ]
+                        },
+                        "wnumb": {
+                            "scripts": [
+                                "{$config.path.node_modules}/wnumb/wNumb.js"
+                            ]
+                        },
+                        "keenthemes-icons": {
+                            "styles": [
+                                "{$config.path.src}/plugins/keenthemes-icons/font/ki.css"
+                            ],
+                            "fonts": [
+                                "{$config.path.src}/plugins/keenthemes-icons/font/**"
+                            ]
+                        }
+                    },
+                    "optional": {
+                        "formvalidation": {
+                            "styles": [
+                                "{$config.path.src}/plugins/formvalidation/dist/css/formValidation.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/es6-shim/es6-shim.min.js",
+                                "{$config.path.src}/plugins/formvalidation/dist/js/FormValidation.full.min.js",
+                                "{$config.path.src}/plugins/formvalidation/dist/js/plugins/Bootstrap.min.js",
+                                "{$config.path.src}/plugins/formvalidation/dist/js/plugins/Bootstrap.min.js"
+                            ]
+                        },
+                        "block-ui": {
+                            "scripts": [
+                                "{$config.path.node_modules}/block-ui/jquery.blockUI.js"
+                            ]
+                        },
+                        "bootstrap-datepicker": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
+                                "{$config.path.src}/js/vendors/plugins/bootstrap-datepicker.init.js"
+                            ]
+                        },
+                        "bootstrap-datetime-picker": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js"
+                            ]
+                        },
+                        "bootstrap-timepicker": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-timepicker/css/bootstrap-timepicker.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+                                "{$config.path.src}/js/vendors/plugins/bootstrap-timepicker.init.js"
+                            ]
+                        },
+                        "bootstrap-daterangepicker": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-daterangepicker/daterangepicker.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-daterangepicker/daterangepicker.js"
+                            ]
+                        },
+                        "bootstrap-touchspin": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"
+                            ]
+                        },
+                        "bootstrap-maxlength": {
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-maxlength/src/bootstrap-maxlength.js"
+                            ]
+                        },
+                        "bootstrap-select": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-select/dist/css/bootstrap-select.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-select/dist/js/bootstrap-select.js"
+                            ]
+                        },
+                        "bootstrap-switch": {
+                            "styles": [
+                                "{$config.path.node_modules}/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-switch/dist/js/bootstrap-switch.js",
+                                "{$config.path.src}/js/vendors/plugins/bootstrap-switch.init.js"
+                            ]
+                        },
+                        "select2": {
+                            "styles": [
+                                "{$config.path.node_modules}/select2/dist/css/select2.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/select2/dist/js/select2.full.js"
+                            ]
+                        },
+                        "ion-rangeslider": {
+                            "styles": [
+                                "{$config.path.node_modules}/ion-rangeslider/css/ion.rangeSlider.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/ion-rangeslider/js/ion.rangeSlider.js"
+                            ],
+                            "images": [
+                                "{$config.path.node_modules}/ion-rangeslider/img/sprite-skin-flat.png"
+                            ]
+                        },
+                        "typeahead.js": {
+                            "scripts": [
+                                "{$config.path.node_modules}/typeahead.js/dist/typeahead.bundle.js",
+                                "{$config.path.node_modules}/handlebars/dist/handlebars.js"
+                            ]
+                        },
+                        "inputmask": {
+                            "scripts": [
+                                "{$config.path.node_modules}/inputmask/dist/jquery.inputmask.bundle.js",
+                                "{$config.path.node_modules}/inputmask/dist/inputmask/inputmask.date.extensions.js",
+                                "{$config.path.node_modules}/inputmask/dist/inputmask/inputmask.numeric.extensions.js"
+                            ]
+                        },
+                        "nouislider": {
+                            "styles": [
+                                "{$config.path.node_modules}/nouislider/distribute/nouislider.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/nouislider/distribute/nouislider.js"
+                            ]
+                        },
+                        "autosize": {
+                            "scripts": [
+                                "{$config.path.node_modules}/autosize/dist/autosize.js"
+                            ]
+                        },
+                        "clipboard": {
+                            "scripts": [
+                                "{$config.path.node_modules}/clipboard/dist/clipboard.min.js"
+                            ]
+                        },
+                        "dropzone": {
+                            "styles": [
+                                "{$config.path.node_modules}/dropzone/dist/dropzone.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/dropzone/dist/dropzone.js",
+                                "{$config.path.src}/js/vendors/plugins/dropzone.init.js"
+                            ]
+                        },
+                        "tagify": {
+                            "styles": [
+                                "{$config.path.node_modules}/@yaireo/tagify/dist/tagify.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/@yaireo/tagify/dist/tagify.polyfills.min.js",
+                                "{$config.path.node_modules}/@yaireo/tagify/dist/tagify.min.js"
+                            ]
+                        },
+                        "remarkable-bootstrap-notify": {
+                            "scripts": [
+                                "{$config.path.node_modules}/bootstrap-notify/bootstrap-notify.min.js",
+                                "{$config.path.src}/js/vendors/plugins/bootstrap-notify.init.js"
+                            ]
+                        },
+                        "animate.css": {
+                            "styles": [
+                                "{$config.path.node_modules}/animate.css/animate.css"
+                            ]
+                        },
+                        "dual-listbox": {
+                            "styles": [
+                                "{$config.path.node_modules}/dual-listbox/dist/dual-listbox.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/dual-listbox/dist/dual-listbox.js"
+                            ]
+                        },
+                        "bootstrap-session-timeout": {
+                            "scripts": [
+                                "{$config.path.src}/plugins/bootstrap-session-timeout/dist/bootstrap-session-timeout.min.js"
+                            ]
+                        },
+                        "sweetalert2": {
+                            "styles": [
+                                "{$config.path.node_modules}/sweetalert2/dist/sweetalert2.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/es6-promise-polyfill/promise.min.js",
+                                "{$config.path.node_modules}/sweetalert2/dist/sweetalert2.min.js",
+                                "{$config.path.src}/js/vendors/plugins/sweetalert2.init.js"
+                            ]
+                        },
+                        "jquery.repeater": {
+                            "scripts": [
+                                "{$config.path.node_modules}/jquery.repeater/src/lib.js",
+                                "{$config.path.node_modules}/jquery.repeater/src/jquery.input.js",
+                                "{$config.path.node_modules}/jquery.repeater/src/repeater.js"
+                            ]
+                        },
+                        "flaticon2": {
+                            "styles": [
+                                "{$config.path.src}/plugins/flaticon2/flaticon.css"
+                            ],
+                            "fonts": [
+                                "{$config.path.src}/plugins/flaticon2/font/**"
+                            ]
+                        },
+                        "@fortawesome": {
+                            "styles": [
+                                "{$config.path.node_modules}/@fortawesome/fontawesome-free/css/all.min.css"
+                            ],
+                            "fonts": [
+                                "{$config.path.node_modules}/@fortawesome/fontawesome-free/webfonts/**"
+                            ]
+                        },
+                        "grapesjs": {
+                            "styles": [
+                                "{$config.path.node_modules}/grapesjs/dist/css/grapes.min.css",
+                                "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.node_modules}/ckeditor4/ckeditor.js",
+                                "{$config.path.node_modules}/grapesjs/dist/grapes.min.js",
+                                "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
+                                "{$config.path.node_modules}/grapesjs-plugin-ckeditor/dist/grapesjs-plugin-ckeditor.min.js"
+                            ],
+                            "fonts": [
+                                "{$config.path.node_modules}/grapesjs/dist/fonts/**"
+                            ]
+                        },
+                        "slim": {
+                            "styles": [
+                                "{$config.path.src}/plugins/slim/slim.min.css"
+                            ],
+                            "scripts": [
+                                "{$config.path.src}/plugins/slim/slim.kickstart.min.js"
+                            ]
+                        }
+                    }
+                },
+                "bundle": {
+                    "styles": "{$config.dist}/plugins/global/plugins.bundle.css",
+                    "scripts": "{$config.dist}/plugins/global/plugins.bundle.js",
+                    "images": "{$config.dist}/plugins/global/images",
+                    "fonts": "{$config.dist}/plugins/global/fonts"
+                }
+            },
+            "custom": {
+                "draggable": {
+                    "src": {
+                        "scripts": [
+                            "{$config.path.node_modules}/@shopify/draggable/lib/draggable.bundle.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/draggable.bundle.legacy.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/draggable.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/sortable.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/droppable.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/swappable.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/plugins.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/plugins/collidable.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/plugins/resize-mirror.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/plugins/snappable.js",
+                            "{$config.path.node_modules}/@shopify/draggable/lib/plugins/swap-animation.js"
+                        ]
+                    },
+                    "bundle": {
+                        "scripts": "{$config.dist}/plugins/custom/draggable/draggable.bundle.js"
+                    }
+                },
+                "gmaps": {
+                    "src": {
+                        "scripts": [
+                            "{$config.path.node_modules}/gmaps/gmaps.js"
+                        ]
+                    },
+                    "bundle": {
+                        "scripts": "{$config.dist}/plugins/custom/gmaps/gmaps.js"
+                    }
+                },
+                "datatables.net": {
+                    "src": {
+                        "styles": [
+                            "{$config.path.node_modules}/datatables.net-bs4/css/dataTables.bootstrap4.css",
+                            "{$config.path.node_modules}/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-autofill-bs4/css/autoFill.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-colreorder-bs4/css/colReorder.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-fixedcolumns-bs4/css/fixedColumns.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-keytable-bs4/css/keyTable.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-rowgroup-bs4/css/rowGroup.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-rowreorder-bs4/css/rowReorder.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-scroller-bs4/css/scroller.bootstrap4.min.css",
+                            "{$config.path.node_modules}/datatables.net-select-bs4/css/select.bootstrap4.min.css"
+                        ],
+                        "scripts": [
+                            "{$config.path.node_modules}/datatables.net/js/jquery.dataTables.js",
+                            "{$config.path.node_modules}/datatables.net-bs4/js/dataTables.bootstrap4.js",
+                            "{$config.path.src}/js/vendors/plugins/datatables.init.js",
+                            "{$config.path.node_modules}/datatables.net-autofill/js/dataTables.autoFill.min.js",
+                            "{$config.path.node_modules}/datatables.net-autofill-bs4/js/autoFill.bootstrap4.min.js",
+                            "{$config.path.node_modules}/jszip/dist/jszip.min.js",
+                            "{$config.path.node_modules}/pdfmake/build/pdfmake.min.js",
+                            "{$config.path.node_modules}/pdfmake/build/vfs_fonts.js",
+                            "{$config.path.node_modules}/datatables.net-buttons/js/dataTables.buttons.min.js",
+                            "{$config.path.node_modules}/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js",
+                            "{$config.path.node_modules}/datatables.net-buttons/js/buttons.colVis.js",
+                            "{$config.path.node_modules}/datatables.net-buttons/js/buttons.flash.js",
+                            "{$config.path.node_modules}/datatables.net-buttons/js/buttons.html5.js",
+                            "{$config.path.node_modules}/datatables.net-buttons/js/buttons.print.js",
+                            "{$config.path.node_modules}/datatables.net-colreorder/js/dataTables.colReorder.min.js",
+                            "{$config.path.node_modules}/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js",
+                            "{$config.path.node_modules}/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js",
+                            "{$config.path.node_modules}/datatables.net-keytable/js/dataTables.keyTable.min.js",
+                            "{$config.path.node_modules}/datatables.net-responsive/js/dataTables.responsive.min.js",
+                            "{$config.path.node_modules}/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js",
+                            "{$config.path.node_modules}/datatables.net-rowgroup/js/dataTables.rowGroup.min.js",
+                            "{$config.path.node_modules}/datatables.net-rowreorder/js/dataTables.rowReorder.min.js",
+                            "{$config.path.node_modules}/datatables.net-scroller/js/dataTables.scroller.min.js",
+                            "{$config.path.node_modules}/datatables.net-select/js/dataTables.select.min.js"
+                        ]
+                    },
+                    "bundle": {
+                        "styles": "{$config.dist}/plugins/custom/datatables/datatables.bundle.css",
+                        "scripts": "{$config.dist}/plugins/custom/datatables/datatables.bundle.js"
+                    }
+                }
+            }
+        },
+        "pages": {
+            "src": {
+                "styles": [
+                    "{$config.path.src}/sass/pages/**/*.scss"
+                ],
+                "scripts": [
+                    "{$config.path.src}/js/pages/**/*.js"
+                ]
+            },
+            "output": {
+                "styles": "{$config.dist}/css/pages/",
+                "scripts": "{$config.dist}/js/pages/"
+            }
+        },
+        "theme": {
+            "src": {
+                "styles": [
+                    "{$config.path.src}/sass/themes/**/*.scss"
+                ]
+            },
+            "output": {
+                "styles": "{$config.dist}/css/themes/"
+            }
+        },
+        "media": {
+            "src": {
+                "media": [
+                    "{$config.path.src}/media/**/*.*"
+                ]
+            },
+            "output": {
+                "media": "{$config.dist}/media/"
+            }
+        }
+    }
+}

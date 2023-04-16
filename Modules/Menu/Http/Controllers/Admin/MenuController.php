@@ -185,7 +185,7 @@ class MenuController extends Controller
                 $items = [];
                 $items['edit'] = ['link' => $menu->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $menu->url_backend->destroy, 'label' => 'Delete'];
-                $items['more'] = ['link' => route('admin.menuitems.index', $menu->id), 'label' => 'Menuitems'];
+                $items['more'][] = ['link' => route('admin.menuitems.index', $menu->id), 'label' => 'Menuitems'];
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])

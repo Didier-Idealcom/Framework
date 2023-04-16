@@ -47,6 +47,9 @@ création de la base de données :
 php artisan migrate
 php artisan module:seed Core
 
+création lien symbolique Themes
+ln -s D:\sites\laravel\Themes public\Themes
+
 système permalinks :
 - sauvegarde permalinks menuitems avec hierarchie
 - sauvegarde permalinks indépendants pour les autres types d'instances (actualités, produits, etc)
