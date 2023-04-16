@@ -60,16 +60,6 @@ return [
     'themes' => [
 
         // Add your themes here. These settings will override theme.json settings defined for each theme
-        'metronic7' => [
-            'extends'       => null,    // doesn't extend any theme
-            'views-path'    => 'metronic7/views', // = resources/views/example_theme
-            'asset-path'    => 'Themes/metronic7/assets', // = public/example_theme
-        ],
-        'metronic8-0-17' => [
-            'extends'       => null,    // doesn't extend any theme
-            'views-path'    => 'metronic8-0-17/views', // = resources/views/example_theme
-            'asset-path'    => 'Themes/metronic8-0-17/assets', // = public/example_theme
-        ],
         'metronic_8.1.8' => [
             'extends'       => null,    // doesn't extend any theme
             'views-path'    => 'metronic_8.1.8/views', // = resources/views/example_theme
