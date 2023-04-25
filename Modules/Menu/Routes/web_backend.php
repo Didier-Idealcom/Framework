@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +19,6 @@ Route::post('menus/datatable', 'MenuController@datatable')->name('menus_datatabl
 
 Route::resource('menuitems', 'MenuitemController')->except(['index', 'create'])->parameters(['menuitems' => 'menuitem']);
 Route::get('menus/{menu}/menuitems', 'MenuitemController@index')->name('menuitems.index');
-Route::get('menus/{menu}/menuitems/create', 'MenuitemController@create')->name('menuitems.create');
+Route::get('menus/{menu}/menuitems/create/{parent?}', 'MenuitemController@create')->name('menuitems.create');
 Route::get('menuitems/{menuitem}/active', 'MenuitemController@active')->name('menuitems_active');
 Route::post('menus/{menu}/menuitems/datatable', 'MenuitemController@datatable')->name('menuitems_datatable');

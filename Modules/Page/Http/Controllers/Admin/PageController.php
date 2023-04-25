@@ -229,7 +229,7 @@ class PageController extends Controller
                 $items['edit'] = ['link' => $page->url_backend->edit, 'label' => 'Edit'];
                 $items['duplicate'] = ['link' => route('admin.pages_duplicate', ['page' => $page->id]), 'label' => 'Duplicate'];
                 $items['delete'] = ['link' => $page->url_backend->destroy, 'label' => 'Delete'];
-                $items['preview'] = ['link' => $page->url_backend->show, 'label' => 'Preview'];
+                $items['more'][] = ['link' => $page->url_backend->show, 'label' => 'Preview'];
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])

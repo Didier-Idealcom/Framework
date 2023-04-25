@@ -189,7 +189,7 @@ class FormulaireController extends Controller
                 $items = [];
                 $items['edit'] = ['link' => $formulaire->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $formulaire->url_backend->destroy, 'label' => 'Delete'];
-                $items['preview'] = ['link' => $formulaire->url_backend->show, 'label' => 'Preview'];
+                $items['more'][] = ['link' => $formulaire->url_backend->show, 'label' => 'Preview'];
                 $items['more'][] = ['link' => route('admin.formulaires_fields.index', $formulaire->id), 'label' => 'Champs'];
                 return view('components.datatableactions', compact('items'));
             })

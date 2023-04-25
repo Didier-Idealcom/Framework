@@ -28,7 +28,7 @@
     </form>
     @endif
 
-    @if (!empty($items['preview']) || !empty($items['more']))
+    @if (!empty($items['more']))
     <a href="#" class="btn btn-sm btn-icon btn-light-dark" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
         <i class="ki-duotone ki-dots-horizontal fs-1">
             <span class="path1"></span>
@@ -37,19 +37,11 @@
         </i>
     </a>
     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-        @if (!empty($items['preview']))
-        <div class="menu-item px-3">
-            <a href="{{ $items['preview']['link'] }}" class="menu-link px-3">{{ $items['preview']['label'] }}</a>
-        </div>
-        @endif
-
-        @if (!empty($items['more']))
         @foreach ($items['more'] as $more_item)
         <div class="menu-item px-3">
             <a href="{{ $more_item['link'] }}" class="menu-link px-3">{{ $more_item['label'] }}</a>
         </div>
         @endforeach
-        @endif
     </div>
     @endif
 </div>

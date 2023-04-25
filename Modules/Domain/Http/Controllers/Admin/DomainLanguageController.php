@@ -30,12 +30,11 @@ class DomainLanguageController extends Controller
      * @param DomainLanguage $domain_language
      * @param FormBuilder $formBuilder
      */
-    public function __construct(DomainLanguage $domain_language, FormBuilder $formBuilder, Request $request)
+    public function __construct(DomainLanguage $domain_language, FormBuilder $formBuilder)
     {
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->request = $request;
         $this->repository = new ModelRepository($domain_language);
     }
 

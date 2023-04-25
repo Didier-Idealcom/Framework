@@ -30,12 +30,11 @@ class MenuitemController extends Controller
      * @param Menuitem $menuitem
      * @param FormBuilder $formBuilder
      */
-    public function __construct(Menuitem $menuitem, FormBuilder $formBuilder, Request $request)
+    public function __construct(Menuitem $menuitem, FormBuilder $formBuilder)
     {
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->request = $request;
         $this->repository = new ModelRepository($menuitem);
     }
 
@@ -194,7 +193,8 @@ class MenuitemController extends Controller
                 $items = [];
                 $items['edit'] = ['link' => $menuitem->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $menuitem->url_backend->destroy, 'label' => 'Delete'];
-                $items['preview'] = ['link' => $menuitem->url_backend->show, 'label' => 'Preview'];
+                $items['more'][] = ['link' => $menuitem->url_backend->show, 'label' => 'Preview'];
+                $items['more'][] = ['link' => route('admin.menuitems.create', ['menu' => $menuitem->menu_id, 'parent' => $menuitem->id]), 'label' => 'Add submenu'];
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])

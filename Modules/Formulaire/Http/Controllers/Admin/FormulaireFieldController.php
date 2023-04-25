@@ -30,12 +30,11 @@ class FormulaireFieldController extends Controller
      * @param FormulaireField $formulaire_field
      * @param FormBuilder $formBuilder
      */
-    public function __construct(FormulaireField $formulaire_field, FormBuilder $formBuilder, Request $request)
+    public function __construct(FormulaireField $formulaire_field, FormBuilder $formBuilder)
     {
         $this->middleware('auth:admin');
 
         $this->formBuilder = $formBuilder;
-        $this->request = $request;
         $this->repository = new ModelRepository($formulaire_field);
     }
 

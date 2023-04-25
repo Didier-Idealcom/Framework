@@ -44,6 +44,14 @@ trait HasPermalink
                 $model->updatePermalink();
             }
         });
+
+        static::deleted(function (Model $model) {
+            if (!$model->permalinkHandling()) {
+                return;
+            }
+
+            $model->deletePermalink();
+        });
     }
 
     /**
@@ -135,6 +143,14 @@ trait HasPermalink
                  ->where('id', '<>', $permalink->id)
                  ->update(['redirect' => $permalink->id]);
         }
+    }
+
+    /**
+     * Delete the permalink for the current entity.
+     */
+    public function deletePermalink()
+    {
+        $this->permalinks()->delete();
     }
 
     /**

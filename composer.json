@@ -38,7 +38,6 @@
         "codeception/module-rest": "^3.0",
         "codeception/module-webdriver": "^3.0",
         "fakerphp/faker": "^1.21",
-        "laravel/telescope": "^4.13",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.0",

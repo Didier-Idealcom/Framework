@@ -255,7 +255,7 @@ class Menuitem extends Model implements Permalinkable
                 $menuitem->bg     = $parent->bd;
                 $menuitem->bd     = $parent->bd + 1;
                 $menuitem->niveau = $parent->niveau + 1;
-                $menuitem->save();
+                $menuitem->saveQuietly();
             } else {
                 $menuitem_ref = self::where('menu_id', $menuitem->menu_id)
                     ->where('niveau', 1)
@@ -276,7 +276,7 @@ class Menuitem extends Model implements Permalinkable
                 $menuitem->bg     = !empty($menuitem_ref) ? $menuitem_ref->bd + 1 : 1;
                 $menuitem->bd     = !empty($menuitem_ref) ? $menuitem_ref->bd + 2 : 2;
                 $menuitem->niveau = 1;
-                $menuitem->save();
+                $menuitem->saveQuietly();
             }
         });
 

@@ -23,7 +23,11 @@ class MenuitemForm extends CoreForm
                 $menu = $this->getRequest()->route()->parameter('menu');
                 $menu_id = $menu->id;
             }
-            $parent_id = $this->getRequest()->get('parent_id');
+            if ($this->getRequest()->get('parent_id')) {
+                $parent_id = $this->getRequest()->get('parent_id');
+            } else {
+                $parent_id = $this->getRequest()->route()->parameter('parent');
+            }
         }
         $this->formOptions = [
             'method' => $method,

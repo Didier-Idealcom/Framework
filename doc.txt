@@ -44,7 +44,7 @@ php artisan migrate
 php artisan module:seed Core
 
 déploiement Railway.app :
-NIXPACKS_BUILD_CMD=npm run build && php artisan optimize && php artisan migrate --force && php artisan module:seed Core && php artisan storage:link
+NIXPACKS_BUILD_CMD=npm run build && php artisan optimize && php artisan migrate:fresh --force && php artisan module:seed Core --force && php artisan storage:link
 
 système permalinks :
 - sauvegarde permalinks menuitems avec hierarchie
