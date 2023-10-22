@@ -22,10 +22,10 @@ class LoginTest extends TestCase
     public function testLoginSuccess()
     {
         $this->assertDatabaseHas('users', [
-            'email' => 'd.largeron@ideal-com.com'
+            'email' => 'largeron.didier@gmail.com'
         ]);
 
-        $payload = ['email' => 'd.largeron@ideal-com.com', 'password' => 'laravel'];
+        $payload = ['email' => 'largeron.didier@gmail.com', 'password' => 'laravel'];
         $this->json('POST', 'api/login', $payload)
             ->assertStatus(202)
             ->assertJsonStructure([
@@ -45,7 +45,7 @@ class LoginTest extends TestCase
 
     public function testLoginError()
     {
-        $payload = ['email' => 'd.largeron@ideal-com.com', 'password' => 'badpassword'];
+        $payload = ['email' => 'largeron.didier@gmail.com', 'password' => 'badpassword'];
         $this->json('POST', 'api/login', $payload)
             ->assertStatus(401)
             ->assertJson([

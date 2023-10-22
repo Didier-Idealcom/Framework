@@ -6,7 +6,7 @@
         "contact": {
             "name": "Ideal-com",
             "url": "https://www.ideal-com.com",
-            "email": "d.largeron@ideal-com.com"
+            "email": "largeron.didier@gmail.com"
         },
         "version": "1.0.0"
     },
@@ -446,6 +446,930 @@
                         "passport": []
                     }
                 ]
+            }
+        },
+        "/languages": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get all Languages",
+                "description": "Returns list of all Languages",
+                "operationId": "getLanguagesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Create new Language",
+                "description": "Returns new Language data",
+                "operationId": "storeLanguage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Language"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Language"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/languages/{id}": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get Language details",
+                "description": "Returns Language details",
+                "operationId": "getLanguageById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Language"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource Not Found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Update existing Language",
+                "description": "Returns updated Language data",
+                "operationId": "updateLanguage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Language"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Language"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource Not Found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Delete existing Language",
+                "description": "Deletes a Language record",
+                "operationId": "deleteLanguage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource Not Found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all Users",
+                "description": "Returns list of all Users",
+                "operationId": "getUsersList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create new User",
+                "description": "Returns new User data",
+                "operationId": "storeUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get User details",
+                "description": "Returns User details",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource Not Found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update existing User",
+                "description": "Returns updated User data",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource Not Found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete existing User",
+                "description": "Deletes a User record",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource Not Found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "API Login",
+                "description": "Returns authentification token",
+                "operationId": "Login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/formulaires": {
@@ -1244,437 +2168,6 @@
                         "name": "id",
                         "in": "path",
                         "description": "FormulaireField id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Successful operation"
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource Not Found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            }
-        },
-        "/languages": {
-            "get": {
-                "tags": [
-                    "Languages"
-                ],
-                "summary": "Get all Languages",
-                "description": "Returns list of all Languages",
-                "operationId": "getLanguagesList",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/LanguageResource"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Languages"
-                ],
-                "summary": "Create new Language",
-                "description": "Returns new Language data",
-                "operationId": "storeLanguage",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Language"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Language"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            }
-        },
-        "/languages/{id}": {
-            "get": {
-                "tags": [
-                    "Languages"
-                ],
-                "summary": "Get Language details",
-                "description": "Returns Language details",
-                "operationId": "getLanguageById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Language id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Language"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource Not Found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Languages"
-                ],
-                "summary": "Update existing Language",
-                "description": "Returns updated Language data",
-                "operationId": "updateLanguage",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Language id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Language"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Language"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource Not Found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Languages"
-                ],
-                "summary": "Delete existing Language",
-                "description": "Deletes a Language record",
-                "operationId": "deleteLanguage",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Language id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2661,499 +3154,6 @@
                     }
                 ]
             }
-        },
-        "/users": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get all Users",
-                "description": "Returns list of all Users",
-                "operationId": "getUsersList",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UserResource"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Create new User",
-                "description": "Returns new User data",
-                "operationId": "storeUser",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            }
-        },
-        "/users/{id}": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get User details",
-                "description": "Returns User details",
-                "operationId": "getUserById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource Not Found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Update existing User",
-                "description": "Returns updated User data",
-                "operationId": "updateUser",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource Not Found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Delete existing User",
-                "description": "Deletes a User record",
-                "operationId": "deleteUser",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Successful operation"
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Forbidden."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Resource Not Found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            }
-        },
-        "/login": {
-            "post": {
-                "summary": "API Login",
-                "description": "Returns authentification token",
-                "operationId": "Login",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "202": {
-                        "description": "Successful operation"
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Bad Request."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -3202,7 +3202,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/id"
                     },
                     "active": {
-                        "schema": "Domain",
                         "title": "Active",
                         "description": "Active",
                         "type": "string",
@@ -3212,43 +3211,31 @@
                         ]
                     },
                     "title": {
-                        "schema": "Domain",
                         "title": "Title",
                         "description": "Title",
                         "type": "string"
                     },
                     "name": {
-                        "schema": "Domain",
                         "title": "Name",
                         "description": "Name",
                         "type": "string"
                     },
                     "folder": {
-                        "schema": "Domain",
                         "title": "Folder",
                         "description": "Folder",
                         "type": "string"
                     },
                     "analytics": {
-                        "schema": "Domain",
                         "title": "Analytics",
                         "description": "Analytics",
                         "type": "string"
                     },
-                    "search_console": {
-                        "schema": "Domain",
-                        "title": "Search console",
-                        "description": "Search console",
-                        "type": "string"
-                    },
-                    "google_maps": {
-                        "schema": "Domain",
-                        "title": "Google Maps",
-                        "description": "Google Maps",
+                    "google_maps_api_key": {
+                        "title": "Google Maps API key",
+                        "description": "Google Maps API key",
                         "type": "string"
                     },
                     "maintenance_start": {
-                        "schema": "Domain",
                         "title": "Maintenance start",
                         "description": "Maintenance start",
                         "type": "string",
@@ -3256,7 +3243,6 @@
                         "example": "2020-01-27 17:50:45"
                     },
                     "maintenance_end": {
-                        "schema": "Domain",
                         "title": "Maintenance end",
                         "description": "Maintenance end",
                         "type": "string",
@@ -3264,7 +3250,6 @@
                         "example": "2020-01-27 17:50:45"
                     },
                     "maintenance_message": {
-                        "schema": "Domain",
                         "title": "Maintenance message",
                         "description": "Maintenance message",
                         "type": "string"
@@ -3274,6 +3259,124 @@
                     },
                     "updated_at": {
                         "$ref": "#/components/schemas/BaseModel/properties/updated_at"
+                    }
+                },
+                "type": "object"
+            },
+            "Language": {
+                "title": "Language",
+                "description": "Language model",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/BaseModel/properties/id"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Active",
+                        "type": "string",
+                        "enum": [
+                            "Y",
+                            "N"
+                        ]
+                    },
+                    "alpha2": {
+                        "title": "Alpha2",
+                        "description": "Alpha2",
+                        "type": "string"
+                    },
+                    "alpha3": {
+                        "title": "Alpha3",
+                        "description": "Alpha3",
+                        "type": "string"
+                    },
+                    "locale": {
+                        "title": "Locale",
+                        "description": "Locale",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string"
+                    },
+                    "format_date_small": {
+                        "title": "Format date small",
+                        "description": "Format date small",
+                        "type": "string"
+                    },
+                    "format_date_long": {
+                        "title": "Format date long",
+                        "description": "Format date long",
+                        "type": "string"
+                    },
+                    "format_date_time": {
+                        "title": "Format date time",
+                        "description": "Format date time",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "$ref": "#/components/schemas/BaseModel/properties/created_at"
+                    },
+                    "updated_at": {
+                        "$ref": "#/components/schemas/BaseModel/properties/updated_at"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/BaseModel/properties/id"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Active",
+                        "type": "string",
+                        "enum": [
+                            "Y",
+                            "N"
+                        ]
+                    },
+                    "lang": {
+                        "title": "Lang",
+                        "description": "Lang",
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "title": "Firstname",
+                        "description": "Firstname",
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "title": "Lastname",
+                        "description": "Lastname",
+                        "type": "string"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "$ref": "#/components/schemas/BaseModel/properties/created_at"
+                    },
+                    "updated_at": {
+                        "$ref": "#/components/schemas/BaseModel/properties/updated_at"
+                    },
+                    "email_verified_at": {
+                        "title": "Email verified at",
+                        "description": "Email verified at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-27 17:50:45"
                     }
                 },
                 "type": "object"
@@ -3293,6 +3396,36 @@
                 },
                 "type": "object"
             },
+            "LanguageResource": {
+                "title": "LanguageResource",
+                "description": "Language resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Language"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "UserResource",
+                "description": "User resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "Formulaire": {
                 "title": "Formulaire",
                 "description": "Formulaire model",
@@ -3301,7 +3434,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/id"
                     },
                     "active": {
-                        "schema": "Formulaire",
                         "title": "Active",
                         "description": "Active",
                         "type": "string",
@@ -3311,13 +3443,11 @@
                         ]
                     },
                     "code": {
-                        "schema": "Formulaire",
                         "title": "Code",
                         "description": "Code",
                         "type": "string"
                     },
                     "tracking": {
-                        "schema": "Formulaire",
                         "title": "Tracking",
                         "description": "Tracking",
                         "type": "string"
@@ -3339,7 +3469,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/id"
                     },
                     "formulaire_id": {
-                        "schema": "FormulaireField",
                         "title": "Formulaire ID",
                         "description": "Formulaire ID",
                         "type": "integer",
@@ -3347,7 +3476,6 @@
                         "example": 1
                     },
                     "active": {
-                        "schema": "FormulaireField",
                         "title": "Active",
                         "description": "Active",
                         "type": "string",
@@ -3357,7 +3485,6 @@
                         ]
                     },
                     "order": {
-                        "schema": "FormulaireField",
                         "title": "Order",
                         "description": "Order",
                         "type": "integer",
@@ -3365,13 +3492,11 @@
                         "example": 1
                     },
                     "code": {
-                        "schema": "FormulaireField",
                         "title": "Code",
                         "description": "Code",
                         "type": "string"
                     },
                     "type": {
-                        "schema": "FormulaireField",
                         "title": "Type",
                         "description": "Type",
                         "type": "string"
@@ -3499,89 +3624,6 @@
                 },
                 "type": "object"
             },
-            "Language": {
-                "title": "Language",
-                "description": "Language model",
-                "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/BaseModel/properties/id"
-                    },
-                    "active": {
-                        "schema": "Language",
-                        "title": "Active",
-                        "description": "Active",
-                        "type": "string",
-                        "enum": [
-                            "Y",
-                            "N"
-                        ]
-                    },
-                    "alpha2": {
-                        "schema": "Language",
-                        "title": "Alpha2",
-                        "description": "Alpha2",
-                        "type": "string"
-                    },
-                    "alpha3": {
-                        "schema": "Language",
-                        "title": "Alpha3",
-                        "description": "Alpha3",
-                        "type": "string"
-                    },
-                    "locale": {
-                        "schema": "Language",
-                        "title": "Locale",
-                        "description": "Locale",
-                        "type": "string"
-                    },
-                    "name": {
-                        "schema": "Language",
-                        "title": "Name",
-                        "description": "Name",
-                        "type": "string"
-                    },
-                    "format_date_small": {
-                        "schema": "Language",
-                        "title": "Format date small",
-                        "description": "Format date small",
-                        "type": "string"
-                    },
-                    "format_date_long": {
-                        "schema": "Language",
-                        "title": "Format date long",
-                        "description": "Format date long",
-                        "type": "string"
-                    },
-                    "format_date_time": {
-                        "schema": "Language",
-                        "title": "Format date time",
-                        "description": "Format date time",
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "$ref": "#/components/schemas/BaseModel/properties/created_at"
-                    },
-                    "updated_at": {
-                        "$ref": "#/components/schemas/BaseModel/properties/updated_at"
-                    }
-                },
-                "type": "object"
-            },
-            "LanguageResource": {
-                "title": "LanguageResource",
-                "description": "Language resource",
-                "properties": {
-                    "data": {
-                        "title": "Data",
-                        "description": "Data wrapper",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Language"
-                        }
-                    }
-                },
-                "type": "object"
-            },
             "Menu": {
                 "title": "Menu",
                 "description": "Menu model",
@@ -3590,7 +3632,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/id"
                     },
                     "active": {
-                        "schema": "Menu",
                         "title": "Active",
                         "description": "Active",
                         "type": "string",
@@ -3600,7 +3641,6 @@
                         ]
                     },
                     "code": {
-                        "schema": "Menu",
                         "title": "Code",
                         "description": "Code",
                         "type": "string"
@@ -3612,7 +3652,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/updated_at"
                     },
                     "translations": {
-                        "schema": "Menu",
                         "title": "Translations",
                         "description": "Menu translations",
                         "type": "array",
@@ -3643,7 +3682,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/id"
                     },
                     "menu_id": {
-                        "schema": "Menuitem",
                         "title": "Menu ID",
                         "description": "Menu ID",
                         "type": "integer",
@@ -3651,7 +3689,6 @@
                         "example": 1
                     },
                     "active": {
-                        "schema": "Menuitem",
                         "title": "Active",
                         "description": "Active",
                         "type": "string",
@@ -3661,13 +3698,11 @@
                         ]
                     },
                     "gabarit": {
-                        "schema": "Menuitem",
                         "title": "Gabarit",
                         "description": "Gabarit",
                         "type": "string"
                     },
                     "bg": {
-                        "schema": "Menuitem",
                         "title": "BG",
                         "description": "Bord gauche",
                         "type": "integer",
@@ -3675,7 +3710,6 @@
                         "example": 1
                     },
                     "bd": {
-                        "schema": "Menuitem",
                         "title": "BD",
                         "description": "Bord droit",
                         "type": "integer",
@@ -3683,7 +3717,6 @@
                         "example": 1
                     },
                     "niveau": {
-                        "schema": "Menuitem",
                         "title": "Niveau",
                         "description": "Niveau",
                         "type": "integer",
@@ -3691,7 +3724,6 @@
                         "example": 1
                     },
                     "parent_id": {
-                        "schema": "Menuitem",
                         "title": "Parent ID",
                         "description": "Parent ID",
                         "type": "integer",
@@ -3699,7 +3731,6 @@
                         "example": 1
                     },
                     "visible": {
-                        "schema": "Menuitem",
                         "title": "Visible",
                         "description": "Visible",
                         "type": "string",
@@ -3709,7 +3740,6 @@
                         ]
                     },
                     "cliquable": {
-                        "schema": "Menuitem",
                         "title": "Cliquable",
                         "description": "Cliquable",
                         "type": "string",
@@ -3719,7 +3749,6 @@
                         ]
                     },
                     "format": {
-                        "schema": "Menuitem",
                         "title": "Format",
                         "description": "Format",
                         "type": "string",
@@ -3735,7 +3764,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/updated_at"
                     },
                     "translations": {
-                        "schema": "Menuitem",
                         "title": "Translations",
                         "description": "Menuitem translations",
                         "type": "array",
@@ -3811,7 +3839,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/id"
                     },
                     "active": {
-                        "schema": "Page",
                         "title": "Active",
                         "description": "Active",
                         "type": "string",
@@ -3827,7 +3854,6 @@
                         "$ref": "#/components/schemas/BaseModel/properties/updated_at"
                     },
                     "translations": {
-                        "schema": "Page",
                         "title": "Translations",
                         "description": "Page translations",
                         "type": "array",
@@ -3869,80 +3895,6 @@
                     }
                 },
                 "type": "object"
-            },
-            "User": {
-                "title": "User",
-                "description": "User model",
-                "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/BaseModel/properties/id"
-                    },
-                    "active": {
-                        "schema": "User",
-                        "title": "Active",
-                        "description": "Active",
-                        "type": "string",
-                        "enum": [
-                            "Y",
-                            "N"
-                        ]
-                    },
-                    "firstname": {
-                        "schema": "User",
-                        "title": "Firstname",
-                        "description": "Firstname",
-                        "type": "string"
-                    },
-                    "lastname": {
-                        "schema": "User",
-                        "title": "Lastname",
-                        "description": "Lastname",
-                        "type": "string"
-                    },
-                    "email": {
-                        "schema": "User",
-                        "title": "Email",
-                        "description": "Email",
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "password": {
-                        "schema": "User",
-                        "title": "Password",
-                        "description": "Password",
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "$ref": "#/components/schemas/BaseModel/properties/created_at"
-                    },
-                    "updated_at": {
-                        "$ref": "#/components/schemas/BaseModel/properties/updated_at"
-                    },
-                    "email_verified_at": {
-                        "schema": "User",
-                        "title": "Email verified at",
-                        "description": "Email verified at",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2020-01-27 17:50:45"
-                    }
-                },
-                "type": "object"
-            },
-            "UserResource": {
-                "title": "UserResource",
-                "description": "User resource",
-                "properties": {
-                    "data": {
-                        "title": "Data",
-                        "description": "Data wrapper",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/User"
-                        }
-                    }
-                },
-                "type": "object"
             }
         },
         "securitySchemes": {
@@ -3968,6 +3920,14 @@
             "description": "Domains API endpoints"
         },
         {
+            "name": "Languages",
+            "description": "Languages API endpoints"
+        },
+        {
+            "name": "Users",
+            "description": "Users API endpoints"
+        },
+        {
             "name": "Formulaires",
             "description": "Formulaires API endpoints"
         },
@@ -3976,23 +3936,12 @@
             "description": "FormulairesFields API endpoints"
         },
         {
-            "name": "Languages",
-            "description": "Languages API endpoints"
-        },
-        {
             "name": "Menus",
             "description": "Menus API endpoints"
         },
         {
             "name": "Menuitems",
             "description": "Menuitems API endpoints"
-        },
-        {
-            "name": "Users",
-            "description": "Users API endpoints"
         }
-    ],
-    "security": [
-        []
     ]
 }

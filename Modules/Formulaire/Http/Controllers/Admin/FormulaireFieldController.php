@@ -190,6 +190,7 @@ class FormulaireFieldController extends Controller
                 $items = [];
                 $items['edit'] = ['link' => $formulaire_field->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $formulaire_field->url_backend->destroy, 'label' => 'Delete'];
+                $items = apply_filters('formulaires_fields_datatableactions', $items);
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])

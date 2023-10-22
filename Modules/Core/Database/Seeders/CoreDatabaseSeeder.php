@@ -4,10 +4,10 @@ namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Domain\Database\Seeders\DomainDatabaseSeeder;
-use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
+use Modules\Core\Database\Seeders\DomainDatabaseSeeder;
+use Modules\Core\Database\Seeders\LanguageDatabaseSeeder;
+use Modules\Core\Database\Seeders\UserDatabaseSeeder;
 use Modules\Menu\Database\Seeders\MenuDatabaseSeeder;
-use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
 class CoreDatabaseSeeder extends Seeder
 {
@@ -21,10 +21,10 @@ class CoreDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call([
-            DomainDatabaseSeeder::class,
             LanguageDatabaseSeeder::class,
-            MenuDatabaseSeeder::class,
+            DomainDatabaseSeeder::class,
             UserDatabaseSeeder::class,
+            MenuDatabaseSeeder::class,
         ]);
     }
 }

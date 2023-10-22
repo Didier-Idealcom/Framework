@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('emails/datatable', 'EmailController@datatable')->name('emails_datatable');
-Route::get('emails/{email}/active', 'EmailController@active')->name('emails_active');
 Route::resource('emails', 'EmailController');
+Route::get('emails/{email}/active', 'EmailController@active')->name('emails_active');
+Route::post('emails/datatable', 'EmailController@datatable')->name('emails_datatable');

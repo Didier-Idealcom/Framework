@@ -17,8 +17,8 @@ const gulpConfig = {
                     "sweetalert2",
                 ],
             },
-            jsMinify: false,
-            cssMinify: false,
+            jsMinify: true,
+            cssMinify: true,
             jsSourcemaps: false,
             cssSourcemaps: false,
         },
@@ -121,7 +121,7 @@ const gulpConfig = {
                             ],
                         },
                         bootstrapmaxlength: {
-                            "scripts": [
+                            scripts: [
                                 "{$config.path.node_modules}/bootstrap-maxlength/src/bootstrap-maxlength.js"
                             ]
                         },
@@ -263,28 +263,36 @@ const gulpConfig = {
                                 "{$config.path.node_modules}/@fortawesome/fontawesome-free/webfonts/**",
                             ],
                         },
-                        "grapesjs": {
-                            "styles": [
+                        grapesjs: {
+                            styles: [
                                 "{$config.path.node_modules}/grapesjs/dist/css/grapes.min.css",
                                 "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css"
                             ],
-                            "scripts": [
+                            scripts: [
                                 "{$config.path.node_modules}/ckeditor4/ckeditor.js",
                                 "{$config.path.node_modules}/grapesjs/dist/grapes.min.js",
                                 "{$config.path.node_modules}/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
                                 "{$config.path.node_modules}/grapesjs-plugin-ckeditor/dist/grapesjs-plugin-ckeditor.min.js"
                             ],
-                            "fonts": [
+                            fonts: [
                                 "{$config.path.node_modules}/grapesjs/dist/fonts/**"
                             ]
                         },
-                        "slim": {
-                            "styles": [
+                        slim: {
+                            styles: [
                                 "{$config.path.src}/plugins/slim/slim.min.css"
                             ],
-                            "scripts": [
+                            scripts: [
                                 "{$config.path.src}/plugins/slim/slim.kickstart.min.js"
-                            ]
+                            ],
+                        },
+                        nestable3: {
+                            styles: [
+                                "{$config.path.node_modules}/nestable3/jquery.nestable.css"
+                            ],
+                            scripts: [
+                                "{$config.path.node_modules}/nestable3/jquery.nestable.js"
+                            ],
                         },
                     },
                     override: {

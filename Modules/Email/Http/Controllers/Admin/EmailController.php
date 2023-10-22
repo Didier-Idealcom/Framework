@@ -189,6 +189,7 @@ class EmailController extends Controller
                 $items = [];
                 $items['edit'] = ['link' => $email->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $email->url_backend->destroy, 'label' => 'Delete'];
+                $items = apply_filters('emails_datatableactions', $items);
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['name', 'module'])

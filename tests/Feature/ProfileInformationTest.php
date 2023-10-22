@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Modules\User\Entities\User;
+use Modules\Core\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Livewire\CustomUpdateProfileInformationForm;
 use Livewire\Livewire;

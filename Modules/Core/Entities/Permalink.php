@@ -41,7 +41,11 @@ class Permalink extends Model
         parent::boot();
 
         static::created(function ($permalink) {
-            $locales = array('fr', 'en');
+            $locales = array();
+            $languages = session()->get('languages');
+            foreach ($languages as $language) {
+                $locales[] = $language->alpha2;
+            }
             foreach ($locales as $locale) {
                 $translation = $permalink->getNewTranslation($locale);
                 $translation->permalink_id = $permalink->id;

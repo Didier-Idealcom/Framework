@@ -5,10 +5,12 @@ namespace Modules\Menu\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Yajra\Datatables\Datatables;
 use Modules\Menu\Entities\Menu;
+use Modules\Menu\Entities\Menuitem;
 use Modules\Menu\Forms\MenuForm;
 use Modules\Core\Repositories\ModelRepository;
 
@@ -107,7 +109,8 @@ class MenuController extends Controller
     public function edit(Menu $menu)
     {
         $form = $this->getForm($menu);
-        return view('menu::admin.menu_form', compact('form', 'menu'));
+        $menuitems = Menuitem::where('menu_id', $menu->id)->orderBy('bg', 'asc')->get();
+        return view('menu::admin.menu_form', compact('form', 'menu', 'menuitems'));
     }
 
     /**
@@ -121,6 +124,21 @@ class MenuController extends Controller
         $form = $this->getForm($menu);
         $form->redirectIfNotValid();
         $updated = $this->repository->update($menu->id, $request->all());
+
+        if (!empty($request->get('menuitems_data'))) {
+            $menuitems_data = json_decode($request->get('menuitems_data'));
+            DB::transaction(function() use($menuitems_data) {
+                foreach ($menuitems_data as $menuitem_data) {
+                    Menuitem::where('id', $menuitem_data->id)
+                            ->update([
+                                'niveau' => $menuitem_data->depth,
+                                'bg' => $menuitem_data->left - 1,
+                                'bd' => $menuitem_data->right - 1,
+                                'parent_id' => !empty($menuitem_data->parent_id) ? $menuitem_data->parent_id : NULL
+                            ]);
+                }
+            });
+        }
 
         Session::flash('success', 'Le menu a été enregistré avec succès');
         if ($request->get('save') == 'save_new') {
@@ -186,6 +204,7 @@ class MenuController extends Controller
                 $items['edit'] = ['link' => $menu->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $menu->url_backend->destroy, 'label' => 'Delete'];
                 $items['more'][] = ['link' => route('admin.menuitems.index', $menu->id), 'label' => 'Menuitems'];
+                $items = apply_filters('menus_datatableactions', $items);
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])

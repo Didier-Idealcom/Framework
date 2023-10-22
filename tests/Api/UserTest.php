@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use Tests\TestCase;
-use Modules\User\Entities\User;
+use Modules\Core\Entities\User;
 
 class UserTest extends TestCase
 {
@@ -11,7 +11,7 @@ class UserTest extends TestCase
     {
         parent::setUp();
 
-        $payload = ['email' => 'd.largeron@ideal-com.com', 'password' => 'laravel'];
+        $payload = ['email' => 'largeron.didier@gmail.com', 'password' => 'laravel'];
         $result = $this->json('POST', 'api/login', $payload)
                        ->decodeResponseJson();
         $this->token = $result['success']['token'];
@@ -65,7 +65,7 @@ class UserTest extends TestCase
                 'id' => 1,
                 'firstname' => 'John',
                 'lastname' => 'Doe',
-                'email' => 'd.largeron@ideal-com.com'
+                'email' => 'largeron.didier@gmail.com'
             ]);
     }
 

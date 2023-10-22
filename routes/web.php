@@ -18,8 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::prefix('admin')->group(function() {
 	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
 });

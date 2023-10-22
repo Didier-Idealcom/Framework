@@ -49,7 +49,7 @@ var MyListDatatable = function() {
                 row.child(row.data().row_details).show();
                 tr.addClass('shown');
             }
-            $(this).find('.svg-icon').toggleClass('d-none');
+            $(this).toggleClass('active');
         });
 
         // Function after Datatable init -- more info: https://datatables.net/reference/event/init

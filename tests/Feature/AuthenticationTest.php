@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Modules\User\Entities\User;
+use Modules\Core\Entities\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;

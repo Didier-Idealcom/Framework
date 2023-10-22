@@ -8,12 +8,13 @@ class CoreForm extends Form
 {
     public function buildForm()
     {
-        $locales = array('fr' => 'Français', 'en' => 'Anglais');
+        $locales = array();
+        $languages = session()->get('languages');
+        foreach ($languages as $language) {
+            $locales[$language->alpha2] = $language->name;
+        }
 
-//dd($this->getModel());
-//dd($this->getFields());
         foreach ($this->getFields() as $field) {
-//dd($field);
             $type = $field->getType();
             $name = $field->getName();
 
@@ -37,12 +38,11 @@ class CoreForm extends Form
                     if (!empty($options['url_show'])) {
                         $options['url_show'] = $url_show . '?lang=' . $locale;
                     }
-                    $options['value'] = ($this->getModel() && $this->getModel()->id) ? $this->getModel()->translate($locale)->$name : '';
+                    $options['value'] = ($this->getModel() && $this->getModel()->id && !empty($this->getModel()->translate($locale)->$name)) ? $this->getModel()->translate($locale)->$name : '';
                     $this->addBefore($name, $locale . '_' . $name, $field->getType(), $options);
                 }
                 $this->remove($name);
             }
         }
-//dd($this->getFields());
     }
 }

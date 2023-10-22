@@ -2,7 +2,7 @@
 
 namespace Modules\Formulaire\Entities;
 
-use \Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\HasUrlPresenter;
 
@@ -61,7 +61,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  */
 class FormulaireField extends Model
 {
-    use Translatable, HasUrlPresenter;
+    use HasUrlPresenter, Translatable;
 
     /**
      * The table associated with the model.

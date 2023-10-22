@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => '\Modules\User\Http\Controllers\Api'], function() {
+Route::group(['namespace' => '\Modules\Core\Http\Controllers\Api'], function() {
     Route::post('login', 'UserController@login');
 });
 

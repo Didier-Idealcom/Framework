@@ -21,4 +21,5 @@ Route::resource('menuitems', 'MenuitemController')->except(['index', 'create'])-
 Route::get('menus/{menu}/menuitems', 'MenuitemController@index')->name('menuitems.index');
 Route::get('menus/{menu}/menuitems/create/{parent?}', 'MenuitemController@create')->name('menuitems.create');
 Route::get('menuitems/{menuitem}/active', 'MenuitemController@active')->name('menuitems_active');
+Route::get('menuitems/{menuitem}/duplicate', 'MenuitemController@duplicate')->name('menuitems_duplicate');
 Route::post('menus/{menu}/menuitems/datatable', 'MenuitemController@datatable')->name('menuitems_datatable');

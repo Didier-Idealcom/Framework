@@ -18,7 +18,7 @@ class Controller extends BaseController
      *     @OA\Contact(
      *         name="Ideal-com",
      *         url="https://www.ideal-com.com",
-     *         email="d.largeron@ideal-com.com"
+     *         email="largeron.didier@gmail.com"
      *     )
      * )
      *

@@ -4567,7 +4567,7 @@
                 </div>
                 <!--end::Theme mode-->
 
-                @if (Auth::user())
+                @auth
                 <!--begin::User menu-->
                 <div class="app-navbar-item ms-1 ms-md-3" id="kt_header_user_menu_toggle">
                     <!--begin::Menu wrapper-->
@@ -4672,59 +4672,64 @@
                         <!--begin::Menu separator-->
                         <div class="separator my-2"></div>
                         <!--end::Menu separator-->
+                        @if (!empty($current_domain))
                         <!--begin::Menu item-->
                         <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
                             <a href="#" class="menu-link px-5">
-                                <span class="menu-title position-relative">Language
-                                <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">English
-                                <img class="w-15px h-15px rounded-1 ms-2" src="{{ theme_url('media/flags/united-states.svg') }}" alt="" /></span></span>
+                                <span class="menu-title position-relative">
+                                    Domain
+                                    <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
+                                        {{ $current_domain->name }}
+                                    </span>
+                                </span>
                             </a>
                             <!--begin::Menu sub-->
                             <div class="menu-sub menu-sub-dropdown w-175px py-4">
+                                @foreach ($domains as $domain)
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5 active">
-                                    <span class="symbol symbol-20px me-4">
-                                        <img class="rounded-1" src="{{ theme_url('media/flags/united-states.svg') }}" alt="" />
-                                    </span>English</a>
+                                    <a href="{{ route('admin.setdomain', $domain->id) }}" class="menu-link d-flex px-5{{ $domain->id == $current_domain->id ? ' active' : '' }}">
+                                        {{ $domain->name }}
+                                    </a>
                                 </div>
                                 <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                    <span class="symbol symbol-20px me-4">
-                                        <img class="rounded-1" src="{{ theme_url('media/flags/spain.svg') }}" alt="" />
-                                    </span>Spanish</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                    <span class="symbol symbol-20px me-4">
-                                        <img class="rounded-1" src="{{ theme_url('media/flags/germany.svg') }}" alt="" />
-                                    </span>German</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                    <span class="symbol symbol-20px me-4">
-                                        <img class="rounded-1" src="{{ theme_url('media/flags/japan.svg') }}" alt="" />
-                                    </span>Japanese</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                    <span class="symbol symbol-20px me-4">
-                                        <img class="rounded-1" src="{{ theme_url('media/flags/france.svg') }}" alt="" />
-                                    </span>French</a>
-                                </div>
-                                <!--end::Menu item-->
+                                @endforeach
                             </div>
                             <!--end::Menu sub-->
                         </div>
                         <!--end::Menu item-->
+                        @endif
+                        @if (!empty($current_language))
+                        <!--begin::Menu item-->
+                        <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
+                            <a href="#" class="menu-link px-5">
+                                <span class="menu-title position-relative">
+                                    Language
+                                    <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
+                                        {{ $current_language->name }}
+                                        <img class="w-15px h-15px rounded-1 ms-2" src="{{ $current_language->flag }}" alt="" />
+                                    </span>
+                                </span>
+                            </a>
+                            <!--begin::Menu sub-->
+                            <div class="menu-sub menu-sub-dropdown w-175px py-4">
+                                @foreach ($languages as $language)
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-3">
+                                    <a href="{{ route('admin.setlocale', $language->alpha2) }}" class="menu-link d-flex px-5{{ $language->id == $current_language->id ? ' active' : '' }}">
+                                        <span class="symbol symbol-20px me-4">
+                                            <img class="rounded-1" src="{{ $language->flag }}" alt="" />
+                                        </span>
+                                        {{ $language->name }}
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+                                @endforeach
+                            </div>
+                            <!--end::Menu sub-->
+                        </div>
+                        <!--end::Menu item-->
+                        @endif
                         <!--begin::Menu item-->
                         <div class="menu-item px-5 my-1">
                             <a href="../../demo1/dist/account/settings.html" class="menu-link px-5">Account Settings</a>
@@ -4743,7 +4748,7 @@
                     <!--end::Menu wrapper-->
                 </div>
                 <!--end::User menu-->
-                @endif
+                @endauth
 
                 <!--begin::Header menu toggle-->
                 <div class="app-navbar-item d-lg-none ms-2 me-n2" title="Show header menu">

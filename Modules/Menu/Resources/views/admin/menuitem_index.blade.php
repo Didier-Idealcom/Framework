@@ -26,13 +26,39 @@
     <x-tabs :items="$items" />
 
     @php
-        $id = 'kt_table_menuitems';
-        $search = true;
-        $filter = true;
-        $import = 'javascript:;';
-        $export = 'javascript:;';
+        //$id = 'kt_table_menuitems';
+        //$search = true;
+        //$filter = true;
+        //$import = 'javascript:;';
+        //$export = 'javascript:;';
     @endphp
-    <x-datatable :id="$id" :search="$search" :filter="$filter" :import="$import" :export="$export" />
+    {{-- <x-datatable :id="$id" :search="$search" :filter="$filter" :import="$import" :export="$export" /> --}}
+
+    @if (!empty($menuitems))
+    @php($count = count($menuitems))
+    <div class="dd nestable">
+        <ol class="dd-list">
+            @foreach ($menuitems as $key => $menuitem)
+            @php($next = $menuitems->get($key+1))
+            <li class="dd-item" data-id="{{ $menuitem->id }}">
+                <div class="dd-handle">{{ $menuitem->title_menu }}</div>
+                @if (($menuitem->bd - $menuitem->bg) > 1 && $next && $next->niveau > $menuitem->niveau)
+                <ol class="dd-list">
+                @else
+            </li>
+                @endif
+
+                @php($diff = $next ? $menuitem->niveau - $next->niveau : $menuitem->niveau - 1)
+                @if ($diff > 0 && $key < $count)
+                @for ($i = 0; $i < $diff; $i++)
+                    </ol>
+                </li>
+                @endfor
+                @endif
+            @endforeach
+        </ol>
+    </div>
+    @endif
 @endsection
 
 @push('scripts')
@@ -40,7 +66,7 @@
     <script type="text/javascript">
         // On document ready
         KTUtil.onDOMContentLoaded(function() {
-            var target = '#kt_table_menuitems';
+            /*var target = '#kt_table_menuitems';
             var url = '{!! route('admin.menuitems_datatable', $menu->id) !!}';
             var columns = [{
                 data: 'record_id',
@@ -92,7 +118,13 @@
                 searchable: false
             }];
 
-            MyListDatatable.init(target, url, columns);
+            MyListDatatable.init(target, url, columns);*/
+
+            $('.nestable').nestable({
+                callback: function() {
+                    console.log(JSON.stringify($('.nestable').nestable('toArray')));
+                }
+            });
         });
     </script>
     <!--end::Page Snippets -->

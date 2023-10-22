@@ -2,7 +2,7 @@
 
 namespace Modules\Page\Entities;
 
-use \Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\HasUrlPresenter;
 
@@ -42,7 +42,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  */
 class Page extends Model
 {
-    use Translatable, HasUrlPresenter;
+    use HasUrlPresenter, Translatable;
 
     /**
      * The attributes that are mass assignable.

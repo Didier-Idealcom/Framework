@@ -1,6 +1,7 @@
 définition thème admin :
 config/themes.php
 Modules/Core/Config/config.php => middleware setTheme:metronic
+ln -s /var/www/didierdev/Themes /var/www/didierdev/public/Themes
 
 compilation metronic :
 dev : gulp --demo1
@@ -15,10 +16,10 @@ maj metronic :
     - copy src\demo1\js\custom\my-script.js from older version
     - update src\demo1\js\custom\authentication\sign-in\general.js
     - update tools/package.json
-        => add ckeditor4, grapesjs, grapesjs-plugin-ckeditor, grapesjs-preset-webpage
+        => add ckeditor4, grapesjs, grapesjs-plugin-ckeditor, grapesjs-preset-webpage, nestable3
     - update tools/gulp.config.js
         => update path/dist
-        => add optional grapesjs, slim
+        => add optional grapesjs, slim, nestable3
     - update tools/gulp.config.json
         => update path/dist
     - yarn install from tools directory
@@ -28,6 +29,10 @@ utilise la librairie exif
 
 génération doc API :
 php artisan l5-swagger:generate
+
+identification API :
+client id : 2
+client secret : lPT8wPVxceWzKkKcxBy3tAO4opbvhpbSXCJ26dGR
 
 execution tests :
 php artisan migrate:fresh --env=testing

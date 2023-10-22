@@ -1,0 +1,66 @@
+setup :
+domain.fr => fr/en
+domain.it => it/en
+
+je crée une page test1 pour le domain.fr
+je crée une page test2 pour le domain.it
+je crée une page test3 pour les domain.fr et domain.it
+
+-------
+
+languages :
+id - locale - active
+1 - fr - Y
+2 - en - Y
+3 - it - Y
+
+domains :
+id - title - name
+1 - Domain FR - domain.fr
+1 - Domain IT - domain.it
+
+domains_languages :
+id - domain_id - language_id - active
+1 - 1 - 1 - Y (domaine.fr / fr)
+2 - 1 - 2 - Y (domaine.fr / en)
+3 - 2 - 3 - Y (domaine.it / it)
+4 - 2 - 2 - Y (domaine.it / en)
+
+pages :
+id - created_at
+1 - 2023-04-29 12:00:00
+2 - 2023-04-29 12:30:00
+3 - 2023-04-29 13:00:00
+
+pages_translation :
+id - page_id - locale - active - title - content
+1 - 1 - fr - Y - test1 FR - Lorem ipsum page 1 FR
+2 - 1 - en - Y - test1 EN - Lorem ipsum page 1 EN
+3 - 2 - it - Y - test2 IT - Lorem ipsum page 2 IT
+4 - 2 - en - Y - test2 EN - Lorem ipsum page 2 EN
+5 - 3 - fr - Y - test3 FR - Lorem ipsum page 3 FR
+6 - 3 - it - Y - test3 IT - Lorem ipsum page 3 IT
+7 - 3 - en - Y - test3 EN - Lorem ipsum page 3 EN (version EN commune pour domain.fr et domain.it)
+
+model_has_domains :
+domain_id - model_type - model_id
+1 - page - 1
+2 - page - 2
+1 - page - 3
+2 - page - 3
+
+permalinks :
+id - model_type - model_id
+1 - page - 1
+2 - page - 2
+3 - page - 3
+
+permalinks_translation :
+id - permalink_id - locale - slug
+1 - 1 - fr - test1-fr (domain.fr/test1-fr)
+2 - 1 - en - test1-en (domain.fr/en/test1-en)
+3 - 2 - it - test2-it (domain.it/test2-it)
+4 - 2 - en - test2-en (domain.it/en/test2-en)
+5 - 3 - fr - test3-fr (domain.fr/test3-fr)
+6 - 3 - en - test3-en (domain.fr/en/test3-en + domain.it/en/test3-en)
+7 - 3 - it - test3-it (domain.it/test3-it)

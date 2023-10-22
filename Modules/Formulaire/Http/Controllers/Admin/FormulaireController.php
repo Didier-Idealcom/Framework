@@ -191,6 +191,7 @@ class FormulaireController extends Controller
                 $items['delete'] = ['link' => $formulaire->url_backend->destroy, 'label' => 'Delete'];
                 $items['more'][] = ['link' => $formulaire->url_backend->show, 'label' => 'Preview'];
                 $items['more'][] = ['link' => route('admin.formulaires_fields.index', $formulaire->id), 'label' => 'Champs'];
+                $items = apply_filters('formulaires_datatableactions', $items);
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])

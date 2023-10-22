@@ -1,7 +1,7 @@
 OK - convertir paramètre id dans tous les controleurs
 OK - aligner texte phpdoc dans tous les controleurs
 OK - ajouter paramètre getForm méthode update dans tous les controleurs
-- locales dynamique (ModelRepository->formatInputTranslations(), CoreForm->buildForm(), Permalink->boot(), grapesjs, visual-editor)
+OK - locales dynamique (ModelRepository->formatInputTranslations(), CoreForm->buildForm(), Permalink->boot(), laravel-form-builder/translatable)
 OK - vérification rôle admin (User->isAdmin())
 OK - renommer CoreRepository en ModelRepository
 - ajouter try/catch pour les create/update
@@ -15,9 +15,14 @@ OK - système de permalinks (https://github.com/IsraelOrtuno/permalink)
 - commande installation BO
 OK - upgrade metronic v8
 - multiple laravel mix (https://www.compulsivecoders.com/tech/how-to-build-multiple-vendors-using-laravel-mix/, https://github.com/spatie/laravel-mix-purgecss)
-- gestion hiérarchie menu
+- gestion hiérarchie menu (https://github.com/RamonSmit/Nestable2, https://github.com/Didier-Idealcom/Nestable3)
 - déplacer liste menuitems/formulaires_fields/domaines_languages dans le détail du menu/formulaire/domaine
 OK - suppression permalink après suppression model
 - gestion des permissions dans le BO et dans l'API
 OK - CKEDITOR_BASEPATH dynamique (theme metronic layout master.blade.php)
 OK - update registerTranslations path dans les modules
+- système de shortcode (https://github.com/webwizo/laravel-shortcodes)
+
+OK - fusion des modules dashboard, domain, language, user dans le module core
+OK - ajout de droits pour la gestion multi domaine
+OK - ajout d'une table model_has_domains

@@ -2,6 +2,7 @@
 
 namespace Modules\Menu\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -58,7 +59,8 @@ class MenuitemController extends Controller
      */
     public function index(Menu $menu)
     {
-        return view('menu::admin.menuitem_index', compact('menu'));
+        $menuitems = Menuitem::where('menu_id', $menu->id)->orderBy('bg', 'asc')->get();
+        return view('menu::admin.menuitem_index', compact('menu', 'menuitems'));
     }
 
     /**
@@ -136,6 +138,24 @@ class MenuitemController extends Controller
     }
 
     /**
+     * Duplicate the specified resource in storage.
+     * @param Menuitem $menuitem
+     */
+    public function duplicate(Menuitem $menuitem)
+    {
+        $new_menuitem = $menuitem->replicateWithTranslations();
+        foreach ($new_menuitem->translations as $translation) {
+            $translation->title_menu .= ' (copy)';
+            $translation->title_page .= ' (copy)';
+        }
+        $new_menuitem->active = 'N';
+        $new_menuitem->created_at = Carbon::now();
+        $new_menuitem->updated_at = Carbon::now();
+        $new_menuitem->save();
+        return redirect()->route('admin.menuitems.index', $menuitem->menu_id);
+    }
+
+    /**
      * Activate/Deactivate the specified resource in storage.
      * @param Menuitem $menuitem
      */
@@ -192,9 +212,11 @@ class MenuitemController extends Controller
             ->addColumn('actions', function($menuitem) {
                 $items = [];
                 $items['edit'] = ['link' => $menuitem->url_backend->edit, 'label' => 'Edit'];
+                $items['duplicate'] = ['link' => route('admin.menuitems_duplicate', ['menuitem' => $menuitem->id]), 'label' => 'Duplicate'];
                 $items['delete'] = ['link' => $menuitem->url_backend->destroy, 'label' => 'Delete'];
                 $items['more'][] = ['link' => $menuitem->url_backend->show, 'label' => 'Preview'];
                 $items['more'][] = ['link' => route('admin.menuitems.create', ['menu' => $menuitem->menu_id, 'parent' => $menuitem->id]), 'label' => 'Add submenu'];
+                $items = apply_filters('menuitems_datatableactions', $items);
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])

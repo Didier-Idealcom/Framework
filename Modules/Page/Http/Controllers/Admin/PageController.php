@@ -2,7 +2,6 @@
 
 namespace Modules\Page\Http\Controllers\Admin;
 
-use \App;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -230,6 +229,7 @@ class PageController extends Controller
                 $items['duplicate'] = ['link' => route('admin.pages_duplicate', ['page' => $page->id]), 'label' => 'Duplicate'];
                 $items['delete'] = ['link' => $page->url_backend->destroy, 'label' => 'Delete'];
                 $items['more'][] = ['link' => $page->url_backend->show, 'label' => 'Preview'];
+                $items = apply_filters('pages_datatableactions', $items);
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])

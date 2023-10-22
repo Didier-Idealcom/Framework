@@ -4,13 +4,14 @@
     "authors": [
         {
             "name": "Didier Largeron",
-            "email": "d.largeron@ideal-com.com"
+            "email": "largeron.didier@gmail.com"
         }
     ],
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Core\\Providers\\CoreServiceProvider"
+                "Modules\\Core\\Providers\\CoreServiceProvider",
+                "Modules\\Core\\Providers\\RouteServiceProvider"
             ],
             "aliases": {
                 

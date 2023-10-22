@@ -81,6 +81,7 @@
         "line-awesome": "^1.3.0",
         "lozad": "^1.16.0",
         "moment": "^2.29.1",
+        "nestable3": "^1.0.0",
         "nouislider": "^15.2.0",
         "npm": "^7.19.1",
         "pdfmake": "^0.2.0",

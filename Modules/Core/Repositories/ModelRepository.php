@@ -81,20 +81,6 @@ class ModelRepository implements RepositoryInterface
         return $record->update($inputs);
     }
 
-    // Switch default record field in the database
-    public function switchDefault($id, $column = '', $field = 'default')
-    {
-        $record = $this->find($id);
-
-        $query = DB::table($this->model->getTable());
-        if (!empty($column)) {
-            $query = $query->where($column, $record->$column);
-        }
-        $query->update([$field => 'N']);
-
-        return $record->update([$field => 'Y']);
-    }
-
     // Remove record from the database
     public function delete($id)
     {
@@ -103,8 +89,12 @@ class ModelRepository implements RepositoryInterface
 
     private function formatInputTranslations(array $inputs)
     {
-        $locales = array('fr', 'en');
+        $locales = array();
         $translations = array();
+        $languages = session()->get('languages');
+        foreach ($languages as $language) {
+            $locales[] = $language->alpha2;
+        }
 
         foreach ($locales as $locale) {
             if (!isset($translations[$locale])) {
@@ -118,7 +108,6 @@ class ModelRepository implements RepositoryInterface
                 }
             }
         }
-//dd($translations);
 
         return array_merge($inputs, $translations);
     }

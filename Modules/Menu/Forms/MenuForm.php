@@ -31,7 +31,8 @@ class MenuForm extends CoreForm
                 'label' => 'Titre',
                 'rules' => 'required',
                 'translatable' => true
-            ]);
+            ])
+            ->add('menuitems_data', 'hidden');
 
         parent::buildForm();
     }
