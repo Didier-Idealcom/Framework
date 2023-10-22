@@ -16,7 +16,7 @@ class Form extends Component
     /**
      * Submit button ?
      *
-     * @var boolean
+     * @var bool
      */
     public $submit;
 
@@ -24,7 +24,7 @@ class Form extends Component
      * Create the component instance
      *
      * @param  object  $form
-     * @param  boolean $submit
+     * @param  bool  $submit
      * @return void
      */
     public function __construct($form, $submit = false)

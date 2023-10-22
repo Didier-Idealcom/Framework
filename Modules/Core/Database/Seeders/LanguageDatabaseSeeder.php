@@ -2,8 +2,8 @@
 
 namespace Modules\Core\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use Modules\Core\Entities\Language;
 
@@ -29,7 +29,7 @@ class LanguageDatabaseSeeder extends Seeder
             'flag' => '/images/flags/fr.svg',
             'format_date_small' => '%d/%m/%Y',
             'format_date_long' => '%d %B %Y',
-            'format_date_time' => '%d/%m/%Y %H:%i:%s'
+            'format_date_time' => '%d/%m/%Y %H:%i:%s',
         ]);
         Language::create([
             'alpha2' => 'en',
@@ -39,7 +39,7 @@ class LanguageDatabaseSeeder extends Seeder
             'flag' => '/images/flags/en.svg',
             'format_date_small' => '%m/%d/%Y',
             'format_date_long' => '%B %d %Y',
-            'format_date_time' => '%m/%d/%Y %H:%i:%s'
+            'format_date_time' => '%m/%d/%Y %H:%i:%s',
         ]);
         Language::create([
             'alpha2' => 'es',
@@ -49,7 +49,7 @@ class LanguageDatabaseSeeder extends Seeder
             'flag' => '/images/flags/es.svg',
             'format_date_small' => '%d/%m/%Y',
             'format_date_long' => '%d %B %Y',
-            'format_date_time' => '%d/%m/%Y %H:%i:%s'
+            'format_date_time' => '%d/%m/%Y %H:%i:%s',
         ]);
         Language::create([
             'alpha2' => 'it',
@@ -59,7 +59,7 @@ class LanguageDatabaseSeeder extends Seeder
             'flag' => '/images/flags/it.svg',
             'format_date_small' => '%d/%m/%Y',
             'format_date_long' => '%d %B %Y',
-            'format_date_time' => '%d/%m/%Y %H:%i:%s'
+            'format_date_time' => '%d/%m/%Y %H:%i:%s',
         ]);
         Language::create([
             'alpha2' => 'de',
@@ -69,7 +69,7 @@ class LanguageDatabaseSeeder extends Seeder
             'flag' => '/images/flags/de.svg',
             'format_date_small' => '%d/%m/%Y',
             'format_date_long' => '%d %B %Y',
-            'format_date_time' => '%d/%m/%Y %H:%i:%s'
+            'format_date_time' => '%d/%m/%Y %H:%i:%s',
         ]);
         Schema::enableForeignKeyConstraints();
     }

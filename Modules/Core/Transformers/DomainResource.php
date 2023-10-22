@@ -8,11 +8,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="DomainResource",
  *     description="Domain resource",
+ *
  *     @OA\Property(
  *         property="data",
  *         title="Data",
  *         description="Data wrapper",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/Domain"
  *         )
@@ -50,7 +52,7 @@ class DomainResource extends JsonResource
             'maintenance_end' => $this->maintenance_end,
             'maintenance_message' => $this->maintenance_message,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at
+            'update_at' => $this->update_at,
         ];
     }
 }

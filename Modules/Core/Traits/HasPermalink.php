@@ -25,12 +25,13 @@ trait HasPermalink
     public static function bootHasPermalink(): void
     {
         static::saved(function (Model $model) {
-            if (!$model->permalinkHandling()) {
+            if (! $model->permalinkHandling()) {
                 return;
             }
 
-            if (!method_exists($model, 'permalinkSlug')) {
+            if (! method_exists($model, 'permalinkSlug')) {
                 dump('Le model doit implémenter le contrat Modules\Core\Contracts\Permalinkable');
+
                 return;
             }
 
@@ -46,7 +47,7 @@ trait HasPermalink
         });
 
         static::deleted(function (Model $model) {
-            if (!$model->permalinkHandling()) {
+            if (! $model->permalinkHandling()) {
                 return;
             }
 
@@ -56,8 +57,6 @@ trait HasPermalink
 
     /**
      * Determine if automatic permalink handling should be done.
-     *
-     * @return bool
      */
     public function permalinkHandling(): bool
     {
@@ -90,8 +89,6 @@ trait HasPermalink
 
     /**
      * Determine if permalink translation handling should be done.
-     *
-     * @return bool
      */
     public function translationHandling(): bool
     {
@@ -140,8 +137,8 @@ trait HasPermalink
 
             // Redirect others permalinks
             $this->permalinks()
-                 ->where('id', '<>', $permalink->id)
-                 ->update(['redirect' => $permalink->id]);
+                ->where('id', '<>', $permalink->id)
+                ->update(['redirect' => $permalink->id]);
         }
     }
 
@@ -155,8 +152,6 @@ trait HasPermalink
 
     /**
      * Check if the entity needs permalink update.
-     *
-     * @return bool
      */
     public function needUpdate(): bool
     {
@@ -169,7 +164,8 @@ trait HasPermalink
 
             if ($slugChanges) {
                 $checkOld = $this->checkOldPermalinks();
-                return !$checkOld;
+
+                return ! $checkOld;
             } else {
                 return false;
             }
@@ -180,8 +176,6 @@ trait HasPermalink
 
     /**
      * Detect if an entity attribute used to build the permalink has changed.
-     *
-     * @return bool
      */
     public function detectEntityChanges(): bool
     {
@@ -194,13 +188,11 @@ trait HasPermalink
 
         $intersect = array_intersect($this->permalinkSlug(), array_keys($changes));
 
-        return !empty($intersect);
+        return ! empty($intersect);
     }
 
     /**
      * Detect if the entity's slug has changed.
-     *
-     * @return bool
      */
     public function detectSlugChanges(): bool
     {
@@ -218,8 +210,6 @@ trait HasPermalink
     /**
      * Check old permalinks to prevent duplication.
      * Returns true when an identical old permalink is found.
-     *
-     * @return bool
      */
     public function checkOldPermalinks(): bool
     {
@@ -233,26 +223,25 @@ trait HasPermalink
             }
 
             if ($identical) {
-                $permalink->redirect = NULL;
+                $permalink->redirect = null;
                 $permalink->save();
 
                 // Redirect others permalinks
                 $this->permalinks()
-                     ->where('id', '<>', $permalink->id)
-                     ->update(['redirect' => $permalink->id]);
+                    ->where('id', '<>', $permalink->id)
+                    ->update(['redirect' => $permalink->id]);
 
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Build the entity's slug.
      *
-     * @param string $locale
-     *
-     * @return string
+     * @param  string  $locale
      */
     public function buildSlug($locale = null): string
     {
@@ -260,23 +249,22 @@ trait HasPermalink
         foreach ($this->permalinkSlug() as $permalinkAttribute) {
             if (array_key_exists($permalinkAttribute, $this->attributes)) {
                 if (preg_match('#^[0-9]{4}-[0-9]{2}-[0-9]{2}(.*)$#', $this->$permalinkAttribute)) {
-                    $slug .= substr($this->$permalinkAttribute, 0, 10) . ' ';
+                    $slug .= substr($this->$permalinkAttribute, 0, 10).' ';
                 } else {
-                    $slug .= $this->$permalinkAttribute . ' ';
+                    $slug .= $this->$permalinkAttribute.' ';
                 }
-            } elseif (!empty($this->translatedAttributes)) {
-                $slug .= $this->translate($locale)->$permalinkAttribute . ' ';
+            } elseif (! empty($this->translatedAttributes)) {
+                $slug .= $this->translate($locale)->$permalinkAttribute.' ';
             }
         }
+
         return Str::slug($slug);
     }
 
     /**
      * Build the entity's permalink.
      *
-     * @param string $locale
-     *
-     * @return string
+     * @param  string  $locale
      */
     public function buildPermalink($locale = null): string
     {

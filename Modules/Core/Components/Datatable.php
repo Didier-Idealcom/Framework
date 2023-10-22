@@ -45,8 +45,8 @@ class Datatable extends Component
      * Create the component instance
      *
      * @param  string  $id
-     * @param  bool    $search
-     * @param  bool    $filter
+     * @param  bool  $search
+     * @param  bool  $filter
      * @param  string  $import
      * @param  string  $export
      * @return void

@@ -12,6 +12,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Menuitem",
  *     description="Menuitem model",
+ *
  *     @OA\Property(
  *         property="id",
  *         ref="#/components/schemas/BaseModel/properties/id")
@@ -103,6 +104,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  *         title="Translations",
  *         description="Menuitem translations",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/MenuitemTranslation"
  *         )
@@ -111,7 +113,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  */
 class Menuitem extends Model implements Permalinkable
 {
-    use Translatable, HasPermalink, HasUrlPresenter;
+    use HasPermalink, HasUrlPresenter, Translatable;
 
     /**
      * The attributes that are mass assignable.
@@ -144,8 +146,6 @@ class Menuitem extends Model implements Permalinkable
 
     /**
      * Get the options for the sluggable package.
-     *
-     * @return array
      */
     public function permalinkSlug(): array
     {
@@ -155,21 +155,21 @@ class Menuitem extends Model implements Permalinkable
     public function loadRoot()
     {
         return Menuitem::where('menu_id', $this->menu_id)
-                        ->where('bg', '<=', $this->bg)
-                        ->where('bd', '>=', $this->bd)
-                        ->where('niveau', 1)
-                        ->orderBy('bg', 'asc')
-                        ->get();
+            ->where('bg', '<=', $this->bg)
+            ->where('bd', '>=', $this->bd)
+            ->where('niveau', 1)
+            ->orderBy('bg', 'asc')
+            ->get();
     }
 
     public function loadParents()
     {
         return Menuitem::where('menu_id', $this->menu_id)
-                        ->where('bg', '<', $this->bg)
-                        ->where('bd', '>', $this->bd)
-                        ->where('niveau', '<', $this->niveau)
-                        ->orderBy('bg', 'desc')
-                        ->get();
+            ->where('bg', '<', $this->bg)
+            ->where('bd', '>', $this->bd)
+            ->where('niveau', '<', $this->niveau)
+            ->orderBy('bg', 'desc')
+            ->get();
     }
 
     public function loadParent()
@@ -180,41 +180,41 @@ class Menuitem extends Model implements Permalinkable
     public function loadChilds($direct = false)
     {
         return Menuitem::where('menu_id', $this->menu_id)
-                        ->where('bg', '>', $this->bg)
-                        ->where('bd', '<', $this->bd)
-                        ->when($direct, function($query) {
-                            return $query->where('niveau', $this->niveau + 1);
-                        })
-                        ->orderBy('bg', 'asc')
-                        ->get();
+            ->where('bg', '>', $this->bg)
+            ->where('bd', '<', $this->bd)
+            ->when($direct, function ($query) {
+                return $query->where('niveau', $this->niveau + 1);
+            })
+            ->orderBy('bg', 'asc')
+            ->get();
     }
 
     public function loadBrothers()
     {
         return Menuitem::where('menu_id', $this->menu_id)
-                        ->where('parent_id', $this->parent_id)
-                        ->where('niveau', $this->niveau)
-                        ->where('id', '<>', $this->id)
-                        ->orderBy('bg', 'asc')
-                        ->get();
+            ->where('parent_id', $this->parent_id)
+            ->where('niveau', $this->niveau)
+            ->where('id', '<>', $this->id)
+            ->orderBy('bg', 'asc')
+            ->get();
     }
 
     public function loadLeftBrother()
     {
         return Menuitem::where('menu_id', $this->menu_id)
-                        ->where('parent_id', $this->parent_id)
-                        ->where('niveau', $this->niveau)
-                        ->where('bd', $this->bg - 1)
-                        ->first();
+            ->where('parent_id', $this->parent_id)
+            ->where('niveau', $this->niveau)
+            ->where('bd', $this->bg - 1)
+            ->first();
     }
 
     public function loadRightBrother()
     {
         return Menuitem::where('menu_id', $this->menu_id)
-                        ->where('parent_id', $this->parent_id)
-                        ->where('niveau', $this->niveau)
-                        ->where('bg', $this->bd + 1)
-                        ->first();
+            ->where('parent_id', $this->parent_id)
+            ->where('niveau', $this->niveau)
+            ->where('bg', $this->bd + 1)
+            ->first();
     }
 
     /**
@@ -252,8 +252,8 @@ class Menuitem extends Model implements Permalinkable
                     ->where('bg', '>', $parent->bd)
                     ->increment('bg', 2);
 
-                $menuitem->bg     = $parent->bd;
-                $menuitem->bd     = $parent->bd + 1;
+                $menuitem->bg = $parent->bd;
+                $menuitem->bd = $parent->bd + 1;
                 $menuitem->niveau = $parent->niveau + 1;
                 $menuitem->saveQuietly();
             } else {
@@ -263,7 +263,7 @@ class Menuitem extends Model implements Permalinkable
                     ->first();
 
                 // mode = PF (create menuitem in last position)
-                if (!empty($menuitem_ref)) {
+                if (! empty($menuitem_ref)) {
                     self::where('menu_id', $menuitem->menu_id)
                         ->where('bd', '>', $menuitem_ref->bd)
                         ->increment('bd', 2);
@@ -273,8 +273,8 @@ class Menuitem extends Model implements Permalinkable
                         ->increment('bg', 2);
                 }
 
-                $menuitem->bg     = !empty($menuitem_ref) ? $menuitem_ref->bd + 1 : 1;
-                $menuitem->bd     = !empty($menuitem_ref) ? $menuitem_ref->bd + 2 : 2;
+                $menuitem->bg = ! empty($menuitem_ref) ? $menuitem_ref->bd + 1 : 1;
+                $menuitem->bd = ! empty($menuitem_ref) ? $menuitem_ref->bd + 2 : 2;
                 $menuitem->niveau = 1;
                 $menuitem->saveQuietly();
             }

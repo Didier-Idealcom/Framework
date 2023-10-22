@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use Modules\Core\Entities\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
+use Modules\Core\Entities\User;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase

@@ -7,10 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Yajra\Datatables\Datatables;
 use Modules\Core\Entities\Domain;
 use Modules\Core\Forms\DomainForm;
 use Modules\Core\Repositories\ModelRepository;
+use Yajra\Datatables\Datatables;
 
 class DomainController extends Controller
 {
@@ -26,8 +26,6 @@ class DomainController extends Controller
 
     /**
      * DomainController constructor.
-     * @param Domain $domain
-     * @param FormBuilder $formBuilder
      */
     public function __construct(Domain $domain, FormBuilder $formBuilder)
     {
@@ -42,19 +40,21 @@ class DomainController extends Controller
 
     /**
      * Return the formBuilder
-     * @param  Domain|null $domain
+     *
      * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(?Domain $domain = null)
+    private function getForm(Domain $domain = null)
     {
         $domain = $domain ?: new Domain();
+
         return $this->formBuilder->create(DomainForm::class, [
-            'model' => $domain
+            'model' => $domain,
         ]);
     }
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index()
@@ -64,17 +64,19 @@ class DomainController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return Response
      */
     public function create()
     {
         $form = $this->getForm();
+
         return view('core::admin.domain_form', compact('form'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -89,12 +91,13 @@ class DomainController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.domains.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  Domain $domain
+     *
      * @return Response
      */
     public function show(Domain $domain)
@@ -104,19 +107,19 @@ class DomainController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  Domain $domain
+     *
      * @return Response
      */
     public function edit(Domain $domain)
     {
         $form = $this->getForm($domain);
+
         return view('core::admin.domain_form', compact('form', 'domain'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Domain $domain
+     *
      * @return Response
      */
     public function update(Request $request, Domain $domain)
@@ -131,12 +134,12 @@ class DomainController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.domains.index');
     }
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param Domain $domain
      */
     public function active(Domain $domain)
     {
@@ -145,18 +148,19 @@ class DomainController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param  Domain $domain
+     *
      * @return Response
      */
     public function destroy(Domain $domain)
     {
         $deleted = $this->repository->delete($domain->id);
+
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param  Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -166,38 +170,42 @@ class DomainController extends Controller
         } else {
             $domains = Domain::with('languages.language')->get();
         }
+
         return DataTables::of($domains)
-            ->addColumn('record_id', function($domain) {
+            ->addColumn('record_id', function ($domain) {
                 return '<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="' . $domain->id . '" />
+                            <input class="form-check-input" type="checkbox" value="'.$domain->id.'" />
                         </div>';
             })
-            ->addColumn('row_details', function($domain) {
+            ->addColumn('row_details', function ($domain) {
                 return view('core::admin.domain_subtable', compact('domain'));
             })
-            ->addColumn('row_details_display', function($domain) {
+            ->addColumn('row_details_display', function ($domain) {
                 return '<button type="button" class="btn btn-sm btn-icon btn-light-primary toggle h-25px w-25px trigger_row_details">
                             <i class="ki-duotone ki-plus fs-3 m-0 toggle-off"></i>
                             <i class="ki-duotone ki-minus fs-3 m-0 toggle-on"></i>
                         </button>';
             })
-            ->editColumn('active', function($domain) {
+            ->editColumn('active', function ($domain) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                return ($domain->active == 'Y' ? $label_on : $label_off);
+
+                return $domain->active == 'Y' ? $label_on : $label_off;
             })
-            ->addColumn('active_display', function($domain) {
+            ->addColumn('active_display', function ($domain) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
                 $class_btn = $domain->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $domain->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.domains_active', ['domain' => $domain->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($domain->active == 'Y' ? $label_on : $label_off) . '</a>';
+
+                return '<a href="javascript:;" data-url="'.route('admin.domains_active', ['domain' => $domain->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($domain->active == 'Y' ? $label_on : $label_off).'</a>';
             })
-            ->addColumn('actions', function($domain) {
+            ->addColumn('actions', function ($domain) {
                 $items = [];
                 $items['edit'] = ['link' => $domain->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $domain->url_backend->destroy, 'label' => 'Delete'];
                 $items = apply_filters('domains_datatableactions', $items);
+
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title', 'name', 'folder'])

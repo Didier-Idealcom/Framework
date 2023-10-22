@@ -2,9 +2,9 @@
 
 namespace Modules\Core\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 
 class CoreServiceProvider extends ServiceProvider
@@ -66,7 +66,7 @@ class CoreServiceProvider extends ServiceProvider
 
         $this->publishes([$sourcePath => $viewPath], 'views');
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/core';
+            return $path.'/modules/core';
         }, Config::get('view.paths')), [$sourcePath]), 'core');
     }
 

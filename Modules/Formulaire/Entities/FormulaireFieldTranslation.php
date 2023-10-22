@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  *     title="FormulaireFieldTranslation",
  *     description="FormulaireFieldTranslation model",
+ *
  *     @OA\Property(
  *         property="label_admin",
  *         title="Label admin",
@@ -84,7 +85,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class FormulaireFieldTranslation extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string

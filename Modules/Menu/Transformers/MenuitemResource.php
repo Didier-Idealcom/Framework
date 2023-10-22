@@ -8,11 +8,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="MenuitemResource",
  *     description="Menuitem resource",
+ *
  *     @OA\Property(
  *         property="data",
  *         title="Data",
  *         description="Data wrapper",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/Menuitem"
  *         )
@@ -53,7 +55,7 @@ class MenuitemResource extends JsonResource
             'created_at' => $this->created_at,
             'update_at' => $this->update_at,
             'translations' => $this->getTranslationsArray(),
-            'permalinks' => $this->permalinks
+            'permalinks' => $this->permalinks,
         ];
     }
 }

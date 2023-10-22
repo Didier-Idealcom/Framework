@@ -8,11 +8,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="UserResource",
  *     description="User resource",
+ *
  *     @OA\Property(
  *         property="data",
  *         title="Data",
  *         description="Data wrapper",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/User"
  *         )
@@ -47,7 +49,7 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'email_verified_at' => $this->email_verified_at
+            'email_verified_at' => $this->email_verified_at,
         ];
     }
 }

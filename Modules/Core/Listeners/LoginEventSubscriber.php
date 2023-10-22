@@ -1,10 +1,10 @@
 <?php
- 
+
 namespace Modules\Core\Listeners;
- 
+
 use Illuminate\Auth\Events\Login;
 use Illuminate\Events\Dispatcher;
- 
+
 class LoginEventSubscriber
 {
     /**
@@ -17,7 +17,7 @@ class LoginEventSubscriber
             session()->put('domain', $event->user->domains->first()->id);
         }
     }
- 
+
     /**
      * Register the listeners for the subscriber.
      *

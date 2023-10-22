@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  *     title="MenuitemTranslation",
  *     description="MenuitemTranslation model",
+ *
  *     @OA\Property(
  *         property="title_menu",
  *         title="Title menu",
@@ -36,7 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MenuitemTranslation extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string

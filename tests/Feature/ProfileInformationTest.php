@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Modules\Core\Entities\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Livewire\CustomUpdateProfileInformationForm;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use Modules\Core\Entities\User;
 use Tests\TestCase;
 
 class ProfileInformationTest extends TestCase
@@ -28,8 +28,8 @@ class ProfileInformationTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         Livewire::test(CustomUpdateProfileInformationForm::class)
-                ->set('state', ['firstname' => 'John', 'lastname' => 'Doe', 'email' => 'test@example.com'])
-                ->call('updateProfileInformation');
+            ->set('state', ['firstname' => 'John', 'lastname' => 'Doe', 'email' => 'test@example.com'])
+            ->call('updateProfileInformation');
 
         $this->assertEquals('John', $user->fresh()->firstname);
         $this->assertEquals('Doe', $user->fresh()->lastname);

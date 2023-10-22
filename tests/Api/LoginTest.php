@@ -14,15 +14,15 @@ class LoginTest extends TestCase
                 'message' => 'Bad Request.',
                 'errors' => [
                     'email' => ['Le champ adresse courriel est obligatoire.'],
-                    'password' => ['Le champ mot de passe est obligatoire.']
-                ]
+                    'password' => ['Le champ mot de passe est obligatoire.'],
+                ],
             ]);
     }
 
     public function testLoginSuccess()
     {
         $this->assertDatabaseHas('users', [
-            'email' => 'largeron.didier@gmail.com'
+            'email' => 'largeron.didier@gmail.com',
         ]);
 
         $payload = ['email' => 'largeron.didier@gmail.com', 'password' => 'laravel'];
@@ -37,9 +37,9 @@ class LoginTest extends TestCase
                         'lastname',
                         'email',
                         'created_at',
-                        'updated_at'
-                    ]
-                ]
+                        'updated_at',
+                    ],
+                ],
             ]);
     }
 
@@ -49,7 +49,7 @@ class LoginTest extends TestCase
         $this->json('POST', 'api/login', $payload)
             ->assertStatus(401)
             ->assertJson([
-                'error' => 'Unauthenticated.'
+                'error' => 'Unauthenticated.',
             ]);
     }
 }

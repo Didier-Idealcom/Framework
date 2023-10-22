@@ -3,7 +3,6 @@
 namespace Modules\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class ModelRepository implements RepositoryInterface
 {
@@ -26,6 +25,7 @@ class ModelRepository implements RepositoryInterface
     public function setModel($model)
     {
         $this->model = $model;
+
         return $this;
     }
 
@@ -57,9 +57,10 @@ class ModelRepository implements RepositoryInterface
     public function create(array $inputs)
     {
         unset($inputs['save']);
-        if (!empty($this->model->translatedAttributes)) {
+        if (! empty($this->model->translatedAttributes)) {
             $inputs = $this->formatInputTranslations($inputs);
         }
+
         return $this->model->create($inputs);
     }
 
@@ -67,9 +68,10 @@ class ModelRepository implements RepositoryInterface
     public function update($id, array $inputs)
     {
         unset($inputs['save']);
-        if (!empty($this->model->translatedAttributes)) {
+        if (! empty($this->model->translatedAttributes)) {
             $inputs = $this->formatInputTranslations($inputs);
         }
+
         return $this->find($id)->update($inputs);
     }
 
@@ -78,6 +80,7 @@ class ModelRepository implements RepositoryInterface
     {
         $record = $this->find($id);
         $inputs[$field] = $record->$field == 'Y' ? 'N' : 'Y';
+
         return $record->update($inputs);
     }
 
@@ -89,20 +92,20 @@ class ModelRepository implements RepositoryInterface
 
     private function formatInputTranslations(array $inputs)
     {
-        $locales = array();
-        $translations = array();
+        $locales = [];
+        $translations = [];
         $languages = session()->get('languages');
         foreach ($languages as $language) {
             $locales[] = $language->alpha2;
         }
 
         foreach ($locales as $locale) {
-            if (!isset($translations[$locale])) {
-                $translations[$locale] = array();
+            if (! isset($translations[$locale])) {
+                $translations[$locale] = [];
             }
 
             foreach ($inputs as $key => $value) {
-                if (strpos($key, $locale . '_') === 0) {
+                if (strpos($key, $locale.'_') === 0) {
                     $translations[$locale][substr($key, 3)] = $value;
                     unset($inputs[$key]);
                 }

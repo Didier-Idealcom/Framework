@@ -18,6 +18,7 @@ class LanguageController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      *
      * @OA\Get(
@@ -29,22 +30,30 @@ class LanguageController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/LanguageResource")
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -57,7 +66,7 @@ class LanguageController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      *
      * @OA\Post(
@@ -69,33 +78,46 @@ class LanguageController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Language")
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Language")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -107,16 +129,17 @@ class LanguageController extends Controller
             'alpha2' => 'required|size:2|unique:languages',
             'alpha3' => 'required|size:3|unique:languages',
             'locale' => 'required',
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $language = Language::create($request->all());
+
         return (new LanguageResource($language))->response()->setStatusCode(201);
     }
 
     /**
      * Show the specified resource.
-     * @param  Language $language
+     *
      * @return Response
      *
      * @OA\Get(
@@ -128,45 +151,61 @@ class LanguageController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Language id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Language")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -179,8 +218,7 @@ class LanguageController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Language $language
+     *
      * @return Response
      *
      * @OA\Put(
@@ -192,49 +230,67 @@ class LanguageController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Language id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Language")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Language")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -243,12 +299,13 @@ class LanguageController extends Controller
     public function update(Request $request, Language $language)
     {
         $language->update($request->all());
+
         return new LanguageResource($language);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  Language $language
+     *
      * @return Response
      *
      * @OA\Delete(
@@ -260,15 +317,18 @@ class LanguageController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Language id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=204,
      *         description="Successful operation"
@@ -276,21 +336,29 @@ class LanguageController extends Controller
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -299,6 +367,7 @@ class LanguageController extends Controller
     public function destroy(Language $language)
     {
         $language->delete();
+
         return response()->json(null, 204);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Modules\Core\Forms;
 
-use Modules\Core\Forms\CoreForm;
-
 class RoleForm extends CoreForm
 {
     public function buildForm()
@@ -21,7 +19,7 @@ class RoleForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         // Guard options
@@ -31,20 +29,20 @@ class RoleForm extends CoreForm
         $this
             ->add('name', 'text', [
                 'label' => 'Nom',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('guard_name', 'select', [
                 'label' => 'Nom du guard',
                 'choices' => $guards_choices,
                 'empty_value' => 'Sélectionnez...',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('permission', 'permission', [
                 'label' => 'Permissions',
                 'rules' => '',
                 'expanded' => true,
                 'multiple' => true,
-                'class' => 'Modules\Core\Entities\Permission'
+                'class' => 'Modules\Core\Entities\Permission',
             ]);
 
         parent::buildForm();

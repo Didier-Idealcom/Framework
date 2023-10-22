@@ -2,8 +2,8 @@
 
 namespace Modules\Core\Traits;
 
-use Modules\Core\Entities\Domain;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Core\Entities\Domain;
 
 trait HasDomains
 {

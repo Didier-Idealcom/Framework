@@ -8,10 +8,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Yajra\Datatables\Datatables;
+use Modules\Core\Repositories\ModelRepository;
 use Modules\Page\Entities\Page;
 use Modules\Page\Forms\PageForm;
-use Modules\Core\Repositories\ModelRepository;
+use Yajra\Datatables\Datatables;
 
 class PageController extends Controller
 {
@@ -27,8 +27,6 @@ class PageController extends Controller
 
     /**
      * PageController constructor.
-     * @param Page $page
-     * @param FormBuilder $formBuilder
      */
     public function __construct(Page $page, FormBuilder $formBuilder)
     {
@@ -40,19 +38,21 @@ class PageController extends Controller
 
     /**
      * Return the formBuilder
-     * @param  Page|null $page
+     *
      * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(?Page $page = null)
+    private function getForm(Page $page = null)
     {
         $page = $page ?: new Page();
+
         return $this->formBuilder->create(PageForm::class, [
-            'model' => $page
+            'model' => $page,
         ]);
     }
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index()
@@ -62,17 +62,19 @@ class PageController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return Response
      */
     public function create()
     {
         $form = $this->getForm();
+
         return view('page::admin.form', compact('form'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -87,12 +89,13 @@ class PageController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.pages.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  Page $page
+     *
      * @return Response
      */
     public function show(Page $page)
@@ -102,8 +105,7 @@ class PageController extends Controller
 
     /**
      * Preview the specified resource.
-     * @param  Page $page
-     * @param  Request $request
+     *
      * @return Response
      */
     public function preview(Page $page, Request $request)
@@ -112,24 +114,25 @@ class PageController extends Controller
         if (array_is_list($page_blocks)) {
             return view('page::admin.show', compact('page', 'page_blocks'));
         }
-        return view('page_blocks.' . $page_blocks['_name'], $page_blocks);
+
+        return view('page_blocks.'.$page_blocks['_name'], $page_blocks);
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param  Page $page
+     *
      * @return Response
      */
     public function edit(Page $page)
     {
         $form = $this->getForm($page);
+
         return view('page::admin.form', compact('form', 'page'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Page $page
+     *
      * @return Response
      */
     public function update(Request $request, Page $page)
@@ -144,12 +147,12 @@ class PageController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.pages.index');
     }
 
     /**
      * Duplicate the specified resource in storage.
-     * @param Page $page
      */
     public function duplicate(Page $page)
     {
@@ -161,12 +164,12 @@ class PageController extends Controller
         $new_page->created_at = Carbon::now();
         $new_page->updated_at = Carbon::now();
         $new_page->save();
+
         return redirect()->route('admin.pages.index');
     }
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param Page $page
      */
     public function active(Page $page)
     {
@@ -175,18 +178,19 @@ class PageController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param  Page $page
+     *
      * @return Response
      */
     public function destroy(Page $page)
     {
         $deleted = $this->repository->delete($page->id);
+
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param  Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -196,40 +200,45 @@ class PageController extends Controller
         } else {
             $pages = Page::all();
         }
+
         return DataTables::of($pages)
-            ->addColumn('record_id', function($page) {
+            ->addColumn('record_id', function ($page) {
                 return '<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="' . $page->id . '" />
+                            <input class="form-check-input" type="checkbox" value="'.$page->id.'" />
                         </div>';
             })
-            ->editColumn('created_at', function($page) {
+            ->editColumn('created_at', function ($page) {
                 return date('d/m/Y', strtotime($page->created_at));
             })
-            ->editColumn('updated_at', function($page) {
-                if (!empty($page->updated_at)) {
+            ->editColumn('updated_at', function ($page) {
+                if (! empty($page->updated_at)) {
                     return date('d/m/Y', strtotime($page->updated_at));
                 }
+
                 return '';
             })
-            ->editColumn('active', function($page) {
+            ->editColumn('active', function ($page) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                return ($page->active == 'Y' ? $label_on : $label_off);
+
+                return $page->active == 'Y' ? $label_on : $label_off;
             })
-            ->addColumn('active_display', function($page) {
+            ->addColumn('active_display', function ($page) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
                 $class_btn = $page->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $page->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.pages_active', ['page' => $page->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($page->active == 'Y' ? $label_on : $label_off) . '</a>';
+
+                return '<a href="javascript:;" data-url="'.route('admin.pages_active', ['page' => $page->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($page->active == 'Y' ? $label_on : $label_off).'</a>';
             })
-            ->addColumn('actions', function($page) {
+            ->addColumn('actions', function ($page) {
                 $items = [];
                 $items['edit'] = ['link' => $page->url_backend->edit, 'label' => 'Edit'];
                 $items['duplicate'] = ['link' => route('admin.pages_duplicate', ['page' => $page->id]), 'label' => 'Duplicate'];
                 $items['delete'] = ['link' => $page->url_backend->destroy, 'label' => 'Delete'];
                 $items['more'][] = ['link' => $page->url_backend->show, 'label' => 'Preview'];
                 $items = apply_filters('pages_datatableactions', $items);
+
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['title'])

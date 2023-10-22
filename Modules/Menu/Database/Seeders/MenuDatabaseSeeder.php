@@ -2,13 +2,13 @@
 
 namespace Modules\Menu\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use Modules\Menu\Entities\Menu;
-use Modules\Menu\Entities\MenuTranslation;
 use Modules\Menu\Entities\Menuitem;
 use Modules\Menu\Entities\MenuitemTranslation;
+use Modules\Menu\Entities\MenuTranslation;
 
 class MenuDatabaseSeeder extends Seeder
 {
@@ -30,11 +30,11 @@ class MenuDatabaseSeeder extends Seeder
             'code' => 'main',
             'active' => 'Y',
             'en' => [
-                'title' => 'Main menu'
+                'title' => 'Main menu',
             ],
             'fr' => [
-                'title' => 'Menu principal'
-            ]
+                'title' => 'Menu principal',
+            ],
         ]);
         Schema::enableForeignKeyConstraints();
     }

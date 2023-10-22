@@ -2,9 +2,9 @@
 
 namespace Modules\Page\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 
 class PageServiceProvider extends ServiceProvider
@@ -66,7 +66,7 @@ class PageServiceProvider extends ServiceProvider
 
         $this->publishes([$sourcePath => $viewPath], 'views');
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/page';
+            return $path.'/modules/page';
         }, Config::get('view.paths')), [$sourcePath]), 'page');
     }
 

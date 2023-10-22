@@ -18,6 +18,7 @@ class FormulaireController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      *
      * @OA\Get(
@@ -29,22 +30,30 @@ class FormulaireController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/FormulaireResource")
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -57,7 +66,7 @@ class FormulaireController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      *
      * @OA\Post(
@@ -69,33 +78,46 @@ class FormulaireController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Formulaire")
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Formulaire")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -104,16 +126,17 @@ class FormulaireController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|unique:formulaires'
+            'code' => 'required|unique:formulaires',
         ]);
 
         $formulaire = Formulaire::create($request->all());
+
         return (new FormulaireResource($formulaire))->response()->setStatusCode(201);
     }
 
     /**
      * Show the specified resource.
-     * @param  Formulaire $formulaire
+     *
      * @return Response
      *
      * @OA\Get(
@@ -125,45 +148,61 @@ class FormulaireController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Formulaire id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Formulaire")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -176,8 +215,7 @@ class FormulaireController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Formulaire $formulaire
+     *
      * @return Response
      *
      * @OA\Put(
@@ -189,49 +227,67 @@ class FormulaireController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Formulaire id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Formulaire")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Formulaire")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -240,12 +296,13 @@ class FormulaireController extends Controller
     public function update(Request $request, Formulaire $formulaire)
     {
         $formulaire->update($request->all());
+
         return new FormulaireResource($formulaire);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  Formulaire $formulaire
+     *
      * @return Response
      *
      * @OA\Delete(
@@ -257,15 +314,18 @@ class FormulaireController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Formulaire id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=204,
      *         description="Successful operation"
@@ -273,21 +333,29 @@ class FormulaireController extends Controller
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -296,6 +364,7 @@ class FormulaireController extends Controller
     public function destroy(Formulaire $formulaire)
     {
         $formulaire->delete();
+
         return response()->json(null, 204);
     }
 }

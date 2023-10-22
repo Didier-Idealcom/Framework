@@ -8,11 +8,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="LanguageResource",
  *     description="Language resource",
+ *
  *     @OA\Property(
  *         property="data",
  *         title="Data",
  *         description="Data wrapper",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/Language"
  *         )
@@ -49,7 +51,7 @@ class LanguageResource extends JsonResource
             'format_date_long' => $this->format_date_long,
             'format_date_time' => $this->format_date_time,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at
+            'update_at' => $this->update_at,
         ];
     }
 }

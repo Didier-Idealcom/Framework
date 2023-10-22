@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @OA\Schema(
+ *
  *     @OA\Property(
  *         property="id",
  *         title="ID",
@@ -43,4 +44,6 @@ use Illuminate\Database\Eloquent\Model;
  *     )
  * )
  */
-abstract class BaseModel extends Model {}
+abstract class BaseModel extends Model
+{
+}

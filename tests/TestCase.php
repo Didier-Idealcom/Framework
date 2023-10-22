@@ -4,8 +4,8 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Modules\Core\Database\Seeders\CoreDatabaseSeeder;
 use Illuminate\Support\Facades\Artisan;
+use Modules\Core\Database\Seeders\CoreDatabaseSeeder;
 
 abstract class TestCase extends BaseTestCase
 {

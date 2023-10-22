@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDomainsLanguagesTable extends Migration
 {
@@ -32,7 +32,7 @@ class CreateDomainsLanguagesTable extends Migration
 
             $table->foreign('domain_id', 'fk_domain_language_domain_id')->references('id')->on('domains')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('language_id', 'fk_domain_language_language_id')->references('id')->on('languages')->onUpdate('cascade')->onDelete('cascade');
-            $table->unique(['domain_id','language_id'], 'u_domain_language_domain_id_language_id');
+            $table->unique(['domain_id', 'language_id'], 'u_domain_language_domain_id_language_id');
         });
     }
 

@@ -45,18 +45,18 @@ return [
     */
 
     'middleware' => [
-       'backend' => [
+        'backend' => [
             'web',
             'setTheme:metronic_8.1.8',
-            'admin'
-       ],
-       'frontend' => [
-            'web'
-       ],
-       'api' => [
+            'admin',
+        ],
+        'frontend' => [
+            'web',
+        ],
+        'api' => [
             'api',
-            'auth:api'
-       ],
+            'auth:api',
+        ],
     ],
 
 ];

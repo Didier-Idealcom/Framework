@@ -12,6 +12,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Language",
  *     description="Language model",
+ *
  *     @OA\Property(
  *         property="id",
  *         ref="#/components/schemas/BaseModel/properties/id")

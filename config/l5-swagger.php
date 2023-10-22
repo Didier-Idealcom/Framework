@@ -97,6 +97,7 @@ return [
 
             /**
              * Absolute path to directories that should be exclude from scanning
+             *
              * @deprecated Please use `scanOptions.exclude`
              * `scanOptions.exclude` overwrites this
              */
@@ -137,9 +138,11 @@ return [
 
             /**
              * Absolute path to directories that should be excluded from scanning
+             *
              * @note This option overwrites `paths.excludes`
+             *
              * @see \OpenApi\scan
-            */
+             */
             'exclude' => [
                 base_path('Modules/Core/Classes'),
                 base_path('Modules/Core/Database'),
@@ -192,11 +195,11 @@ return [
                     'in' => 'header',
                     'scheme' => 'https',
                     'flows' => [
-                        "password" => [
-                            "authorizationUrl" => config('app.url') . '/oauth/authorize',
-                            "tokenUrl" => config('app.url') . '/oauth/token',
-                            "refreshUrl" => config('app.url') . '/token/refresh',
-                            "scopes" => []
+                        'password' => [
+                            'authorizationUrl' => config('app.url').'/oauth/authorize',
+                            'tokenUrl' => config('app.url').'/oauth/token',
+                            'refreshUrl' => config('app.url').'/token/refresh',
+                            'scopes' => [],
                         ],
                     ],
                 ],

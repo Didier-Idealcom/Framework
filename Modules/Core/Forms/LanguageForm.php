@@ -2,8 +2,6 @@
 
 namespace Modules\Core\Forms;
 
-use Modules\Core\Forms\CoreForm;
-
 class LanguageForm extends CoreForm
 {
     public function buildForm()
@@ -19,37 +17,37 @@ class LanguageForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
             ->add('alpha2', 'text', [
                 'label' => 'Alpha 2',
-                'rules' => !$this->getModel() ? 'required|size:2|unique:languages' : 'required|size:2'
+                'rules' => ! $this->getModel() ? 'required|size:2|unique:languages' : 'required|size:2',
             ])
             ->add('alpha3', 'text', [
                 'label' => 'Alpha 3',
-                'rules' => !$this->getModel() ? 'required|size:3|unique:languages' : 'required|size:3'
+                'rules' => ! $this->getModel() ? 'required|size:3|unique:languages' : 'required|size:3',
             ])
             ->add('locale', 'text', [
                 'label' => 'Locale',
-                'rules' => 'required|max:10'
+                'rules' => 'required|max:10',
             ])
             ->add('name', 'text', [
                 'label' => 'Nom',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('format_date_small', 'text', [
                 'label' => 'Format date court',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('format_date_long', 'text', [
                 'label' => 'Format date long',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('format_date_time', 'text', [
                 'label' => 'Format date time',
-                'rules' => 'required'
+                'rules' => 'required',
             ]);
 
         parent::buildForm();

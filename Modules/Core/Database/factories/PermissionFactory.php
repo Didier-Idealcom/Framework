@@ -22,7 +22,7 @@ class PermissionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name() . '_' . $this->faker->randomElement(['read', 'edit', 'create', 'delete']),
+            'name' => $this->faker->name().'_'.$this->faker->randomElement(['read', 'edit', 'create', 'delete']),
             'guard_name' => 'admin',
         ];
     }

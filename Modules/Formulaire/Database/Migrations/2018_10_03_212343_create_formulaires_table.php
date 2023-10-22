@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateFormulairesTable extends Migration
 {
@@ -22,14 +22,14 @@ class CreateFormulairesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('formulaires_translations', function(Blueprint $table) {
+        Schema::create('formulaires_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('formulaire_id')->unsigned();
             $table->string('locale')->index();
             $table->string('title');
             $table->text('resume')->nullable();
 
-            $table->unique(['formulaire_id','locale'], 'u_form_trans_formulaire_id_locale');
+            $table->unique(['formulaire_id', 'locale'], 'u_form_trans_formulaire_id_locale');
             $table->foreign('formulaire_id', 'fk_form_trans_formulaire_id')->references('id')->on('formulaires')->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -46,7 +46,7 @@ class CreateFormulairesTable extends Migration
             $table->foreign('formulaire_id', 'fk_form_field_formulaire_id')->references('id')->on('formulaires')->onUpdate('cascade')->onDelete('cascade');
         });
 
-        Schema::create('formulaires_fields_translations', function(Blueprint $table) {
+        Schema::create('formulaires_fields_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('formulaire_field_id')->unsigned();
             $table->string('locale')->index();
@@ -63,7 +63,7 @@ class CreateFormulairesTable extends Migration
             $table->string('error_dimension')->nullable();
             $table->string('error_date_format')->nullable();
 
-            $table->unique(['formulaire_field_id','locale'], 'u_form_field_trans_formulaire_field_id_locale');
+            $table->unique(['formulaire_field_id', 'locale'], 'u_form_field_trans_formulaire_field_id_locale');
             $table->foreign('formulaire_field_id', 'fk_form_field_trans_formulaire_field_id')->references('id')->on('formulaires_fields')->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -79,13 +79,13 @@ class CreateFormulairesTable extends Migration
             $table->foreign('formulaire_field_id', 'fk_form_field_value_formulaire_field_id')->references('id')->on('formulaires_fields')->onUpdate('cascade')->onDelete('cascade');
         });
 
-        Schema::create('formulaires_fields_values_translations', function(Blueprint $table) {
+        Schema::create('formulaires_fields_values_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('formulaire_field_value_id')->unsigned();
             $table->string('locale')->index();
             $table->string('value');
 
-            $table->unique(['formulaire_field_value_id','locale'], 'u_form_field_value_trans_formulaire_field_value_id_locale');
+            $table->unique(['formulaire_field_value_id', 'locale'], 'u_form_field_value_trans_formulaire_field_value_id_locale');
             $table->foreign('formulaire_field_value_id', 'fk_form_field_value_trans_formulaire_field_value_id')->references('id')->on('formulaires_fields_values')->onUpdate('cascade')->onDelete('cascade');
         });
     }

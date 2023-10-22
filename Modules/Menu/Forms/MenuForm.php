@@ -19,18 +19,18 @@ class MenuForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
             ->add('code', 'text', [
                 'label' => 'Code',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('title', 'text', [
                 'label' => 'Titre',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('menuitems_data', 'hidden');
 

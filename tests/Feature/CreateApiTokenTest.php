@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use Modules\Core\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
+use Modules\Core\Entities\User;
 use Tests\TestCase;
 
 class CreateApiTokenTest extends TestCase
@@ -24,14 +24,14 @@ class CreateApiTokenTest extends TestCase
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
 
         Livewire::test(ApiTokenManager::class)
-                    ->set(['createApiTokenForm' => [
-                        'name' => 'Test Token',
-                        'permissions' => [
-                            'read',
-                            'update',
-                        ],
-                    ]])
-                    ->call('createApiToken');
+            ->set(['createApiTokenForm' => [
+                'name' => 'Test Token',
+                'permissions' => [
+                    'read',
+                    'update',
+                ],
+            ]])
+            ->call('createApiToken');
 
         $this->assertCount(1, $user->fresh()->tokens);
         $this->assertEquals('Test Token', $user->fresh()->tokens->first()->name);

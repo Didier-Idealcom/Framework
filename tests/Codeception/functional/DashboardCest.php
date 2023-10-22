@@ -2,7 +2,7 @@
 
 namespace Tests\Codeception\Functional;
 
-use \FunctionalTester;
+use FunctionalTester;
 
 class DashboardCest
 {

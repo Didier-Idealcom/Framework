@@ -8,7 +8,7 @@ class CoreForm extends Form
 {
     public function buildForm()
     {
-        $locales = array();
+        $locales = [];
         $languages = session()->get('languages');
         foreach ($languages as $language) {
             $locales[$language->alpha2] = $language->name;
@@ -20,7 +20,7 @@ class CoreForm extends Form
 
             // Grapes JS
             if ($type == 'grapesjs') {
-                $field->setOption('attr.class', $field->getOption('attr.class') . ' d-none');
+                $field->setOption('attr.class', $field->getOption('attr.class').' d-none');
             }
 
             $options = $field->getOptions();
@@ -28,18 +28,18 @@ class CoreForm extends Form
             // Multi-langue
             if (isset($options['translatable']) && $options['translatable'] === true) {
                 $attr_class = $options['attr']['class'];
-                if (!empty($options['url_show'])) {
+                if (! empty($options['url_show'])) {
                     $url_show = $options['url_show'];
                 }
                 foreach ($locales as $locale => $libelle) {
-                    $options['attr']['class'] = $attr_class . ' input-multilangue lang-' . $locale;
+                    $options['attr']['class'] = $attr_class.' input-multilangue lang-'.$locale;
                     $options['attr']['data-lang'] = $locale;
                     $options['attr']['data-lang-libelle'] = $libelle;
-                    if (!empty($options['url_show'])) {
-                        $options['url_show'] = $url_show . '?lang=' . $locale;
+                    if (! empty($options['url_show'])) {
+                        $options['url_show'] = $url_show.'?lang='.$locale;
                     }
-                    $options['value'] = ($this->getModel() && $this->getModel()->id && !empty($this->getModel()->translate($locale)->$name)) ? $this->getModel()->translate($locale)->$name : '';
-                    $this->addBefore($name, $locale . '_' . $name, $field->getType(), $options);
+                    $options['value'] = ($this->getModel() && $this->getModel()->id && ! empty($this->getModel()->translate($locale)->$name)) ? $this->getModel()->translate($locale)->$name : '';
+                    $this->addBefore($name, $locale.'_'.$name, $field->getType(), $options);
                 }
                 $this->remove($name);
             }

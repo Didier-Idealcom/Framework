@@ -12,6 +12,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Domain",
  *     description="Domain model",
+ *
  *     @OA\Property(
  *         property="id",
  *         ref="#/components/schemas/BaseModel/properties/id")

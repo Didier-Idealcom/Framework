@@ -7,10 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Yajra\Datatables\Datatables;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Forms\PermissionForm;
 use Modules\Core\Repositories\ModelRepository;
+use Yajra\Datatables\Datatables;
 
 class PermissionController extends Controller
 {
@@ -26,8 +26,6 @@ class PermissionController extends Controller
 
     /**
      * PermissionController constructor.
-     * @param Permission $permission
-     * @param FormBuilder $formBuilder
      */
     public function __construct(Permission $permission, FormBuilder $formBuilder)
     {
@@ -42,19 +40,21 @@ class PermissionController extends Controller
 
     /**
      * Return the formBuilder
-     * @param  Permission|null $permission
+     *
      * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(?Permission $permission = null)
+    private function getForm(Permission $permission = null)
     {
         $permission = $permission ?: new Permission();
+
         return $this->formBuilder->create(PermissionForm::class, [
-            'model' => $permission
+            'model' => $permission,
         ]);
     }
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index()
@@ -64,17 +64,19 @@ class PermissionController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return Response
      */
     public function create()
     {
         $form = $this->getForm();
+
         return view('core::admin.permission_form', compact('form'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -89,12 +91,13 @@ class PermissionController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.permissions.index');
     }
 
     /**
      * Show the specified resource.
-     * @param  Permission $permission
+     *
      * @return Response
      */
     public function show(Permission $permission)
@@ -104,19 +107,19 @@ class PermissionController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  Permission $permission
+     *
      * @return Response
      */
     public function edit(Permission $permission)
     {
         $form = $this->getForm($permission);
+
         return view('core::admin.permission_form', compact('form', 'permission'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Permission $permission
+     *
      * @return Response
      */
     public function update(Request $request, Permission $permission)
@@ -131,23 +134,25 @@ class PermissionController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.permissions.index');
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  Permission $permission
+     *
      * @return Response
      */
     public function destroy(Permission $permission)
     {
         $deleted = $this->repository->delete($permission->id);
+
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param  Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -157,39 +162,43 @@ class PermissionController extends Controller
         } else {
             $permissions = Permission::all();
         }
+
         return DataTables::of($permissions)
-            ->addColumn('record_id', function($permission) {
+            ->addColumn('record_id', function ($permission) {
                 return '<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="' . $permission->id . '" />
+                            <input class="form-check-input" type="checkbox" value="'.$permission->id.'" />
                         </div>';
             })
-            ->addColumn('assigned_to', function($permission) {
+            ->addColumn('assigned_to', function ($permission) {
                 $roles = [];
-                if (!empty($permission->roles)) {
+                if (! empty($permission->roles)) {
                     foreach ($permission->roles as $key => $role) {
                         $roles[] = $role->name;
                     }
                 }
+
                 return implode(', ', $roles);
             })
-            ->addColumn('assigned_to_display', function($permission) {
+            ->addColumn('assigned_to_display', function ($permission) {
                 $roles = '';
                 $colors = ['badge-light-primary', 'badge-light-success', 'badge-light-info', 'badge-light-warning', 'badge-light-danger', 'badge-light-dark'];
-                if (!empty($permission->roles)) {
+                if (! empty($permission->roles)) {
                     foreach ($permission->roles as $key => $role) {
-                        $roles .= '<a href="' . $role->url_backend->edit . '" class="badge ' . $colors[$key % 6] . ' fs-7 m-1">' . $role->name . '</a>';
+                        $roles .= '<a href="'.$role->url_backend->edit.'" class="badge '.$colors[$key % 6].' fs-7 m-1">'.$role->name.'</a>';
                     }
                 }
+
                 return $roles;
             })
-            ->editColumn('created_at', function($permission) {
+            ->editColumn('created_at', function ($permission) {
                 return date('d/m/Y', strtotime($permission->created_at));
             })
-            ->addColumn('actions', function($permission) {
+            ->addColumn('actions', function ($permission) {
                 $items = [];
                 $items['edit'] = ['link' => $permission->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $permission->url_backend->destroy, 'label' => 'Delete'];
                 $items = apply_filters('permissions_datatableactions', $items);
+
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['name', 'guard_name'])

@@ -8,11 +8,11 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Yajra\Datatables\Datatables;
+use Modules\Core\Repositories\ModelRepository;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Entities\Menuitem;
 use Modules\Menu\Forms\MenuitemForm;
-use Modules\Core\Repositories\ModelRepository;
+use Yajra\Datatables\Datatables;
 
 class MenuitemController extends Controller
 {
@@ -28,8 +28,6 @@ class MenuitemController extends Controller
 
     /**
      * MenuitemController constructor.
-     * @param Menuitem $menuitem
-     * @param FormBuilder $formBuilder
      */
     public function __construct(Menuitem $menuitem, FormBuilder $formBuilder)
     {
@@ -41,42 +39,45 @@ class MenuitemController extends Controller
 
     /**
      * Return the formBuilder
-     * @param  Menuitem|null $menuitem
+     *
      * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(?Menuitem $menuitem = null)
+    private function getForm(Menuitem $menuitem = null)
     {
         $menuitem = $menuitem ?: new Menuitem();
+
         return $this->formBuilder->create(MenuitemForm::class, [
-            'model' => $menuitem
+            'model' => $menuitem,
         ]);
     }
 
     /**
      * Display a listing of the resource.
-     * @param  Menu $menu
+     *
      * @return Response
      */
     public function index(Menu $menu)
     {
         $menuitems = Menuitem::where('menu_id', $menu->id)->orderBy('bg', 'asc')->get();
+
         return view('menu::admin.menuitem_index', compact('menu', 'menuitems'));
     }
 
     /**
      * Show the form for creating a new resource.
-     * @param  Menu $menu
+     *
      * @return Response
      */
     public function create(Menu $menu)
     {
         $form = $this->getForm();
+
         return view('menu::admin.menuitem_form', compact('form', 'menu'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -91,12 +92,13 @@ class MenuitemController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.menuitems.index', $menuitem->menu_id);
     }
 
     /**
      * Show the specified resource.
-     * @param  Menuitem $menuitem
+     *
      * @return Response
      */
     public function show(Menuitem $menuitem)
@@ -106,20 +108,20 @@ class MenuitemController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  Menuitem $menuitem
+     *
      * @return Response
      */
     public function edit(Menuitem $menuitem)
     {
         $form = $this->getForm($menuitem);
         $menu = $menuitem->menu;
+
         return view('menu::admin.menuitem_form', compact('form', 'menu', 'menuitem'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Menuitem $menuitem
+     *
      * @return Response
      */
     public function update(Request $request, Menuitem $menuitem)
@@ -134,12 +136,12 @@ class MenuitemController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.menuitems.index', $request->get('menu_id'));
     }
 
     /**
      * Duplicate the specified resource in storage.
-     * @param Menuitem $menuitem
      */
     public function duplicate(Menuitem $menuitem)
     {
@@ -152,12 +154,12 @@ class MenuitemController extends Controller
         $new_menuitem->created_at = Carbon::now();
         $new_menuitem->updated_at = Carbon::now();
         $new_menuitem->save();
+
         return redirect()->route('admin.menuitems.index', $menuitem->menu_id);
     }
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param Menuitem $menuitem
      */
     public function active(Menuitem $menuitem)
     {
@@ -166,19 +168,19 @@ class MenuitemController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param  Menuitem $menuitem
+     *
      * @return Response
      */
     public function destroy(Menuitem $menuitem)
     {
         $deleted = $this->repository->delete($menuitem->id);
+
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param  Request $request
-     * @param  Menu  $menu
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request, Menu $menu)
@@ -188,28 +190,31 @@ class MenuitemController extends Controller
         } else {
             $menuitems = Menuitem::where('menu_id', $menu->id)->orderBy('bg', 'asc');
         }
+
         return Datatables::of($menuitems)
-            ->addColumn('record_id', function($menuitem) {
+            ->addColumn('record_id', function ($menuitem) {
                 return '<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="' . $menuitem->id . '" />
+                            <input class="form-check-input" type="checkbox" value="'.$menuitem->id.'" />
                         </div>';
             })
-            ->editColumn('active', function($menuitem) {
+            ->editColumn('active', function ($menuitem) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                return ($menuitem->active == 'Y' ? $label_on : $label_off);
+
+                return $menuitem->active == 'Y' ? $label_on : $label_off;
             })
-            ->addColumn('active_display', function($menuitem) {
+            ->addColumn('active_display', function ($menuitem) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
                 $class_btn = $menuitem->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $menuitem->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.menuitems_active', ['menuitem' => $menuitem->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($menuitem->active == 'Y' ? $label_on : $label_off) . '</a>';
+
+                return '<a href="javascript:;" data-url="'.route('admin.menuitems_active', ['menuitem' => $menuitem->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($menuitem->active == 'Y' ? $label_on : $label_off).'</a>';
             })
-            ->editColumn('title_menu', function($menuitem) {
-                return '<span style="margin-left: ' . (($menuitem->niveau - 1) * 30) . 'px">' . $menuitem->title_menu . '</span>';
+            ->editColumn('title_menu', function ($menuitem) {
+                return '<span style="margin-left: '.(($menuitem->niveau - 1) * 30).'px">'.$menuitem->title_menu.'</span>';
             })
-            ->addColumn('actions', function($menuitem) {
+            ->addColumn('actions', function ($menuitem) {
                 $items = [];
                 $items['edit'] = ['link' => $menuitem->url_backend->edit, 'label' => 'Edit'];
                 $items['duplicate'] = ['link' => route('admin.menuitems_duplicate', ['menuitem' => $menuitem->id]), 'label' => 'Duplicate'];
@@ -217,6 +222,7 @@ class MenuitemController extends Controller
                 $items['more'][] = ['link' => $menuitem->url_backend->show, 'label' => 'Preview'];
                 $items['more'][] = ['link' => route('admin.menuitems.create', ['menu' => $menuitem->menu_id, 'parent' => $menuitem->id]), 'label' => 'Add submenu'];
                 $items = apply_filters('menuitems_datatableactions', $items);
+
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])

@@ -5,7 +5,6 @@ namespace Modules\Core\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
@@ -20,6 +19,7 @@ class DashboardController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index()
@@ -29,21 +29,25 @@ class DashboardController extends Controller
 
     /**
      * Set dashboard locale.
+     *
      * @return Response
      */
     public function setlocale(Request $request, $lang)
     {
         $request->session()->put('locale', $lang);
+
         return redirect()->back();
     }
 
     /**
      * Set dashboard domain.
+     *
      * @return Response
      */
     public function setdomain(Request $request, $domain)
     {
         $request->session()->put('domain', $domain);
+
         return redirect()->back();
     }
 

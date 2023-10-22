@@ -7,11 +7,11 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Yajra\Datatables\Datatables;
+use Modules\Core\Repositories\ModelRepository;
 use Modules\Formulaire\Entities\Formulaire;
 use Modules\Formulaire\Entities\FormulaireField;
 use Modules\Formulaire\Forms\FormulaireFieldForm;
-use Modules\Core\Repositories\ModelRepository;
+use Yajra\Datatables\Datatables;
 
 class FormulaireFieldController extends Controller
 {
@@ -27,8 +27,6 @@ class FormulaireFieldController extends Controller
 
     /**
      * FormulaireFieldController constructor.
-     * @param FormulaireField $formulaire_field
-     * @param FormBuilder $formBuilder
      */
     public function __construct(FormulaireField $formulaire_field, FormBuilder $formBuilder)
     {
@@ -40,20 +38,21 @@ class FormulaireFieldController extends Controller
 
     /**
      * Return the formBuilder
-     * @param  FormulaireField|null $formulaire_field
+     *
      * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(?FormulaireField $formulaire_field = null)
+    private function getForm(FormulaireField $formulaire_field = null)
     {
         $formulaire_field = $formulaire_field ?: new FormulaireField();
+
         return $this->formBuilder->create(FormulaireFieldForm::class, [
-            'model' => $formulaire_field
+            'model' => $formulaire_field,
         ]);
     }
 
     /**
      * Display a listing of the resource.
-     * @param  Formulaire $formulaire
+     *
      * @return Response
      */
     public function index(Formulaire $formulaire)
@@ -63,18 +62,19 @@ class FormulaireFieldController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param  Formulaire $formulaire
+     *
      * @return Response
      */
     public function create(Formulaire $formulaire)
     {
         $form = $this->getForm();
+
         return view('formulaire::admin.formulaire_field_form', compact('form', 'formulaire'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -89,12 +89,13 @@ class FormulaireFieldController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.formulaires_fields.index', $formulaire_field->formulaire_id);
     }
 
     /**
      * Show the specified resource.
-     * @param  FormulaireField $formulaire_field
+     *
      * @return Response
      */
     public function show(FormulaireField $formulaire_field)
@@ -104,20 +105,20 @@ class FormulaireFieldController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  FormulaireField $formulaire_field
+     *
      * @return Response
      */
     public function edit(FormulaireField $formulaire_field)
     {
         $form = $this->getForm($formulaire_field);
         $formulaire = $formulaire_field->formulaire;
+
         return view('formulaire::admin.formulaire_field_form', compact('form', 'formulaire', 'formulaire_field'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  FormulaireField $formulaire_field
+     *
      * @return Response
      */
     public function update(Request $request, FormulaireField $formulaire_field)
@@ -132,12 +133,12 @@ class FormulaireFieldController extends Controller
         } elseif ($request->get('save') == 'save_stay') {
             return redirect()->back();
         }
+
         return redirect()->route('admin.formulaires_fields.index', $request->get('formulaire_id'));
     }
 
     /**
      * Activate/Deactivate the specified resource in storage.
-     * @param FormulaireField $formulaire_field
      */
     public function active(FormulaireField $formulaire_field)
     {
@@ -146,19 +147,19 @@ class FormulaireFieldController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param  FormulaireField $formulaire_field
+     *
      * @return Response
      */
     public function destroy(FormulaireField $formulaire_field)
     {
         $deleted = $this->repository->delete($formulaire_field->id);
+
         return redirect()->back();
     }
 
     /**
      * Process datatables ajax request.
-     * @param  Request $request
-     * @param  Formulaire  $formulaire
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request, Formulaire $formulaire)
@@ -168,29 +169,33 @@ class FormulaireFieldController extends Controller
         } else {
             $formulaires_fields = FormulaireField::where('formulaire_id', $formulaire->id);
         }
+
         return Datatables::of($formulaires_fields)
-            ->addColumn('record_id', function($formulaire_field) {
+            ->addColumn('record_id', function ($formulaire_field) {
                 return '<div class="form-check form-check-sm form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" value="' . $formulaire_field->id . '" />
+                            <input class="form-check-input" type="checkbox" value="'.$formulaire_field->id.'" />
                         </div>';
             })
-            ->editColumn('active', function($formulaire_field) {
+            ->editColumn('active', function ($formulaire_field) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                return ($formulaire_field->active == 'Y' ? $label_on : $label_off);
+
+                return $formulaire_field->active == 'Y' ? $label_on : $label_off;
             })
-            ->addColumn('active_display', function($formulaire_field) {
+            ->addColumn('active_display', function ($formulaire_field) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
                 $class_btn = $formulaire_field->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
                 $class_i = $formulaire_field->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
-                return '<a href="javascript:;" data-url="' . route('admin.formulaires_fields_active', ['formulaire_field' => $formulaire_field->id]) . '" data-label-on="' . $label_on . '" data-label-off="' . $label_off . '" class="toggle-active btn btn-sm min-w-100px ' . $class_btn . '"><i class="la ' . $class_i . '"></i>' . ($formulaire_field->active == 'Y' ? $label_on : $label_off) . '</a>';
+
+                return '<a href="javascript:;" data-url="'.route('admin.formulaires_fields_active', ['formulaire_field' => $formulaire_field->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($formulaire_field->active == 'Y' ? $label_on : $label_off).'</a>';
             })
-            ->addColumn('actions', function($formulaire_field) {
+            ->addColumn('actions', function ($formulaire_field) {
                 $items = [];
                 $items['edit'] = ['link' => $formulaire_field->url_backend->edit, 'label' => 'Edit'];
                 $items['delete'] = ['link' => $formulaire_field->url_backend->destroy, 'label' => 'Delete'];
                 $items = apply_filters('formulaires_fields_datatableactions', $items);
+
                 return view('components.datatableactions', compact('items'));
             })
             ->escapeColumns(['code', 'type', 'label_front'])

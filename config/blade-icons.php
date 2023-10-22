@@ -109,10 +109,10 @@ return [
                 'Themes/metronic_8.1.8/assets/media/flags',
                 'Themes/metronic_8.1.8/assets/media/icons',
                 'Themes/metronic_8.1.8/assets/media/logos',
-                'Themes/metronic_8.1.8/assets/media/svg'
+                'Themes/metronic_8.1.8/assets/media/svg',
             ],
-            'prefix' => ''
-        ]
+            'prefix' => '',
+        ],
 
     ],
 

@@ -2,9 +2,9 @@
 
 namespace Modules\Product\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 
 class ProductServiceProvider extends ServiceProvider
@@ -66,7 +66,7 @@ class ProductServiceProvider extends ServiceProvider
 
         $this->publishes([$sourcePath => $viewPath], 'views');
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/product';
+            return $path.'/modules/product';
         }, Config::get('view.paths')), [$sourcePath]), 'product');
     }
 

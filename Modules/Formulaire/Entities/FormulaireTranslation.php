@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  *     title="FormulaireTranslation",
  *     description="FormulaireTranslation model",
+ *
  *     @OA\Property(
  *         property="title",
  *         title="Title",
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class FormulaireTranslation extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string

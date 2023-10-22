@@ -18,8 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function() {
-	Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
+Route::prefix('admin')->group(function () {
+    Route::get('modules', 'Admin\ModulesController@index')->name('admin.modules');
 });
 
 Route::get('/schedule/run', function () {
@@ -32,13 +32,13 @@ $menuitems[] = (object)array('id' => 2, 'gabarit' => 'product-index', 'permalink
 $menuitems[] = (object)array('id' => 3, 'gabarit' => 'product-index', 'permalink' => 'permalink2/categorie');
 $menuitems[] = (object)array('id' => 4, 'gabarit' => 'newsletter_user-index', 'permalink' => 'permalink4');
 if (!empty($menuitems)) {
-	foreach ($menuitems as $menuitem) {
-		$gabarit_array = explode('-', $menuitem->gabarit);
-		$controller_array = explode('_', $gabarit_array[0]);
-		$controller = implode('', array_map('ucfirst', $controller_array));
-		$method = $gabarit_array[1];
-		Route::get($menuitem->permalink, $controller . 'Controller@' . $method)->name('menuitem' . $menuitem->id);
-	}
+    foreach ($menuitems as $menuitem) {
+        $gabarit_array = explode('-', $menuitem->gabarit);
+        $controller_array = explode('_', $gabarit_array[0]);
+        $controller = implode('', array_map('ucfirst', $controller_array));
+        $method = $gabarit_array[1];
+        Route::get($menuitem->permalink, $controller . 'Controller@' . $method)->name('menuitem' . $menuitem->id);
+    }
 }*/
 
 //Route::get('{menuitem}/{actualite}', 'ActualiteController@show');
@@ -47,7 +47,7 @@ if (!empty($menuitems)) {
 Route::middleware([
     'auth',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');

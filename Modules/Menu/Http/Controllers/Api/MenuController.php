@@ -7,8 +7,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Entities\Menuitem;
-use Modules\Menu\Transformers\MenuResource;
 use Modules\Menu\Transformers\MenuitemResource;
+use Modules\Menu\Transformers\MenuResource;
 
 /**
  * @OA\Tag(
@@ -20,6 +20,7 @@ class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      *
      * @OA\Get(
@@ -31,22 +32,30 @@ class MenuController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/MenuResource")
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -59,6 +68,7 @@ class MenuController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      *
      * @OA\Get(
@@ -70,22 +80,30 @@ class MenuController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/MenuitemResource")
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -98,7 +116,7 @@ class MenuController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      *
      * @OA\Post(
@@ -110,33 +128,46 @@ class MenuController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Menu")
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Menu")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     )
@@ -145,16 +176,17 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|unique:menus'
+            'code' => 'required|unique:menus',
         ]);
 
         $menu = Menu::create($request->all());
+
         return (new MenuResource($menu))->response()->setStatusCode(201);
     }
 
     /**
      * Show the specified resource.
-     * @param  Menu $menu
+     *
      * @return Response
      *
      * @OA\Get(
@@ -166,45 +198,61 @@ class MenuController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Menu id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Menu")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -217,8 +265,7 @@ class MenuController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Menu $menu
+     *
      * @return Response
      *
      * @OA\Put(
@@ -230,49 +277,67 @@ class MenuController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Menu id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Menu")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Menu")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Bad Request.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -281,12 +346,13 @@ class MenuController extends Controller
     public function update(Request $request, Menu $menu)
     {
         $menu->update($request->all());
+
         return new MenuResource($menu);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  Menu $menu
+     *
      * @return Response
      *
      * @OA\Delete(
@@ -298,15 +364,18 @@ class MenuController extends Controller
      *     security={
      *         {"passport": {}}
      *     },
+     *
      *     @OA\Parameter(
      *         name="id",
      *         description="Menu id",
      *         required=true,
      *         in="path",
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=204,
      *         description="Successful operation"
@@ -314,21 +383,29 @@ class MenuController extends Controller
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Forbidden.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Resource Not Found.")
      *         )
      *     )
@@ -337,6 +414,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         $menu->delete();
+
         return response()->json(null, 204);
     }
 }

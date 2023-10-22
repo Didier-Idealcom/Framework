@@ -19,6 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @OA\Schema(
  *     title="User",
  *     description="User model",
+ *
  *     @OA\Property(
  *         property="id",
  *         ref="#/components/schemas/BaseModel/properties/id")
@@ -79,9 +80,9 @@ use Spatie\Permission\Traits\HasRoles;
  *     )
  * )
  */
-class User extends Authenticatable/* implements MustVerifyEmail*/
+class User extends Authenticatable /* implements MustVerifyEmail*/
 {
-    use HasApiTokens, HasDomains, HasFactory, HasRoles, HasProfilePhoto, HasUrlPresenter, Notifiable, TwoFactorAuthenticatable;
+    use HasApiTokens, HasDomains, HasFactory, HasProfilePhoto, HasRoles, HasUrlPresenter, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -114,12 +115,12 @@ class User extends Authenticatable/* implements MustVerifyEmail*/
 
     public function getFullnameAttribute()
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return $this->firstname.' '.$this->lastname;
     }
 
     public function setPasswordAttribute($value)
     {
-        if (!empty($value)) {
+        if (! empty($value)) {
             $this->attributes['password'] = bcrypt($value);
         }
     }
@@ -131,13 +132,14 @@ class User extends Authenticatable/* implements MustVerifyEmail*/
      */
     public function isAdmin()
     {
-        if (!empty($this->roles)) {
+        if (! empty($this->roles)) {
             foreach ($this->roles as $role) {
                 if ($role->guard_name == 'admin') {
                     return true;
                 }
             }
         }
+
         return false;
     }
 }

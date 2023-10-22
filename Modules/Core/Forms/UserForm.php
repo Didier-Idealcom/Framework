@@ -2,8 +2,6 @@
 
 namespace Modules\Core\Forms;
 
-use Modules\Core\Forms\CoreForm;
-
 class UserForm extends CoreForm
 {
     public function buildForm()
@@ -21,7 +19,7 @@ class UserForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
@@ -29,13 +27,13 @@ class UserForm extends CoreForm
                 'label' => 'Rôle',
                 'rules' => 'required',
                 'multiple' => true,
-                'class' => 'Modules\Core\Entities\Role'
+                'class' => 'Modules\Core\Entities\Role',
             ])
             ->add('domain', 'entity', [
                 'label' => 'Domaine',
                 'rules' => 'required',
                 'multiple' => true,
-                'class' => 'Modules\Core\Entities\Domain'
+                'class' => 'Modules\Core\Entities\Domain',
             ])
             ->add('lang', 'entity', [
                 'label' => 'Langue',
@@ -44,33 +42,33 @@ class UserForm extends CoreForm
                 'property_key' => 'alpha2',
                 'query_builder' => function (\Modules\Core\Entities\Language $language) {
                     return $language->where('active', 'Y');
-                }
+                },
             ])
             ->add('firstname', 'text', [
                 'label' => 'Prénom',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('lastname', 'text', [
                 'label' => 'Nom',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('email', 'email', [
                 'label' => 'E-mail',
-                'rules' => 'required|unique:users,email,' . $this->getModel()->id
+                'rules' => 'required|unique:users,email,'.$this->getModel()->id,
             ])
             ->add('password', 'repeated', [
                 'first_options' => [
                     'label' => 'Mot de passe',
-                    'rules' => !$this->getModel() ? 'required' : ''
+                    'rules' => ! $this->getModel() ? 'required' : '',
                 ],
                 'second_options' => [
                     'label' => 'Confirmation mot de passe',
-                    'rules' => !$this->getModel() ? 'required|same:password' : 'same:password'
-                ]
+                    'rules' => ! $this->getModel() ? 'required|same:password' : 'same:password',
+                ],
             ])
             ->add('avatar', 'slim', [
                 'label' => 'Avatar',
-                'rules' => ''
+                'rules' => '',
             ]);
 
         parent::buildForm();

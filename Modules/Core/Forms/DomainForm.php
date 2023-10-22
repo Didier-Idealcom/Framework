@@ -2,8 +2,6 @@
 
 namespace Modules\Core\Forms;
 
-use Modules\Core\Forms\CoreForm;
-
 class DomainForm extends CoreForm
 {
     public function buildForm()
@@ -19,41 +17,41 @@ class DomainForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
             ->add('title', 'text', [
                 'label' => 'Titre',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('name', 'text', [
                 'label' => 'Nom de domaine',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('folder', 'text', [
                 'label' => 'Dossier',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('analytics', 'text', [
                 'label' => 'Google Analytics',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('google_maps_api_key', 'text', [
                 'label' => 'Google Maps API key',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('maintenance_start', 'date', [
                 'label' => 'Début maintenance',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('maintenance_end', 'date', [
                 'label' => 'Fin maintenance',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('maintenance_message', 'textarea', [
                 'label' => 'Message maintenance',
-                'rules' => ''
+                'rules' => '',
             ]);
 
         parent::buildForm();

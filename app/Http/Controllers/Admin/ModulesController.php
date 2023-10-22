@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use \Module;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Module;
 
 class ModulesController extends Controller
 {
@@ -26,7 +25,8 @@ class ModulesController extends Controller
     public function index()
     {
         $this->modules = Module::all();
-//dd($this->modules);
+
+        //dd($this->modules);
         return view('admin.modules');
     }
 }

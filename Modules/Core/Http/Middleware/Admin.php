@@ -25,12 +25,12 @@ class Admin
         }
 
         // Récupération des domaines de l'administrateur
-        if (!empty(Auth::guard('admin')->user())) {
+        if (! empty(Auth::guard('admin')->user())) {
             $domains = Auth::guard('admin')->user()->domains;
 
             // Récupération du domaine courant
             $current_domain = Domain::find($request->session()->get('domain'));
-            $current_domain_languages = $current_domain->languages->map(function($language) {
+            $current_domain_languages = $current_domain->languages->map(function ($language) {
                 return $language->language_id;
             });
 
@@ -41,7 +41,7 @@ class Admin
             $current_language = Language::firstWhere('alpha2', App::getLocale());
 
             // Si la langue courante n'est pas dans la liste des langues du domaine courant
-            if (!in_array($current_language->id, $current_domain_languages->all())) {
+            if (! in_array($current_language->id, $current_domain_languages->all())) {
                 $request->session()->put('locale', $current_domain->languages->first()->language->alpha2);
                 $current_language = $current_domain->languages->first()->language;
                 App::setLocale($request->session()->get('locale'));

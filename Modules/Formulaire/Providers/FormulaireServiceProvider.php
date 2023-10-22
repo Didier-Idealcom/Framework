@@ -2,9 +2,9 @@
 
 namespace Modules\Formulaire\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 
 class FormulaireServiceProvider extends ServiceProvider
@@ -66,7 +66,7 @@ class FormulaireServiceProvider extends ServiceProvider
 
         $this->publishes([$sourcePath => $viewPath], 'views');
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/formulaire';
+            return $path.'/modules/formulaire';
         }, Config::get('view.paths')), [$sourcePath]), 'formulaire');
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMenusTable extends Migration
 {
@@ -21,13 +21,13 @@ class CreateMenusTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('menus_translations', function(Blueprint $table) {
+        Schema::create('menus_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('menu_id')->unsigned();
             $table->string('locale')->index();
             $table->string('title');
 
-            $table->unique(['menu_id','locale']);
+            $table->unique(['menu_id', 'locale']);
             $table->foreign('menu_id')->references('id')->on('menus')->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -50,7 +50,7 @@ class CreateMenusTable extends Migration
             $table->foreign('parent_id')->references('id')->on('menuitems')->onUpdate('cascade')->onDelete('cascade');
         });
 
-        Schema::create('menuitems_translations', function(Blueprint $table) {
+        Schema::create('menuitems_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('menuitem_id')->unsigned();
             $table->string('locale')->index();
@@ -59,7 +59,7 @@ class CreateMenusTable extends Migration
             $table->string('link')->nullable();
             $table->string('target')->nullable();
 
-            $table->unique(['menuitem_id','locale']);
+            $table->unique(['menuitem_id', 'locale']);
             $table->foreign('menuitem_id')->references('id')->on('menuitems')->onUpdate('cascade')->onDelete('cascade');
         });
     }

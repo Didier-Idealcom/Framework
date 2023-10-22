@@ -2,7 +2,7 @@
 
 namespace Tests\Codeception\Functional;
 
-use \FunctionalTester;
+use FunctionalTester;
 
 class LoginAdminCest
 {
@@ -12,7 +12,7 @@ class LoginAdminCest
 
     public function tryToLoginAsUser(FunctionalTester $I)
     {
-        $I->dontSeeRecord('users', array('email' => 'taylor@laravel.com'));
+        $I->dontSeeRecord('users', ['email' => 'taylor@laravel.com']);
 
         // Création de l'utilisateur
         $user = $I->haveRecord('Modules\Core\Entities\User', [
@@ -22,7 +22,7 @@ class LoginAdminCest
             'email' => 'taylor@laravel.com',
             'password' => 'secret',
             'created_at' => new \DateTime(),
-            'updated_at' => new \DateTime()
+            'updated_at' => new \DateTime(),
         ]);
 
         $I->seeRecord('users', ['email' => 'taylor@laravel.com']);
@@ -30,12 +30,12 @@ class LoginAdminCest
         $I->haveRecord('model_has_roles', [
             'role_id' => 1,
             'model_type' => 'Modules\Core\Entities\User',
-            'model_id' => $user->id
+            'model_id' => $user->id,
         ]);
         $I->haveRecord('model_has_domains', [
             'domain_id' => 1,
             'model_type' => 'Modules\Core\Entities\User',
-            'model_id' => $user->id
+            'model_id' => $user->id,
         ]);
 
         // Intéraction page Login

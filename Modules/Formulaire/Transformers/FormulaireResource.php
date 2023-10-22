@@ -8,11 +8,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @OA\Schema(
  *     title="FormulaireResource",
  *     description="Formulaire resource",
+ *
  *     @OA\Property(
  *         property="data",
  *         title="Data",
  *         description="Data wrapper",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/Formulaire"
  *         )
@@ -44,7 +46,7 @@ class FormulaireResource extends JsonResource
             'code' => $this->code,
             'tracking' => $this->tracking,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at
+            'update_at' => $this->update_at,
         ];
     }
 }

@@ -10,6 +10,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Menu",
  *     description="Menu model",
+ *
  *     @OA\Property(
  *         property="id",
  *         ref="#/components/schemas/BaseModel/properties/id")
@@ -40,6 +41,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  *         title="Translations",
  *         description="Menu translations",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/MenuTranslation"
  *         )

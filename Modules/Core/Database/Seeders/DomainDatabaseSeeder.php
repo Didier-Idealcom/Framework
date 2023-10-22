@@ -2,8 +2,8 @@
 
 namespace Modules\Core\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use Modules\Core\Entities\Domain;
 use Modules\Core\Entities\DomainLanguage;
@@ -24,13 +24,13 @@ class DomainDatabaseSeeder extends Seeder
         Domain::create([
             'active' => 'Y',
             'title' => 'Laravel',
-            'name' => 'laravel.test'
+            'name' => 'laravel.test',
         ]);
         DomainLanguage::truncate();
         DomainLanguage::create([
             'domain_id' => 1,
             'language_id' => 1,
-            'active' => 'Y'
+            'active' => 'Y',
         ]);
         Schema::enableForeignKeyConstraints();
     }

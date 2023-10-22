@@ -42,7 +42,6 @@ abstract class RoutingServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
-     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function map(Router $router)
@@ -54,16 +53,13 @@ abstract class RoutingServiceProvider extends ServiceProvider
         $router->group([
             'namespace' => $this->namespace,
             'prefix' => '',
-            'middleware' => []
+            'middleware' => [],
         ], function (Router $router) {
             $this->loadBackendRoutes($router);
             $this->loadFrontendRoutes($router);
         });
     }
 
-    /**
-     * @param Router $router
-     */
     private function loadFrontendRoutes(Router $router)
     {
         $frontend = $this->getFrontendRoutes();
@@ -77,9 +73,6 @@ abstract class RoutingServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * @param Router $router
-     */
     private function loadBackendRoutes(Router $router)
     {
         $backend = $this->getBackendRoutes();
@@ -87,7 +80,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
         if ($backend && file_exists($backend)) {
             $router->group([
                 'namespace' => 'Admin',
-                'as' => config('framework.core.config.prefix-backend') . '.',
+                'as' => config('framework.core.config.prefix-backend').'.',
                 'prefix' => config('framework.core.config.prefix-backend'),
                 'middleware' => config('framework.core.config.middleware.backend', []),
             ], function (Router $router) use ($backend) {
@@ -96,9 +89,6 @@ abstract class RoutingServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * @param Router $router
-     */
     private function loadApiRoutes(Router $router)
     {
         $api = $this->getApiRoutes();
@@ -106,7 +96,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
         if ($api && file_exists($api)) {
             $router->group([
                 'namespace' => 'Api',
-                'as' => config('framework.core.config.prefix-api') . '.',
+                'as' => config('framework.core.config.prefix-api').'.',
                 'prefix' => config('framework.core.config.prefix-api'),
                 'middleware' => config('framework.core.config.middleware.api', []),
             ], function (Router $router) use ($api) {

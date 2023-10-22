@@ -40,7 +40,7 @@ class Alert extends Component
      * @param  string  $type
      * @param  string  $message
      * @param  string  $icon
-     * @param  bool    $dismiss
+     * @param  bool  $dismiss
      * @return void
      */
     public function __construct($type, $message, $icon, $dismiss)

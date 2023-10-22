@@ -12,6 +12,7 @@ class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index()
@@ -21,7 +22,7 @@ class PageController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -31,7 +32,7 @@ class PageController extends Controller
 
     /**
      * Show the specified resource.
-     * @param  Page $page
+     *
      * @return Response
      */
     public function show(Page $page)
@@ -41,8 +42,7 @@ class PageController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
-     * @param  Page $page
+     *
      * @return Response
      */
     public function update(Request $request, Page $page)
@@ -52,7 +52,7 @@ class PageController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param  Page $page
+     *
      * @return Response
      */
     public function destroy(Page $page)

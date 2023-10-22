@@ -3,7 +3,6 @@
 namespace Modules\Core\Forms;
 
 use Illuminate\Validation\Rule;
-use Modules\Core\Forms\CoreForm;
 
 class DomainLanguageForm extends CoreForm
 {
@@ -27,13 +26,13 @@ class DomainLanguageForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
             ->add('domain_id', 'hidden', [
                 'rules' => 'required',
-                'default_value' => $domain_id
+                'default_value' => $domain_id,
             ])
             ->add('language_id', 'entity', [
                 'label' => 'Langue',
@@ -41,43 +40,43 @@ class DomainLanguageForm extends CoreForm
                     'required',
                     Rule::unique('domains_languages')->where(function ($query) use ($domain_id) {
                         return $query->where('domain_id', $domain_id);
-                    })->ignore($this->getModel()->id)
+                    })->ignore($this->getModel()->id),
                 ],
                 'class' => 'Modules\Core\Entities\Language',
                 'property_key' => 'id',
-                'property' => 'name'
+                'property' => 'name',
             ])
             ->add('url_redirect', 'text', [
                 'label' => 'URL redirection',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_blog', 'text', [
                 'label' => 'URL blog',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_facebook', 'text', [
                 'label' => 'URL Facebook',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_instagram', 'text', [
                 'label' => 'URL Instagram',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_linkedin', 'text', [
                 'label' => 'URL Linkedin',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_pinterest', 'text', [
                 'label' => 'URL Pinterest',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_twitter', 'text', [
                 'label' => 'URL Twitter',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('url_youtube', 'text', [
                 'label' => 'URL Youtube',
-                'rules' => ''
+                'rules' => '',
             ]);
 
         parent::buildForm();

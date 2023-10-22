@@ -2,14 +2,14 @@
 
 namespace Modules\Core\Exports;
 
-use Modules\Core\Entities\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Modules\Core\Entities\User;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class UserExport implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting
+class UserExport implements FromCollection, WithColumnFormatting, WithHeadings, WithMapping
 {
     public function collection()
     {
@@ -17,7 +17,7 @@ class UserExport implements FromCollection, WithMapping, WithHeadings, WithColum
     }
 
     /**
-     * @var User $user
+     * @var User
      */
     public function map($user): array
     {
@@ -25,7 +25,7 @@ class UserExport implements FromCollection, WithMapping, WithHeadings, WithColum
             $user->id,
             $user->name,
             $user->email,
-            Date::dateTimeToExcel($user->created_at)
+            Date::dateTimeToExcel($user->created_at),
         ];
     }
 
@@ -35,17 +35,14 @@ class UserExport implements FromCollection, WithMapping, WithHeadings, WithColum
             '#',
             'Nom',
             'E-mail',
-            'Inscription'
+            'Inscription',
         ];
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         return [
-            'D' => 'dd/mm/yyyy hh:mm:ss'
+            'D' => 'dd/mm/yyyy hh:mm:ss',
         ];
     }
 }

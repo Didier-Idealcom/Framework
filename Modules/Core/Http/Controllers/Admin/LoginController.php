@@ -2,9 +2,9 @@
 
 namespace Modules\Core\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -50,7 +50,6 @@ class LoginController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
@@ -73,28 +72,26 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.'
+            'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
 
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  Modules\Core\Entities\User  $user
      */
     protected function authenticated(Request $request, $user)
     {
         $user->update([
             'last_login_at' => Carbon::now()->toDateTimeString(),
-            'last_login_ip' => $request->getClientIp()
+            'last_login_ip' => $request->getClientIp(),
         ]);
     }
 
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)

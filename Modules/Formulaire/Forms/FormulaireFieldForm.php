@@ -26,7 +26,7 @@ class FormulaireFieldForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
@@ -39,40 +39,40 @@ class FormulaireFieldForm extends CoreForm
             ])*/
             ->add('formulaire_id', 'hidden', [
                 'rules' => 'required',
-                'default_value' => $formulaire_id
+                'default_value' => $formulaire_id,
             ])
             ->add('code', 'text', [
                 'label' => 'Code',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('type', 'text', [
                 'label' => 'Type',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('label_admin', 'text', [
                 'label' => 'Label admin',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('label_front', 'text', [
                 'label' => 'Label front',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('placeholder', 'text', [
                 'label' => 'Placeholder',
                 'rules' => '',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('help', 'text', [
                 'label' => 'Aide',
                 'rules' => '',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('error', 'text', [
                 'label' => 'Erreur',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ]);
 
         parent::buildForm();

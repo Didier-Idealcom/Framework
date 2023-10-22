@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  *     title="MenuTranslation",
  *     description="MenuTranslation model",
+ *
  *     @OA\Property(
  *         property="title",
  *         title="Title",

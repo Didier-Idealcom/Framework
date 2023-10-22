@@ -32,7 +32,7 @@ class MenuitemForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
@@ -45,57 +45,57 @@ class MenuitemForm extends CoreForm
             ])*/
             ->add('menu_id', 'hidden', [
                 'rules' => 'required',
-                'default_value' => $menu_id
+                'default_value' => $menu_id,
             ])
             ->add('parent_id', 'hidden', [
                 'rules' => '',
-                'default_value' => $parent_id
+                'default_value' => $parent_id,
             ])
             ->add('title_menu', 'text', [
                 'label' => 'Titre menu',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('title_page', 'text', [
                 'label' => 'Titre page',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('gabarit', 'select', [
                 'label' => 'Gabarit',
                 'rules' => '',
                 'choices' => ['index_index' => 'Accueil', 'actualites_index' => 'Listing actualités', 'cmspages_index' => 'Page de contenu'],
-                'empty_value' => 'Sélectionnez...'
+                'empty_value' => 'Sélectionnez...',
             ])
             ->add('link', 'url', [
                 'label' => 'Lien',
                 'rules' => '',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('target', 'select', [
                 'label' => 'Cible',
                 'rules' => '',
                 'choices' => ['_self' => 'Même fenêtre', '_blank' => 'Nouvelle fenêtre'],
                 'selected' => '_self',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('visible', 'select', [
                 'label' => 'Visible',
                 'rules' => '',
                 'choices' => ['Y' => 'Oui', 'N' => 'Non'],
-                'selected' => 'Y'
+                'selected' => 'Y',
             ])
             ->add('cliquable', 'select', [
                 'label' => 'Cliquable',
                 'rules' => '',
                 'choices' => ['Y' => 'Oui', 'N' => 'Non'],
-                'selected' => 'Y'
+                'selected' => 'Y',
             ])
             ->add('format', 'select', [
                 'label' => 'Format',
                 'rules' => '',
                 'choices' => ['submenu' => 'Petit', 'big_submenu' => 'Grand'],
-                'selected' => 'submenu'
+                'selected' => 'submenu',
             ]);
 
         parent::buildForm();

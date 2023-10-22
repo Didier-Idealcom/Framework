@@ -2,7 +2,7 @@
 
 namespace Modules\Email\Forms;
 
-use \Module;
+use Module;
 use Modules\Core\Forms\CoreForm;
 
 class EmailForm extends CoreForm
@@ -19,11 +19,11 @@ class EmailForm extends CoreForm
         }
         $this->formOptions = [
             'method' => $method,
-            'url' => $url
+            'url' => $url,
         ];
 
         $modules = Module::all();
-        $modules_array = array();
+        $modules_array = [];
         foreach ($modules as $module) {
             $modules_array[$module->getName()] = $module->getName();
         }
@@ -32,39 +32,39 @@ class EmailForm extends CoreForm
             ->add('module', 'select', [
                 'label' => 'Module',
                 'rules' => 'required',
-                'choices' => $modules_array
+                'choices' => $modules_array,
             ])
             ->add('name', 'text', [
                 'label' => 'Nom',
-                'rules' => 'required'
+                'rules' => 'required',
             ])
             ->add('description', 'textarea', [
                 'label' => 'Description',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('from', 'email', [
                 'label' => 'From',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('reply_to', 'email', [
                 'label' => 'Reply to',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('to', 'text', [
                 'label' => 'To',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('cc', 'text', [
                 'label' => 'CC',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('bcc', 'text', [
                 'label' => 'BCC',
-                'rules' => ''
+                'rules' => '',
             ])
             ->add('delay', 'text', [
                 'label' => 'Délai',
-                'rules' => ''
+                'rules' => '',
             ]);
 
         parent::buildForm();

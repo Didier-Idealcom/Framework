@@ -23,27 +23,27 @@ class PageForm extends CoreForm
         $this->formOptions = [
             'method' => $method,
             'url' => $url,
-            'class' => 'kt-form'
+            'class' => 'kt-form',
         ];
 
         $this
             ->add('title', 'text', [
                 'label' => 'Titre',
                 'rules' => 'required',
-                'translatable' => true
+                'translatable' => true,
             ])
             ->add('content', 'grapesjs', [
                 'label' => 'Contenu',
                 'rules' => 'required',
-                'translatable' => true
-            ]);
-            /*->add('content', 'visualeditor', [
-                'label' => 'Contenu',
-                'rules' => 'required',
                 'translatable' => true,
-                'url_show' => $url_show,
-                'url_preview' => $url_preview
-            ]);*/
+            ]);
+        /*->add('content', 'visualeditor', [
+            'label' => 'Contenu',
+            'rules' => 'required',
+            'translatable' => true,
+            'url_show' => $url_show,
+            'url_preview' => $url_preview
+        ]);*/
 
         parent::buildForm();
     }

@@ -10,6 +10,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  * @OA\Schema(
  *     title="Page",
  *     description="Page model",
+ *
  *     @OA\Property(
  *         property="id",
  *         ref="#/components/schemas/BaseModel/properties/id")
@@ -34,6 +35,7 @@ use Modules\Core\Traits\HasUrlPresenter;
  *         title="Translations",
  *         description="Page translations",
  *         type="array",
+ *
  *         @OA\Items(
  *             ref="#/components/schemas/PageTranslation"
  *         )

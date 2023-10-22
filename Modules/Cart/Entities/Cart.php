@@ -2,10 +2,10 @@
 
 namespace Modules\Cart\Entities;
 
-use Illuminate\Support\Collection;
-use Illuminate\Session\SessionManager;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Session\SessionManager;
+use Illuminate\Support\Collection;
 
 class Cart extends Model
 {
@@ -41,9 +41,6 @@ class Cart extends Model
 
     /**
      * Cart constructor.
-     *
-     * @param \Illuminate\Session\SessionManager      $session
-     * @param \Illuminate\Contracts\Events\Dispatcher $events
      */
     public function __construct(SessionManager $session, Dispatcher $events)
     {
@@ -56,7 +53,7 @@ class Cart extends Model
     /**
      * Set the current cart instance.
      *
-     * @param string|null $instance
+     * @param  string|null  $instance
      * @return Modules\Cart\Entities\Cart
      */
     public function instance($instance = null)
@@ -80,11 +77,10 @@ class Cart extends Model
     /**
      * Add an item to the cart.
      *
-     * @param int    $id
-     * @param string $name
-     * @param int    $qty
-     * @param float  $price
-     * @param array  $options
+     * @param  int  $id
+     * @param  string  $name
+     * @param  int  $qty
+     * @param  float  $price
      * @return Modules\Cart\Entities\CartItem
      */
     public function addItem($id, $name, $qty, $price, $taxRate, array $options = [])
@@ -99,7 +95,7 @@ class Cart extends Model
         $content->put($cartItem->id, $cartItem);
 
         $this->events->fire('cart.added', $cartItem);
-        $this->session->put($this->instance . '.items', $content);
+        $this->session->put($this->instance.'.items', $content);
 
         return $cartItem;
     }
@@ -107,12 +103,11 @@ class Cart extends Model
     /**
      * Create a new CartItem from the supplied attributes.
      *
-     * @param int    $id
-     * @param string $name
-     * @param int    $qty
-     * @param float  $price
-     * @param float  $taxRate
-     * @param array  $options
+     * @param  int  $id
+     * @param  string  $name
+     * @param  int  $qty
+     * @param  float  $price
+     * @param  float  $taxRate
      * @return Modules\Cart\Entities\CartItem
      */
     private function createCartItem($id, $name, $qty, $price, $taxRate, array $options)
@@ -126,8 +121,8 @@ class Cart extends Model
     /**
      * Update the cart item with the given id.
      *
-     * @param int $id
-     * @param int $qty
+     * @param  int  $id
+     * @param  int  $qty
      * @return Modules\Cart\Entities\CartItem
      */
     public function updateItem($id, $qty)
@@ -139,13 +134,14 @@ class Cart extends Model
 
         if ($cartItem->qty <= 0) {
             $this->removeItem($cartItem->id);
+
             return;
         } else {
             $content->put($cartItem->id, $cartItem);
         }
 
         $this->events->fire('cart.updated', $cartItem);
-        $this->session->put($this->instance . '.items', $content);
+        $this->session->put($this->instance.'.items', $content);
 
         return $cartItem;
     }
@@ -153,7 +149,7 @@ class Cart extends Model
     /**
      * Remove the cart item with the given id from the cart.
      *
-     * @param string $id
+     * @param  string  $id
      * @return void
      */
     public function removeItem($id)
@@ -164,22 +160,24 @@ class Cart extends Model
         $content->pull($cartItem->id);
 
         $this->events->fire('cart.removed', $cartItem);
-        $this->session->put($this->instanc . '.items', $content);
+        $this->session->put($this->instanc.'.items', $content);
     }
 
     /**
      * Get a cart item from the cart by its id.
      *
-     * @param string $id
-     * @throws InvalidArgumentException if the cart does not contain id
+     * @param  string  $id
      * @return Modules\Cart\Entities\CartItem
+     *
+     * @throws InvalidArgumentException if the cart does not contain id
      */
     public function getItem($id)
     {
         $content = $this->getContent();
 
-        if (!$content->has($id))
+        if (! $content->has($id)) {
             throw new \InvalidArgumentException("The cart does not contain id {$id}.");
+        }
 
         return $content->get($id);
     }
@@ -192,22 +190,23 @@ class Cart extends Model
     public function count()
     {
         $content = $this->getContent();
+
         return $content->sum('qty');
     }
 
     /**
      * Get the total price of the items in the cart.
      *
-     * @param int    $decimals
-     * @param string $decimalPoint
-     * @param string $thousandSeperator
+     * @param  int  $decimals
+     * @param  string  $decimalPoint
+     * @param  string  $thousandSeperator
      * @return string
      */
     public function total($decimals = null, $decimalPoint = null, $thousandSeperator = null)
     {
         $content = $this->getContent();
 
-        $total = $content->reduce(function($total, CartItem $cartItem) {
+        $total = $content->reduce(function ($total, CartItem $cartItem) {
             return $total + ($cartItem->qty * $cartItem->priceTax);
         }, 0);
 
@@ -217,16 +216,16 @@ class Cart extends Model
     /**
      * Get the subtotal (total - tax) of the items in the cart.
      *
-     * @param int    $decimals
-     * @param string $decimalPoint
-     * @param string $thousandSeperator
+     * @param  int  $decimals
+     * @param  string  $decimalPoint
+     * @param  string  $thousandSeperator
      * @return float
      */
     public function subtotal($decimals = null, $decimalPoint = null, $thousandSeperator = null)
     {
         $content = $this->getContent();
 
-        $subTotal = $content->reduce(function($subTotal, CartItem $cartItem) {
+        $subTotal = $content->reduce(function ($subTotal, CartItem $cartItem) {
             return $subTotal + ($cartItem->qty * $cartItem->price);
         }, 0);
 
@@ -236,16 +235,16 @@ class Cart extends Model
     /**
      * Get the total tax of the items in the cart.
      *
-     * @param int    $decimals
-     * @param string $decimalPoint
-     * @param string $thousandSeperator
+     * @param  int  $decimals
+     * @param  string  $decimalPoint
+     * @param  string  $thousandSeperator
      * @return float
      */
     public function tax($decimals = null, $decimalPoint = null, $thousandSeperator = null)
     {
         $content = $this->getContent();
 
-        $tax = $content->reduce(function($tax, CartItem $cartItem) {
+        $tax = $content->reduce(function ($tax, CartItem $cartItem) {
             return $tax + ($cartItem->qty * $cartItem->tax);
         }, 0);
 
@@ -259,8 +258,8 @@ class Cart extends Model
      */
     protected function getContent()
     {
-        $content = $this->session->has($this->instance . '.items')
-            ? $this->session->get($this->instance . '.items')
+        $content = $this->session->has($this->instance.'.items')
+            ? $this->session->get($this->instance.'.items')
             : new Collection();
 
         return $content;
@@ -269,7 +268,7 @@ class Cart extends Model
     /**
      * Magic method to make accessing the total, tax and subtotal properties possible.
      *
-     * @param string $attribute
+     * @param  string  $attribute
      * @return float|null
      */
     public function __get($attribute)
@@ -296,8 +295,8 @@ class Cart extends Model
      */
     public function getBilling()
     {
-        $billing = $this->session->has($this->instance . '.billing')
-            ? $this->session->get($this->instance . '.billing')
+        $billing = $this->session->has($this->instance.'.billing')
+            ? $this->session->get($this->instance.'.billing')
             : [];
 
         return $billing;
@@ -310,7 +309,7 @@ class Cart extends Model
      */
     public function setBilling($billing)
     {
-        $this->session->put($this->instance . '.billing', $billing);
+        $this->session->put($this->instance.'.billing', $billing);
     }
 
     /**
@@ -320,8 +319,8 @@ class Cart extends Model
      */
     public function getDelivery()
     {
-        $delivery = $this->session->has($this->instance . '.delivery')
-            ? $this->session->get($this->instance . '.delivery')
+        $delivery = $this->session->has($this->instance.'.delivery')
+            ? $this->session->get($this->instance.'.delivery')
             : [];
 
         return $delivery;
@@ -334,7 +333,7 @@ class Cart extends Model
      */
     public function setDelivery($delivery)
     {
-        $this->session->put($this->instance . '.delivery', $delivery);
+        $this->session->put($this->instance.'.delivery', $delivery);
     }
 
     /**
@@ -344,8 +343,8 @@ class Cart extends Model
      */
     public function getShipping()
     {
-        $shipping = $this->session->has($this->instance . '.shipping')
-            ? $this->session->get($this->instance . '.shipping')
+        $shipping = $this->session->has($this->instance.'.shipping')
+            ? $this->session->get($this->instance.'.shipping')
             : [];
 
         return $shipping;
@@ -358,7 +357,7 @@ class Cart extends Model
      */
     public function setShipping($shipping)
     {
-        $this->session->put($this->instance . '.shipping', $shipping);
+        $this->session->put($this->instance.'.shipping', $shipping);
     }
 
     /**
@@ -368,9 +367,9 @@ class Cart extends Model
      */
     public function delete()
     {
-        $this->session->remove($this->instance . '.items');
-        $this->session->remove($this->instance . '.billing');
-        $this->session->remove($this->instance . '.delivery');
-        $this->session->remove($this->instance . '.shipping');
+        $this->session->remove($this->instance.'.items');
+        $this->session->remove($this->instance.'.billing');
+        $this->session->remove($this->instance.'.delivery');
+        $this->session->remove($this->instance.'.shipping');
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Modules\Core\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
+use Modules\Core\Entities\User;
 use Tests\TestCase;
 
 class ApiTokenPermissionsTest extends TestCase
@@ -31,14 +31,14 @@ class ApiTokenPermissionsTest extends TestCase
         ]);
 
         Livewire::test(ApiTokenManager::class)
-                    ->set(['managingPermissionsFor' => $token])
-                    ->set(['updateApiTokenForm' => [
-                        'permissions' => [
-                            'delete',
-                            'missing-permission',
-                        ],
-                    ]])
-                    ->call('updateApiToken');
+            ->set(['managingPermissionsFor' => $token])
+            ->set(['updateApiTokenForm' => [
+                'permissions' => [
+                    'delete',
+                    'missing-permission',
+                ],
+            ]])
+            ->call('updateApiToken');
 
         $this->assertTrue($user->fresh()->tokens->first()->can('delete'));
         $this->assertFalse($user->fresh()->tokens->first()->can('read'));

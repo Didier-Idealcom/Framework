@@ -3,7 +3,7 @@
 return [
     'name' => 'Cart',
 
-    /**
+    /*
     |--------------------------------------------------------------------------
     | Default number format
     |--------------------------------------------------------------------------
@@ -15,6 +15,6 @@ return [
     'format' => [
         'decimals' => 2,
         'decimal_seperator' => '.',
-        'thousand_seperator' => ','
-    ]
+        'thousand_seperator' => ',',
+    ],
 ];

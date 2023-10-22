@@ -2,10 +2,9 @@
 
 namespace App\Actions\Fortify;
 
-use Modules\Core\Entities\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use Modules\Core\Entities\User;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {

@@ -22,12 +22,11 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function() {
+        $schedule->call(function () {
             Log::info('Running schedule task');
             DB::table('users')->where('email', 'largeron.didier@gmail.com')->update(['updated_at' => Carbon::now('Europe/Paris')->toDateTimeString()]);
         })->dailyAt('08:00');
