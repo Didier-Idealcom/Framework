@@ -4,6 +4,7 @@ vendor/
 /public/build
 /public/hot
 /public/storage
+/public/Themes
 /storage/*.key
 .env
 .env.backup
