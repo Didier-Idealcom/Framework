@@ -1,11 +1,11 @@
 node_modules/
 bower_components/
-vendor/
 /public/build
 /public/hot
 /public/storage
 /public/Themes
 /storage/*.key
+/vendor
 .env
 .env.backup
 .env.production

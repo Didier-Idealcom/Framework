@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Page\Entities\Page;
 use Modules\Page\Forms\PageForm;
 use Yajra\Datatables\Datatables;
@@ -16,24 +16,13 @@ use Yajra\Datatables\Datatables;
 class PageController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * PageController constructor.
      */
-    public function __construct(Page $page, FormBuilder $formBuilder)
+    public function __construct(Page $page, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($page);
+        $this->repository->setModel($page);
     }
 
     /**

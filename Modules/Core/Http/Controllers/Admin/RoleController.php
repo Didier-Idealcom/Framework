@@ -10,33 +10,22 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Entities\Role;
 use Modules\Core\Forms\RoleForm;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Yajra\Datatables\Datatables;
 
 class RoleController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * RoleController constructor.
      */
-    public function __construct(Role $role, FormBuilder $formBuilder)
+    public function __construct(Role $role, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Role_edit')->only(['edit', 'update']);
         $this->middleware('can:Role_create')->only(['create', 'store']);
         $this->middleware('can:Role_delete')->only(['destroy']);
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($role);
+        $this->repository->setModel($role);
     }
 
     /**

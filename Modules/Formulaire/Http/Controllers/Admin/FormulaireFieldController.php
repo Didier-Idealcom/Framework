@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Formulaire\Entities\Formulaire;
 use Modules\Formulaire\Entities\FormulaireField;
 use Modules\Formulaire\Forms\FormulaireFieldForm;
@@ -16,24 +16,13 @@ use Yajra\Datatables\Datatables;
 class FormulaireFieldController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * FormulaireFieldController constructor.
      */
-    public function __construct(FormulaireField $formulaire_field, FormBuilder $formBuilder)
+    public function __construct(FormulaireField $formulaire_field, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($formulaire_field);
+        $this->repository->setModel($formulaire_field);
     }
 
     /**

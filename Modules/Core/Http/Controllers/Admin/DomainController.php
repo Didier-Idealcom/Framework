@@ -9,33 +9,22 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Domain;
 use Modules\Core\Forms\DomainForm;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Yajra\Datatables\Datatables;
 
 class DomainController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * DomainController constructor.
      */
-    public function __construct(Domain $domain, FormBuilder $formBuilder)
+    public function __construct(Domain $domain, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Domain_edit')->only(['edit', 'update']);
         $this->middleware('can:Domain_create')->only(['create', 'store']);
         $this->middleware('can:Domain_delete')->only(['destroy']);
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($domain);
+        $this->repository->setModel($domain);
     }
 
     /**

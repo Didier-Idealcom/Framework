@@ -2,13 +2,13 @@
 
 namespace Modules\Email\Http\Controllers\Admin;
 
-use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Email\Entities\Email;
 use Modules\Email\Forms\EmailForm;
 use Yajra\Datatables\Datatables;
@@ -16,24 +16,13 @@ use Yajra\Datatables\Datatables;
 class EmailController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * EmailController constructor.
      */
-    public function __construct(Email $email, FormBuilder $formBuilder)
+    public function __construct(Email $email, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($email);
+        $this->repository->setModel($email);
     }
 
     /**

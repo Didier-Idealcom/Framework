@@ -10,30 +10,19 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Domain;
 use Modules\Core\Entities\DomainLanguage;
 use Modules\Core\Forms\DomainLanguageForm;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Yajra\Datatables\Datatables;
 
 class DomainLanguageController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * DomainController constructor.
      */
-    public function __construct(DomainLanguage $domain_language, FormBuilder $formBuilder)
+    public function __construct(DomainLanguage $domain_language, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($domain_language);
+        $this->repository->setModel($domain_language);
     }
 
     /**

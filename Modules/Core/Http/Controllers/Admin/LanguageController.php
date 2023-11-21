@@ -9,33 +9,22 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Language;
 use Modules\Core\Forms\LanguageForm;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Yajra\Datatables\Datatables;
 
 class LanguageController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * LanguageController constructor.
      */
-    public function __construct(Language $language, FormBuilder $formBuilder)
+    public function __construct(Language $language, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Language_edit')->only(['edit', 'update']);
         $this->middleware('can:Language_create')->only(['create', 'store']);
         $this->middleware('can:Language_delete')->only(['destroy']);
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($language);
+        $this->repository->setModel($language);
     }
 
     /**

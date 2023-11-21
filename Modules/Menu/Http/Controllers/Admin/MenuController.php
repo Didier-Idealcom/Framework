@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Entities\Menuitem;
 use Modules\Menu\Forms\MenuForm;
@@ -17,24 +17,13 @@ use Yajra\Datatables\Datatables;
 class MenuController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * MenuController constructor.
      */
-    public function __construct(Menu $menu, FormBuilder $formBuilder)
+    public function __construct(Menu $menu, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($menu);
+        $this->repository->setModel($menu);
     }
 
     /**

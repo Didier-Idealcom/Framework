@@ -6,14 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ModelRepository implements RepositoryInterface
 {
-    // Model property on class instances
+    /**
+     * @var Model
+     */
     protected $model;
-
-    // Constructor to bind model to repository
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
 
     // Get the associated model
     public function getModel()

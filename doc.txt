@@ -2,6 +2,7 @@ définition thème admin :
 config/themes.php
 Modules/Core/Config/config.php => middleware setTheme:metronic
 ln -s /var/www/didierdev/Themes /var/www/didierdev/public/Themes
+php artisan storage:link
 
 compilation metronic :
 dev : gulp --demo1

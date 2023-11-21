@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Formulaire\Entities\Formulaire;
 use Modules\Formulaire\Forms\FormulaireForm;
 use Modules\Formulaire\Forms\FormulairePreviewForm;
@@ -16,24 +16,13 @@ use Yajra\Datatables\Datatables;
 class FormulaireController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * FormulaireController constructor.
      */
-    public function __construct(Formulaire $formulaire, FormBuilder $formBuilder)
+    public function __construct(Formulaire $formulaire, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($formulaire);
+        $this->repository->setModel($formulaire);
     }
 
     /**

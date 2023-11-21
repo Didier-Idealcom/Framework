@@ -9,33 +9,22 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Forms\PermissionForm;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Yajra\Datatables\Datatables;
 
 class PermissionController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * PermissionController constructor.
      */
-    public function __construct(Permission $permission, FormBuilder $formBuilder)
+    public function __construct(Permission $permission, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Permission_edit')->only(['edit', 'update']);
         $this->middleware('can:Permission_create')->only(['create', 'store']);
         $this->middleware('can:Permission_delete')->only(['destroy']);
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($permission);
+        $this->repository->setModel($permission);
     }
 
     /**

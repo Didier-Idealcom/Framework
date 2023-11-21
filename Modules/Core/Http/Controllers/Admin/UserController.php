@@ -14,33 +14,22 @@ use Modules\Core\Entities\Role;
 use Modules\Core\Entities\User;
 use Modules\Core\Exports\UserExport;
 use Modules\Core\Forms\UserForm;
-use Modules\Core\Repositories\ModelRepository;
+use Modules\Core\Repositories\RepositoryInterface;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
     /**
-     * @var FormBuilder
-     */
-    private $formBuilder;
-
-    /**
-     * @var ModelRepository
-     */
-    protected $repository;
-
-    /**
      * UserController constructor.
      */
-    public function __construct(User $user, FormBuilder $formBuilder)
+    public function __construct(User $user, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:User_edit')->only(['edit', 'update']);
         $this->middleware('can:User_create')->only(['create', 'store']);
         $this->middleware('can:User_delete')->only(['destroy']);
 
-        $this->formBuilder = $formBuilder;
-        $this->repository = new ModelRepository($user);
+        $this->repository->setModel($user);
     }
 
     /**
