@@ -3,7 +3,6 @@
 namespace Modules\Core\Listeners;
 
 use Illuminate\Auth\Events\Login;
-use Illuminate\Events\Dispatcher;
 
 class LoginEventSubscriber
 {
@@ -23,7 +22,7 @@ class LoginEventSubscriber
      *
      * @return array<string, string>
      */
-    public function subscribe(Dispatcher $events): array
+    public function subscribe(): array
     {
         return [
             Login::class => 'handleUserLogin',

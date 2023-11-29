@@ -2,9 +2,10 @@
 
 namespace Modules\Core\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class ModelRepository implements RepositoryInterface
+class CoreModelRepository implements CoreCrudRepositoryInterface, CoreTranslatableRepositoryInterface
 {
     /**
      * @var Model
@@ -12,7 +13,7 @@ class ModelRepository implements RepositoryInterface
     protected $model;
 
     // Get the associated model
-    public function getModel()
+    public function getModel(): Model
     {
         return $this->model;
     }
@@ -32,65 +33,71 @@ class ModelRepository implements RepositoryInterface
     }
 
     // Get all instances of model
-    public function all()
+    public function all(): Collection
     {
         return $this->model->all();
     }
 
     // Load instances of model with pagination
-    public function load($n)
+    public function paginate($n): Collection
     {
         return $this->model->paginate($n);
     }
 
     // Find record in the database with the given id
-    public function find($id)
+    public function find(int $id): Model
     {
         return $this->model->findOrFail($id);
     }
 
     // Create a new record in the database
-    public function create(array $inputs)
+    public function create(array $inputs): Model
     {
-        unset($inputs['save']);
-        if (! empty($this->model->translatedAttributes)) {
-            $inputs = $this->formatInputTranslations($inputs);
-        }
+        $inputs = $this->processTranslations($inputs);
 
         return $this->model->create($inputs);
     }
 
     // Update record in the database
-    public function update($id, array $inputs)
+    public function update(int $id, array $inputs): bool
+    {
+        $inputs = $this->processTranslations($inputs);
+
+        return $this->find($id)->update($inputs);
+    }
+
+    // Switch "on/off" a record field in the database
+    public function switch(int $id, string $field = 'active'): bool
+    {
+        $record = $this->find($id);
+        $inputs = [];
+        $inputs[$field] = $record->$field === 'Y' ? 'N' : 'Y';
+
+        return $record->update($inputs);
+    }
+
+    // Remove record from the database
+    public function delete(int $id): ?bool
+    {
+        return $this->find($id)->delete();
+    }
+
+    public function processTranslations(array $inputs): array
     {
         unset($inputs['save']);
         if (! empty($this->model->translatedAttributes)) {
             $inputs = $this->formatInputTranslations($inputs);
         }
 
-        return $this->find($id)->update($inputs);
+        return $inputs;
     }
 
-    // Switch "on/off" a record field in the database
-    public function switch($id, $field = 'active')
-    {
-        $record = $this->find($id);
-        $inputs[$field] = $record->$field == 'Y' ? 'N' : 'Y';
-
-        return $record->update($inputs);
-    }
-
-    // Remove record from the database
-    public function delete($id)
-    {
-        return $this->find($id)->delete();
-    }
-
-    private function formatInputTranslations(array $inputs)
+    private function formatInputTranslations(array $inputs): array
     {
         $locales = [];
         $translations = [];
         $languages = session()->get('languages');
+
         foreach ($languages as $language) {
             $locales[] = $language->alpha2;
         }

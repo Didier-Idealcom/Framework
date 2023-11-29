@@ -2,7 +2,7 @@
 
 namespace Modules\Core\Entities;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -134,7 +134,7 @@ class User extends Authenticatable /* implements MustVerifyEmail*/
     {
         if (! empty($this->roles)) {
             foreach ($this->roles as $role) {
-                if ($role->guard_name == 'admin') {
+                if ($role->guard_name === 'admin') {
                     return true;
                 }
             }

@@ -11,13 +11,13 @@ class PageForm extends CoreForm
         // Form options
         if ($this->getModel() && $this->getModel()->id) {
             $url = route('admin.pages.update', $this->getModel()->id);
-            $url_show = route('admin.pages.show', $this->getModel()->id);
-            $url_preview = route('admin.pages_preview', $this->getModel()->id);
+            //$url_show = route('admin.pages.show', $this->getModel()->id);
+            //$url_preview = route('admin.pages_preview', $this->getModel()->id);
             $method = 'PUT';
         } else {
             $url = route('admin.pages.store');
-            $url_show = '';
-            $url_preview = '';
+            //$url_show = '';
+            //$url_preview = '';
             $method = 'POST';
         }
         $this->formOptions = [

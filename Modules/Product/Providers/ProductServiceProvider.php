@@ -39,7 +39,6 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

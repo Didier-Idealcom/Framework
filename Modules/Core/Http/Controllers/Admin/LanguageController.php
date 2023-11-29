@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Language;
 use Modules\Core\Forms\LanguageForm;
-use Modules\Core\Repositories\RepositoryInterface;
+use Modules\Core\Repositories\LanguageRepository;
 use Yajra\Datatables\Datatables;
 
 class LanguageController extends Controller
@@ -17,7 +17,7 @@ class LanguageController extends Controller
     /**
      * LanguageController constructor.
      */
-    public function __construct(Language $language, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(Language $language, private FormBuilder $formBuilder, private LanguageRepository $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Language_edit')->only(['edit', 'update']);
@@ -29,12 +29,10 @@ class LanguageController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(Language $language = null)
+    private function getForm(Language $language = null): LanguageForm
     {
-        $language = $language ?: new Language();
+        $language = $language ? $language : new Language();
 
         return $this->formBuilder->create(LanguageForm::class, [
             'model' => $language,
@@ -72,16 +70,18 @@ class LanguageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $language = $this->repository->create($request->all());
+
+        $this->repository->create($request->all());
 
         Session::flash('success', 'La langue a été créée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.languages.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.languages.index');
+        $redirectOptions = [
+            'save_close' => route('admin.languages.index'),
+            'save_new' => route('admin.languages.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -115,16 +115,18 @@ class LanguageController extends Controller
     {
         $form = $this->getForm($language);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($language->id, $request->all());
+
+        $this->repository->update($language->id, $request->all());
 
         Session::flash('success', 'La langue a été enregistrée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.languages.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.languages.index');
+        $redirectOptions = [
+            'save_close' => route('admin.languages.index'),
+            'save_new' => route('admin.languages.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -132,7 +134,7 @@ class LanguageController extends Controller
      */
     public function active(Language $language)
     {
-        $activated = $this->repository->switch($language->id);
+        $this->repository->switch($language->id);
     }
 
     /**
@@ -142,7 +144,7 @@ class LanguageController extends Controller
      */
     public function destroy(Language $language)
     {
-        $deleted = $this->repository->delete($language->id);
+        $this->repository->delete($language->id);
 
         return redirect()->back();
     }
@@ -170,15 +172,15 @@ class LanguageController extends Controller
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
 
-                return $language->active == 'Y' ? $label_on : $label_off;
+                return $language->active === 'Y' ? $label_on : $label_off;
             })
             ->addColumn('active_display', function ($language) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $language->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
-                $class_i = $language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                $class_btn = $language->active === 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $language->active === 'Y' ? 'la-toggle-on' : 'la-toggle-off';
 
-                return '<a href="javascript:;" data-url="'.route('admin.languages_active', ['language' => $language->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($language->active == 'Y' ? $label_on : $label_off).'</a>';
+                return '<a href="javascript:;" data-url="'.route('admin.languages_active', ['language' => $language->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($language->active === 'Y' ? $label_on : $label_off).'</a>';
             })
             ->addColumn('actions', function ($language) {
                 $items = [];

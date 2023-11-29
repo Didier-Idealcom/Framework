@@ -38,7 +38,6 @@ class CartServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

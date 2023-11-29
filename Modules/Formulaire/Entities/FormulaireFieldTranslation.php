@@ -108,7 +108,7 @@ class FormulaireFieldTranslation extends Model
 
     public $timestamps = false;
 
-    public function formulaire_field()
+    public function formulaireField()
     {
         return $this->belongsTo('Modules\Formulaire\Entities\FormulaireField');
     }

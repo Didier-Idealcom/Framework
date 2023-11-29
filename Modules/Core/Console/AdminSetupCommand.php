@@ -39,7 +39,7 @@ class AdminSetupCommand extends Command
      */
     public function handle()
     {
-        //
+
     }
 
     /**

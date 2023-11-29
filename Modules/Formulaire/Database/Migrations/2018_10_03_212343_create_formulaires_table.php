@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFormulairesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -106,4 +106,4 @@ class CreateFormulairesTable extends Migration
         Schema::dropIfExists('formulaires_fields_values_translations');
         Schema::enableForeignKeyConstraints();
     }
-}
+};

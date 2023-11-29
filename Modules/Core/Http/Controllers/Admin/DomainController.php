@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Domain;
 use Modules\Core\Forms\DomainForm;
-use Modules\Core\Repositories\RepositoryInterface;
+use Modules\Core\Repositories\DomainRepository;
 use Yajra\Datatables\Datatables;
 
 class DomainController extends Controller
@@ -17,7 +17,7 @@ class DomainController extends Controller
     /**
      * DomainController constructor.
      */
-    public function __construct(Domain $domain, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(Domain $domain, private FormBuilder $formBuilder, private DomainRepository $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Domain_edit')->only(['edit', 'update']);
@@ -29,12 +29,10 @@ class DomainController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(Domain $domain = null)
+    private function getForm(Domain $domain = null): DomainForm
     {
-        $domain = $domain ?: new Domain();
+        $domain = $domain ? $domain : new Domain();
 
         return $this->formBuilder->create(DomainForm::class, [
             'model' => $domain,
@@ -72,16 +70,18 @@ class DomainController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $domain = $this->repository->create($request->all());
+
+        $this->repository->create($request->all());
 
         Session::flash('success', 'Le domaine a été créé avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.domains.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.domains.index');
+        $redirectOptions = [
+            'save_close' => route('admin.domains.index'),
+            'save_new' => route('admin.domains.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -115,16 +115,18 @@ class DomainController extends Controller
     {
         $form = $this->getForm($domain);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($domain->id, $request->all());
+
+        $this->repository->update($domain->id, $request->all());
 
         Session::flash('success', 'Le domaine a été enregistré avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.domains.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.domains.index');
+        $redirectOptions = [
+            'save_close' => route('admin.domains.index'),
+            'save_new' => route('admin.domains.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -132,7 +134,7 @@ class DomainController extends Controller
      */
     public function active(Domain $domain)
     {
-        $activated = $this->repository->switch($domain->id);
+        $this->repository->switch($domain->id);
     }
 
     /**
@@ -142,7 +144,7 @@ class DomainController extends Controller
      */
     public function destroy(Domain $domain)
     {
-        $deleted = $this->repository->delete($domain->id);
+        $this->repository->delete($domain->id);
 
         return redirect()->back();
     }
@@ -169,7 +171,7 @@ class DomainController extends Controller
             ->addColumn('row_details', function ($domain) {
                 return view('core::admin.domain_subtable', compact('domain'));
             })
-            ->addColumn('row_details_display', function ($domain) {
+            ->addColumn('row_details_display', function () {
                 return '<button type="button" class="btn btn-sm btn-icon btn-light-primary toggle h-25px w-25px trigger_row_details">
                             <i class="ki-duotone ki-plus fs-3 m-0 toggle-off"></i>
                             <i class="ki-duotone ki-minus fs-3 m-0 toggle-on"></i>
@@ -179,15 +181,15 @@ class DomainController extends Controller
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
 
-                return $domain->active == 'Y' ? $label_on : $label_off;
+                return $domain->active === 'Y' ? $label_on : $label_off;
             })
             ->addColumn('active_display', function ($domain) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $domain->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
-                $class_i = $domain->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                $class_btn = $domain->active === 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $domain->active === 'Y' ? 'la-toggle-on' : 'la-toggle-off';
 
-                return '<a href="javascript:;" data-url="'.route('admin.domains_active', ['domain' => $domain->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($domain->active == 'Y' ? $label_on : $label_off).'</a>';
+                return '<a href="javascript:;" data-url="'.route('admin.domains_active', ['domain' => $domain->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($domain->active === 'Y' ? $label_on : $label_off).'</a>';
             })
             ->addColumn('actions', function ($domain) {
                 $items = [];

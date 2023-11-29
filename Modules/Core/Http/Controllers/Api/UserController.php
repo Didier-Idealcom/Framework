@@ -439,11 +439,12 @@ class UserController extends Controller
 
         if (! auth()->attempt(['email' => request('email'), 'password' => request('password')])) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
-        } else {
-            $success['token'] = auth()->user()->createToken('authToken')->accessToken;
-            $success['user'] = auth()->user();
-
-            return response()->json(['success' => $success])->setStatusCode(202);
         }
+
+        $success = [];
+        $success['token'] = auth()->user()->createToken('authToken')->accessToken;
+        $success['user'] = auth()->user();
+
+        return response()->json(['success' => $success])->setStatusCode(202);
     }
 }

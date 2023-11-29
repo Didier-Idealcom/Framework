@@ -72,7 +72,7 @@ class Formulaire extends Model
     /**
      * Get the FormulaireField records associated with the Formulaire.
      */
-    public function formulaire_fields()
+    public function formulaireFields()
     {
         return $this->hasMany('Modules\Formulaire\Entities\FormulaireField');
     }

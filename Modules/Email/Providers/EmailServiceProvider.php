@@ -39,7 +39,6 @@ class EmailServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

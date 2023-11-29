@@ -8,13 +8,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Maatwebsite\Excel\Excel;
-use Modules\Core\Classes\Slim;
-use Modules\Core\Entities\Domain;
-use Modules\Core\Entities\Role;
 use Modules\Core\Entities\User;
 use Modules\Core\Exports\UserExport;
 use Modules\Core\Forms\UserForm;
-use Modules\Core\Repositories\RepositoryInterface;
+use Modules\Core\Repositories\UserRepository;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -22,7 +19,7 @@ class UserController extends Controller
     /**
      * UserController constructor.
      */
-    public function __construct(User $user, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(User $user, private FormBuilder $formBuilder, private UserRepository $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:User_edit')->only(['edit', 'update']);
@@ -34,12 +31,10 @@ class UserController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(User $user = null)
+    private function getForm(User $user = null): UserForm
     {
-        $user = $user ?: new User();
+        $user = $user ? $user : new User();
 
         return $this->formBuilder->create(UserForm::class, [
             'model' => $user,
@@ -77,19 +72,18 @@ class UserController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $user = $this->repository->create($request->all());
 
-        $user->roles()->sync($request->has('role') ? Role::whereIn('id', $request->get('role'))->get() : []);
-        $user->domains()->sync($request->has('domain') ? Domain::whereIn('id', $request->get('domain'))->get() : []);
+        $this->repository->create($request->all());
 
         Session::flash('success', 'L\'utilisateur a été créé avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.users.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.users.index');
+        $redirectOptions = [
+            'save_close' => route('admin.users.index'),
+            'save_new' => route('admin.users.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -125,46 +119,18 @@ class UserController extends Controller
     {
         $form = $this->getForm($user);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($user->id, $request->all());
 
-        $user->roles()->sync($request->has('role') ? Role::whereIn('id', $request->get('role'))->get() : []);
-        $user->domains()->sync($request->has('domain') ? Domain::whereIn('id', $request->get('domain'))->get() : []);
-
-        if (! empty($request->slim)) {
-            // Pass Slim's getImages the name of your file input, and since we only care about one image, use Laravel's head() helper to get the first element
-            $image = head(Slim::getImages());
-
-            // Grab the ouput data (data modified after Slim has done its thing)
-            if (isset($image['output']['data'])) {
-                // Original file name
-                $name = $image['output']['name'];
-                $name = preg_replace('#(.*)\.(.*)#', 'users_avatar_'.$user->id.'.$2', $name);
-
-                // Base64 of the image
-                $data = $image['output']['data'];
-
-                // Server path
-                $path = base_path().'/public/images/users/';
-
-                // Save the file to the server
-                $file = Slim::saveFile($data, $name, $path, false);
-
-                // Get the absolute web path to the image
-                $imagePath = asset('images/users/'.$file['name']);
-
-                $user->avatar = $imagePath;
-                $user->save();
-            }
-        }
+        $this->repository->update($user->id, $request->all());
 
         Session::flash('success', 'L\'utilisateur a été enregistré avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.users.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.users.index');
+        $redirectOptions = [
+            'save_close' => route('admin.users.index'),
+            'save_new' => route('admin.users.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -172,7 +138,7 @@ class UserController extends Controller
      */
     public function active(User $user)
     {
-        $activated = $this->repository->switch($user->id);
+        $this->repository->switch($user->id);
     }
 
     /**
@@ -182,7 +148,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $deleted = $this->repository->delete($user->id);
+        $this->repository->delete($user->id);
 
         return redirect()->back();
     }
@@ -227,7 +193,7 @@ class UserController extends Controller
             ->addColumn('role', function ($user) {
                 $roles = [];
                 if (! empty($user->roles)) {
-                    foreach ($user->roles as $key => $role) {
+                    foreach ($user->roles as $role) {
                         $roles[] = $role->name;
                     }
                 }
@@ -259,15 +225,15 @@ class UserController extends Controller
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
 
-                return $user->active == 'Y' ? $label_on : $label_off;
+                return $user->active === 'Y' ? $label_on : $label_off;
             })
             ->addColumn('active_display', function ($user) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $user->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
-                $class_i = $user->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                $class_btn = $user->active === 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $user->active === 'Y' ? 'la-toggle-on' : 'la-toggle-off';
 
-                return '<a href="javascript:;" data-url="'.route('admin.users_active', ['user' => $user->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($user->active == 'Y' ? $label_on : $label_off).'</a>';
+                return '<a href="javascript:;" data-url="'.route('admin.users_active', ['user' => $user->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($user->active === 'Y' ? $label_on : $label_off).'</a>';
             })
             ->addColumn('actions', function ($user) {
                 $items = [];
@@ -283,14 +249,6 @@ class UserController extends Controller
 
     public function export(Excel $excel, UserExport $export)
     {
-        /*$users = User::all(); // All users
-        $csvExporter = new \Laracsv\Export();
-        $csv = $csvExporter->build($users, ['email', 'name'])->getCsv();
-        return response((string)$csv, 200, [
-            'Content-Type' => 'text/csv',
-            'Content-Transfer-Encoding' => 'binary',
-            'Content-Disposition' => 'attachment; filename="users.csv"'
-        ]);*/
         return $excel->download($export, 'users.csv');
     }
 }

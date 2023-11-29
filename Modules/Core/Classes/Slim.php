@@ -2,13 +2,6 @@
 
 namespace Modules\Core\Classes;
 
-abstract class SlimStatus
-{
-    const FAILURE = 'failure';
-
-    const SUCCESS = 'success';
-}
-
 class Slim
 {
     public static function getImages($inputName = 'slim')
@@ -77,7 +70,7 @@ class Slim
         }
 
         if (isset($data->output)) {
-            $outputDate = null;
+            $outputData = null;
             if (isset($data->output->image)) {
                 $outputData = Slim::getBase64Data($data->output->image);
             } elseif (isset($data->output->field)) {
@@ -132,7 +125,7 @@ class Slim
     // will test if the supplied file is an image
     private static function isImage($filename)
     {
-        return @exif_imagetype($filename);
+        return exif_imagetype($filename);
     }
 
     // $path should have trailing slash
@@ -162,7 +155,7 @@ class Slim
         }
 
         // Add name to path, we need the full path including the name to save the file
-        $path = $path.$name;
+        $path .= $name;
 
         // store the file
         Slim::save($data, $path);
@@ -192,7 +185,7 @@ class Slim
         }
         $content = null;
         try {
-            $content = @file_get_contents($url, false, null, 0, $maxFileSize);
+            $content = file_get_contents($url, false, null, 0, $maxFileSize);
         } catch (\Exception $e) {
             return false;
         }

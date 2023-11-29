@@ -44,6 +44,8 @@ php artisan test
 php artisan test --testsuite=Api
 php artisan test --testsuite=Feature
 php artisan test --testsuite=Unit
+vendor\bin\pint --test
+php artisan insights
 
 création de la base de données :
 php artisan migrate

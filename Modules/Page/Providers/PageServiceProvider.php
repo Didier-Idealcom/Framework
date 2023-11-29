@@ -39,7 +39,6 @@ class PageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

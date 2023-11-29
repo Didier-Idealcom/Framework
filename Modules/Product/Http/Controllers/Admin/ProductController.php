@@ -2,7 +2,7 @@
 
 namespace Modules\Product\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
@@ -41,7 +41,7 @@ class ProductController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store()
     {
     }
 
@@ -70,7 +70,7 @@ class ProductController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request)
+    public function update()
     {
     }
 

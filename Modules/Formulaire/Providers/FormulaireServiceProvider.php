@@ -39,7 +39,6 @@ class FormulaireServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

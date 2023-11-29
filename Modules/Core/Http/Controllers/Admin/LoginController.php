@@ -66,9 +66,9 @@ class LoginController extends Controller
                 //$request->session()->put('domain', Auth::guard('admin')->user()->domains->first()->id);
 
                 return redirect()->intended($this->redirectTo);
-            } else {
-                $this->logout($request);
             }
+
+            $this->logout($request);
         }
 
         return back()->withErrors([

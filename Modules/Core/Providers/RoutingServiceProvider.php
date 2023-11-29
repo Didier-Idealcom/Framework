@@ -15,16 +15,6 @@ abstract class RoutingServiceProvider extends ServiceProvider
     protected $namespace = '';
 
     /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
-
-    /**
      * @return string
      */
     abstract protected function getFrontendRoutes();
@@ -67,7 +57,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
         if ($frontend && file_exists($frontend)) {
             $router->group([
                 'middleware' => config('framework.core.config.middleware.frontend', []),
-            ], function (Router $router) use ($frontend) {
+            ], function () use ($frontend) {
                 require $frontend;
             });
         }
@@ -83,7 +73,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
                 'as' => config('framework.core.config.prefix-backend').'.',
                 'prefix' => config('framework.core.config.prefix-backend'),
                 'middleware' => config('framework.core.config.middleware.backend', []),
-            ], function (Router $router) use ($backend) {
+            ], function () use ($backend) {
                 require $backend;
             });
         }
@@ -99,7 +89,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
                 'as' => config('framework.core.config.prefix-api').'.',
                 'prefix' => config('framework.core.config.prefix-api'),
                 'middleware' => config('framework.core.config.middleware.api', []),
-            ], function (Router $router) use ($api) {
+            ], function () use ($api) {
                 require $api;
             });
         }

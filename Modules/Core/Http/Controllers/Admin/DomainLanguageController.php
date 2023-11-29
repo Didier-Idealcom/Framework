@@ -10,7 +10,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Domain;
 use Modules\Core\Entities\DomainLanguage;
 use Modules\Core\Forms\DomainLanguageForm;
-use Modules\Core\Repositories\RepositoryInterface;
+use Modules\Core\Repositories\DomainLanguageRepository;
 use Yajra\Datatables\Datatables;
 
 class DomainLanguageController extends Controller
@@ -18,7 +18,7 @@ class DomainLanguageController extends Controller
     /**
      * DomainController constructor.
      */
-    public function __construct(DomainLanguage $domain_language, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(DomainLanguage $domain_language, private FormBuilder $formBuilder, private DomainLanguageRepository $repository)
     {
         $this->middleware('auth:admin');
 
@@ -27,12 +27,10 @@ class DomainLanguageController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(DomainLanguage $domain_language = null)
+    private function getForm(DomainLanguage $domain_language = null): DomainLanguageForm
     {
-        $domain_language = $domain_language ?: new DomainLanguage();
+        $domain_language = $domain_language ? $domain_language : new DomainLanguage();
 
         return $this->formBuilder->create(DomainLanguageForm::class, [
             'model' => $domain_language,
@@ -70,11 +68,18 @@ class DomainLanguageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
+
         $domain_language = $this->repository->create($request->all());
 
         Session::flash('success', 'La langue du domaine a été créée avec succès');
 
-        return redirect()->route('admin.domains_languages.index', $domain_language->domain_id);
+        $redirectOptions = [
+            'save_close' => route('admin.domains_languages.index', $domain_language->domain_id),
+            'save_new' => route('admin.domains_languages.create', $domain_language->domain_id),
+            'save_stay' => $domain_language->url_backend->edit,
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -109,16 +114,18 @@ class DomainLanguageController extends Controller
     {
         $form = $this->getForm($domain_language);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($domain_language->id, $request->all());
+
+        $this->repository->update($domain_language->id, $request->all());
 
         Session::flash('success', 'La langue du domaine a été enregistrée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.domains_languages.create', $request->get('domain_id'));
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.domains_languages.index', $request->get('domain_id'));
+        $redirectOptions = [
+            'save_close' => route('admin.domains_languages.index', $domain_language->domain_id),
+            'save_new' => route('admin.domains_languages.create', $domain_language->domain_id),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -126,7 +133,7 @@ class DomainLanguageController extends Controller
      */
     public function active(DomainLanguage $domain_language)
     {
-        $activated = $this->repository->switch($domain_language->id);
+        $this->repository->switch($domain_language->id);
     }
 
     /**
@@ -136,7 +143,7 @@ class DomainLanguageController extends Controller
      */
     public function destroy(DomainLanguage $domain_language)
     {
-        $deleted = $this->repository->delete($domain_language->id);
+        $this->repository->delete($domain_language->id);
 
         return redirect()->back();
     }
@@ -166,7 +173,7 @@ class DomainLanguageController extends Controller
 
                 return view('components.form', compact('form', 'submit'));
             })
-            ->addColumn('row_details_display', function ($domain_language) {
+            ->addColumn('row_details_display', function () {
                 return '<button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px trigger_row_details">
                             <i class="ki-duotone ki-plus fs-3 m-0 toggle-off"></i>
                             <i class="ki-duotone ki-minus fs-3 m-0 toggle-on"></i>
@@ -179,15 +186,15 @@ class DomainLanguageController extends Controller
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
 
-                return $domain_language->active == 'Y' ? $label_on : $label_off;
+                return $domain_language->active === 'Y' ? $label_on : $label_off;
             })
             ->addColumn('active_display', function ($domain_language) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $domain_language->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
-                $class_i = $domain_language->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                $class_btn = $domain_language->active === 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $domain_language->active === 'Y' ? 'la-toggle-on' : 'la-toggle-off';
 
-                return '<a href="javascript:;" data-url="'.route('admin.domains_languages_active', ['domain_language' => $domain_language->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($domain_language->active == 'Y' ? $label_on : $label_off).'</a>';
+                return '<a href="javascript:;" data-url="'.route('admin.domains_languages_active', ['domain_language' => $domain_language->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($domain_language->active === 'Y' ? $label_on : $label_off).'</a>';
             })
             ->addColumn('actions', function ($domain_language) {
                 $items = [];

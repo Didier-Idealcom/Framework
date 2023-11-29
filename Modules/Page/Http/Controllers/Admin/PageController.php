@@ -2,15 +2,14 @@
 
 namespace Modules\Page\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Page\Entities\Page;
 use Modules\Page\Forms\PageForm;
+use Modules\Page\Repositories\PageRepository;
 use Yajra\Datatables\Datatables;
 
 class PageController extends Controller
@@ -18,7 +17,7 @@ class PageController extends Controller
     /**
      * PageController constructor.
      */
-    public function __construct(Page $page, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(Page $page, private FormBuilder $formBuilder, private PageRepository $repository)
     {
         $this->middleware('auth:admin');
 
@@ -27,12 +26,10 @@ class PageController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(Page $page = null)
+    private function getForm(Page $page = null): PageForm
     {
-        $page = $page ?: new Page();
+        $page = $page ? $page : new Page();
 
         return $this->formBuilder->create(PageForm::class, [
             'model' => $page,
@@ -70,16 +67,18 @@ class PageController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $page = $this->repository->create($request->all());
+
+        $this->repository->create($request->all());
 
         Session::flash('success', 'La page a été créée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.pages.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.pages.index');
+        $redirectOptions = [
+            'save_close' => route('admin.pages.index'),
+            'save_new' => route('admin.pages.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -128,16 +127,18 @@ class PageController extends Controller
     {
         $form = $this->getForm($page);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($page->id, $request->all());
+
+        $this->repository->update($page->id, $request->all());
 
         Session::flash('success', 'La page a été enregistrée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.pages.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.pages.index');
+        $redirectOptions = [
+            'save_close' => route('admin.pages.index'),
+            'save_new' => route('admin.pages.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -145,14 +146,7 @@ class PageController extends Controller
      */
     public function duplicate(Page $page)
     {
-        $new_page = $page->replicateWithTranslations();
-        foreach ($new_page->translations as $translation) {
-            $translation->title .= ' (copy)';
-        }
-        $new_page->active = 'N';
-        $new_page->created_at = Carbon::now();
-        $new_page->updated_at = Carbon::now();
-        $new_page->save();
+        $this->repository->duplicate($page);
 
         return redirect()->route('admin.pages.index');
     }
@@ -162,7 +156,7 @@ class PageController extends Controller
      */
     public function active(Page $page)
     {
-        $activated = $this->repository->switch($page->id);
+        $this->repository->switch($page->id);
     }
 
     /**
@@ -172,7 +166,7 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        $deleted = $this->repository->delete($page->id);
+        $this->repository->delete($page->id);
 
         return redirect()->back();
     }
@@ -210,15 +204,15 @@ class PageController extends Controller
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
 
-                return $page->active == 'Y' ? $label_on : $label_off;
+                return $page->active === 'Y' ? $label_on : $label_off;
             })
             ->addColumn('active_display', function ($page) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $page->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
-                $class_i = $page->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                $class_btn = $page->active === 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $page->active === 'Y' ? 'la-toggle-on' : 'la-toggle-off';
 
-                return '<a href="javascript:;" data-url="'.route('admin.pages_active', ['page' => $page->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($page->active == 'Y' ? $label_on : $label_off).'</a>';
+                return '<a href="javascript:;" data-url="'.route('admin.pages_active', ['page' => $page->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($page->active === 'Y' ? $label_on : $label_off).'</a>';
             })
             ->addColumn('actions', function ($page) {
                 $items = [];

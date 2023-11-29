@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenusTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -78,4 +78,4 @@ class CreateMenusTable extends Migration
         Schema::dropIfExists('menuitems_translations');
         Schema::enableForeignKeyConstraints();
     }
-}
+};

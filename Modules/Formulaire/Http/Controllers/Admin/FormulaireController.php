@@ -7,10 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Repositories\RepositoryInterface;
 use Modules\Formulaire\Entities\Formulaire;
 use Modules\Formulaire\Forms\FormulaireForm;
 use Modules\Formulaire\Forms\FormulairePreviewForm;
+use Modules\Formulaire\Repositories\FormulaireRepository;
 use Yajra\Datatables\Datatables;
 
 class FormulaireController extends Controller
@@ -18,7 +18,7 @@ class FormulaireController extends Controller
     /**
      * FormulaireController constructor.
      */
-    public function __construct(Formulaire $formulaire, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(Formulaire $formulaire, private FormBuilder $formBuilder, private FormulaireRepository $repository)
     {
         $this->middleware('auth:admin');
 
@@ -27,12 +27,10 @@ class FormulaireController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(Formulaire $formulaire = null)
+    private function getForm(Formulaire $formulaire = null): FormulaireForm
     {
-        $formulaire = $formulaire ?: new Formulaire();
+        $formulaire = $formulaire ? $formulaire : new Formulaire();
 
         return $this->formBuilder->create(FormulaireForm::class, [
             'model' => $formulaire,
@@ -70,16 +68,18 @@ class FormulaireController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $formulaire = $this->repository->create($request->all());
+
+        $this->repository->create($request->all());
 
         Session::flash('success', 'Le formulaire a été créé avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.formulaires.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.formulaires.index');
+        $redirectOptions = [
+            'save_close' => route('admin.formulaires.index'),
+            'save_new' => route('admin.formulaires.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -117,16 +117,18 @@ class FormulaireController extends Controller
     {
         $form = $this->getForm($formulaire);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($formulaire->id, $request->all());
+
+        $this->repository->update($formulaire->id, $request->all());
 
         Session::flash('success', 'Le formulaire a été enregistré avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.formulaires.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.formulaires.index');
+        $redirectOptions = [
+            'save_close' => route('admin.formulaires.index'),
+            'save_new' => route('admin.formulaires.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -134,7 +136,7 @@ class FormulaireController extends Controller
      */
     public function active(Formulaire $formulaire)
     {
-        $activated = $this->repository->switch($formulaire->id);
+        $this->repository->switch($formulaire->id);
     }
 
     /**
@@ -144,7 +146,7 @@ class FormulaireController extends Controller
      */
     public function destroy(Formulaire $formulaire)
     {
-        $deleted = $this->repository->delete($formulaire->id);
+        $this->repository->delete($formulaire->id);
 
         return redirect()->back();
     }
@@ -172,15 +174,15 @@ class FormulaireController extends Controller
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
 
-                return $formulaire->active == 'Y' ? $label_on : $label_off;
+                return $formulaire->active === 'Y' ? $label_on : $label_off;
             })
             ->addColumn('active_display', function ($formulaire) {
                 $label_on = 'Actif';
                 $label_off = 'Inactif';
-                $class_btn = $formulaire->active == 'Y' ? 'btn-light-success' : 'btn-light-danger';
-                $class_i = $formulaire->active == 'Y' ? 'la-toggle-on' : 'la-toggle-off';
+                $class_btn = $formulaire->active === 'Y' ? 'btn-light-success' : 'btn-light-danger';
+                $class_i = $formulaire->active === 'Y' ? 'la-toggle-on' : 'la-toggle-off';
 
-                return '<a href="javascript:;" data-url="'.route('admin.formulaires_active', ['formulaire' => $formulaire->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($formulaire->active == 'Y' ? $label_on : $label_off).'</a>';
+                return '<a href="javascript:;" data-url="'.route('admin.formulaires_active', ['formulaire' => $formulaire->id]).'" data-label-on="'.$label_on.'" data-label-off="'.$label_off.'" class="toggle-active btn btn-sm min-w-100px '.$class_btn.'"><i class="la '.$class_i.'"></i>'.($formulaire->active === 'Y' ? $label_on : $label_off).'</a>';
             })
             ->addColumn('actions', function ($formulaire) {
                 $items = [];

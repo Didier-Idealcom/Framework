@@ -7,10 +7,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Modules\Core\Entities\Permission;
 use Modules\Core\Entities\Role;
 use Modules\Core\Forms\RoleForm;
-use Modules\Core\Repositories\RepositoryInterface;
+use Modules\Core\Repositories\RoleRepository;
 use Yajra\Datatables\Datatables;
 
 class RoleController extends Controller
@@ -18,7 +17,7 @@ class RoleController extends Controller
     /**
      * RoleController constructor.
      */
-    public function __construct(Role $role, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(Role $role, private FormBuilder $formBuilder, private RoleRepository $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Role_edit')->only(['edit', 'update']);
@@ -30,12 +29,10 @@ class RoleController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(Role $role = null)
+    private function getForm(Role $role = null): RoleForm
     {
-        $role = $role ?: new Role();
+        $role = $role ? $role : new Role();
 
         return $this->formBuilder->create(RoleForm::class, [
             'model' => $role,
@@ -75,18 +72,18 @@ class RoleController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $role = $this->repository->create($request->all());
 
-        $role->syncPermissions($request->has('permission') ? Permission::whereIn('id', $request->get('permission'))->get() : []);
+        $this->repository->create($request->all());
 
         Session::flash('success', 'Le rôle a été créé avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.roles.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.roles.index');
+        $redirectOptions = [
+            'save_close' => route('admin.roles.index'),
+            'save_new' => route('admin.roles.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -121,18 +118,18 @@ class RoleController extends Controller
     {
         $form = $this->getForm($role);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($role->id, $request->all());
 
-        $role->syncPermissions($request->has('permission') ? Permission::whereIn('id', $request->get('permission'))->get() : []);
+        $this->repository->update($role->id, $request->all());
 
         Session::flash('success', 'Le rôle a été enregistré avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.roles.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.roles.index');
+        $redirectOptions = [
+            'save_close' => route('admin.roles.index'),
+            'save_new' => route('admin.roles.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -142,7 +139,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $deleted = $this->repository->delete($role->id);
+        $this->repository->delete($role->id);
 
         return redirect()->back();
     }

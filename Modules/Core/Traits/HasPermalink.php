@@ -30,9 +30,7 @@ trait HasPermalink
             }
 
             if (! method_exists($model, 'permalinkSlug')) {
-                dump('Le model doit implémenter le contrat Modules\Core\Contracts\Permalinkable');
-
-                return;
+                throw new \Exception('Le model doit implémenter le contrat Modules\Core\Contracts\Permalinkable');
             }
 
             if (property_exists($model, 'translatedAttributes')) {
@@ -122,7 +120,7 @@ trait HasPermalink
      */
     public function createPermalink()
     {
-        $permalink = $this->permalinks()->create();
+        $this->permalinks()->create();
     }
 
     /**
@@ -166,12 +164,12 @@ trait HasPermalink
                 $checkOld = $this->checkOldPermalinks();
 
                 return ! $checkOld;
-            } else {
-                return false;
             }
-        } else {
+
             return false;
         }
+
+        return false;
     }
 
     /**
@@ -198,7 +196,7 @@ trait HasPermalink
     {
         $slugChanges = false;
         foreach ($this->getPermalink()->translations as $translation) {
-            if ($translation->slug != $this->buildSlug($translation->locale)) {
+            if ($translation->slug !== $this->buildSlug($translation->locale)) {
                 $slugChanges = true;
                 break;
             }
@@ -216,7 +214,7 @@ trait HasPermalink
         foreach ($this->permalinks as $permalink) {
             $identical = true;
             foreach ($permalink->translations as $translation) {
-                if ($translation->slug != $this->buildSlug($translation->locale)) {
+                if ($translation->slug !== $this->buildSlug($translation->locale)) {
                     $identical = false;
                     break;
                 }

@@ -19,7 +19,7 @@ class CoreForm extends Form
             $name = $field->getName();
 
             // Grapes JS
-            if ($type == 'grapesjs') {
+            if ($type === 'grapesjs') {
                 $field->setOption('attr.class', $field->getOption('attr.class').' d-none');
             }
 
@@ -38,7 +38,7 @@ class CoreForm extends Form
                     if (! empty($options['url_show'])) {
                         $options['url_show'] = $url_show.'?lang='.$locale;
                     }
-                    $options['value'] = ($this->getModel() && $this->getModel()->id && ! empty($this->getModel()->translate($locale)->$name)) ? $this->getModel()->translate($locale)->$name : '';
+                    $options['value'] = $this->getModel() && $this->getModel()->id && ! empty($this->getModel()->translate($locale)->$name) ? $this->getModel()->translate($locale)->$name : '';
                     $this->addBefore($name, $locale.'_'.$name, $field->getType(), $options);
                 }
                 $this->remove($name);

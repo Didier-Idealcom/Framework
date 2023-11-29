@@ -13,7 +13,7 @@ class FormulairePreviewForm extends CoreForm
             'class' => 'kt-form',
         ];
 
-        $formulaire_fields = $this->getModel()->formulaire_fields;
+        $formulaire_fields = $this->getModel()->formulaireFields;
         //dd($formulaire_fields);
         if (! empty($formulaire_fields)) {
             foreach ($formulaire_fields as $formulaire_field) {

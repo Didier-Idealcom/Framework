@@ -16,7 +16,7 @@ class Cart extends Model
      */
     protected $table = 'orders';
 
-    const DEFAULT_INSTANCE = 'default';
+    public const DEFAULT_INSTANCE = 'default';
 
     /**
      * Instance of the session manager.
@@ -58,7 +58,7 @@ class Cart extends Model
      */
     public function instance($instance = null)
     {
-        $instance = $instance ?: self::DEFAULT_INSTANCE;
+        $instance = $instance ? $instance : self::DEFAULT_INSTANCE;
         $this->instance = sprintf('%s.%s', 'cart', $instance);
 
         return $this;
@@ -136,9 +136,9 @@ class Cart extends Model
             $this->removeItem($cartItem->id);
 
             return;
-        } else {
-            $content->put($cartItem->id, $cartItem);
         }
+
+        $content->put($cartItem->id, $cartItem);
 
         $this->events->fire('cart.updated', $cartItem);
         $this->session->put($this->instance.'.items', $content);
@@ -258,11 +258,9 @@ class Cart extends Model
      */
     protected function getContent()
     {
-        $content = $this->session->has($this->instance.'.items')
+        return $this->session->has($this->instance.'.items')
             ? $this->session->get($this->instance.'.items')
             : new Collection();
-
-        return $content;
     }
 
     /**
@@ -295,11 +293,9 @@ class Cart extends Model
      */
     public function getBilling()
     {
-        $billing = $this->session->has($this->instance.'.billing')
+        return $this->session->has($this->instance.'.billing')
             ? $this->session->get($this->instance.'.billing')
             : [];
-
-        return $billing;
     }
 
     /**
@@ -319,11 +315,9 @@ class Cart extends Model
      */
     public function getDelivery()
     {
-        $delivery = $this->session->has($this->instance.'.delivery')
+        return $this->session->has($this->instance.'.delivery')
             ? $this->session->get($this->instance.'.delivery')
             : [];
-
-        return $delivery;
     }
 
     /**
@@ -343,11 +337,9 @@ class Cart extends Model
      */
     public function getShipping()
     {
-        $shipping = $this->session->has($this->instance.'.shipping')
+        return $this->session->has($this->instance.'.shipping')
             ? $this->session->get($this->instance.'.shipping')
             : [];
-
-        return $shipping;
     }
 
     /**

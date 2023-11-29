@@ -39,7 +39,6 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

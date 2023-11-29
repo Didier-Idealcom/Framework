@@ -46,7 +46,7 @@ Route::post('languages/datatable', 'LanguageController@datatable')->name('langua
 /* Users */
 Route::resource('users', 'UserController')->middleware('can:User_read');
 Route::get('users/{user}/active', 'UserController@active')->name('users_active')->middleware('can:User_edit');
-Route::get('users/export', 'UserController@export')->name('users_export');
+Route::get('users_export', 'UserController@export')->name('users_export');
 Route::post('users/datatable', 'UserController@datatable')->name('users_datatable');
 
 /* Roles */

@@ -21,7 +21,7 @@
         $search = true;
         $filter = true;
         $import = 'javascript:;';
-        $export = 'javascript:;';
+        $export = route('admin.users_export');
     @endphp
     <x-datatable :id="$id" :search="$search" :filter="$filter" :import="$import" :export="$export" />
 @endsection

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Forms\PermissionForm;
-use Modules\Core\Repositories\RepositoryInterface;
+use Modules\Core\Repositories\PermissionRepository;
 use Yajra\Datatables\Datatables;
 
 class PermissionController extends Controller
@@ -17,7 +17,7 @@ class PermissionController extends Controller
     /**
      * PermissionController constructor.
      */
-    public function __construct(Permission $permission, private FormBuilder $formBuilder, protected RepositoryInterface $repository)
+    public function __construct(Permission $permission, private FormBuilder $formBuilder, private PermissionRepository $repository)
     {
         $this->middleware('auth:admin');
         $this->middleware('can:Permission_edit')->only(['edit', 'update']);
@@ -29,12 +29,10 @@ class PermissionController extends Controller
 
     /**
      * Return the formBuilder
-     *
-     * @return \Kris\LaravelFormBuilder\Form
      */
-    private function getForm(Permission $permission = null)
+    private function getForm(Permission $permission = null): PermissionForm
     {
-        $permission = $permission ?: new Permission();
+        $permission = $permission ? $permission : new Permission();
 
         return $this->formBuilder->create(PermissionForm::class, [
             'model' => $permission,
@@ -72,16 +70,18 @@ class PermissionController extends Controller
     {
         $form = $this->getForm();
         $form->redirectIfNotValid();
-        $permission = $this->repository->create($request->all());
+
+        $this->repository->create($request->all());
 
         Session::flash('success', 'La permission a été créée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.permissions.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.permissions.index');
+        $redirectOptions = [
+            'save_close' => route('admin.permissions.index'),
+            'save_new' => route('admin.permissions.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -115,16 +115,18 @@ class PermissionController extends Controller
     {
         $form = $this->getForm($permission);
         $form->redirectIfNotValid();
-        $updated = $this->repository->update($permission->id, $request->all());
+
+        $this->repository->update($permission->id, $request->all());
 
         Session::flash('success', 'La permission a été enregistrée avec succès');
-        if ($request->get('save') == 'save_new') {
-            return redirect()->route('admin.permissions.create');
-        } elseif ($request->get('save') == 'save_stay') {
-            return redirect()->back();
-        }
 
-        return redirect()->route('admin.permissions.index');
+        $redirectOptions = [
+            'save_close' => route('admin.permissions.index'),
+            'save_new' => route('admin.permissions.create'),
+            'save_stay' => url()->previous(),
+        ];
+
+        return redirect()->to($redirectOptions[$request->get('save')]);
     }
 
     /**
@@ -134,7 +136,7 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        $deleted = $this->repository->delete($permission->id);
+        $this->repository->delete($permission->id);
 
         return redirect()->back();
     }
@@ -161,7 +163,7 @@ class PermissionController extends Controller
             ->addColumn('assigned_to', function ($permission) {
                 $roles = [];
                 if (! empty($permission->roles)) {
-                    foreach ($permission->roles as $key => $role) {
+                    foreach ($permission->roles as $role) {
                         $roles[] = $role->name;
                     }
                 }

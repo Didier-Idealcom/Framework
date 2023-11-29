@@ -209,7 +209,7 @@ class CartItem implements Arrayable, Jsonable
                 return $this->qty * $this->priceTax;
 
             case 'tax':
-                return $this->price * ($this->taxRate / 100);
+                return $this->price * $this->taxRate / 100;
 
             case 'taxTotal':
                 return $this->qty * $this->tax;

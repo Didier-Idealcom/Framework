@@ -12,12 +12,8 @@ trait CanPublishConfiguration
      */
     public function publishConfig($module, $filename)
     {
-        if (app()->environment() === 'testing') {
-            //return;
-        }
-
-        $this->publishes([$this->getModuleConfigFilePath($module, $filename) => config_path(strtolower("framework/$module/$filename").'.php')], 'config');
-        $this->mergeConfigFrom($this->getModuleConfigFilePath($module, $filename), strtolower("framework.$module.$filename"));
+        $this->publishes([$this->getModuleConfigFilePath($module, $filename) => config_path(strtolower("framework/{$module}/{$filename}").'.php')], 'config');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath($module, $filename), strtolower("framework.{$module}.{$filename}"));
     }
 
     /**
@@ -29,7 +25,7 @@ trait CanPublishConfiguration
      */
     private function getModuleConfigFilePath($module, $file)
     {
-        return $this->getModulePath($module)."/Config/$file.php";
+        return $this->getModulePath($module)."/Config/{$file}.php";
     }
 
     /**

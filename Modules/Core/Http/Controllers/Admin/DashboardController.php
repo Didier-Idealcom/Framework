@@ -5,7 +5,8 @@ namespace Modules\Core\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Storage;
+
+//use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -51,7 +52,7 @@ class DashboardController extends Controller
         return redirect()->back();
     }
 
-    public function media()
+    /*public function media()
     {
         //dump(Storage::disk());
         //dump(Storage::disk('s3'));
@@ -67,9 +68,9 @@ class DashboardController extends Controller
 
     public function upload(Request $request)
     {
-        dump($request->file('avatar'));
-        $path = $request->file('avatar')->storeAs('public', $request->file('avatar')->getClientOriginalName());
-        dump($path);
-        dump(Storage::url($path));
-    }
+        //dump($request->file('avatar'));
+        //$path = $request->file('avatar')->storeAs('public', $request->file('avatar')->getClientOriginalName());
+        //dump($path);
+        //dump(Storage::url($path));
+    }*/
 }

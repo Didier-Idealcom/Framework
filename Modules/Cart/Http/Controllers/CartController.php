@@ -2,7 +2,6 @@
 
 namespace Modules\Cart\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
@@ -33,7 +32,7 @@ class CartController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store()
     {
     }
 
@@ -62,7 +61,7 @@ class CartController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request)
+    public function update()
     {
     }
 
